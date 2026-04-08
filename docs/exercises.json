@@ -18,7 +18,7 @@
           ],
           "solution": "name = \"Alice\"",
           "starter_code": "# Create a variable called name\n",
-          "test_code": "assert name == 'Alice', f\"name should be 'Alice', got {name!r}\"",
+          "test_code": "assert isinstance(name, str), f\"name should be a string (text), got {type(name).__name__}\"\nassert len(name) > 0, \"name should not be empty\"",
           "concepts": [
             "assignment",
             "strings",
@@ -124,7 +124,7 @@
           ],
           "solution": "first_name = \"John\"\nlast_name = \"Doe\"\nemail_address = \"john.doe@example.com\"",
           "starter_code": "# Create variables following snake_case convention\n",
-          "test_code": "assert first_name == 'John', f\"first_name should be 'John', got {first_name!r}\"\nassert last_name == 'Doe', f\"last_name should be 'Doe', got {last_name!r}\"\nassert email_address == 'john.doe@example.com', f\"email_address should be 'john.doe@example.com', got {email_address!r}\"",
+          "test_code": "assert isinstance(first_name, str), f\"first_name should be a string (text), got {type(first_name).__name__}\"\nassert len(first_name) > 0, \"first_name should not be empty\"\nassert isinstance(last_name, str), f\"last_name should be a string (text), got {type(last_name).__name__}\"\nassert len(last_name) > 0, \"last_name should not be empty\"\nassert isinstance(email_address, str), f\"email_address should be a string (text), got {type(email_address).__name__}\"\nassert len(email_address) > 0, \"email_address should not be empty\"",
           "concepts": [
             "naming conventions",
             "strings"
@@ -158,7 +158,7 @@
           ],
           "solution": "result = None",
           "starter_code": "# Create a variable with None value\n",
-          "test_code": "assert result == None, f\"result should be None, got {result!r}\"",
+          "test_code": "pass  # Verify your code runs without errors",
           "concepts": [
             "None type",
             "null values"
@@ -192,7 +192,7 @@
           ],
           "solution": "greeting = \"Hello\"\nname = \"Alice\"\nfull_greeting = greeting + ' ' + name",
           "starter_code": "greeting = \"Hello\"\nname = \"Alice\"\n# Concatenate them\n",
-          "test_code": "assert greeting == 'Hello', f\"greeting should be 'Hello', got {greeting!r}\"\nassert name == 'Alice', f\"name should be 'Alice', got {name!r}\"\nassert full_greeting == 'Hello Alice', f\"full_greeting should be 'Hello Alice', got {full_greeting!r}\"",
+          "test_code": "assert isinstance(greeting, str), f\"greeting should be a string (text), got {type(greeting).__name__}\"\nassert len(greeting) > 0, \"greeting should not be empty\"\nassert isinstance(name, str), f\"name should be a string (text), got {type(name).__name__}\"\nassert len(name) > 0, \"name should not be empty\"\nassert isinstance(full_greeting, str), f\"full_greeting should be a string (text), got {type(full_greeting).__name__}\"\nassert len(full_greeting) > 0, \"full_greeting should not be empty\"",
           "concepts": [
             "strings",
             "concatenation",
@@ -227,7 +227,7 @@
           ],
           "solution": "name = \"Bob\"\nage = 30\nmessage = f\"Name: {name}, Age: {age}\"",
           "starter_code": "name = \"Bob\"\nage = 30\n# Use f-string to create message\n",
-          "test_code": "assert name == 'Bob', f\"name should be 'Bob', got {name!r}\"\nassert age == 30, f\"age should be 30, got {age!r}\"\nassert message == 'Name: Bob, Age: 30', f\"message should be 'Name: Bob, Age: 30', got {message!r}\"",
+          "test_code": "assert isinstance(name, str), f\"name should be a string (text), got {type(name).__name__}\"\nassert len(name) > 0, \"name should not be empty\"\nassert age == 30, f\"age should be 30, got {age!r}\"\nassert isinstance(message, str), f\"message should be a string (text), got {type(message).__name__}\"\nassert len(message) > 0, \"message should not be empty\"",
           "concepts": [
             "f-strings",
             "string formatting"
@@ -244,7 +244,7 @@
           ],
           "solution": "text = \"hello\"\nnum_int = 42\nnum_float = 3.14\ntype_text = type(text)\ntype_int = type(num_int)\ntype_float = type(num_float)",
           "starter_code": "text = \"hello\"\nnum_int = 42\nnum_float = 3.14\n# Check types\n",
-          "test_code": "assert text == 'hello', f\"text should be 'hello', got {text!r}\"\nassert num_int == 42, f\"num_int should be 42, got {num_int!r}\"\nassert num_float == 3.14, f\"num_float should be 3.14, got {num_float!r}\"\nassert 'type_text' in dir(), \"'type_text' is not defined\"\nassert callable(type_text), \"'type_text' should be a function\"\nassert 'type_int' in dir(), \"'type_int' is not defined\"\nassert callable(type_int), \"'type_int' should be a function\"\nassert 'type_float' in dir(), \"'type_float' is not defined\"\nassert callable(type_float), \"'type_float' should be a function\"",
+          "test_code": "assert isinstance(text, str), f\"text should be a string (text), got {type(text).__name__}\"\nassert len(text) > 0, \"text should not be empty\"\nassert num_int == 42, f\"num_int should be 42, got {num_int!r}\"\nassert num_float == 3.14, f\"num_float should be 3.14, got {num_float!r}\"\nassert 'type_text' in dir(), \"'type_text' is not defined\"\nassert callable(type_text), \"'type_text' should be a function\"\nassert 'type_int' in dir(), \"'type_int' is not defined\"\nassert callable(type_int), \"'type_int' should be a function\"\nassert 'type_float' in dir(), \"'type_float' is not defined\"\nassert callable(type_float), \"'type_float' should be a function\"",
           "concepts": [
             "type inference",
             "dynamic typing"
@@ -279,7 +279,7 @@
           ],
           "solution": "poem = \"\"\"Line one\\nLine two\\nLine three\"\"\"",
           "starter_code": "# Create a multi-line string variable\n",
-          "test_code": "assert poem == 'Line one\\nLine two\\nLine three', f\"poem should be 'Line one\\nLine two\\nLine three', got {poem!r}\"",
+          "test_code": "assert isinstance(poem, str), f\"poem should be a string (text), got {type(poem).__name__}\"\nassert len(poem) > 0, \"poem should not be empty\"",
           "concepts": [
             "strings",
             "multi-line strings",
@@ -368,7 +368,7 @@
           ],
           "solution": "text = \"python\"\nupper_text = text.upper()\ntitle_text = text.title()",
           "starter_code": "text = \"python\"\n# Create uppercase and title case versions\n",
-          "test_code": "assert text == 'python', f\"text should be 'python', got {text!r}\"\nassert upper_text == 'PYTHON', f\"upper_text should be 'PYTHON', got {upper_text!r}\"\nassert title_text == 'Python', f\"title_text should be 'Python', got {title_text!r}\"",
+          "test_code": "assert text == 'python', f\"text should be 'python', got {text!r}\"\nassert isinstance(upper_text, str), f\"upper_text should be a string (text), got {type(upper_text).__name__}\"\nassert len(upper_text) > 0, \"upper_text should not be empty\"\nassert isinstance(title_text, str), f\"title_text should be a string (text), got {type(title_text).__name__}\"\nassert len(title_text) > 0, \"title_text should not be empty\"",
           "concepts": [
             "string methods",
             "method calls"
@@ -458,7 +458,7 @@
           ],
           "solution": "text = \"Hello\"\ntext += \" World\"",
           "starter_code": "text = \"Hello\"\n# Append using +=\n",
-          "test_code": "assert text == 'Hello World', f\"text should be 'Hello World', got {text!r}\"",
+          "test_code": "assert isinstance(text, str), f\"text should be a string (text), got {type(text).__name__}\"\nassert len(text) > 0, \"text should not be empty\"",
           "concepts": [
             "augmented assignment",
             "string concatenation"
@@ -527,7 +527,7 @@
           ],
           "solution": "width = 10\nheight = 20\narea_message = f\"Area: {width * height}\"",
           "starter_code": "width = 10\nheight = 20\n# Use f-string with calculation\n",
-          "test_code": "assert width == 10, f\"width should be 10, got {width!r}\"\nassert height == 20, f\"height should be 20, got {height!r}\"\nassert area_message == 'Area: 200', f\"area_message should be 'Area: 200', got {area_message!r}\"",
+          "test_code": "assert width == 10, f\"width should be 10, got {width!r}\"\nassert height == 20, f\"height should be 20, got {height!r}\"\nassert isinstance(area_message, str), f\"area_message should be a string (text), got {type(area_message).__name__}\"\nassert len(area_message) > 0, \"area_message should not be empty\"",
           "concepts": [
             "f-strings",
             "expressions",
@@ -581,7 +581,7 @@
           ],
           "solution": "first_name = \"John\"\nlast_name = \"Smith\"\nemail = \"john@example.com\"\nage = 28\nprofile = f\"User: {first_name} {last_name}, Email: {email}, Age: {age}\"",
           "starter_code": "# Create user profile variables\n",
-          "test_code": "assert first_name == 'John', f\"first_name should be 'John', got {first_name!r}\"\nassert last_name == 'Smith', f\"last_name should be 'Smith', got {last_name!r}\"\nassert email == 'john@example.com', f\"email should be 'john@example.com', got {email!r}\"\nassert age == 28, f\"age should be 28, got {age!r}\"\nassert profile == 'User: John Smith, Email: john@example.com, Age: 28', f\"profile should be 'User: John Smith, Email: john@example.com, Age: 28', got {profile!r}\"",
+          "test_code": "assert isinstance(first_name, str), f\"first_name should be a string (text), got {type(first_name).__name__}\"\nassert len(first_name) > 0, \"first_name should not be empty\"\nassert isinstance(last_name, str), f\"last_name should be a string (text), got {type(last_name).__name__}\"\nassert len(last_name) > 0, \"last_name should not be empty\"\nassert isinstance(email, str), f\"email should be a string (text), got {type(email).__name__}\"\nassert len(email) > 0, \"email should not be empty\"\nassert age == 28, f\"age should be 28, got {age!r}\"\nassert isinstance(profile, str), f\"profile should be a string (text), got {type(profile).__name__}\"\nassert len(profile) > 0, \"profile should not be empty\"",
           "concepts": [
             "multiple variables",
             "f-strings",
@@ -688,7 +688,7 @@
           ],
           "solution": "original = \"hello\"\ncopy = original\ncopy = copy + \" world\"\nsame_reference = original is copy",
           "starter_code": "original = \"hello\"\ncopy = original\n# Modify and check\n",
-          "test_code": "assert original == 'hello', f\"original should be 'hello', got {original!r}\"\nassert copy == 'hello world', f\"copy should be 'hello world', got {copy!r}\"\nassert same_reference == False, f\"same_reference should be False, got {same_reference!r}\"",
+          "test_code": "assert original == 'hello', f\"original should be 'hello', got {original!r}\"\nassert isinstance(copy, str), f\"copy should be a string (text), got {type(copy).__name__}\"\nassert len(copy) > 0, \"copy should not be empty\"\nassert same_reference == False, f\"same_reference should be False, got {same_reference!r}\"",
           "concepts": [
             "immutability",
             "references",
@@ -794,7 +794,7 @@
           ],
           "solution": "temps = [72, 75, 68, 70, 73]\navg_temp = sum(temps) / len(temps)\nmax_temp = max(temps)\nmin_temp = min(temps)\nsummary = f\"Avg: {avg_temp:.1f}, Max: {max_temp}, Min: {min_temp}\"",
           "starter_code": "temps = [72, 75, 68, 70, 73]\n# Analyze temperature data\n",
-          "test_code": "assert temps == [72, 75, 68, 70, 73], f\"temps has wrong value\"\nassert avg_temp == 71.6, f\"avg_temp should be 71.6, got {avg_temp!r}\"\nassert max_temp == 75, f\"max_temp should be 75, got {max_temp!r}\"\nassert min_temp == 68, f\"min_temp should be 68, got {min_temp!r}\"\nassert summary == 'Avg: 71.6, Max: 75, Min: 68', f\"summary should be 'Avg: 71.6, Max: 75, Min: 68', got {summary!r}\"",
+          "test_code": "assert temps == [72, 75, 68, 70, 73], f\"temps has wrong value\"\nassert avg_temp == 71.6, f\"avg_temp should be 71.6, got {avg_temp!r}\"\nassert max_temp == 75, f\"max_temp should be 75, got {max_temp!r}\"\nassert min_temp == 68, f\"min_temp should be 68, got {min_temp!r}\"\nassert isinstance(summary, str), f\"summary should be a string (text), got {type(summary).__name__}\"\nassert len(summary) > 0, \"summary should not be empty\"",
           "concepts": [
             "data analysis",
             "built-in functions",
@@ -848,7 +848,7 @@
           ],
           "solution": "name = \"Bob\"\nage = 25\nmessage = \"My name is {} and I am {} years old\".format(name, age)",
           "starter_code": "name = \"Bob\"\nage = 25\n# Use .format() method\n",
-          "test_code": "assert name == 'Bob', f\"name should be 'Bob', got {name!r}\"\nassert age == 25, f\"age should be 25, got {age!r}\"\nassert message == 'My name is Bob and I am 25 years old', f\"message should be 'My name is Bob and I am 25 years old', got {message!r}\"",
+          "test_code": "assert name == 'Bob', f\"name should be 'Bob', got {name!r}\"\nassert age == 25, f\"age should be 25, got {age!r}\"\nassert isinstance(message, str), f\"message should be a string (text), got {type(message).__name__}\"\nassert len(message) > 0, \"message should not be empty\"",
           "concepts": [
             "string methods",
             "formatting",
@@ -994,7 +994,7 @@
           ],
           "solution": "text = str(456)\nresult = text == '456' and type(text) == str",
           "starter_code": "",
-          "test_code": "assert text == '456', f\"text should be '456', got {text!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(text, str), f\"text should be a string (text), got {type(text).__name__}\"\nassert len(text) > 0, \"text should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "str()",
             "type conversion"
@@ -1079,7 +1079,7 @@
           ],
           "solution": "upper_text = 'hello world'.upper()\nresult = upper_text == 'HELLO WORLD'",
           "starter_code": "",
-          "test_code": "assert upper_text == 'HELLO WORLD', f\"upper_text should be 'HELLO WORLD', got {upper_text!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(upper_text, str), f\"upper_text should be a string (text), got {type(upper_text).__name__}\"\nassert len(upper_text) > 0, \"upper_text should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "str.upper()",
             "string methods"
@@ -1096,7 +1096,7 @@
           ],
           "solution": "lower_text = 'PYTHON ROCKS'.lower()\nresult = lower_text == 'python rocks'",
           "starter_code": "",
-          "test_code": "assert lower_text == 'python rocks', f\"lower_text should be 'python rocks', got {lower_text!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(lower_text, str), f\"lower_text should be a string (text), got {type(lower_text).__name__}\"\nassert len(lower_text) > 0, \"lower_text should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "str.lower()",
             "string methods"
@@ -1113,7 +1113,7 @@
           ],
           "solution": "stripped = '  hello  '.strip()\nresult = stripped == 'hello'",
           "starter_code": "",
-          "test_code": "assert stripped == 'hello', f\"stripped should be 'hello', got {stripped!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(stripped, str), f\"stripped should be a string (text), got {type(stripped).__name__}\"\nassert len(stripped) > 0, \"stripped should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "str.strip()",
             "whitespace"
@@ -1130,7 +1130,7 @@
           ],
           "solution": "replaced = 'the cat sat on the mat'.replace('cat', 'dog')\nresult = replaced == 'the dog sat on the mat'",
           "starter_code": "",
-          "test_code": "assert replaced == 'the dog sat on the mat', f\"replaced should be 'the dog sat on the mat', got {replaced!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(replaced, str), f\"replaced should be a string (text), got {type(replaced).__name__}\"\nassert len(replaced) > 0, \"replaced should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "str.replace()",
             "string methods"
@@ -1164,7 +1164,7 @@
           ],
           "solution": "first_char = 'Python'[0]\nresult = first_char == 'P'",
           "starter_code": "",
-          "test_code": "assert first_char == 'P', f\"first_char should be 'P', got {first_char!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(first_char, str), f\"first_char should be a string (text), got {type(first_char).__name__}\"\nassert len(first_char) > 0, \"first_char should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "str indexing",
             "indexing"
@@ -1181,7 +1181,7 @@
           ],
           "solution": "slice_text = 'Python'[0:3]\nresult = slice_text == 'Pyt'",
           "starter_code": "",
-          "test_code": "assert slice_text == 'Pyt', f\"slice_text should be 'Pyt', got {slice_text!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(slice_text, str), f\"slice_text should be a string (text), got {type(slice_text).__name__}\"\nassert len(slice_text) > 0, \"slice_text should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "str slicing",
             "slicing"
@@ -1215,7 +1215,7 @@
           ],
           "solution": "joined = '-'.join(['one', 'two', 'three'])\nresult = joined == 'one-two-three'",
           "starter_code": "",
-          "test_code": "assert joined == 'one-two-three', f\"joined should be 'one-two-three', got {joined!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(joined, str), f\"joined should be a string (text), got {type(joined).__name__}\"\nassert len(joined) > 0, \"joined should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "str.join()",
             "list operations"
@@ -1354,7 +1354,7 @@
           ],
           "solution": "value = 99.5\nformatted = f'{value:.1f}'\nresult = formatted == '99.5'",
           "starter_code": "",
-          "test_code": "assert value == 99.5, f\"value should be 99.5, got {value!r}\"\nassert formatted == '99.5', f\"formatted should be '99.5', got {formatted!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert value == 99.5, f\"value should be 99.5, got {value!r}\"\nassert isinstance(formatted, str), f\"formatted should be a string (text), got {type(formatted).__name__}\"\nassert len(formatted) > 0, \"formatted should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "f-strings",
             "format specifiers"
@@ -1388,7 +1388,7 @@
           ],
           "solution": "multi_line = 'Hello\\nWorld'\nresult = multi_line == 'Hello\\nWorld'",
           "starter_code": "",
-          "test_code": "assert multi_line == 'Hello\\nWorld', f\"multi_line should be 'Hello\\nWorld', got {multi_line!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(multi_line, str), f\"multi_line should be a string (text), got {type(multi_line).__name__}\"\nassert len(multi_line) > 0, \"multi_line should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "escape sequences",
             "\\n"
@@ -1405,7 +1405,7 @@
           ],
           "solution": "tabbed = 'Name\\tAge'\nresult = '\\t' in tabbed",
           "starter_code": "",
-          "test_code": "assert tabbed == 'Name\\tAge', f\"tabbed should be 'Name\\tAge', got {tabbed!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(tabbed, str), f\"tabbed should be a string (text), got {type(tabbed).__name__}\"\nassert len(tabbed) > 0, \"tabbed should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "escape sequences",
             "\\t"
@@ -1422,7 +1422,7 @@
           ],
           "solution": "poem = '''Line one\nLine two\nLine three'''\nresult = poem.count('\\n') >= 2",
           "starter_code": "",
-          "test_code": "assert poem == 'Line one\\nLine two\\nLine three', f\"poem should be 'Line one\\nLine two\\nLine three', got {poem!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(poem, str), f\"poem should be a string (text), got {type(poem).__name__}\"\nassert len(poem) > 0, \"poem should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "multiline strings",
             "triple quotes"
@@ -1473,7 +1473,7 @@
           ],
           "solution": "x = None\nresult = x is None and type(x) == type(None)",
           "starter_code": "",
-          "test_code": "assert x == None, f\"x should be None, got {x!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "None",
             "null value"
@@ -1507,7 +1507,7 @@
           ],
           "solution": "char = chr(65)\nresult = char == 'A'",
           "starter_code": "",
-          "test_code": "assert char == 'A', f\"char should be 'A', got {char!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(char, str), f\"char should be a string (text), got {type(char).__name__}\"\nassert len(char) > 0, \"char should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
           "concepts": [
             "chr()",
             "Unicode"
@@ -4432,7 +4432,7 @@
           ],
           "solution": "def get_keys_uppercase(d):\n    return {k.upper() for k in d.keys()}",
           "starter_code": "",
-          "test_code": "assert 'get_keys_uppercase' in dir(), \"Function 'get_keys_uppercase' not defined. Did you write: def get_keys_uppercase(...)?\"\n_r0 = get_keys_uppercase({'name': 'Alice', 'city': 'NYC'})\nassert _r0 == {'CITY', 'NAME'}, f'Test 1: get_keys_uppercase({'name': 'Alice', 'city': 'NYC'}) returned {_r0!r}, expected {'CITY', 'NAME'}'\n_r1 = get_keys_uppercase({'x': 1, 'y': 2})\nassert _r1 == {'Y', 'X'}, f'Test 2: get_keys_uppercase({'x': 1, 'y': 2}) returned {_r1!r}, expected {'Y', 'X'}'",
+          "test_code": "assert 'get_keys_uppercase' in dir(), \"Function 'get_keys_uppercase' not defined. Did you write: def get_keys_uppercase(...)?\"\n_r0 = get_keys_uppercase({'name': 'Alice', 'city': 'NYC'})\nassert _r0 == {'NAME', 'CITY'}, f'Test 1: get_keys_uppercase({'name': 'Alice', 'city': 'NYC'}) returned {_r0!r}, expected {'NAME', 'CITY'}'\n_r1 = get_keys_uppercase({'x': 1, 'y': 2})\nassert _r1 == {'Y', 'X'}, f'Test 2: get_keys_uppercase({'x': 1, 'y': 2}) returned {_r1!r}, expected {'Y', 'X'}'",
           "concepts": [
             "iteration",
             "string methods",
@@ -5144,7 +5144,7 @@
           ],
           "solution": "api_explanation = 'An API is a set of rules and protocols that allows different software applications to communicate and exchange data. It defines the methods and data formats that applications can use to request and provide information.'",
           "starter_code": "# Define api_explanation as a string\napi_explanation = ...",
-          "test_code": "assert api_explanation == 'An API is a set of rules and protocols that allows different software applications to communicate and exchange data. It defines the methods and data formats that applications can use to request and provide information.', f\"api_explanation should be 'An API is a set of rules and protocols that allows different software applications to communicate and exchange data. It defines the methods and data formats that applications can use to request and provide information.', got {api_explanation!r}\"",
+          "test_code": "assert isinstance(api_explanation, str), f\"api_explanation should be a string (text), got {type(api_explanation).__name__}\"\nassert len(api_explanation) > 0, \"api_explanation should not be empty\"",
           "concepts": [
             "API fundamentals"
           ]

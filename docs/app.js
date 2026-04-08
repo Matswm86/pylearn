@@ -331,6 +331,13 @@ function renderWelcome(app) {
       </div>
     </div>
 
+    <div class="welcome-section" style="background:linear-gradient(135deg,#fef9c3,#fef3c7);border:2px solid #f59e0b">
+      <h2>🧒 "Explain Like I'm 5" Mode</h2>
+      <p>See the <strong>🧒 ELI5</strong> button in the top-right corner? It's <strong>ON by default</strong>.</p>
+      <p>When it's on, every topic and exercise gets extra-simple explanations using everyday analogies — like explaining variables as "labeled jars" or functions as "recipes". Perfect if you've never coded before!</p>
+      <p>If you already know some programming, you can click it to turn it off and see just the standard descriptions.</p>
+    </div>
+
     <div class="welcome-section">
       <h2>📖 How to use PyLearn</h2>
       <ul>

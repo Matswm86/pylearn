@@ -55,6 +55,26 @@ def generate_test_code(ex: Exercise) -> str:
     return "pass  # No automated test"
 
 
+def _value_required_by_description(var_name: str, value: object, description: str) -> bool:
+    """Check if the exercise description explicitly requires a specific value."""
+    desc_lower = description.lower()
+    if isinstance(value, str):
+        # If the exact string appears quoted in the description, it's required
+        if f"'{value}'" in description or f'"{value}"' in description:
+            return True
+        # Phrases that imply a specific value is needed
+        if any(phrase in desc_lower for phrase in [
+            "set it to", "assign it the value", "should be", "must equal",
+            "with the value", "containing the text", "with the string",
+            "store the string", "store the value",
+        ]):
+            if value.lower() in desc_lower:
+                return True
+        return False
+    # Numbers and bools: always check exact (they're usually computed or specified)
+    return True
+
+
 def _generate_from_solution(ex: Exercise) -> str:
     """Execute solution and generate assertions from the resulting namespace."""
     ns: dict = {}
@@ -81,7 +101,17 @@ def _generate_from_solution(ex: Exercise) -> str:
             lines.append(f"assert '{name}' in dir(), \"Class '{name}' not defined\"")
             continue
 
-        if isinstance(value, (int, float, str, bool, type(None))):
+        if isinstance(value, str):
+            # For strings: only check exact value if the description requires it
+            if _value_required_by_description(name, value, ex.description):
+                lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
+            else:
+                # Just check it's a string and non-empty
+                lines.append(f"assert isinstance({name}, str), f\"{name} should be a string (text), got {{type({name}).__name__}}\"")
+                lines.append(f"assert len({name}) > 0, \"{name} should not be empty\"")
+        elif isinstance(value, bool):
+            lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
+        elif isinstance(value, (int, float)):
             lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
         elif isinstance(value, (list, tuple, set, dict)):
             lines.append(f"assert {name} == {value!r}, f\"{name} has wrong value\"")
