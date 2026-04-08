@@ -432,7 +432,7 @@ function resetAllProgress() {
 function resetTopicProgress(topicId) {
   const topic = exerciseData.topics.find(t => t.id === topicId);
   if (!topic) return;
-  if (!confirm(\`Reset progress for \${topic.title}? This will mark all exercises as incomplete.\`)) return;
+  if (!confirm("Reset progress for " + topic.title + "? This will mark all exercises as incomplete.")) return;
   for (const ex of topic.exercises) {
     delete progress._data.completed[ex.id];
   }
