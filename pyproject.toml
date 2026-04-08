@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pylearn"
+version = "1.0.0"
+description = "Interactive Python learning app with 400+ auto-graded exercises"
+requires-python = ">=3.10"
+dependencies = [
+    "rich>=13.0",
+    "httpx>=0.27",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]
+
+[project.scripts]
+pylearn = "pylearn.cli:main"

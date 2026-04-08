@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PyLearn - Learn Python Interactively</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/dracula.min.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<header id="topbar">
+  <div class="topbar-left" onclick="navigate('/')">
+    <span class="logo">🐍</span>
+    <span class="brand">PyLearn</span>
+  </div>
+  <div class="topbar-right">
+    <button id="eli5-toggle" class="badge eli5-btn active" onclick="toggleEli5()" title="Explain Like I'm 5 mode">🧒 ELI5</button>
+    <span id="streak-badge" class="badge" title="Daily streak"></span>
+    <span id="progress-badge" class="badge" title="Exercises completed"></span>
+  </div>
+</header>
+
+<!-- Main content area -->
+<main id="app"></main>
+
+<!-- Loading overlay for Pyodide -->
+<div id="pyodide-loading" class="overlay hidden">
+  <div class="loader">
+    <div class="spinner"></div>
+    <p>Loading Python engine...</p>
+    <p class="subtle">First load takes ~10 seconds</p>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js"></script>
+<script src="lessons.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
