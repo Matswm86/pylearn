@@ -816,7 +816,7 @@ function showHint() {
 
   if (!exercise || idx >= exercise.hints.length) return;
 
-  area.innerHTML += `<div class="hint-box">💡 Hint ${idx + 1}: ${exercise.hints[idx]}</div>`;
+  area.innerHTML += `<div class="hint-box">💡 Hint ${idx + 1}: ${escapeHtml(exercise.hints[idx])}</div>`;
   document.getElementById("app")._hintIndex = idx + 1;
 
   const remaining = exercise.hints.length - idx - 1;
