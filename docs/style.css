@@ -389,6 +389,44 @@ body:not(.eli5-mode) .eli5-box { display: none; }
   .CodeMirror { font-size: 0.82rem !important; }
 }
 
+/* ===== Celebration Toast ===== */
+.celebration-toast {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.4);
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+.celebration-content {
+  background: var(--surface); border-radius: 20px;
+  padding: 32px 40px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  max-width: 420px; width: 90%;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.celebration-emoji { font-size: 3rem; margin-bottom: 8px; }
+.celebration-msg { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+.celebration-milestone {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  padding: 8px 16px; border-radius: 8px; margin-bottom: 12px;
+  font-weight: 600; color: #92400e; font-size: 0.9rem;
+}
+.celebration-stats { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 20px; }
+.celebration-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.celebration-actions .start-btn { font-size: 0.95rem; padding: 10px 24px; }
+.celebration-actions .action-btn { font-size: 0.85rem; }
+
+/* ===== Shake animation (wrong answer) ===== */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.shake { animation: shake 0.4s ease; }
+
 /* ===== Animations ===== */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 .fade-in { animation: fadeIn 0.3s ease; }

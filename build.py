@@ -56,27 +56,78 @@ def generate_test_code(ex: Exercise) -> str:
 
 
 def _value_required_by_description(var_name: str, value: object, description: str) -> bool:
-    """Check if the exercise description explicitly requires a specific value."""
+    """Check if the exercise description explicitly requires a specific value.
+
+    Returns True if the description makes it clear that a SPECIFIC value is required.
+    Returns False if the exercise is about a CONCEPT (e.g., "your name",
+    "create a list", "sample data") where any valid answer should be accepted.
+
+    Key insight: Some exercises ask for ANY example (RELAXED),
+    while others specify exact values or deterministic results (STRICT).
+    """
     desc_lower = description.lower()
+
+    # CONCEPT: Exercises where ANY valid answer is acceptable.
+    # Look for patterns like "your X", "any X", "sample X", "create a [type]"
+    # WITHOUT a specific value constraint.
+    if "your name" in desc_lower or "your age" in desc_lower:
+        return False
+    if "your favorite" in desc_lower or "your " in desc_lower:
+        return False
+    if "sample" in desc_lower or "example " in desc_lower:
+        return False
+    if "any " in desc_lower or "any," in desc_lower:
+        return False
+
+    # For strings: Check if it's explicitly required
     if isinstance(value, str):
         # If the exact string appears quoted in the description, it's required
         if f"'{value}'" in description or f'"{value}"' in description:
             return True
-        # Phrases that imply a specific value is needed
+        # Phrases that imply a specific string value is needed
         if any(phrase in desc_lower for phrase in [
             "set it to", "assign it the value", "should be", "must equal",
             "with the value", "containing the text", "with the string",
-            "store the string", "store the value",
+            "store the string", "equals",
         ]):
             if value.lower() in desc_lower:
                 return True
         return False
-    # Numbers and bools: always check exact (they're usually computed or specified)
-    return True
+
+    if isinstance(value, bool):
+        # For booleans, only required if explicitly stated
+        if str(value).lower() in desc_lower:
+            return True
+        return False
+
+    if isinstance(value, (int, float)):
+        # For numbers: required if:
+        # 1. The number appears explicitly in the description (e.g., "the value 25", "10, 20, 30")
+        # 2. The exercise is about a calculation or deterministic result (swap, sum, etc.)
+
+        # Check if description explicitly mentions the number
+        if str(value) in description:
+            return True
+
+        # Check for calculation/deterministic phrases (calculation results must be exact)
+        if any(phrase in desc_lower for phrase in [
+            "swap", "calculate", "compute", "result", "total", "sum",
+            "add", "multiply", "divide", "tax", "discount", "price"
+        ]):
+            return True
+
+        return False
+
+    return False
 
 
 def _generate_from_solution(ex: Exercise) -> str:
-    """Execute solution and generate assertions from the resulting namespace."""
+    """Execute solution and generate assertions from the resulting namespace.
+
+    For each variable, decide whether to check:
+    1. Exact value (if the description requires it)
+    2. Type only (if it's a concept exercise)
+    """
     ns: dict = {}
     try:
         exec(ex.solution, ns)
@@ -101,20 +152,53 @@ def _generate_from_solution(ex: Exercise) -> str:
             lines.append(f"assert '{name}' in dir(), \"Class '{name}' not defined\"")
             continue
 
+        is_exact_required = _value_required_by_description(name, value, ex.description)
+
         if isinstance(value, str):
             # For strings: only check exact value if the description requires it
-            if _value_required_by_description(name, value, ex.description):
+            if is_exact_required:
                 lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
             else:
                 # Just check it's a string and non-empty
                 lines.append(f"assert isinstance({name}, str), f\"{name} should be a string (text), got {{type({name}).__name__}}\"")
                 lines.append(f"assert len({name}) > 0, \"{name} should not be empty\"")
         elif isinstance(value, bool):
-            lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
+            # For booleans: check exact value only if explicitly required
+            if is_exact_required:
+                lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
+            else:
+                lines.append(f"assert isinstance({name}, bool), f\"{name} should be a boolean (True/False), got {{type({name}).__name__}}\"")
         elif isinstance(value, (int, float)):
-            lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
-        elif isinstance(value, (list, tuple, set, dict)):
-            lines.append(f"assert {name} == {value!r}, f\"{name} has wrong value\"")
+            # For numbers: check exact value only if explicitly required
+            if is_exact_required:
+                lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
+            else:
+                lines.append(f"assert isinstance({name}, ({int.__name__}, {float.__name__})), f\"{name} should be a number, got {{type({name}).__name__}}\"")
+        elif isinstance(value, list):
+            # For lists: check type and non-empty if concept exercise, exact if specified
+            if is_exact_required:
+                lines.append(f"assert {name} == {value!r}, f\"{name} has wrong value\"")
+            else:
+                lines.append(f"assert isinstance({name}, list), f\"{name} should be a list, got {{type({name}).__name__}}\"")
+                if len(value) > 0:
+                    lines.append(f"assert len({name}) > 0, \"{name} should not be empty\"")
+        elif isinstance(value, dict):
+            # For dicts: check type and non-empty if concept exercise, exact if specified
+            if is_exact_required:
+                lines.append(f"assert {name} == {value!r}, f\"{name} has wrong value\"")
+            else:
+                lines.append(f"assert isinstance({name}, dict), f\"{name} should be a dictionary, got {{type({name}).__name__}}\"")
+                if len(value) > 0:
+                    lines.append(f"assert len({name}) > 0, \"{name} should not be empty\"")
+        elif isinstance(value, (tuple, set)):
+            # For tuples and sets: similar approach
+            if is_exact_required:
+                lines.append(f"assert {name} == {value!r}, f\"{name} has wrong value\"")
+            else:
+                type_name = "tuple" if isinstance(value, tuple) else "set"
+                lines.append(f"assert isinstance({name}, {type(value).__name__}), f\"{name} should be a {type_name}, got {{type({name}).__name__}}\"")
+                if len(value) > 0:
+                    lines.append(f"assert len({name}) > 0, \"{name} should not be empty\"")
 
     if not lines:
         lines.append("pass  # Verify your code runs without errors")

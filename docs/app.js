@@ -677,31 +677,99 @@ async function runExercise() {
   const result = await runPython(code, exercise.test_code);
 
   if (result.passed) {
+    const wasAlreadyDone = progress.isCompleted(exercise.id);
+    progress.markCompleted(exercise.id);
+
     output.className = "output-body pass";
-    let text = "✅ All tests passed! Great job!";
+    let text = "✅ All tests passed!";
     if (result.stdout) text = result.stdout + "\n\n" + text;
     output.textContent = text;
-    progress.markCompleted(exercise.id);
-    render(); // Re-render to update badges, but preserve editor
-    // Re-navigate to same exercise to keep state
-    // Actually just update badges manually
+
+    // Update badges without re-rendering
     document.getElementById("streak-badge").textContent = `🔥 ${progress.getStreak()}`;
     document.getElementById("progress-badge").textContent = `✓ ${progress.totalCompleted()}/${exerciseData.total_exercises}`;
-    // Update completion badge in header
     const metaEl = document.querySelector(".exercise-meta");
     if (metaEl && !metaEl.innerHTML.includes("Completed")) {
       metaEl.innerHTML += ' <span class="diff-badge diff-1">✓ Completed</span>';
     }
+
+    // Show celebration toast
+    if (!wasAlreadyDone) {
+      showCelebration(exercise);
+    }
   } else {
     output.className = "output-body fail";
-    let text = "❌ Not quite right. ";
+    let text = "❌ Not quite right.";
     if (result.error) text += "\n\n" + result.error;
     if (result.stdout) text = "Output:\n" + result.stdout + "\n\n" + text;
     output.textContent = text;
+
+    // Shake the output panel for feedback
+    output.parentElement.classList.add("shake");
+    setTimeout(() => output.parentElement.classList.remove("shake"), 500);
   }
 
   btn.disabled = false;
   btn.textContent = "▶ Run & Check";
+}
+
+function showCelebration(exercise) {
+  // Find next exercise
+  let nextEx = null;
+  for (const t of exerciseData.topics) {
+    const idx = t.exercises.findIndex(e => e.id === exercise.id);
+    if (idx !== -1 && idx < t.exercises.length - 1) {
+      nextEx = t.exercises[idx + 1];
+      break;
+    }
+  }
+
+  // Celebration messages based on streak
+  const total = progress.totalCompleted();
+  const messages = [
+    "Nice work! You got it! 🎉",
+    "Awesome! Keep going! 💪",
+    "Nailed it! You're learning fast! 🚀",
+    "Perfect! Python is clicking! ⚡",
+    "Brilliant! You're on fire! 🔥",
+  ];
+  const msg = messages[Math.min(Math.floor(total / 10), messages.length - 1)];
+
+  // Milestone messages
+  let milestone = "";
+  if (total === 1) milestone = "🏆 First exercise completed!";
+  else if (total === 10) milestone = "🏆 10 exercises done! You're getting the hang of it!";
+  else if (total === 25) milestone = "🏆 25 down! Quarter of the way there!";
+  else if (total === 50) milestone = "🏆 50 exercises! You're unstoppable!";
+  else if (total === 100) milestone = "🏆 100! A true Python learner!";
+  else if (total === 200) milestone = "🏆 200! Halfway through everything!";
+  else if (total === 400) milestone = "🏆🏆🏆 ALL 400 COMPLETE! You're a Python hero!";
+  else if (total % 50 === 0) milestone = `🏆 ${total} exercises completed!`;
+
+  const nextBtn = nextEx
+    ? `<button class="start-btn" onclick="this.closest('.celebration-toast').remove(); navigate('/exercise/${nextEx.id}')">Next Exercise →</button>`
+    : `<button class="start-btn" onclick="this.closest('.celebration-toast').remove(); navigate('/dashboard')">Back to Topics →</button>`;
+
+  const toast = document.createElement("div");
+  toast.className = "celebration-toast";
+  toast.innerHTML = `
+    <div class="celebration-content">
+      <div class="celebration-emoji">✅</div>
+      <div class="celebration-msg">${msg}</div>
+      ${milestone ? `<div class="celebration-milestone">${milestone}</div>` : ""}
+      <div class="celebration-stats">
+        Total completed: <strong>${total}/400</strong> &nbsp;|&nbsp; Streak: <strong>🔥 ${progress.getStreak()} day${progress.getStreak() !== 1 ? 's' : ''}</strong>
+      </div>
+      <div class="celebration-actions">
+        ${nextBtn}
+        <button class="action-btn" onclick="this.closest('.celebration-toast').remove()">Stay here</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(toast);
+
+  // Auto-dismiss after 15s
+  setTimeout(() => { if (toast.parentNode) toast.remove(); }, 15000);
 }
 
 function showHint() {

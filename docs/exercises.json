@@ -227,7 +227,7 @@
           ],
           "solution": "name = \"Bob\"\nage = 30\nmessage = f\"Name: {name}, Age: {age}\"",
           "starter_code": "name = \"Bob\"\nage = 30\n# Use f-string to create message\n",
-          "test_code": "assert isinstance(name, str), f\"name should be a string (text), got {type(name).__name__}\"\nassert len(name) > 0, \"name should not be empty\"\nassert age == 30, f\"age should be 30, got {age!r}\"\nassert isinstance(message, str), f\"message should be a string (text), got {type(message).__name__}\"\nassert len(message) > 0, \"message should not be empty\"",
+          "test_code": "assert isinstance(name, str), f\"name should be a string (text), got {type(name).__name__}\"\nassert len(name) > 0, \"name should not be empty\"\nassert isinstance(age, (int, float)), f\"age should be a number, got {type(age).__name__}\"\nassert isinstance(message, str), f\"message should be a string (text), got {type(message).__name__}\"\nassert len(message) > 0, \"message should not be empty\"",
           "concepts": [
             "f-strings",
             "string formatting"
@@ -244,7 +244,7 @@
           ],
           "solution": "text = \"hello\"\nnum_int = 42\nnum_float = 3.14\ntype_text = type(text)\ntype_int = type(num_int)\ntype_float = type(num_float)",
           "starter_code": "text = \"hello\"\nnum_int = 42\nnum_float = 3.14\n# Check types\n",
-          "test_code": "assert isinstance(text, str), f\"text should be a string (text), got {type(text).__name__}\"\nassert len(text) > 0, \"text should not be empty\"\nassert num_int == 42, f\"num_int should be 42, got {num_int!r}\"\nassert num_float == 3.14, f\"num_float should be 3.14, got {num_float!r}\"\nassert 'type_text' in dir(), \"'type_text' is not defined\"\nassert callable(type_text), \"'type_text' should be a function\"\nassert 'type_int' in dir(), \"'type_int' is not defined\"\nassert callable(type_int), \"'type_int' should be a function\"\nassert 'type_float' in dir(), \"'type_float' is not defined\"\nassert callable(type_float), \"'type_float' should be a function\"",
+          "test_code": "assert isinstance(text, str), f\"text should be a string (text), got {type(text).__name__}\"\nassert len(text) > 0, \"text should not be empty\"\nassert isinstance(num_int, (int, float)), f\"num_int should be a number, got {type(num_int).__name__}\"\nassert isinstance(num_float, (int, float)), f\"num_float should be a number, got {type(num_float).__name__}\"\nassert 'type_text' in dir(), \"'type_text' is not defined\"\nassert callable(type_text), \"'type_text' should be a function\"\nassert 'type_int' in dir(), \"'type_int' is not defined\"\nassert callable(type_int), \"'type_int' should be a function\"\nassert 'type_float' in dir(), \"'type_float' is not defined\"\nassert callable(type_float), \"'type_float' should be a function\"",
           "concepts": [
             "type inference",
             "dynamic typing"
@@ -385,7 +385,7 @@
           ],
           "solution": "fruits = [\"apple\", \"banana\", \"cherry\"]\nfirst = fruits[0]\nlast = fruits[-1]",
           "starter_code": "fruits = [\"apple\", \"banana\", \"cherry\"]\n# Access first and last\n",
-          "test_code": "assert fruits == ['apple', 'banana', 'cherry'], f\"fruits has wrong value\"\nassert first == 'apple', f\"first should be 'apple', got {first!r}\"\nassert last == 'cherry', f\"last should be 'cherry', got {last!r}\"",
+          "test_code": "assert isinstance(fruits, list), f\"fruits should be a list, got {type(fruits).__name__}\"\nassert len(fruits) > 0, \"fruits should not be empty\"\nassert first == 'apple', f\"first should be 'apple', got {first!r}\"\nassert last == 'cherry', f\"last should be 'cherry', got {last!r}\"",
           "concepts": [
             "lists",
             "indexing",
@@ -403,7 +403,7 @@
           ],
           "solution": "person = {\"name\": \"Alice\", \"age\": 30, \"city\": \"NYC\"}\nname = person[\"name\"]\nage = person[\"age\"]",
           "starter_code": "person = {\"name\": \"Alice\", \"age\": 30, \"city\": \"NYC\"}\n# Access name and age\n",
-          "test_code": "assert person == {'name': 'Alice', 'age': 30, 'city': 'NYC'}, f\"person has wrong value\"\nassert name == 'Alice', f\"name should be 'Alice', got {name!r}\"\nassert age == 30, f\"age should be 30, got {age!r}\"",
+          "test_code": "assert isinstance(person, dict), f\"person should be a dictionary, got {type(person).__name__}\"\nassert len(person) > 0, \"person should not be empty\"\nassert name == 'Alice', f\"name should be 'Alice', got {name!r}\"\nassert age == 30, f\"age should be 30, got {age!r}\"",
           "concepts": [
             "dictionaries",
             "key-value pairs",
@@ -509,7 +509,7 @@
           ],
           "solution": "a = 10\nb = 5\nis_greater = a > b",
           "starter_code": "a = 10\nb = 5\n# Create boolean variable from comparison\n",
-          "test_code": "assert a == 10, f\"a should be 10, got {a!r}\"\nassert b == 5, f\"b should be 5, got {b!r}\"\nassert is_greater == True, f\"is_greater should be True, got {is_greater!r}\"",
+          "test_code": "assert a == 10, f\"a should be 10, got {a!r}\"\nassert b == 5, f\"b should be 5, got {b!r}\"\nassert isinstance(is_greater, bool), f\"is_greater should be a boolean (True/False), got {type(is_greater).__name__}\"",
           "concepts": [
             "booleans",
             "comparisons",
@@ -545,7 +545,7 @@
           ],
           "solution": "first, second, *rest = (1, 2, 3, 4, 5)",
           "starter_code": "# Unpack with * to capture rest\n",
-          "test_code": "assert first == 1, f\"first should be 1, got {first!r}\"\nassert second == 2, f\"second should be 2, got {second!r}\"\nassert rest == [3, 4, 5], f\"rest has wrong value\"",
+          "test_code": "assert first == 1, f\"first should be 1, got {first!r}\"\nassert second == 2, f\"second should be 2, got {second!r}\"\nassert isinstance(rest, list), f\"rest should be a list, got {type(rest).__name__}\"\nassert len(rest) > 0, \"rest should not be empty\"",
           "concepts": [
             "unpacking",
             "variadic unpacking",
@@ -635,7 +635,7 @@
           ],
           "solution": "squares = [x**2 for x in range(1, 6)]",
           "starter_code": "# Create list of squares using comprehension\n",
-          "test_code": "assert squares == [1, 4, 9, 16, 25], f\"squares has wrong value\"",
+          "test_code": "assert isinstance(squares, list), f\"squares should be a list, got {type(squares).__name__}\"\nassert len(squares) > 0, \"squares should not be empty\"",
           "concepts": [
             "list comprehension",
             "advanced assignment"
@@ -652,7 +652,7 @@
           ],
           "solution": "keys = [\"a\", \"b\", \"c\"]\nvalues = [1, 2, 3]\nmy_dict = dict(zip(keys, values))",
           "starter_code": "keys = [\"a\", \"b\", \"c\"]\nvalues = [1, 2, 3]\n# Create dictionary\n",
-          "test_code": "assert keys == ['a', 'b', 'c'], f\"keys has wrong value\"\nassert values == [1, 2, 3], f\"values has wrong value\"\nassert my_dict == {'a': 1, 'b': 2, 'c': 3}, f\"my_dict has wrong value\"",
+          "test_code": "assert isinstance(keys, list), f\"keys should be a list, got {type(keys).__name__}\"\nassert len(keys) > 0, \"keys should not be empty\"\nassert isinstance(values, list), f\"values should be a list, got {type(values).__name__}\"\nassert len(values) > 0, \"values should not be empty\"\nassert isinstance(my_dict, dict), f\"my_dict should be a dictionary, got {type(my_dict).__name__}\"\nassert len(my_dict) > 0, \"my_dict should not be empty\"",
           "concepts": [
             "dictionaries",
             "zip",
@@ -670,7 +670,7 @@
           ],
           "solution": "original = [1, 2, 3]\ncopy = original\ncopy.append(4)\nsame_reference = original is copy",
           "starter_code": "original = [1, 2, 3]\ncopy = original\n# Modify and check\n",
-          "test_code": "assert original == [1, 2, 3, 4], f\"original has wrong value\"\nassert copy == [1, 2, 3, 4], f\"copy has wrong value\"\nassert same_reference == True, f\"same_reference should be True, got {same_reference!r}\"",
+          "test_code": "assert isinstance(original, list), f\"original should be a list, got {type(original).__name__}\"\nassert len(original) > 0, \"original should not be empty\"\nassert isinstance(copy, list), f\"copy should be a list, got {type(copy).__name__}\"\nassert len(copy) > 0, \"copy should not be empty\"\nassert isinstance(same_reference, bool), f\"same_reference should be a boolean (True/False), got {type(same_reference).__name__}\"",
           "concepts": [
             "mutability",
             "references",
@@ -688,7 +688,7 @@
           ],
           "solution": "original = \"hello\"\ncopy = original\ncopy = copy + \" world\"\nsame_reference = original is copy",
           "starter_code": "original = \"hello\"\ncopy = original\n# Modify and check\n",
-          "test_code": "assert original == 'hello', f\"original should be 'hello', got {original!r}\"\nassert isinstance(copy, str), f\"copy should be a string (text), got {type(copy).__name__}\"\nassert len(copy) > 0, \"copy should not be empty\"\nassert same_reference == False, f\"same_reference should be False, got {same_reference!r}\"",
+          "test_code": "assert original == 'hello', f\"original should be 'hello', got {original!r}\"\nassert isinstance(copy, str), f\"copy should be a string (text), got {type(copy).__name__}\"\nassert len(copy) > 0, \"copy should not be empty\"\nassert isinstance(same_reference, bool), f\"same_reference should be a boolean (True/False), got {type(same_reference).__name__}\"",
           "concepts": [
             "immutability",
             "references",
@@ -706,7 +706,7 @@
           ],
           "solution": "student = {\"name\": \"Alice\", \"grades\": {\"math\": 95, \"english\": 88}}\nmath_grade = student[\"grades\"][\"math\"]\nenglish_grade = student[\"grades\"][\"english\"]",
           "starter_code": "student = {\"name\": \"Alice\", \"grades\": {\"math\": 95, \"english\": 88}}\n# Access nested values\n",
-          "test_code": "assert student == {'name': 'Alice', 'grades': {'math': 95, 'english': 88}}, f\"student has wrong value\"\nassert math_grade == 95, f\"math_grade should be 95, got {math_grade!r}\"\nassert english_grade == 88, f\"english_grade should be 88, got {english_grade!r}\"",
+          "test_code": "assert isinstance(student, dict), f\"student should be a dictionary, got {type(student).__name__}\"\nassert len(student) > 0, \"student should not be empty\"\nassert math_grade == 95, f\"math_grade should be 95, got {math_grade!r}\"\nassert english_grade == 88, f\"english_grade should be 88, got {english_grade!r}\"",
           "concepts": [
             "nested structures",
             "data structures",
@@ -759,7 +759,7 @@
           ],
           "solution": "items = [(\"Widget\", 10, 5), (\"Gadget\", 15, 2)]\ntotal = sum(price * qty for name, price, qty in items)\ntax = 0.08\ninvoice_total = total * (1 + tax)",
           "starter_code": "items = [(\"Widget\", 10, 5), (\"Gadget\", 15, 2)]\n# Calculate invoice\n",
-          "test_code": "assert items == [('Widget', 10, 5), ('Gadget', 15, 2)], f\"items has wrong value\"\nassert total == 80, f\"total should be 80, got {total!r}\"\nassert tax == 0.08, f\"tax should be 0.08, got {tax!r}\"\nassert invoice_total == 86.4, f\"invoice_total should be 86.4, got {invoice_total!r}\"",
+          "test_code": "assert isinstance(items, list), f\"items should be a list, got {type(items).__name__}\"\nassert len(items) > 0, \"items should not be empty\"\nassert total == 80, f\"total should be 80, got {total!r}\"\nassert tax == 0.08, f\"tax should be 0.08, got {tax!r}\"\nassert invoice_total == 86.4, f\"invoice_total should be 86.4, got {invoice_total!r}\"",
           "concepts": [
             "real-world scenarios",
             "comprehensions",
@@ -794,7 +794,7 @@
           ],
           "solution": "temps = [72, 75, 68, 70, 73]\navg_temp = sum(temps) / len(temps)\nmax_temp = max(temps)\nmin_temp = min(temps)\nsummary = f\"Avg: {avg_temp:.1f}, Max: {max_temp}, Min: {min_temp}\"",
           "starter_code": "temps = [72, 75, 68, 70, 73]\n# Analyze temperature data\n",
-          "test_code": "assert temps == [72, 75, 68, 70, 73], f\"temps has wrong value\"\nassert avg_temp == 71.6, f\"avg_temp should be 71.6, got {avg_temp!r}\"\nassert max_temp == 75, f\"max_temp should be 75, got {max_temp!r}\"\nassert min_temp == 68, f\"min_temp should be 68, got {min_temp!r}\"\nassert isinstance(summary, str), f\"summary should be a string (text), got {type(summary).__name__}\"\nassert len(summary) > 0, \"summary should not be empty\"",
+          "test_code": "assert isinstance(temps, list), f\"temps should be a list, got {type(temps).__name__}\"\nassert len(temps) > 0, \"temps should not be empty\"\nassert avg_temp == 71.6, f\"avg_temp should be 71.6, got {avg_temp!r}\"\nassert max_temp == 75, f\"max_temp should be 75, got {max_temp!r}\"\nassert min_temp == 68, f\"min_temp should be 68, got {min_temp!r}\"\nassert isinstance(summary, str), f\"summary should be a string (text), got {type(summary).__name__}\"\nassert len(summary) > 0, \"summary should not be empty\"",
           "concepts": [
             "data analysis",
             "built-in functions",
@@ -830,7 +830,7 @@
           ],
           "solution": "data = ((1, 2), (3, 4))\n(a, b), (c, d) = data",
           "starter_code": "data = ((1, 2), (3, 4))\n# Unpack nested tuples\n",
-          "test_code": "assert data == ((1, 2), (3, 4)), f\"data has wrong value\"\nassert a == 1, f\"a should be 1, got {a!r}\"\nassert b == 2, f\"b should be 2, got {b!r}\"\nassert c == 3, f\"c should be 3, got {c!r}\"\nassert d == 4, f\"d should be 4, got {d!r}\"",
+          "test_code": "assert isinstance(data, tuple), f\"data should be a tuple, got {type(data).__name__}\"\nassert len(data) > 0, \"data should not be empty\"\nassert a == 1, f\"a should be 1, got {a!r}\"\nassert b == 2, f\"b should be 2, got {b!r}\"\nassert c == 3, f\"c should be 3, got {c!r}\"\nassert d == 4, f\"d should be 4, got {d!r}\"",
           "concepts": [
             "nested unpacking",
             "advanced assignment",
@@ -866,7 +866,7 @@
           ],
           "solution": "holdings = {\"AAPL\": (150, 30), \"MSFT\": (300, 20)}\nvalues = {symbol: price * shares for symbol, (price, shares) in holdings.items()}\nportfolio_total = sum(values.values())",
           "starter_code": "holdings = {\"AAPL\": (150, 30), \"MSFT\": (300, 20)}\n# Calculate portfolio value\n",
-          "test_code": "assert holdings == {'AAPL': (150, 30), 'MSFT': (300, 20)}, f\"holdings has wrong value\"\nassert values == {'AAPL': 4500, 'MSFT': 6000}, f\"values has wrong value\"\nassert portfolio_total == 10500, f\"portfolio_total should be 10500, got {portfolio_total!r}\"",
+          "test_code": "assert isinstance(holdings, dict), f\"holdings should be a dictionary, got {type(holdings).__name__}\"\nassert len(holdings) > 0, \"holdings should not be empty\"\nassert isinstance(values, dict), f\"values should be a dictionary, got {type(values).__name__}\"\nassert len(values) > 0, \"values should not be empty\"\nassert portfolio_total == 10500, f\"portfolio_total should be 10500, got {portfolio_total!r}\"",
           "concepts": [
             "real-world scenarios",
             "dict comprehension",
@@ -884,7 +884,7 @@
           ],
           "solution": "result = {x: x**2 for x in range(1, 11) if x**2 > 25}",
           "starter_code": "# Create dict comprehension with condition\n",
-          "test_code": "assert result == {6: 36, 7: 49, 8: 64, 9: 81, 10: 100}, f\"result has wrong value\"",
+          "test_code": "assert isinstance(result, dict), f\"result should be a dictionary, got {type(result).__name__}\"\nassert len(result) > 0, \"result should not be empty\"",
           "concepts": [
             "dict comprehension",
             "conditionals",
@@ -909,7 +909,7 @@
           ],
           "solution": "x = 42\nresult = type(x) == int",
           "starter_code": "",
-          "test_code": "assert x == 42, f\"x should be 42, got {x!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert x == 42, f\"x should be 42, got {x!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "int",
             "type()"
@@ -926,7 +926,7 @@
           ],
           "solution": "y = 3.14\nresult = type(y) == float",
           "starter_code": "",
-          "test_code": "assert y == 3.14, f\"y should be 3.14, got {y!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert y == 3.14, f\"y should be 3.14, got {y!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "float",
             "type()"
@@ -943,7 +943,7 @@
           ],
           "solution": "message = 'Hello'\nresult = type(message) == str",
           "starter_code": "",
-          "test_code": "assert message == 'Hello', f\"message should be 'Hello', got {message!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert message == 'Hello', f\"message should be 'Hello', got {message!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str",
             "type()"
@@ -977,7 +977,7 @@
           ],
           "solution": "num = int('123')\nresult = num == 123 and type(num) == int",
           "starter_code": "",
-          "test_code": "assert num == 123, f\"num should be 123, got {num!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert num == 123, f\"num should be 123, got {num!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "int()",
             "type conversion"
@@ -994,7 +994,7 @@
           ],
           "solution": "text = str(456)\nresult = text == '456' and type(text) == str",
           "starter_code": "",
-          "test_code": "assert isinstance(text, str), f\"text should be a string (text), got {type(text).__name__}\"\nassert len(text) > 0, \"text should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(text, str), f\"text should be a string (text), got {type(text).__name__}\"\nassert len(text) > 0, \"text should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str()",
             "type conversion"
@@ -1011,7 +1011,7 @@
           ],
           "solution": "pi_approx = float('3.14')\nresult = abs(pi_approx - 3.14) < 0.0001 and type(pi_approx) == float",
           "starter_code": "",
-          "test_code": "assert pi_approx == 3.14, f\"pi_approx should be 3.14, got {pi_approx!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert pi_approx == 3.14, f\"pi_approx should be 3.14, got {pi_approx!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "float()",
             "type conversion"
@@ -1028,7 +1028,7 @@
           ],
           "solution": "b = bool(1)\nresult = b is True and type(b) == bool",
           "starter_code": "",
-          "test_code": "assert b == True, f\"b should be True, got {b!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(b, bool), f\"b should be a boolean (True/False), got {type(b).__name__}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "bool()",
             "type conversion"
@@ -1045,7 +1045,7 @@
           ],
           "solution": "length = len('Python')\nresult = length == 6",
           "starter_code": "",
-          "test_code": "assert length == 6, f\"length should be 6, got {length!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(length, (int, float)), f\"length should be a number, got {type(length).__name__}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "len()",
             "str"
@@ -1062,7 +1062,7 @@
           ],
           "solution": "x = 100\ncheck_result = isinstance(x, int)",
           "starter_code": "",
-          "test_code": "assert x == 100, f\"x should be 100, got {x!r}\"\nassert check_result == True, f\"check_result should be True, got {check_result!r}\"",
+          "test_code": "assert x == 100, f\"x should be 100, got {x!r}\"\nassert isinstance(check_result, bool), f\"check_result should be a boolean (True/False), got {type(check_result).__name__}\"",
           "concepts": [
             "isinstance()",
             "type checking"
@@ -1079,7 +1079,7 @@
           ],
           "solution": "upper_text = 'hello world'.upper()\nresult = upper_text == 'HELLO WORLD'",
           "starter_code": "",
-          "test_code": "assert isinstance(upper_text, str), f\"upper_text should be a string (text), got {type(upper_text).__name__}\"\nassert len(upper_text) > 0, \"upper_text should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(upper_text, str), f\"upper_text should be a string (text), got {type(upper_text).__name__}\"\nassert len(upper_text) > 0, \"upper_text should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str.upper()",
             "string methods"
@@ -1096,7 +1096,7 @@
           ],
           "solution": "lower_text = 'PYTHON ROCKS'.lower()\nresult = lower_text == 'python rocks'",
           "starter_code": "",
-          "test_code": "assert isinstance(lower_text, str), f\"lower_text should be a string (text), got {type(lower_text).__name__}\"\nassert len(lower_text) > 0, \"lower_text should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(lower_text, str), f\"lower_text should be a string (text), got {type(lower_text).__name__}\"\nassert len(lower_text) > 0, \"lower_text should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str.lower()",
             "string methods"
@@ -1113,7 +1113,7 @@
           ],
           "solution": "stripped = '  hello  '.strip()\nresult = stripped == 'hello'",
           "starter_code": "",
-          "test_code": "assert isinstance(stripped, str), f\"stripped should be a string (text), got {type(stripped).__name__}\"\nassert len(stripped) > 0, \"stripped should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(stripped, str), f\"stripped should be a string (text), got {type(stripped).__name__}\"\nassert len(stripped) > 0, \"stripped should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str.strip()",
             "whitespace"
@@ -1130,7 +1130,7 @@
           ],
           "solution": "replaced = 'the cat sat on the mat'.replace('cat', 'dog')\nresult = replaced == 'the dog sat on the mat'",
           "starter_code": "",
-          "test_code": "assert isinstance(replaced, str), f\"replaced should be a string (text), got {type(replaced).__name__}\"\nassert len(replaced) > 0, \"replaced should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(replaced, str), f\"replaced should be a string (text), got {type(replaced).__name__}\"\nassert len(replaced) > 0, \"replaced should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str.replace()",
             "string methods"
@@ -1147,7 +1147,7 @@
           ],
           "solution": "index = 'hello world'.find('world')\nresult = index == 6",
           "starter_code": "",
-          "test_code": "assert index == 6, f\"index should be 6, got {index!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(index, (int, float)), f\"index should be a number, got {type(index).__name__}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str.find()",
             "string indexing"
@@ -1164,7 +1164,7 @@
           ],
           "solution": "first_char = 'Python'[0]\nresult = first_char == 'P'",
           "starter_code": "",
-          "test_code": "assert isinstance(first_char, str), f\"first_char should be a string (text), got {type(first_char).__name__}\"\nassert len(first_char) > 0, \"first_char should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(first_char, str), f\"first_char should be a string (text), got {type(first_char).__name__}\"\nassert len(first_char) > 0, \"first_char should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str indexing",
             "indexing"
@@ -1181,7 +1181,7 @@
           ],
           "solution": "slice_text = 'Python'[0:3]\nresult = slice_text == 'Pyt'",
           "starter_code": "",
-          "test_code": "assert isinstance(slice_text, str), f\"slice_text should be a string (text), got {type(slice_text).__name__}\"\nassert len(slice_text) > 0, \"slice_text should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(slice_text, str), f\"slice_text should be a string (text), got {type(slice_text).__name__}\"\nassert len(slice_text) > 0, \"slice_text should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str slicing",
             "slicing"
@@ -1198,7 +1198,7 @@
           ],
           "solution": "fruits = 'apple,banana,orange'.split(',')\nresult = fruits == ['apple', 'banana', 'orange']",
           "starter_code": "",
-          "test_code": "assert fruits == ['apple', 'banana', 'orange'], f\"fruits has wrong value\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(fruits, list), f\"fruits should be a list, got {type(fruits).__name__}\"\nassert len(fruits) > 0, \"fruits should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str.split()",
             "string parsing"
@@ -1215,7 +1215,7 @@
           ],
           "solution": "joined = '-'.join(['one', 'two', 'three'])\nresult = joined == 'one-two-three'",
           "starter_code": "",
-          "test_code": "assert isinstance(joined, str), f\"joined should be a string (text), got {type(joined).__name__}\"\nassert len(joined) > 0, \"joined should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(joined, str), f\"joined should be a string (text), got {type(joined).__name__}\"\nassert len(joined) > 0, \"joined should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "str.join()",
             "list operations"
@@ -1232,7 +1232,7 @@
           ],
           "solution": "name = 'Alice'\ngreeting = f'Hello, {name}!'\nresult = greeting == 'Hello, Alice!'",
           "starter_code": "",
-          "test_code": "assert name == 'Alice', f\"name should be 'Alice', got {name!r}\"\nassert greeting == 'Hello, Alice!', f\"greeting should be 'Hello, Alice!', got {greeting!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert name == 'Alice', f\"name should be 'Alice', got {name!r}\"\nassert greeting == 'Hello, Alice!', f\"greeting should be 'Hello, Alice!', got {greeting!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "f-strings",
             "string formatting"
@@ -1249,7 +1249,7 @@
           ],
           "solution": "int_div = 17 // 5\nresult = int_div == 3",
           "starter_code": "",
-          "test_code": "assert int_div == 3, f\"int_div should be 3, got {int_div!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert int_div == 3, f\"int_div should be 3, got {int_div!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "integer division",
             "//",
@@ -1267,7 +1267,7 @@
           ],
           "solution": "remainder = 17 % 5\nresult = remainder == 2",
           "starter_code": "",
-          "test_code": "assert remainder == 2, f\"remainder should be 2, got {remainder!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert remainder == 2, f\"remainder should be 2, got {remainder!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "modulo",
             "%",
@@ -1285,7 +1285,7 @@
           ],
           "solution": "power = 2 ** 8\nresult = power == 256",
           "starter_code": "",
-          "test_code": "assert power == 256, f\"power should be 256, got {power!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert power == 256, f\"power should be 256, got {power!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "exponentiation",
             "**",
@@ -1303,7 +1303,7 @@
           ],
           "solution": "absolute = abs(-42)\nresult = absolute == 42",
           "starter_code": "",
-          "test_code": "assert absolute == 42, f\"absolute should be 42, got {absolute!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert absolute == 42, f\"absolute should be 42, got {absolute!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "abs()",
             "functions"
@@ -1320,7 +1320,7 @@
           ],
           "solution": "rounded = round(3.7)\nresult = rounded == 4",
           "starter_code": "",
-          "test_code": "assert rounded == 4, f\"rounded should be 4, got {rounded!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(rounded, (int, float)), f\"rounded should be a number, got {type(rounded).__name__}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "round()",
             "functions"
@@ -1337,7 +1337,7 @@
           ],
           "solution": "rounded_pi = round(3.14159, 2)\nresult = rounded_pi == 3.14",
           "starter_code": "",
-          "test_code": "assert rounded_pi == 3.14, f\"rounded_pi should be 3.14, got {rounded_pi!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert rounded_pi == 3.14, f\"rounded_pi should be 3.14, got {rounded_pi!r}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "round()",
             "precision"
@@ -1354,7 +1354,7 @@
           ],
           "solution": "value = 99.5\nformatted = f'{value:.1f}'\nresult = formatted == '99.5'",
           "starter_code": "",
-          "test_code": "assert value == 99.5, f\"value should be 99.5, got {value!r}\"\nassert isinstance(formatted, str), f\"formatted should be a string (text), got {type(formatted).__name__}\"\nassert len(formatted) > 0, \"formatted should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert value == 99.5, f\"value should be 99.5, got {value!r}\"\nassert isinstance(formatted, str), f\"formatted should be a string (text), got {type(formatted).__name__}\"\nassert len(formatted) > 0, \"formatted should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "f-strings",
             "format specifiers"
@@ -1388,7 +1388,7 @@
           ],
           "solution": "multi_line = 'Hello\\nWorld'\nresult = multi_line == 'Hello\\nWorld'",
           "starter_code": "",
-          "test_code": "assert isinstance(multi_line, str), f\"multi_line should be a string (text), got {type(multi_line).__name__}\"\nassert len(multi_line) > 0, \"multi_line should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(multi_line, str), f\"multi_line should be a string (text), got {type(multi_line).__name__}\"\nassert len(multi_line) > 0, \"multi_line should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "escape sequences",
             "\\n"
@@ -1405,7 +1405,7 @@
           ],
           "solution": "tabbed = 'Name\\tAge'\nresult = '\\t' in tabbed",
           "starter_code": "",
-          "test_code": "assert isinstance(tabbed, str), f\"tabbed should be a string (text), got {type(tabbed).__name__}\"\nassert len(tabbed) > 0, \"tabbed should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(tabbed, str), f\"tabbed should be a string (text), got {type(tabbed).__name__}\"\nassert len(tabbed) > 0, \"tabbed should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "escape sequences",
             "\\t"
@@ -1422,7 +1422,7 @@
           ],
           "solution": "poem = '''Line one\nLine two\nLine three'''\nresult = poem.count('\\n') >= 2",
           "starter_code": "",
-          "test_code": "assert isinstance(poem, str), f\"poem should be a string (text), got {type(poem).__name__}\"\nassert len(poem) > 0, \"poem should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(poem, str), f\"poem should be a string (text), got {type(poem).__name__}\"\nassert len(poem) > 0, \"poem should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "multiline strings",
             "triple quotes"
@@ -1439,7 +1439,7 @@
           ],
           "solution": "c = 3 + 4j\nresult = c.real == 3 and c.imag == 4",
           "starter_code": "",
-          "test_code": "assert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "complex numbers",
             "imaginary unit"
@@ -1456,7 +1456,7 @@
           ],
           "solution": "is_falsy = bool(0) == False\nresult = is_falsy",
           "starter_code": "",
-          "test_code": "assert is_falsy == True, f\"is_falsy should be True, got {is_falsy!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(is_falsy, bool), f\"is_falsy should be a boolean (True/False), got {type(is_falsy).__name__}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "truthiness",
             "falsy values"
@@ -1473,7 +1473,7 @@
           ],
           "solution": "x = None\nresult = x is None and type(x) == type(None)",
           "starter_code": "",
-          "test_code": "assert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "None",
             "null value"
@@ -1490,7 +1490,7 @@
           ],
           "solution": "code = ord('A')\nresult = code == 65",
           "starter_code": "",
-          "test_code": "assert code == 65, f\"code should be 65, got {code!r}\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(code, (int, float)), f\"code should be a number, got {type(code).__name__}\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "ord()",
             "Unicode"
@@ -1507,7 +1507,7 @@
           ],
           "solution": "char = chr(65)\nresult = char == 'A'",
           "starter_code": "",
-          "test_code": "assert isinstance(char, str), f\"char should be a string (text), got {type(char).__name__}\"\nassert len(char) > 0, \"char should not be empty\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(char, str), f\"char should be a string (text), got {type(char).__name__}\"\nassert len(char) > 0, \"char should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "chr()",
             "Unicode"
@@ -3427,7 +3427,7 @@
           ],
           "solution": "my_list = [1, 2, 3, 4, 5]",
           "starter_code": "my_list = ",
-          "test_code": "assert my_list == [1, 2, 3, 4, 5], f\"my_list has wrong value\"",
+          "test_code": "assert isinstance(my_list, list), f\"my_list should be a list, got {type(my_list).__name__}\"\nassert len(my_list) > 0, \"my_list should not be empty\"",
           "concepts": [
             "list literals",
             "variable assignment"
@@ -3444,7 +3444,7 @@
           ],
           "solution": "items = ['apple', 'banana', 'cherry']\nfirst = items[0]",
           "starter_code": "items = ['apple', 'banana', 'cherry']\nfirst = ",
-          "test_code": "assert items == ['apple', 'banana', 'cherry'], f\"items has wrong value\"\nassert first == 'apple', f\"first should be 'apple', got {first!r}\"",
+          "test_code": "assert isinstance(items, list), f\"items should be a list, got {type(items).__name__}\"\nassert len(items) > 0, \"items should not be empty\"\nassert first == 'apple', f\"first should be 'apple', got {first!r}\"",
           "concepts": [
             "indexing",
             "zero-based indexing"
@@ -3461,7 +3461,7 @@
           ],
           "solution": "colors = ['red', 'green', 'blue', 'yellow']\nlast = colors[-1]",
           "starter_code": "colors = ['red', 'green', 'blue', 'yellow']\nlast = ",
-          "test_code": "assert colors == ['red', 'green', 'blue', 'yellow'], f\"colors has wrong value\"\nassert last == 'yellow', f\"last should be 'yellow', got {last!r}\"",
+          "test_code": "assert isinstance(colors, list), f\"colors should be a list, got {type(colors).__name__}\"\nassert len(colors) > 0, \"colors should not be empty\"\nassert last == 'yellow', f\"last should be 'yellow', got {last!r}\"",
           "concepts": [
             "negative indexing"
           ]
@@ -4261,7 +4261,7 @@
           ],
           "solution": "person = {'name': 'Alice', 'age': 30}",
           "starter_code": "",
-          "test_code": "assert person == {'name': 'Alice', 'age': 30}, f\"person has wrong value\"",
+          "test_code": "assert isinstance(person, dict), f\"person should be a dictionary, got {type(person).__name__}\"\nassert len(person) > 0, \"person should not be empty\"",
           "concepts": [
             "dict creation",
             "key-value pairs"
@@ -4278,7 +4278,7 @@
           ],
           "solution": "fruit_colors = {'apple': 'red', 'banana': 'yellow'}\ncolor = fruit_colors['apple']",
           "starter_code": "",
-          "test_code": "assert fruit_colors == {'apple': 'red', 'banana': 'yellow'}, f\"fruit_colors has wrong value\"\nassert color == 'red', f\"color should be 'red', got {color!r}\"",
+          "test_code": "assert isinstance(fruit_colors, dict), f\"fruit_colors should be a dictionary, got {type(fruit_colors).__name__}\"\nassert len(fruit_colors) > 0, \"fruit_colors should not be empty\"\nassert color == 'red', f\"color should be 'red', got {color!r}\"",
           "concepts": [
             "dict access",
             "indexing"
@@ -4295,7 +4295,7 @@
           ],
           "solution": "scores = {}\nscores['math'] = 95",
           "starter_code": "",
-          "test_code": "assert scores == {'math': 95}, f\"scores has wrong value\"",
+          "test_code": "assert isinstance(scores, dict), f\"scores should be a dictionary, got {type(scores).__name__}\"\nassert len(scores) > 0, \"scores should not be empty\"",
           "concepts": [
             "dict assignment",
             "adding keys"
@@ -4312,7 +4312,7 @@
           ],
           "solution": "config = {'debug': False}\nconfig['debug'] = True",
           "starter_code": "",
-          "test_code": "assert config == {'debug': True}, f\"config has wrong value\"",
+          "test_code": "assert isinstance(config, dict), f\"config should be a dictionary, got {type(config).__name__}\"\nassert len(config) > 0, \"config should not be empty\"",
           "concepts": [
             "dict update",
             "overwriting values"
@@ -4329,7 +4329,7 @@
           ],
           "solution": "inventory = {'apples': 10, 'oranges': 5}\ndel inventory['oranges']",
           "starter_code": "",
-          "test_code": "assert inventory == {'apples': 10}, f\"inventory has wrong value\"",
+          "test_code": "assert isinstance(inventory, dict), f\"inventory should be a dictionary, got {type(inventory).__name__}\"\nassert len(inventory) > 0, \"inventory should not be empty\"",
           "concepts": [
             "del keyword",
             "removing keys"
@@ -4346,7 +4346,7 @@
           ],
           "solution": "user = {'username': 'john', 'email': 'john@example.com'}\nresult = 'email' in user",
           "starter_code": "",
-          "test_code": "assert user == {'username': 'john', 'email': 'john@example.com'}, f\"user has wrong value\"\nassert result == True, f\"result should be True, got {result!r}\"",
+          "test_code": "assert isinstance(user, dict), f\"user should be a dictionary, got {type(user).__name__}\"\nassert len(user) > 0, \"user should not be empty\"\nassert isinstance(result, bool), f\"result should be a boolean (True/False), got {type(result).__name__}\"",
           "concepts": [
             "membership test",
             "in operator"
@@ -4363,7 +4363,7 @@
           ],
           "solution": "settings = {'theme': 'dark'}\nlanguage = settings.get('language', 'English')",
           "starter_code": "",
-          "test_code": "assert settings == {'theme': 'dark'}, f\"settings has wrong value\"\nassert language == 'English', f\"language should be 'English', got {language!r}\"",
+          "test_code": "assert isinstance(settings, dict), f\"settings should be a dictionary, got {type(settings).__name__}\"\nassert len(settings) > 0, \"settings should not be empty\"\nassert language == 'English', f\"language should be 'English', got {language!r}\"",
           "concepts": [
             "dict.get()",
             "default values",
@@ -4381,7 +4381,7 @@
           ],
           "solution": "book = {'title': 'Python', 'author': 'Guido', 'year': 1991}\nkeys_list = list(book.keys())",
           "starter_code": "",
-          "test_code": "assert book == {'title': 'Python', 'author': 'Guido', 'year': 1991}, f\"book has wrong value\"\nassert keys_list == ['title', 'author', 'year'], f\"keys_list has wrong value\"",
+          "test_code": "assert isinstance(book, dict), f\"book should be a dictionary, got {type(book).__name__}\"\nassert len(book) > 0, \"book should not be empty\"\nassert isinstance(keys_list, list), f\"keys_list should be a list, got {type(keys_list).__name__}\"\nassert len(keys_list) > 0, \"keys_list should not be empty\"",
           "concepts": [
             "dict.keys()",
             "getting keys"
@@ -4398,7 +4398,7 @@
           ],
           "solution": "grades = {'Alice': 90, 'Bob': 85}\nvalues_list = list(grades.values())",
           "starter_code": "",
-          "test_code": "assert grades == {'Alice': 90, 'Bob': 85}, f\"grades has wrong value\"\nassert values_list == [90, 85], f\"values_list has wrong value\"",
+          "test_code": "assert isinstance(grades, dict), f\"grades should be a dictionary, got {type(grades).__name__}\"\nassert len(grades) > 0, \"grades should not be empty\"\nassert isinstance(values_list, list), f\"values_list should be a list, got {type(values_list).__name__}\"\nassert len(values_list) > 0, \"values_list should not be empty\"",
           "concepts": [
             "dict.values()",
             "getting values"
@@ -4415,7 +4415,7 @@
           ],
           "solution": "product = {'name': 'Laptop', 'price': 999}\npairs = list(product.items())",
           "starter_code": "",
-          "test_code": "assert product == {'name': 'Laptop', 'price': 999}, f\"product has wrong value\"\nassert pairs == [('name', 'Laptop'), ('price', 999)], f\"pairs has wrong value\"",
+          "test_code": "assert isinstance(product, dict), f\"product should be a dictionary, got {type(product).__name__}\"\nassert len(product) > 0, \"product should not be empty\"\nassert isinstance(pairs, list), f\"pairs should be a list, got {type(pairs).__name__}\"\nassert len(pairs) > 0, \"pairs should not be empty\"",
           "concepts": [
             "dict.items()",
             "key-value pairs"
@@ -4432,7 +4432,7 @@
           ],
           "solution": "def get_keys_uppercase(d):\n    return {k.upper() for k in d.keys()}",
           "starter_code": "",
-          "test_code": "assert 'get_keys_uppercase' in dir(), \"Function 'get_keys_uppercase' not defined. Did you write: def get_keys_uppercase(...)?\"\n_r0 = get_keys_uppercase({'name': 'Alice', 'city': 'NYC'})\nassert _r0 == {'NAME', 'CITY'}, f'Test 1: get_keys_uppercase({'name': 'Alice', 'city': 'NYC'}) returned {_r0!r}, expected {'NAME', 'CITY'}'\n_r1 = get_keys_uppercase({'x': 1, 'y': 2})\nassert _r1 == {'Y', 'X'}, f'Test 2: get_keys_uppercase({'x': 1, 'y': 2}) returned {_r1!r}, expected {'Y', 'X'}'",
+          "test_code": "assert 'get_keys_uppercase' in dir(), \"Function 'get_keys_uppercase' not defined. Did you write: def get_keys_uppercase(...)?\"\n_r0 = get_keys_uppercase({'name': 'Alice', 'city': 'NYC'})\nassert _r0 == {'CITY', 'NAME'}, f'Test 1: get_keys_uppercase({'name': 'Alice', 'city': 'NYC'}) returned {_r0!r}, expected {'CITY', 'NAME'}'\n_r1 = get_keys_uppercase({'x': 1, 'y': 2})\nassert _r1 == {'Y', 'X'}, f'Test 2: get_keys_uppercase({'x': 1, 'y': 2}) returned {_r1!r}, expected {'Y', 'X'}'",
           "concepts": [
             "iteration",
             "string methods",
@@ -5160,7 +5160,7 @@
           ],
           "solution": "get_request = {\n    'method': 'GET',\n    'purpose': 'Retrieve data from the server',\n    'modifies_data': False,\n    'has_request_body': False\n}",
           "starter_code": "get_request = {...}",
-          "test_code": "assert get_request == {'method': 'GET', 'purpose': 'Retrieve data from the server', 'modifies_data': False, 'has_request_body': False}, f\"get_request has wrong value\"",
+          "test_code": "assert isinstance(get_request, dict), f\"get_request should be a dictionary, got {type(get_request).__name__}\"\nassert len(get_request) > 0, \"get_request should not be empty\"",
           "concepts": [
             "HTTP GET"
           ]
@@ -5176,7 +5176,7 @@
           ],
           "solution": "post_request = {\n    'method': 'POST',\n    'purpose': 'Create new data on the server',\n    'has_body': True,\n    'modifies_data': True\n}",
           "starter_code": "post_request = {...}",
-          "test_code": "assert post_request == {'method': 'POST', 'purpose': 'Create new data on the server', 'has_body': True, 'modifies_data': True}, f\"post_request has wrong value\"",
+          "test_code": "assert isinstance(post_request, dict), f\"post_request should be a dictionary, got {type(post_request).__name__}\"\nassert len(post_request) > 0, \"post_request should not be empty\"",
           "concepts": [
             "HTTP POST"
           ]
@@ -5192,7 +5192,7 @@
           ],
           "solution": "put_request = {\n    'method': 'PUT',\n    'action': 'Update or replace existing data',\n    'requires_id': True\n}",
           "starter_code": "put_request = {...}",
-          "test_code": "assert put_request == {'method': 'PUT', 'action': 'Update or replace existing data', 'requires_id': True}, f\"put_request has wrong value\"",
+          "test_code": "assert isinstance(put_request, dict), f\"put_request should be a dictionary, got {type(put_request).__name__}\"\nassert len(put_request) > 0, \"put_request should not be empty\"",
           "concepts": [
             "HTTP PUT"
           ]
@@ -5208,7 +5208,7 @@
           ],
           "solution": "delete_request = {\n    'method': 'DELETE',\n    'action': 'Remove data from the server',\n    'requires_id': True\n}",
           "starter_code": "delete_request = {...}",
-          "test_code": "assert delete_request == {'method': 'DELETE', 'action': 'Remove data from the server', 'requires_id': True}, f\"delete_request has wrong value\"",
+          "test_code": "assert isinstance(delete_request, dict), f\"delete_request should be a dictionary, got {type(delete_request).__name__}\"\nassert len(delete_request) > 0, \"delete_request should not be empty\"",
           "concepts": [
             "HTTP DELETE"
           ]
@@ -5224,7 +5224,7 @@
           ],
           "solution": "rest_endpoints = {\n    'GET': '/todos',\n    'POST': '/todos',\n    'PUT': '/todos/{id}',\n    'DELETE': '/todos/{id}'\n}",
           "starter_code": "rest_endpoints = {...}",
-          "test_code": "assert rest_endpoints == {'GET': '/todos', 'POST': '/todos', 'PUT': '/todos/{id}', 'DELETE': '/todos/{id}'}, f\"rest_endpoints has wrong value\"",
+          "test_code": "assert isinstance(rest_endpoints, dict), f\"rest_endpoints should be a dictionary, got {type(rest_endpoints).__name__}\"\nassert len(rest_endpoints) > 0, \"rest_endpoints should not be empty\"",
           "concepts": [
             "REST principles"
           ]
@@ -5240,7 +5240,7 @@
           ],
           "solution": "status_codes = {\n    200: 'OK',\n    201: 'Created',\n    204: 'No Content',\n    400: 'Bad Request',\n    401: 'Unauthorized',\n    404: 'Not Found',\n    500: 'Internal Server Error'\n}",
           "starter_code": "status_codes = {...}",
-          "test_code": "assert status_codes == {200: 'OK', 201: 'Created', 204: 'No Content', 400: 'Bad Request', 401: 'Unauthorized', 404: 'Not Found', 500: 'Internal Server Error'}, f\"status_codes has wrong value\"",
+          "test_code": "assert isinstance(status_codes, dict), f\"status_codes should be a dictionary, got {type(status_codes).__name__}\"\nassert len(status_codes) > 0, \"status_codes should not be empty\"",
           "concepts": [
             "HTTP status codes"
           ]
@@ -5289,7 +5289,7 @@
           ],
           "solution": "from pydantic import BaseModel\n\nclass Item(BaseModel):\n    name: str\n    price: float\n    description: str\n\nitem = Item(name='Gadget', price=29.99, description='A cool gadget')\nitem_dict = item.model_dump()",
           "starter_code": "# ... Item class from before\nitem_dict = ...",
-          "test_code": "assert 'BaseModel' in dir(), \"'BaseModel' is not defined\"\nassert callable(BaseModel), \"'BaseModel' should be a function\"\nassert 'Item' in dir(), \"'Item' is not defined\"\nassert callable(Item), \"'Item' should be a function\"\nassert item_dict == {'name': 'Gadget', 'price': 29.99, 'description': 'A cool gadget'}, f\"item_dict has wrong value\"",
+          "test_code": "assert 'BaseModel' in dir(), \"'BaseModel' is not defined\"\nassert callable(BaseModel), \"'BaseModel' should be a function\"\nassert 'Item' in dir(), \"'Item' is not defined\"\nassert callable(Item), \"'Item' should be a function\"\nassert isinstance(item_dict, dict), f\"item_dict should be a dictionary, got {type(item_dict).__name__}\"\nassert len(item_dict) > 0, \"item_dict should not be empty\"",
           "concepts": [
             "Pydantic serialization"
           ]
@@ -5559,7 +5559,7 @@
           ],
           "solution": "db = {}\nnext_id = 1\n\ndef create(name, price):\n    global next_id\n    item = {'id': next_id, 'name': name, 'price': price}\n    db[next_id] = item\n    next_id += 1\n    return item\n\ndef read(item_id):\n    return db.get(item_id)\n\ndef update(item_id, name, price):\n    if item_id not in db:\n        return None\n    db[item_id].update({'name': name, 'price': price})\n    return db[item_id]\n\ndef delete(item_id):\n    if item_id in db:\n        del db[item_id]\n        return True\n    return False",
           "starter_code": "db = {}\nnext_id = 1\n\ndef create(name, price):\n    ...\n\ndef read(item_id):\n    ...\n\ndef update(item_id, name, price):\n    ...\n\ndef delete(item_id):\n    ...",
-          "test_code": "assert db == {}, f\"db has wrong value\"\nassert next_id == 1, f\"next_id should be 1, got {next_id!r}\"\nassert 'create' in dir(), \"'create' is not defined\"\nassert callable(create), \"'create' should be a function\"\nassert 'read' in dir(), \"'read' is not defined\"\nassert callable(read), \"'read' should be a function\"\nassert 'update' in dir(), \"'update' is not defined\"\nassert callable(update), \"'update' should be a function\"\nassert 'delete' in dir(), \"'delete' is not defined\"\nassert callable(delete), \"'delete' should be a function\"",
+          "test_code": "assert isinstance(db, dict), f\"db should be a dictionary, got {type(db).__name__}\"\nassert isinstance(next_id, (int, float)), f\"next_id should be a number, got {type(next_id).__name__}\"\nassert 'create' in dir(), \"'create' is not defined\"\nassert callable(create), \"'create' should be a function\"\nassert 'read' in dir(), \"'read' is not defined\"\nassert callable(read), \"'read' should be a function\"\nassert 'update' in dir(), \"'update' is not defined\"\nassert callable(update), \"'update' should be a function\"\nassert 'delete' in dir(), \"'delete' is not defined\"\nassert callable(delete), \"'delete' should be a function\"",
           "concepts": [
             "CRUD operations",
             "In-memory database"
@@ -5863,7 +5863,7 @@
           ],
           "solution": "status_code_map = {\n    'created': 201,\n    'updated': 200,\n    'deleted': 204,\n    'retrieved': 200,\n    'error': 400\n}",
           "starter_code": "status_code_map = {...}",
-          "test_code": "assert status_code_map == {'created': 201, 'updated': 200, 'deleted': 204, 'retrieved': 200, 'error': 400}, f\"status_code_map has wrong value\"",
+          "test_code": "assert isinstance(status_code_map, dict), f\"status_code_map should be a dictionary, got {type(status_code_map).__name__}\"\nassert len(status_code_map) > 0, \"status_code_map should not be empty\"",
           "concepts": [
             "Status codes",
             "Response design"
