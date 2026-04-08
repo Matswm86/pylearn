@@ -414,7 +414,30 @@ function renderDashboard(app) {
       <p>Pick a topic to start learning. We recommend going in order!</p>
     </div>
     <div class="topic-grid">${cards}</div>
+
+    <div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)">
+      <button class="action-btn" onclick="resetAllProgress()" style="color:var(--error)">🔄 Reset All Progress</button>
+      <p style="font-size:0.75rem;color:var(--text-light);margin-top:6px">Start fresh — clears all completion data</p>
+    </div>
   `;
+}
+
+function resetAllProgress() {
+  if (!confirm("Reset all progress? This will clear all completed exercises and streaks. This cannot be undone.")) return;
+  localStorage.removeItem("pylearn_progress");
+  progress.load();
+  render();
+}
+
+function resetTopicProgress(topicId) {
+  const topic = exerciseData.topics.find(t => t.id === topicId);
+  if (!topic) return;
+  if (!confirm(\`Reset progress for \${topic.title}? This will mark all exercises as incomplete.\`)) return;
+  for (const ex of topic.exercises) {
+    delete progress._data.completed[ex.id];
+  }
+  progress.save();
+  render();
 }
 
 function renderTopic(app, topicId, activeTab) {
@@ -526,7 +549,10 @@ function renderTopic(app, topicId, activeTab) {
         </div>
       `;
     });
-    content = `<div class="exercise-list">${items}</div>`;
+    content = `<div class="exercise-list">${items}</div>
+      <div style="text-align:center;margin-top:20px">
+        <button class="action-btn" onclick="resetTopicProgress('${topicId}')" style="font-size:0.8rem;color:var(--error)">🔄 Reset ${topic.title} Progress</button>
+      </div>`;
   }
 
   app.innerHTML = `
@@ -677,7 +703,7 @@ async function runExercise() {
   const result = await runPython(code, exercise.test_code);
 
   if (result.passed) {
-    const wasAlreadyDone = progress.isCompleted(exercise.id);
+    const isFirstTime = !progress.isCompleted(exercise.id);
     progress.markCompleted(exercise.id);
 
     output.className = "output-body pass";
@@ -693,10 +719,8 @@ async function runExercise() {
       metaEl.innerHTML += ' <span class="diff-badge diff-1">✓ Completed</span>';
     }
 
-    // Show celebration toast
-    if (!wasAlreadyDone) {
-      showCelebration(exercise);
-    }
+    // Always show celebration — full for first time, lighter for re-do
+    showCelebration(exercise, isFirstTime);
   } else {
     output.className = "output-body fail";
     let text = "❌ Not quite right.";
@@ -713,7 +737,7 @@ async function runExercise() {
   btn.textContent = "▶ Run & Check";
 }
 
-function showCelebration(exercise) {
+function showCelebration(exercise, isFirstTime = true) {
   // Find next exercise
   let nextEx = null;
   for (const t of exerciseData.topics) {
@@ -724,27 +748,40 @@ function showCelebration(exercise) {
     }
   }
 
-  // Celebration messages based on streak
-  const total = progress.totalCompleted();
-  const messages = [
-    "Nice work! You got it! 🎉",
-    "Awesome! Keep going! 💪",
-    "Nailed it! You're learning fast! 🚀",
-    "Perfect! Python is clicking! ⚡",
-    "Brilliant! You're on fire! 🔥",
-  ];
-  const msg = messages[Math.min(Math.floor(total / 10), messages.length - 1)];
+  // Remove any existing toast
+  document.querySelectorAll(".celebration-toast").forEach(el => el.remove());
 
-  // Milestone messages
+  const total = progress.totalCompleted();
+
+  // Pick message
+  let msg, emoji;
+  if (!isFirstTime) {
+    msg = "Still got it! ✅";
+    emoji = "👍";
+  } else {
+    const messages = [
+      "Nice work! You got it! 🎉",
+      "Awesome! Keep going! 💪",
+      "Nailed it! You're learning fast! 🚀",
+      "Perfect! Python is clicking! ⚡",
+      "Brilliant! You're on fire! 🔥",
+    ];
+    msg = messages[Math.min(Math.floor(total / 10), messages.length - 1)];
+    emoji = "🎉";
+  }
+
+  // Milestone messages (first time only)
   let milestone = "";
-  if (total === 1) milestone = "🏆 First exercise completed!";
-  else if (total === 10) milestone = "🏆 10 exercises done! You're getting the hang of it!";
-  else if (total === 25) milestone = "🏆 25 down! Quarter of the way there!";
-  else if (total === 50) milestone = "🏆 50 exercises! You're unstoppable!";
-  else if (total === 100) milestone = "🏆 100! A true Python learner!";
-  else if (total === 200) milestone = "🏆 200! Halfway through everything!";
-  else if (total === 400) milestone = "🏆🏆🏆 ALL 400 COMPLETE! You're a Python hero!";
-  else if (total % 50 === 0) milestone = `🏆 ${total} exercises completed!`;
+  if (isFirstTime) {
+    if (total === 1) milestone = "🏆 First exercise completed!";
+    else if (total === 10) milestone = "🏆 10 exercises done! You're getting the hang of it!";
+    else if (total === 25) milestone = "🏆 25 down! Quarter of the way there!";
+    else if (total === 50) milestone = "🏆 50 exercises! You're unstoppable!";
+    else if (total === 100) milestone = "🏆 100! A true Python learner!";
+    else if (total === 200) milestone = "🏆 200! Halfway through everything!";
+    else if (total === 400) milestone = "🏆🏆🏆 ALL 400 COMPLETE! You're a Python hero!";
+    else if (total % 50 === 0) milestone = `🏆 ${total} exercises completed!`;
+  }
 
   const nextBtn = nextEx
     ? `<button class="start-btn" onclick="this.closest('.celebration-toast').remove(); navigate('/exercise/${nextEx.id}')">Next Exercise →</button>`
@@ -754,7 +791,7 @@ function showCelebration(exercise) {
   toast.className = "celebration-toast";
   toast.innerHTML = `
     <div class="celebration-content">
-      <div class="celebration-emoji">✅</div>
+      <div class="celebration-emoji">${emoji}</div>
       <div class="celebration-msg">${msg}</div>
       ${milestone ? `<div class="celebration-milestone">${milestone}</div>` : ""}
       <div class="celebration-stats">
@@ -768,8 +805,8 @@ function showCelebration(exercise) {
   `;
   document.body.appendChild(toast);
 
-  // Auto-dismiss after 15s
-  setTimeout(() => { if (toast.parentNode) toast.remove(); }, 15000);
+  // Auto-dismiss after 10s
+  setTimeout(() => { if (toast.parentNode) toast.remove(); }, 10000);
 }
 
 function showHint() {
