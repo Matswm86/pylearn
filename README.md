@@ -1,6 +1,11 @@
 # PyLearn — Learn Python Interactively
 
+<p align="center">
+  <img src="docs/pytor.webp" alt="Pytor — the friendly Python snake mascot" width="200">
+</p>
+
 **400 hands-on exercises. Zero setup. Runs in your browser.**
+**Meet Pytor, your built-in AI Python tutor.**
 
 [**Start Learning → pytor.mwmai.no**](https://pytor.mwmai.no/)
 
@@ -10,7 +15,7 @@
 
 ## What is this?
 
-PyLearn is a free, interactive app that teaches Python programming from absolute zero. No installation, no accounts — open the link and start coding.
+PyLearn is a free, interactive app that teaches Python programming from absolute zero. No installation, no accounts — open the link and start coding. Along the way, **Pytor** — a friendly Python snake AI tutor — lives in the corner of the screen, ready to answer questions, give Socratic hints, and generate custom lessons on demand.
 
 - Works on **phones, tablets, and desktops**
 - Python runs **directly in your browser** (via [Pyodide](https://pyodide.org/))
@@ -31,6 +36,22 @@ PyLearn is a free, interactive app that teaches Python programming from absolute
 | 8 | **API Calling** | 50 | JSON, HTTP headers, auth, pagination, rate limiting, webhooks |
 
 Each topic has a **lesson** with plain-English explanations, analogies, runnable examples, and common mistakes — plus **50 progressive exercises** from Beginner to Challenge.
+
+## Meet Pytor — your AI Python tutor
+
+<img src="docs/pytor.webp" alt="Pytor" width="110" align="right">
+
+Pytor is the friendly Python snake who lives in the bottom-right corner of PyLearn. Click him (or the **🐍 Pytor** button in the top bar) to open a chat sidebar where you can:
+
+- **Ask questions** about any Python concept — Pytor uses Socratic questioning to guide you to the answer instead of just handing it over
+- **Get a hint** on any exercise you're stuck on — Pytor reads your current code and points at what to try next
+- **Generate a custom lesson** on any topic — type "decorators" or "asyncio" and Pytor builds an interactive HTML lesson on the fly
+
+**Under the hood:**
+- Primary: [Groq](https://groq.com/) with `llama-3.3-70b-versatile` (~1-2s responses)
+- Fallback: local [Ollama](https://ollama.com/) with `llama3.1:8b`
+- Backend: tiny stdlib-only Python HTTP bridge at `pytor.mwmai.no/api/tutor`
+- Frontend: vanilla JS, no framework — graceful no-op if the backend is unreachable
 
 ## ELI5 Mode
 

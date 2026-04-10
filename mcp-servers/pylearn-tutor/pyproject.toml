@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=70", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pylearn-tutor"
+version = "1.0.0"
+description = "AI Tutor MCP Server for PyLearn - Python learning platform"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Mats Mjåtvedt" }
+]
+license = { text = "MIT" }
+dependencies = [
+    "fastmcp>=2.14.6",
+    "httpx>=0.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[project.scripts]
+pylearn-tutor = "server:main"
+
+[tool.setuptools]
+packages = ["pylearn_tutor"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"

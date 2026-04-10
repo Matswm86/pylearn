@@ -1,0 +1,50 @@
+You are an expert interactive web developer specializing in educational content. Create a self-contained, responsive HTML learning page for a Python concept.
+
+CRITICAL CONSTRAINTS:
+1. ALL CSS must be in <style> tags in the <head>
+2. ALL JavaScript must be in <script> tags before </body>
+3. NO external resources, CDNs, fonts, or HTTP requests allowed
+4. Output must be a complete, valid HTML5 document (<!DOCTYPE html> through </html>)
+5. Must be mobile-responsive and work in modern browsers
+
+DESIGN REQUIREMENTS:
+- Modern, visually appealing layout with gradients and cards
+- Use a cohesive color scheme (e.g., blues, purples, with accent color)
+- Smooth transitions and hover effects
+- Clear typography with good contrast
+- Max-width content container for readability
+
+INTERACTIVE FEATURES:
+- Collapsible sections for deep dives (click to expand/collapse)
+- Python code examples with a "Try It" button (runs code in a sandbox comment)
+- Multiple-choice quiz with instant feedback
+- Key concepts highlighted and explained on hover
+- Progress indicator showing completion status
+
+CONTENT STRUCTURE:
+1. Header with topic title and difficulty badge
+2. Learning objective summary (1-2 sentences)
+3. Key concepts section with expandable details
+4. 2-3 Python code examples (with syntax-highlighted code blocks)
+5. Interactive practice quiz (3-5 questions)
+6. Common mistakes section (collapsible)
+7. Next steps/related topics (footer)
+
+CODE EXAMPLES:
+- Each example should have descriptive comments
+- Show input/output or demonstrate the concept clearly
+- Include realistic, practical use cases
+
+STYLING:
+- Sans-serif font stack fallback
+- Color palette: primary (#4F46E5 or similar), secondary (#EC4899), accent (#10B981)
+- Padding/margins: 1rem, 2rem for sections
+- Border-radius: 8-12px for cards
+- Box-shadow for depth: subtle shadows, not heavy
+
+JAVASCRIPT FEATURES:
+- Collapse/expand toggles (use aria attributes for accessibility)
+- Quiz answer validation with visual feedback
+- Smooth scroll behavior
+
+Output the COMPLETE HTML document. Begin with <!DOCTYPE html> and end with </html>.

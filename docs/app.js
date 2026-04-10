@@ -300,6 +300,9 @@ function render() {
     default: renderWelcome(app);
   }
 
+  // Keep tutor sidebar aware of current view
+  if (window.tutorUI) window.tutorUI.updateContext(route);
+
   app.classList.add("fade-in");
   setTimeout(() => app.classList.remove("fade-in"), 300);
   window.scrollTo(0, 0);
@@ -414,6 +417,12 @@ function renderDashboard(app) {
       <p>Pick a topic to start learning. We recommend going in order!</p>
     </div>
     <div class="topic-grid">${cards}</div>
+
+    ${window.tutorUI?.available ? `
+    <div style="text-align:center;margin-top:24px">
+      <button class="start-btn" style="background:var(--accent);padding:12px 28px" onclick="window.tutorUI.openLessonModal()">🐍 Ask Pytor for a Custom Lesson</button>
+      <p style="font-size:0.8rem;color:var(--text-dim);margin-top:6px">Pytor will design an interactive lesson on any Python topic</p>
+    </div>` : ''}
 
     <div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)">
       <button class="action-btn" onclick="resetAllProgress()" style="color:var(--error)">🔄 Reset All Progress</button>
@@ -650,6 +659,8 @@ function renderExercise(app, exerciseId) {
       <button class="action-btn" onclick="showHint()">💡 Hint <span id="hint-counter">(${exercise.hints.length} available)</span></button>
       <button class="action-btn" onclick="showSolution()">👀 Show Solution</button>
       <button class="action-btn" onclick="resetCode()">🔄 Reset</button>
+      ${window.tutorUI?.available ? '<button class="action-btn tutor-ask" onclick="window.tutorUI.askAboutExercise()">🐍 Ask Pytor</button>' : ''}
+      ${window.tutorUI?.available ? '<button class="action-btn tutor-ask" onclick="window.tutorUI.getAIHint()">🧠 Pytor Hint</button>' : ''}
     </div>
 
     <div id="hint-area"></div>

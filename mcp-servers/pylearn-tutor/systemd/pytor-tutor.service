@@ -1,0 +1,33 @@
+[Unit]
+Description=Pytor — PyLearn AI tutor HTTP bridge (Groq-primary, Ollama-fallback)
+Documentation=https://pytor.mwmai.no
+After=network-online.target ollama.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/mwmai/pytor.env
+WorkingDirectory=%h/services/tutor
+ExecStart=/usr/bin/python3 %h/services/tutor/api_bridge.py
+Restart=on-failure
+RestartSec=5
+
+# Hardening — ONLY the directives user-scope systemd can apply without
+# CAP_SYS_ADMIN. ProtectKernel* / ProtectControlGroups / RestrictSUIDSGID
+# etc. require capabilities the user manager doesn't have and will fail
+# the unit with status=218/CAPABILITIES. User-scope is already isolated
+# by uid, so the remaining directives here are the practical ceiling.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+
+# Environment overrides (env file supplies GROQ_API_KEY + GROQ_MODEL)
+Environment=TUTOR_HOST=127.0.0.1
+Environment=TUTOR_PORT=8100
+Environment=PYLEARN_EXERCISES_PATH=/var/www/pytor/exercises.json
+Environment=PROMPTS_DIR=%h/services/tutor/prompts
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target

@@ -21,11 +21,59 @@
     <button id="eli5-toggle" class="badge eli5-btn active" onclick="toggleEli5()" title="Explain Like I'm 5 mode">🧒 ELI5</button>
     <span id="streak-badge" class="badge" title="Daily streak"></span>
     <span id="progress-badge" class="badge" title="Exercises completed"></span>
+    <button id="tutor-toggle" class="badge tutor-toggle-btn" onclick="window.tutorUI?.toggleSidebar()" title="Ask Pytor" style="display:none">
+      <img src="pytor.webp" alt="" class="tutor-toggle-avatar"> Pytor
+    </button>
   </div>
 </header>
 
 <!-- Main content area -->
 <main id="app"></main>
+
+<!-- Pytor Floating Mascot (always visible when tutor is available) -->
+<button id="pytor-mascot" class="pytor-mascot" onclick="window.tutorUI?.toggleSidebar()" title="Ask Pytor" style="display:none">
+  <img src="pytor.webp" alt="Pytor the Python snake">
+  <span class="pytor-mascot-bubble" id="pytor-mascot-bubble">Hi! I'm Pytor — ask me anything about Python.</span>
+</button>
+
+<!-- Pytor Tutor Sidebar -->
+<aside id="tutor-sidebar">
+  <div class="tutor-header">
+    <img src="pytor.webp" alt="" class="tutor-header-avatar">
+    <div class="tutor-header-title">
+      <h3>Pytor</h3>
+      <span class="tutor-header-sub">Your Python study buddy</span>
+    </div>
+    <button class="tutor-close" onclick="window.tutorUI?.closeSidebar()" title="Close">&times;</button>
+  </div>
+  <div class="tutor-chat-area" id="tutor-chat-area"></div>
+  <div class="tutor-input-area">
+    <textarea id="tutor-input" placeholder="Ask Pytor about Python..." rows="1"></textarea>
+    <button id="tutor-send-btn" class="tutor-send-btn" onclick="window.tutorUI?.sendMessage()">Send</button>
+  </div>
+  <div class="tutor-controls">
+    <label><input type="checkbox" id="tutor-context-toggle" checked> Include context</label>
+    <button class="tutor-clear-btn" onclick="window.tutorUI?.clearHistory()">Clear</button>
+  </div>
+</aside>
+
+<!-- Lesson Generator Modal -->
+<div id="lesson-modal" class="lesson-modal">
+  <div class="lesson-modal-content">
+    <h2><img src="pytor.webp" alt="" class="lesson-modal-avatar"> Pytor generates a custom lesson</h2>
+    <div class="lesson-input-row">
+      <input id="lesson-topic" type="text" placeholder="e.g., list comprehensions, decorators, asyncio...">
+      <button id="lesson-generate-btn" class="start-btn" style="padding:10px 20px;font-size:0.95rem" onclick="window.tutorUI?.generateLesson()">Generate</button>
+    </div>
+    <div id="lesson-status" class="lesson-status" style="display:none"></div>
+    <div id="lesson-iframe-container" style="display:none">
+      <iframe id="lesson-iframe" sandbox="allow-scripts"></iframe>
+    </div>
+    <div style="text-align:right;margin-top:12px">
+      <button class="action-btn" onclick="window.tutorUI?.closeLessonModal()">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- Loading overlay for Pyodide -->
 <div id="pyodide-loading" class="overlay hidden">
@@ -43,5 +91,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js" integrity="sha384-LjCI3E8qhhxXZvu7+FCvqx9eZYSowFvuJ7z54KsgI/BDPGKEuysqCg/vYiKHvC4Y" crossorigin="anonymous"></script>
 <script src="lessons.js"></script>
 <script src="app.js"></script>
+<script src="tutor.js"></script>
 </body>
 </html>
