@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """PyLearn AI Tutor — Groq-primary, Ollama-fallback HTTP bridge.
 
-Stdlib-only HTTP server. Deployed to the Hetzner VPS at
-/home/mats/services/tutor/ and fronted by Caddy as
+Stdlib-only HTTP server. Deployed under `/opt/tutor/` (or equivalent
+per-host path) and fronted by Caddy as
 `https://pytor.mwmai.no/api/tutor/*` (Caddy uses `handle_path` to strip
 the `/api/tutor` prefix, so this backend only sees the short routes
 `/health`, `/chat`, `/hint`, `/design-lesson`, `/generate-page`).
@@ -24,6 +24,8 @@ import os
 import socketserver
 import sys
 import threading
+import time
+from collections import deque
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.error import HTTPError, URLError
@@ -82,6 +84,49 @@ log = logging.getLogger("pytor-tutor")
 _prompts_cache: dict[str, str] = {}
 _exercises_cache: dict[str, dict] | None = None
 _cache_lock = threading.Lock()
+
+# ---------------------------------------------------------------------------
+# Rate limiting (sliding window, per-IP, per-route)
+# ---------------------------------------------------------------------------
+# Stops a bad actor from burning Groq credits by spamming /chat. Routes not
+# listed are unlimited. Localhost bypasses the limit so internal health
+# checks are not throttled.
+
+RATE_LIMITS: dict[str, tuple[int, float]] = {
+    "/chat": (10, 60.0),
+    "/hint": (10, 60.0),
+    "/design-lesson": (5, 60.0),
+    "/generate-page": (5, 60.0),
+    "/health": (60, 60.0),
+}
+
+_rate_buckets: dict[tuple[str, str], deque] = {}
+_rate_lock = threading.Lock()
+
+
+def rate_limit_check(client_ip: str, path: str) -> tuple[bool, int]:
+    """Return (allowed, retry_after_seconds). retry_after is 0 when allowed."""
+    if client_ip in ("127.0.0.1", "::1", ""):
+        return True, 0
+    limit_cfg = RATE_LIMITS.get(path)
+    if limit_cfg is None:
+        return True, 0
+    max_requests, window = limit_cfg
+    now = time.monotonic()
+    cutoff = now - window
+    key = (client_ip, path)
+    with _rate_lock:
+        bucket = _rate_buckets.get(key)
+        if bucket is None:
+            bucket = deque()
+            _rate_buckets[key] = bucket
+        while bucket and bucket[0] < cutoff:
+            bucket.popleft()
+        if len(bucket) >= max_requests:
+            retry_after = max(1, int(bucket[0] + window - now) + 1)
+            return False, retry_after
+        bucket.append(now)
+        return True, 0
 
 
 def load_prompt(name: str) -> str:
@@ -407,6 +452,16 @@ class TutorHandler(BaseHTTPRequestHandler):
     def log_message(self, format: str, *args) -> None:  # noqa: A002
         log.info("%s - %s", self.address_string(), format % args)
 
+    def _client_ip(self) -> str:
+        # Behind Caddy reverse_proxy: the real origin is in X-Forwarded-For.
+        # The first entry of XFF is the original client, the rest are proxy
+        # hops. Fall back to client_address[0] when no XFF is set (direct
+        # localhost testing).
+        xff = self.headers.get("X-Forwarded-For", "")
+        if xff:
+            return xff.split(",", 1)[0].strip()
+        return self.client_address[0]
+
     def _cors_headers(self) -> None:
         origin = self.headers.get("Origin", "")
         if origin in CORS_ALLOWED_ORIGINS:
@@ -441,6 +496,23 @@ class TutorHandler(BaseHTTPRequestHandler):
         handler = ROUTES.get((method, path))
         if handler is None:
             self._write_json(404, {"error": f"no route for {method} {path}"})
+            return
+
+        client_ip = self._client_ip()
+        allowed, retry_after = rate_limit_check(client_ip, path)
+        if not allowed:
+            log.warning(f"rate-limited {client_ip} on {path} (retry {retry_after}s)")
+            body = json.dumps({
+                "error": "rate limit exceeded",
+                "retry_after": retry_after,
+            }).encode("utf-8")
+            self.send_response(429)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Retry-After", str(retry_after))
+            self._cors_headers()
+            self.end_headers()
+            self.wfile.write(body)
             return
 
         body: dict = {}
