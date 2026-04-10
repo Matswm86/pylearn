@@ -1,8 +1,10 @@
-# PyLearn - Learn Python Interactively
+# PyLearn — Learn Python Interactively
 
 **400 hands-on exercises. Zero setup. Runs in your browser.**
 
-[**Start Learning**](https://matswm86.github.io/pylearn/)
+[**Start Learning → pytor.mwmai.no**](https://pytor.mwmai.no/)
+
+*Mirror: [matswm86.github.io/pylearn](https://matswm86.github.io/pylearn/)*
 
 ---
 
