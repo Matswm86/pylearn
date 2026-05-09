@@ -4432,7 +4432,7 @@
           ],
           "solution": "def get_keys_uppercase(d):\n    return {k.upper() for k in d.keys()}",
           "starter_code": "",
-          "test_code": "assert 'get_keys_uppercase' in dir(), \"Function 'get_keys_uppercase' not defined. Did you write: def get_keys_uppercase(...)?\"\n_r0 = get_keys_uppercase({'name': 'Alice', 'city': 'NYC'})\nassert _r0 == {'CITY', 'NAME'}, f'Test 1: get_keys_uppercase({'name': 'Alice', 'city': 'NYC'}) returned {_r0!r}, expected {'CITY', 'NAME'}'\n_r1 = get_keys_uppercase({'x': 1, 'y': 2})\nassert _r1 == {'Y', 'X'}, f'Test 2: get_keys_uppercase({'x': 1, 'y': 2}) returned {_r1!r}, expected {'Y', 'X'}'",
+          "test_code": "assert 'get_keys_uppercase' in dir(), \"Function 'get_keys_uppercase' not defined. Did you write: def get_keys_uppercase(...)?\"\n_r0 = get_keys_uppercase({'name': 'Alice', 'city': 'NYC'})\nassert _r0 == {'CITY', 'NAME'}, f'Test 1: get_keys_uppercase({'name': 'Alice', 'city': 'NYC'}) returned {_r0!r}, expected {'CITY', 'NAME'}'\n_r1 = get_keys_uppercase({'x': 1, 'y': 2})\nassert _r1 == {'X', 'Y'}, f'Test 2: get_keys_uppercase({'x': 1, 'y': 2}) returned {_r1!r}, expected {'X', 'Y'}'",
           "concepts": [
             "iteration",
             "string methods",
