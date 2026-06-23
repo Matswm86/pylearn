@@ -66,7 +66,7 @@ exercises = [
         check=lambda ns: (
             isinstance(ns.get("post_request"), dict) and
             ns["post_request"].get("method") == "POST" and
-            ns["post_request"].get("has_body") == True,
+            ns["post_request"].get("has_body"),
             "post_request must describe POST with has_body=True"
         ),
         concepts=["HTTP POST"]

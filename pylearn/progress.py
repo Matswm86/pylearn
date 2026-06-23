@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -44,7 +44,7 @@ class ProgressDB:
         self.conn.commit()
 
     def record_attempt(self, exercise_id: str, topic: str, passed: bool, score_pct: int) -> None:
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
 
         self.conn.execute(
             "INSERT INTO attempts (exercise_id, topic, passed, score_pct, attempted_at) VALUES (?, ?, ?, ?, ?)",
@@ -72,7 +72,7 @@ class ProgressDB:
                 (exercise_id, topic, score_pct, now if passed else None, now),
             )
 
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        today = datetime.now(UTC).strftime("%Y-%m-%d")
         self.conn.execute(
             """INSERT INTO streaks (date, exercises_done) VALUES (?, 1)
             ON CONFLICT(date) DO UPDATE SET exercises_done = exercises_done + 1""",
@@ -109,7 +109,7 @@ class ProgressDB:
         if not rows:
             return 0
         streak = 0
-        today = datetime.now(timezone.utc).date()
+        today = datetime.now(UTC).date()
         for row in rows:
             expected = today - __import__("datetime").timedelta(days=streak)
             if row["date"] == expected.isoformat():

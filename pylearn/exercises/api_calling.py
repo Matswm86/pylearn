@@ -1,10 +1,5 @@
 """50 exercises on calling APIs with Python."""
 
-import json
-from urllib.parse import urlencode, quote, parse_qs
-from base64 import b64encode
-import hashlib
-import hmac
 
 from .base import make_exercise
 

@@ -8,15 +8,15 @@ Note: These tests require:
 
 import asyncio
 import json
-import pytest
 
+import pytest
 from server import (
     design_lesson,
     generate_page,
-    tutor_chat,
     get_exercise_hint,
     load_exercises,
     search_exercises,
+    tutor_chat,
 )
 
 

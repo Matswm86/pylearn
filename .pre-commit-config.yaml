@@ -1,0 +1,65 @@
+# Canonical pre-commit config for MWM Python repos.
+# Synced via: scripts/sync-pre-commit.sh
+# Source of truth: mwm-infrastructure/templates/pre-commit/python.yaml
+# Plan ref: plans/cicd-comprehensive-fix-plan-2026-05-07.md (Phase 1.1)
+
+default_stages: [pre-commit]
+fail_fast: false
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-json
+      - id: check-toml
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: check-merge-conflict
+
+  # detect-secrets — scan-only local wrapper (not the upstream hook).
+  # Upstream Yelp/detect-secrets v1.5.0 auto-trims .secrets.baseline mid-commit,
+  # which fights the locked-baseline policy. The wrapper snapshots the baseline,
+  # delegates to detect-secrets-hook against the snapshot, and exits 1 only on
+  # NEW secrets. The real .secrets.baseline file is never modified.
+  # To regenerate the baseline on purpose, run outside any commit:
+  #   detect-secrets scan --baseline .secrets.baseline
+  - repo: local
+    hooks:
+      - id: detect-secrets-scan
+        name: Detect secrets (scan-only, baseline-locked)
+        entry: /home/mats/MWM-AI/scripts/detect-secrets-scan.sh
+        language: system
+        stages: [pre-commit, pre-push]
+        exclude: |
+          (?x)^(
+              \.secrets\.baseline|
+              .*\.lock|
+              .*\.ipynb
+          )$
+
+  # require-ablation-coverage — SCCS D1 paired-ablation discipline.
+  # Flags PRs that add new evaluation gates (new CIP signal, *_gate.py,
+  # gold-set additions, new pre-commit hook, conformal/bounds/causal_gate
+  # changes) without a paired baseline under data/sccs/ablations/.
+  # Methodology: docs/sccs/ablation-methodology.md.
+  # Spec: plans/sccs-augmentation-2026-04-28.md §3 D1 (revised §1.5).
+  # Bypass: Scope: bulk-refactor | Scope: ablation-pre-existing
+  #         | Ablation-Baseline: <path> trailer | DEFENSIVE_SKIP=1.
+  - repo: local
+    hooks:
+      - id: require-ablation-coverage
+        name: Require paired-ablation baseline for new SCCS eval gates
+        entry: /home/mats/MWM-AI/scripts/pre-commit/require-ablation-coverage.sh
+        language: system
+        stages: [commit-msg]
+        always_run: true
+        pass_filenames: false

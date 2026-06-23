@@ -65,7 +65,7 @@ def load_exercises() -> dict[str, Any]:
         return _exercises_cache
 
     try:
-        with open(PYLEARN_EXERCISES_PATH, "r") as f:
+        with open(PYLEARN_EXERCISES_PATH) as f:
             data = json.load(f)
         logger.info(f"Loaded {data['total_exercises']} exercises from {PYLEARN_EXERCISES_PATH}")
 
@@ -86,7 +86,7 @@ def load_prompt(name: str) -> str:
     if name not in _prompts_cache:
         try:
             prompt_path = Path(__file__).parent / "prompts" / f"{name}.txt"
-            with open(prompt_path, "r") as f:
+            with open(prompt_path) as f:
                 _prompts_cache[name] = f.read().strip()
             logger.debug(f"Loaded prompt: {name}")
         except Exception as e:

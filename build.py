@@ -10,8 +10,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from pylearn.exercises import (
-    variables, data_types, conditionals, functions,
-    lists_sets, dictionaries, fastapi_ex, api_calling,
+    api_calling,
+    conditionals,
+    data_types,
+    dictionaries,
+    fastapi_ex,
+    functions,
+    lists_sets,
+    variables,
 )
 from pylearn.exercises.base import Exercise
 
@@ -85,20 +91,11 @@ def _value_required_by_description(var_name: str, value: object, description: st
         if f"'{value}'" in description or f'"{value}"' in description:
             return True
         # Phrases that imply a specific string value is needed
-        if any(phrase in desc_lower for phrase in [
-            "set it to", "assign it the value", "should be", "must equal",
-            "with the value", "containing the text", "with the string",
-            "store the string", "equals",
-        ]):
-            if value.lower() in desc_lower:
-                return True
-        return False
+        return bool(any(phrase in desc_lower for phrase in ["set it to", "assign it the value", "should be", "must equal", "with the value", "containing the text", "with the string", "store the string", "equals"]) and value.lower() in desc_lower)
 
     if isinstance(value, bool):
         # For booleans, only required if explicitly stated
-        if str(value).lower() in desc_lower:
-            return True
-        return False
+        return str(value).lower() in desc_lower
 
     if isinstance(value, (int, float)):
         # For numbers: required if:
@@ -110,13 +107,7 @@ def _value_required_by_description(var_name: str, value: object, description: st
             return True
 
         # Check for calculation/deterministic phrases (calculation results must be exact)
-        if any(phrase in desc_lower for phrase in [
-            "swap", "calculate", "compute", "result", "total", "sum",
-            "add", "multiply", "divide", "tax", "discount", "price"
-        ]):
-            return True
-
-        return False
+        return bool(any(phrase in desc_lower for phrase in ["swap", "calculate", "compute", "result", "total", "sum", "add", "multiply", "divide", "tax", "discount", "price"]))
 
     return False
 

@@ -16,12 +16,13 @@ HTTP 403 error:1010 for the default `Python-urllib/3.x` User-Agent. We
 set an explicit UA to avoid it — copy/do NOT drop. See
 memory/feedback/feedback_groq_cloudflare_ua.md.
 """
+
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 import os
-import socketserver
 import sys
 import threading
 import time
@@ -166,9 +167,7 @@ def search_exercises(keywords: list[str], limit: int = 3) -> list[dict]:
     matched: list[dict] = []
     for ex in exercises.values():
         searchable = (
-            f"{ex.get('title', '')} "
-            f"{ex.get('description', '')} "
-            f"{' '.join(ex.get('concepts', []))}"
+            f"{ex.get('title', '')} {ex.get('description', '')} {' '.join(ex.get('concepts', []))}"
         ).lower()
         if any(kw in searchable for kw in keywords_lower):
             matched.append(ex)
@@ -182,9 +181,16 @@ def search_exercises(keywords: list[str], limit: int = 3) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 
-def _openai_chat(url: str, model: str, system: str, user: str,
-                 max_tokens: int, temperature: float, timeout: int,
-                 api_key: str | None) -> str | None:
+def _openai_chat(
+    url: str,
+    model: str,
+    system: str,
+    user: str,
+    max_tokens: int,
+    temperature: float,
+    timeout: int,
+    api_key: str | None,
+) -> str | None:
     """Shared OpenAI-compatible chat call. Both Groq and Ollama speak this."""
     payload = {
         "model": model,
@@ -215,40 +221,50 @@ def _openai_chat(url: str, model: str, system: str, user: str,
             return data["choices"][0]["message"]["content"].strip() or None
     except HTTPError as exc:
         body = ""
-        try:
+        with contextlib.suppress(Exception):
             body = exc.read().decode("utf-8", errors="replace")[:300]
-        except Exception:  # noqa: BLE001
-            pass
         log.warning(f"{url} HTTP {exc.code}: {body}")
         return None
-    except (URLError, TimeoutError, KeyError, IndexError,
-            json.JSONDecodeError) as exc:
+    except (URLError, TimeoutError, KeyError, IndexError, json.JSONDecodeError) as exc:
         log.warning(f"{url} failed: {type(exc).__name__}: {exc}")
         return None
 
 
-def query_groq(system: str, user: str, *, max_tokens: int = 600,
-               temperature: float = 0.7) -> str | None:
+def query_groq(
+    system: str, user: str, *, max_tokens: int = 600, temperature: float = 0.7
+) -> str | None:
     if not GROQ_API_KEY:
         return None
     return _openai_chat(
-        GROQ_URL, GROQ_MODEL, system, user,
-        max_tokens=max_tokens, temperature=temperature,
-        timeout=GROQ_TIMEOUT, api_key=GROQ_API_KEY,
+        GROQ_URL,
+        GROQ_MODEL,
+        system,
+        user,
+        max_tokens=max_tokens,
+        temperature=temperature,
+        timeout=GROQ_TIMEOUT,
+        api_key=GROQ_API_KEY,
     )
 
 
-def query_ollama(system: str, user: str, *, max_tokens: int = 600,
-                 temperature: float = 0.7) -> str | None:
+def query_ollama(
+    system: str, user: str, *, max_tokens: int = 600, temperature: float = 0.7
+) -> str | None:
     return _openai_chat(
-        OLLAMA_URL, OLLAMA_MODEL, system, user,
-        max_tokens=max_tokens, temperature=temperature,
-        timeout=OLLAMA_TIMEOUT, api_key=None,
+        OLLAMA_URL,
+        OLLAMA_MODEL,
+        system,
+        user,
+        max_tokens=max_tokens,
+        temperature=temperature,
+        timeout=OLLAMA_TIMEOUT,
+        api_key=None,
     )
 
 
-def chat_llm(system: str, user: str, *, max_tokens: int = 600,
-             temperature: float = 0.7) -> tuple[str | None, str]:
+def chat_llm(
+    system: str, user: str, *, max_tokens: int = 600, temperature: float = 0.7
+) -> tuple[str | None, str]:
     """Returns (response, backend_name). Groq-primary, Ollama-fallback."""
     answer = query_groq(system, user, max_tokens=max_tokens, temperature=temperature)
     if answer is not None:
@@ -267,12 +283,17 @@ def chat_llm(system: str, user: str, *, max_tokens: int = 600,
 def handle_health() -> tuple[int, dict]:
     exercises = load_exercises()
     groq_ok = bool(GROQ_API_KEY)
-    ollama_ok = query_ollama(
-        "You reply with a single word.",
-        "Say 'ok'.",
-        max_tokens=4,
-        temperature=0.0,
-    ) is not None if not groq_ok else None  # don't burn ollama if groq is primary
+    ollama_ok = (
+        query_ollama(
+            "You reply with a single word.",
+            "Say 'ok'.",
+            max_tokens=4,
+            temperature=0.0,
+        )
+        is not None
+        if not groq_ok
+        else None
+    )  # don't burn ollama if groq is primary
     return 200, {
         "status": "ok",
         "backend": "groq" if groq_ok else "ollama",
@@ -298,8 +319,7 @@ def handle_chat(body: dict) -> tuple[int, dict]:
             items = json.loads(history_raw) if isinstance(history_raw, str) else history_raw
             relevant = items[-4:] if len(items) > 4 else items
             chat_history_text = "\n".join(
-                f"{(it.get('role') or 'user').title()}: {it.get('content', '')}"
-                for it in relevant
+                f"{(it.get('role') or 'user').title()}: {it.get('content', '')}" for it in relevant
             )
         except (json.JSONDecodeError, TypeError, AttributeError):
             pass
@@ -354,8 +374,8 @@ def handle_hint(body: dict) -> tuple[int, dict]:
         "without revealing the answer. "
         + (
             "Analyze what's correct in their attempt and what needs improvement."
-            if attempt else
-            "Give a general hint about the approach."
+            if attempt
+            else "Give a general hint about the approach."
         )
     )
 
@@ -502,10 +522,12 @@ class TutorHandler(BaseHTTPRequestHandler):
         allowed, retry_after = rate_limit_check(client_ip, path)
         if not allowed:
             log.warning(f"rate-limited {client_ip} on {path} (retry {retry_after}s)")
-            body = json.dumps({
-                "error": "rate limit exceeded",
-                "retry_after": retry_after,
-            }).encode("utf-8")
+            body = json.dumps(
+                {
+                    "error": "rate limit exceeded",
+                    "retry_after": retry_after,
+                }
+            ).encode("utf-8")
             self.send_response(429)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))

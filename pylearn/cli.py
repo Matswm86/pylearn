@@ -6,14 +6,14 @@ import subprocess
 import sys
 from pathlib import Path
 
+from rich import box
 from rich.console import Console
 from rich.panel import Panel
-from rich.prompt import Confirm, IntPrompt, Prompt
+from rich.prompt import Prompt
 from rich.table import Table
 from rich.text import Text
-from rich import box
 
-from .exercises.base import Difficulty, Exercise
+from .exercises.base import Exercise
 from .progress import ProgressDB
 from .runner import grade_exercise, load_user_solution, save_starter_code
 
@@ -34,14 +34,14 @@ TOPICS = {
 def get_all_exercises() -> dict[str, list[Exercise]]:
     """Load all exercise modules."""
     from .exercises import (
-        variables,
-        data_types,
+        api_calling,
         conditionals,
-        functions,
-        lists_sets,
+        data_types,
         dictionaries,
         fastapi_ex,
-        api_calling,
+        functions,
+        lists_sets,
+        variables,
     )
 
     return {
