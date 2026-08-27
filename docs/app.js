@@ -101,6 +101,18 @@ async function loadExercises() {
   return exerciseData;
 }
 
+function showPyodideError(err) {
+  const box = document.getElementById("pyodide-loading");
+  if (!box) return;
+  box.classList.remove("hidden");
+  box.innerHTML =
+    '<div class="loader"><p><strong>Python engine failed to load.</strong></p>' +
+    '<p class="subtle">' + String(err && err.message ? err.message : err) + '</p>' +
+    '<p class="subtle">Check the browser console, then reload the page.</p>' +
+    '<button onclick="location.reload()">Reload</button></div>';
+  console.error("[pytor] Pyodide load failed:", err);
+}
+
 // ===== Pyodide =====
 async function ensurePyodide() {
   if (pyodideReady) return pyodide;
@@ -111,16 +123,26 @@ async function ensurePyodide() {
   pyodideLoading = true;
   document.getElementById("pyodide-loading").classList.remove("hidden");
 
-  // Load Pyodide script
-  await new Promise((resolve, reject) => {
-    const s = document.createElement("script");
-    s.src = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
-    s.onload = resolve;
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
+  // Load Pyodide script (fails loudly instead of spinning forever)
+  try {
+    await new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
+      s.onload = resolve;
+      s.onerror = () => reject(new Error("Could not load pyodide.js from cdn.jsdelivr.net"));
+      const timer = setTimeout(
+        () => reject(new Error("Timed out after 45s loading pyodide.js")), 45000);
+      s.addEventListener("load", () => clearTimeout(timer));
+      s.addEventListener("error", () => clearTimeout(timer));
+      document.head.appendChild(s);
+    });
 
-  pyodide = await loadPyodide();
+    pyodide = await loadPyodide();
+  } catch (err) {
+    pyodideLoading = false;
+    showPyodideError(err);
+    throw err;
+  }
 
   // Install pydantic shim for FastAPI exercises
   await pyodide.runPythonAsync(`
