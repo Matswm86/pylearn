@@ -17,9 +17,43 @@ from pylearn.exercises import (
     fastapi_ex,
     functions,
     lists_sets,
+    loops,
     variables,
 )
 from pylearn.exercises.base import Exercise
+
+
+def _literal(value: object) -> str:
+    """Render a value as valid Python source.
+
+    repr() of a type object yields "<class 'int'>", which is not parseable.
+    Builtin types are emitted by name instead, recursing through containers.
+    """
+    if isinstance(value, type):
+        return value.__name__
+    if isinstance(value, list):
+        return "[" + ", ".join(_literal(v) for v in value) + "]"
+    if isinstance(value, tuple):
+        inner = ", ".join(_literal(v) for v in value)
+        return f"({inner},)" if len(value) == 1 else f"({inner})"
+    if isinstance(value, dict):
+        return "{" + ", ".join(f"{_literal(k)}: {_literal(v)}" for k, v in value.items()) + "}"
+    return repr(value)
+
+
+def _assert_line(cond: str, prefix: str, expr: str | None = None, suffix: str = "") -> str:
+    """Build an assert statement whose message is always a valid literal.
+
+    The message is emitted via repr() of the static parts, concatenated with
+    str(<expr>) for the runtime part. This avoids nesting quotes inside an
+    f-string, which produced SyntaxError in 178 of 400 generated exercises.
+    """
+    parts = [repr(prefix)]
+    if expr:
+        parts.append(f"str({expr})")
+    if suffix:
+        parts.append(repr(suffix))
+    return f"assert {cond}, " + " + ".join(parts)
 
 
 def generate_test_code(ex: Exercise) -> str:
@@ -28,22 +62,35 @@ def generate_test_code(ex: Exercise) -> str:
 
     # Mode 1: function_name + test_cases
     if ex.function_name and ex.test_cases:
-        lines.append(f"assert '{ex.function_name}' in dir(), \"Function '{ex.function_name}' not defined. Did you write: def {ex.function_name}(...)?\"")
+        lines.append(
+            f"assert '{ex.function_name}' in dir(), \"Function '{ex.function_name}' not defined. Did you write: def {ex.function_name}(...)?\""
+        )
         for i, tc in enumerate(ex.test_cases):
             args_parts = []
             for a in tc.input_args:
-                args_parts.append(repr(a))
+                args_parts.append(_literal(a))
             for k, v in tc.input_kwargs.items():
-                args_parts.append(f"{k}={v!r}")
+                args_parts.append(f"{k}={_literal(v)}")
             args_str = ", ".join(args_parts)
             call = f"{ex.function_name}({args_str})"
 
             if callable(tc.expected):
                 lines.append(f"_r{i} = {call}")
-                lines.append(f"assert _r{i} is not None, 'Test {i+1}: {ex.function_name} returned None'")
+                lines.append(
+                    _assert_line(
+                        f"_r{i} is not None", f"Test {i + 1}: {ex.function_name} returned None"
+                    )
+                )
             else:
                 lines.append(f"_r{i} = {call}")
-                lines.append(f"assert _r{i} == {tc.expected!r}, f'Test {i+1}: {call} returned {{_r{i}!r}}, expected {tc.expected!r}'")
+                lines.append(
+                    _assert_line(
+                        f"_r{i} == {tc.expected!r}",
+                        f"Test {i + 1}: {call} returned ",
+                        f"repr(_r{i})",
+                        f", expected {tc.expected!r}",
+                    )
+                )
         return "\n".join(lines)
 
     # Mode 2: expected_output
@@ -91,7 +138,23 @@ def _value_required_by_description(var_name: str, value: object, description: st
         if f"'{value}'" in description or f'"{value}"' in description:
             return True
         # Phrases that imply a specific string value is needed
-        return bool(any(phrase in desc_lower for phrase in ["set it to", "assign it the value", "should be", "must equal", "with the value", "containing the text", "with the string", "store the string", "equals"]) and value.lower() in desc_lower)
+        return bool(
+            any(
+                phrase in desc_lower
+                for phrase in [
+                    "set it to",
+                    "assign it the value",
+                    "should be",
+                    "must equal",
+                    "with the value",
+                    "containing the text",
+                    "with the string",
+                    "store the string",
+                    "equals",
+                ]
+            )
+            and value.lower() in desc_lower
+        )
 
     if isinstance(value, bool):
         # For booleans, only required if explicitly stated
@@ -107,7 +170,25 @@ def _value_required_by_description(var_name: str, value: object, description: st
             return True
 
         # Check for calculation/deterministic phrases (calculation results must be exact)
-        return bool(any(phrase in desc_lower for phrase in ["swap", "calculate", "compute", "result", "total", "sum", "add", "multiply", "divide", "tax", "discount", "price"]))
+        return bool(
+            any(
+                phrase in desc_lower
+                for phrase in [
+                    "swap",
+                    "calculate",
+                    "compute",
+                    "result",
+                    "total",
+                    "sum",
+                    "add",
+                    "multiply",
+                    "divide",
+                    "tax",
+                    "discount",
+                    "price",
+                ]
+            )
+        )
 
     return False
 
@@ -126,10 +207,10 @@ def _generate_from_solution(ex: Exercise) -> str:
         return "pass  # Solution requires external modules"
 
     lines: list[str] = []
-    skip = {'__builtins__', '__name__', '__doc__', '__loader__', '__spec__', '__package__'}
+    skip = {"__builtins__", "__name__", "__doc__", "__loader__", "__spec__", "__package__"}
 
     for name, value in ns.items():
-        if name in skip or name.startswith('_'):
+        if name in skip or name.startswith("_"):
             continue
 
         # Skip modules, classes, functions — only assert on simple values
@@ -148,48 +229,96 @@ def _generate_from_solution(ex: Exercise) -> str:
         if isinstance(value, str):
             # For strings: only check exact value if the description requires it
             if is_exact_required:
-                lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
+                lines.append(
+                    _assert_line(
+                        f"{name} == {value!r}", f"{name} should be {value!r}, got ", f"repr({name})"
+                    )
+                )
             else:
                 # Just check it's a string and non-empty
-                lines.append(f"assert isinstance({name}, str), f\"{name} should be a string (text), got {{type({name}).__name__}}\"")
-                lines.append(f"assert len({name}) > 0, \"{name} should not be empty\"")
+                lines.append(
+                    _assert_line(
+                        f"isinstance({name}, str)",
+                        f"{name} should be a string (text), got ",
+                        f"type({name}).__name__",
+                    )
+                )
+                lines.append(f'assert len({name}) > 0, "{name} should not be empty"')
         elif isinstance(value, bool):
             # For booleans: check exact value only if explicitly required
             if is_exact_required:
-                lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
+                lines.append(
+                    _assert_line(
+                        f"{name} == {value!r}", f"{name} should be {value!r}, got ", f"repr({name})"
+                    )
+                )
             else:
-                lines.append(f"assert isinstance({name}, bool), f\"{name} should be a boolean (True/False), got {{type({name}).__name__}}\"")
+                lines.append(
+                    _assert_line(
+                        f"isinstance({name}, bool)",
+                        f"{name} should be a boolean (True/False), got ",
+                        f"type({name}).__name__",
+                    )
+                )
         elif isinstance(value, (int, float)):
             # For numbers: check exact value only if explicitly required
             if is_exact_required:
-                lines.append(f"assert {name} == {value!r}, f\"{name} should be {value!r}, got {{{name}!r}}\"")
+                lines.append(
+                    _assert_line(
+                        f"{name} == {value!r}", f"{name} should be {value!r}, got ", f"repr({name})"
+                    )
+                )
             else:
-                lines.append(f"assert isinstance({name}, ({int.__name__}, {float.__name__})), f\"{name} should be a number, got {{type({name}).__name__}}\"")
+                lines.append(
+                    _assert_line(
+                        f"isinstance({name}, ({int.__name__}, {float.__name__}))",
+                        f"{name} should be a number, got ",
+                        f"type({name}).__name__",
+                    )
+                )
         elif isinstance(value, list):
             # For lists: check type and non-empty if concept exercise, exact if specified
             if is_exact_required:
-                lines.append(f"assert {name} == {value!r}, f\"{name} has wrong value\"")
+                lines.append(_assert_line(f"{name} == {value!r}", f"{name} has wrong value"))
             else:
-                lines.append(f"assert isinstance({name}, list), f\"{name} should be a list, got {{type({name}).__name__}}\"")
+                lines.append(
+                    _assert_line(
+                        f"isinstance({name}, list)",
+                        f"{name} should be a list, got ",
+                        f"type({name}).__name__",
+                    )
+                )
                 if len(value) > 0:
-                    lines.append(f"assert len({name}) > 0, \"{name} should not be empty\"")
+                    lines.append(f'assert len({name}) > 0, "{name} should not be empty"')
         elif isinstance(value, dict):
             # For dicts: check type and non-empty if concept exercise, exact if specified
             if is_exact_required:
-                lines.append(f"assert {name} == {value!r}, f\"{name} has wrong value\"")
+                lines.append(_assert_line(f"{name} == {value!r}", f"{name} has wrong value"))
             else:
-                lines.append(f"assert isinstance({name}, dict), f\"{name} should be a dictionary, got {{type({name}).__name__}}\"")
+                lines.append(
+                    _assert_line(
+                        f"isinstance({name}, dict)",
+                        f"{name} should be a dictionary, got ",
+                        f"type({name}).__name__",
+                    )
+                )
                 if len(value) > 0:
-                    lines.append(f"assert len({name}) > 0, \"{name} should not be empty\"")
+                    lines.append(f'assert len({name}) > 0, "{name} should not be empty"')
         elif isinstance(value, (tuple, set)):
             # For tuples and sets: similar approach
             if is_exact_required:
-                lines.append(f"assert {name} == {value!r}, f\"{name} has wrong value\"")
+                lines.append(_assert_line(f"{name} == {value!r}", f"{name} has wrong value"))
             else:
                 type_name = "tuple" if isinstance(value, tuple) else "set"
-                lines.append(f"assert isinstance({name}, {type(value).__name__}), f\"{name} should be a {type_name}, got {{type({name}).__name__}}\"")
+                lines.append(
+                    _assert_line(
+                        f"isinstance({name}, {type(value).__name__})",
+                        f"{name} should be a {type_name}, got ",
+                        f"type({name}).__name__",
+                    )
+                )
                 if len(value) > 0:
-                    lines.append(f"assert len({name}) > 0, \"{name} should not be empty\"")
+                    lines.append(f'assert len({name}) > 0, "{name} should not be empty"')
 
     if not lines:
         lines.append("pass  # Verify your code runs without errors")
@@ -216,6 +345,7 @@ TOPIC_ORDER = [
     ("variables", "Variables", variables.exercises),
     ("data_types", "Data Types", data_types.exercises),
     ("conditionals", "Conditionals", conditionals.exercises),
+    ("loops", "Loops", loops.exercises),
     ("functions", "Functions", functions.exercises),
     ("lists_sets", "Lists & Sets", lists_sets.exercises),
     ("dictionaries", "Dictionaries", dictionaries.exercises),
@@ -230,12 +360,14 @@ def build() -> None:
 
     for topic_id, topic_title, exs in TOPIC_ORDER:
         exercises_data = [exercise_to_dict(ex) for ex in exs]
-        topics.append({
-            "id": topic_id,
-            "title": topic_title,
-            "exercise_count": len(exercises_data),
-            "exercises": exercises_data,
-        })
+        topics.append(
+            {
+                "id": topic_id,
+                "title": topic_title,
+                "exercise_count": len(exercises_data),
+                "exercises": exercises_data,
+            }
+        )
         total += len(exercises_data)
         print(f"  {topic_title}: {len(exercises_data)} exercises")
 

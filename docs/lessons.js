@@ -483,6 +483,169 @@ window.PYLEARN_LESSONS = {
     ]
   },
 
+  "loops": {
+    icon: "\U0001F501",
+    subtitle: "Repeat work with for and while instead of copying lines",
+    sections: [
+      {
+        title: "Why Loops Exist",
+        content: `<p>Say you want to print five names. You could write five <code>print</code> lines. Now make it five thousand names. Copying stops working.</p>
+<p>A <strong>loop</strong> says: here is a pile of things, do this once for each of them. You write the work once and Python repeats it.</p>
+<p>Almost every useful program has a loop in it, because data almost always arrives as a pile rather than a single value.</p>`,
+        examples: [
+          {
+            code: "for name in [\"Ann\", \"Bo\", \"Cy\"]:\n    print(name)",
+            output: "Ann\nBo\nCy",
+            explanation: "The variable name takes each value in turn. The indented line runs three times, once per item."
+          },
+          {
+            code: "for i in range(3):\n    print(i)",
+            output: "0\n1\n2",
+            explanation: "range(3) counts 0, 1, 2. It starts at 0 and stops BEFORE 3. That exclusive stop trips up everyone at first."
+          }
+        ]
+      },
+      {
+        title: "range: start, stop, step",
+        content: `<p><code>range</code> generates numbers for you. It takes up to three arguments.</p>
+<ul>
+<li><code>range(5)</code> gives 0,1,2,3,4 (stop only)</li>
+<li><code>range(2, 5)</code> gives 2,3,4 (start and stop)</li>
+<li><code>range(0, 10, 2)</code> gives 0,2,4,6,8 (start, stop, step)</li>
+<li><code>range(3, 0, -1)</code> gives 3,2,1 (counting down)</li>
+</ul>
+<p>The stop value is never included. To include it, add one: <code>range(1, n + 1)</code>.</p>`,
+        examples: [
+          {
+            code: "for i in range(1, 6):\n    print(i * i)",
+            output: "1\n4\n9\n16\n25",
+            explanation: "Starting at 1 and stopping before 6 gives the squares of 1 through 5."
+          },
+          {
+            code: "for i in range(10, 0, -2):\n    print(i)",
+            output: "10\n8\n6\n4\n2",
+            explanation: "A negative step counts backwards. The loop stops before 0, so 0 never prints."
+          }
+        ]
+      },
+      {
+        title: "The Accumulator Pattern",
+        content: `<p>This is the single most useful loop shape. Set a variable BEFORE the loop, change it inside, read it after.</p>
+<p>Summing starts at 0. Multiplying starts at 1. Counting starts at 0. Collecting starts at an empty list.</p>
+<p>Getting the starting value wrong is a classic bug: start a product at 0 and the answer is always 0.</p>`,
+        examples: [
+          {
+            code: "prices = [10, 20, 5]\ntotal = 0\nfor p in prices:\n    total += p\nprint(total)",
+            output: "35",
+            explanation: "total starts at 0 outside the loop, grows on each pass, and is read once the loop finishes."
+          },
+          {
+            code: "squares = []\nfor n in [1, 2, 3]:\n    squares.append(n * n)\nprint(squares)",
+            output: "[1, 4, 9]",
+            explanation: "Collecting into a new list is the same pattern, with an empty list as the starting value."
+          }
+        ]
+      },
+      {
+        title: "while: Repeat Until Something Changes",
+        content: `<p>A <code>for</code> loop runs a known number of times. A <code>while</code> loop runs as long as a condition stays True, and you may not know in advance how many passes that takes.</p>
+<p>Something inside the loop MUST move the condition towards False, or the program hangs forever.</p>
+<p>If your program freezes, an unchanging while condition is the first suspect.</p>`,
+        examples: [
+          {
+            code: "n = 1\nwhile n < 20:\n    n = n * 2\nprint(n)",
+            output: "32",
+            explanation: "n doubles until it is no longer under 20. The loop exits at 32, the first value that fails the test."
+          },
+          {
+            code: "count = 3\nwhile count > 0:\n    print(count)\n    count -= 1\nprint(\"go\")",
+            output: "3\n2\n1\ngo",
+            explanation: "count -= 1 is what ends this loop. Delete that line and it prints 3 forever."
+          }
+        ]
+      },
+      {
+        title: "break, continue, and the loop else",
+        content: `<p><code>break</code> leaves the loop immediately. <code>continue</code> skips the rest of this pass and starts the next one.</p>
+<p>Python also allows an <code>else</code> on a loop. It runs only if the loop finished WITHOUT hitting a break, which makes it a clean way to express "nothing matched".</p>
+<p>Inside a function, plain <code>return</code> often reads better than break, because it exits the loop and the function at once.</p>`,
+        examples: [
+          {
+            code: "for n in [1, 3, 8, 5]:\n    if n % 2 == 0:\n        print(\"first even:\", n)\n        break",
+            output: "first even: 8",
+            explanation: "break stops the search the moment 8 is found. The 5 is never examined."
+          },
+          {
+            code: "for n in [1, 3, 5]:\n    if n % 2 == 0:\n        break\nelse:\n    print(\"no evens found\")",
+            output: "no evens found",
+            explanation: "No break fired, so the else block runs. Had the list contained an even number, nothing would print."
+          }
+        ]
+      },
+      {
+        title: "enumerate and zip",
+        content: `<p>Two helpers you will reach for constantly.</p>
+<p><code>enumerate(items)</code> hands you the index AND the value, so you never need a manual counter.</p>
+<p><code>zip(a, b)</code> walks two sequences side by side and stops at the shorter one.</p>`,
+        examples: [
+          {
+            code: "for i, name in enumerate([\"Ann\", \"Bo\"]):\n    print(i, name)",
+            output: "0 Ann\n1 Bo",
+            explanation: "enumerate yields pairs, and i, name unpacks each pair into two variables."
+          },
+          {
+            code: "highs = [10, 12]\nlows = [8, 9]\nfor h, l in zip(highs, lows):\n    print(h - l)",
+            output: "2\n3",
+            explanation: "zip pairs the lists position by position, so each pass gets one high and one low."
+          }
+        ]
+      },
+      {
+        title: "Nested Loops",
+        content: `<p>A loop inside a loop. The inner loop runs completely on every single pass of the outer loop.</p>
+<p>Two loops over the same list means the work grows with the square of the size: 100 items becomes 10,000 passes.</p>
+<p>Use them for grids, pairs, and tables. Reach for something smarter when the lists get large.</p>`,
+        examples: [
+          {
+            code: "for row in range(1, 3):\n    for col in range(1, 4):\n        print(row * col, end=\" \")\n    print()",
+            output: "1 2 3 \n2 4 6 ",
+            explanation: "The inner loop finishes all three columns before the outer loop moves to the next row."
+          }
+        ]
+      }
+    ],
+    tips: [
+      "range(n) stops BEFORE n. To include n, write range(1, n + 1).",
+      "Set your accumulator before the loop, not inside it, or it resets on every pass.",
+      "Sums start at 0, products start at 1, collections start at []. A product seeded with 0 is always 0.",
+      "Never add to or remove from a list while looping over that same list. Build a new list instead.",
+      "Use enumerate(items) rather than range(len(items)) when you need both the index and the value.",
+      "If a while loop hangs, check that something inside it actually changes the condition."
+    ],
+    common_mistakes: [
+      {
+        mistake: "Off by one with range",
+        fix: "range stops before the stop value. Add 1 to include it.",
+        code: "Wrong: range(1, 5) for 1..5\nRight: range(1, 6)"
+      },
+      {
+        mistake: "Resetting the accumulator inside the loop",
+        fix: "Declare it above the loop, otherwise every pass wipes the previous result.",
+        code: "Wrong: for n in nums:\\n    total = 0\\n    total += n\nRight: total = 0\\nfor n in nums:\\n    total += n"
+      },
+      {
+        mistake: "A while loop that never ends",
+        fix: "Make sure a variable in the condition changes inside the loop body.",
+        code: "Wrong: i = 0\\nwhile i < 5:\\n    print(i)\nRight: i = 0\\nwhile i < 5:\\n    print(i)\\n    i += 1"
+      },
+      {
+        mistake: "Changing a list while looping over it",
+        fix: "Iterate over a copy, or build a new list and replace the original afterwards.",
+        code: "Wrong: for x in items:\\n    items.remove(x)\nRight: items = [x for x in items if keep(x)]"
+      }
+    ]
+  },
+
   "functions": {
     icon: "🧩",
     subtitle: "Create reusable blocks of code with functions",
