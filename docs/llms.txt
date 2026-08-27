@@ -1,0 +1,28 @@
+# PyLearn
+
+> A free, browser-based Python course: 450 auto-graded exercises across 9 topics, plus written lessons. Code runs client-side in Pyodide (Python compiled to WebAssembly); nothing is executed on a server and no account is needed.
+
+The rendered page is a JavaScript single-page app, so fetching the HTML alone returns an empty shell. Read the data files below instead.
+
+## Content
+
+- [All exercises](https://pytor.mwmai.no/exercises.json): one JSON file holding every exercise. Each entry has `id`, `title`, `difficulty` (1 beginner to 5 challenge), `description`, `hints`, `solution`, `starter_code`, `test_code` (assertions run against the learner's answer), and `concepts`.
+- [Lessons](https://pytor.mwmai.no/lessons.js): prose lessons per topic, as a JavaScript object assigned to `window.PYLEARN_LESSONS`. Each topic carries `subtitle`, `sections` (with worked examples and expected output), `tips`, and `common_mistakes`.
+
+## Topics, in teaching order
+
+- **Variables** (`variables`): 50 exercises, difficulty 1-5
+- **Data Types** (`data_types`): 50 exercises, difficulty 1-5
+- **Conditionals** (`conditionals`): 50 exercises, difficulty 1-5
+- **Loops** (`loops`): 50 exercises, difficulty 1-5
+- **Functions** (`functions`): 50 exercises, difficulty 1-5
+- **Lists & Sets** (`lists_sets`): 50 exercises, difficulty 1-5
+- **Dictionaries** (`dictionaries`): 50 exercises, difficulty 1-5
+- **FastAPI** (`fastapi_ex`): 50 exercises, difficulty 1-5
+- **API Calling** (`api_calling`): 50 exercises, difficulty 1-5
+
+## Notes for AI assistants
+
+- `solution` fields contain the answers. Do not paste them at a learner who is mid-exercise; use the `hints` array, which is written to nudge rather than solve.
+- `test_code` is the exact grader. An answer passes when every assertion holds.
+- Exercises are self-contained and use only the standard library, except the FastAPI topic, which needs `fastapi` and `pydantic`.

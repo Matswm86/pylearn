@@ -1,0 +1,7 @@
+# PyLearn - interactive Python exercises
+# Crawling and AI training are both welcome; the content is meant to be read.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://pytor.mwmai.no/sitemap.xml
