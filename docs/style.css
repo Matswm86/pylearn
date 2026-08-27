@@ -692,3 +692,54 @@ body:not(.eli5-mode) .eli5-box { display: none; }
   #tutor-sidebar { width: 100%; }
   #app.tutor-shifted { margin-right: 0; }
 }
+
+/* ===== Playground ===== */
+.pg-nav-btn { cursor: pointer; border: 1px solid var(--border); background: var(--surface); }
+.pg-nav-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-bg); }
+
+.pg-toolbar {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 8px;
+}
+.pg-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.pg-tab {
+  font-family: var(--font-mono); font-size: 0.8rem;
+  padding: 6px 12px; border-radius: 8px 8px 0 0;
+  border: 1px solid var(--border); border-bottom: none;
+  background: var(--surface-alt); color: var(--text-dim); cursor: pointer;
+}
+.pg-tab.active { background: #1e1e2e; color: #cdd6f4; border-color: #1e1e2e; }
+.pg-tab-add { background: var(--surface); }
+.pg-tools { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.pg-tools .action-btn { padding: 6px 12px; }
+.pg-select {
+  padding: 6px 10px; border-radius: 8px; font-size: 0.85rem;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text-dim);
+}
+.pg-run-group { display: inline-flex; gap: 8px; align-items: center; }
+.pg-run-group .action-btn { background: #313244; color: #cdd6f4; border-color: #45475a; }
+.pg-run-group .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.pg-io { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; margin-bottom: 12px; }
+.pg-io-col {
+  background: var(--surface); border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column;
+}
+.pg-stdin {
+  border: none; resize: vertical; min-height: 160px; padding: 12px 16px;
+  font-family: var(--font-mono); font-size: 0.85rem;
+  background: var(--surface); color: var(--text); outline: none; width: 100%;
+}
+.pg-output {
+  min-height: 160px; max-height: 420px; overflow: auto;
+  background: #1e1e2e; color: #cdd6f4; margin: 0;
+  font-style: normal; font-family: var(--font-mono);
+}
+.pg-output.idle { color: #7f849c; font-style: italic; font-family: var(--font); }
+.pg-output .pg-err { color: #f38ba8; }
+.pg-status { float: right; font-weight: 400; font-style: italic; color: var(--text-light); }
+
+@media (max-width: 720px) {
+  .pg-io { grid-template-columns: 1fr; }
+  .pg-stdin { min-height: 90px; }
+}

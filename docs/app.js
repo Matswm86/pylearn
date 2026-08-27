@@ -299,6 +299,7 @@ function getRoute() {
   if (parts[0] === "dashboard") return { view: "dashboard" };
   if (parts[0] === "topic" && parts[1]) return { view: "topic", topicId: parts[1], tab: parts[2] || "lesson" };
   if (parts[0] === "exercise" && parts[1]) return { view: "exercise", exerciseId: parts[1] };
+  if (parts[0] === "playground") return { view: "playground" };
   return { view: "welcome" };
 }
 
@@ -321,6 +322,7 @@ function render() {
     case "dashboard": renderDashboard(app); break;
     case "topic": renderTopic(app, route.topicId, route.tab); break;
     case "exercise": renderExercise(app, route.exerciseId); break;
+    case "playground": renderPlayground(app); break;
     default: renderWelcome(app);
   }
 
@@ -338,6 +340,7 @@ function renderWelcome(app) {
       <h1>🐍 Learn Python Interactively</h1>
       <p class="tagline">400 hands-on exercises. Zero setup. Runs in your browser.</p>
       <button class="start-btn" onclick="navigate('/dashboard')">Start Learning →</button>
+      <button class="action-btn" style="margin-left:8px" onclick="navigate('/playground')">🧪 Open Playground</button>
     </div>
 
     <div class="welcome-section">
