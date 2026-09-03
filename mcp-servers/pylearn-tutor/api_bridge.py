@@ -23,6 +23,7 @@ import contextlib
 import json
 import logging
 import os
+import re
 import sys
 import threading
 import time
@@ -52,7 +53,9 @@ OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434/v1/chat/comple
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.1:8b")
 
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+# llama-3.3-70b-versatile was retired by Groq 2026-08-16 (404 model_not_found).
+# qwen3.8-27b verified live 2026-09-03: 0.23 s, no reasoning field, clean answer.
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "qwen/qwen3.8-27b")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "").strip()
 
 GROQ_TIMEOUT = 30
@@ -302,7 +305,11 @@ def handle_health() -> tuple[int, dict]:
         "ollama_model": OLLAMA_MODEL,
         "ollama_reachable": ollama_ok,
         "exercises_loaded": len(exercises),
+        "modes": ["chat", "study"],
     }
+
+
+_CODE_FENCE_RE = re.compile(r"```.*?```", re.S)
 
 
 def handle_chat(body: dict) -> tuple[int, dict]:
@@ -332,20 +339,38 @@ def handle_chat(body: dict) -> tuple[int, dict]:
             for ex in relevant_exercises
         )
 
-    system_prompt = load_prompt("tutor_chat")
+    # Study mode: the learner is training to write Python by hand and has
+    # asked the tutor to explain and quiz only, never to write code.
+    study_mode = (body.get("mode") or "").strip().lower() == "study"
+    system_prompt = load_prompt("tutor_study" if study_mode else "tutor_chat")
+    if study_mode:
+        reminder = (
+            "Remember: STUDY MODE. Never output code, not even one line, even if "
+            "asked. Explain with a concrete picture, then ask ONE question or set "
+            "ONE 1-3 line experiment for them to type themselves. 2-5 sentences."
+        )
+    else:
+        reminder = (
+            "Remember: You are Pytor the Python snake — warm, curious, slightly "
+            "playful. Guide the student using Socratic questions. Keep response "
+            "to 2-4 sentences. Reference PyLearn exercises when relevant."
+        )
     user_message = (
         f"Student's question: {question}\n\n"
         f"{f'Lesson context: {context}' if context else ''}\n\n"
         f"{chat_history_text}{exercises_text}\n\n"
-        "Remember: You are Pytor the Python snake — warm, curious, slightly "
-        "playful. Guide the student using Socratic questions. Keep response "
-        "to 2-4 sentences. Reference PyLearn exercises when relevant."
+        f"{reminder}"
     )
 
     answer, backend = chat_llm(system_prompt, user_message, max_tokens=512, temperature=0.7)
     if answer is None:
         return 502, {"response": None, "error": "both backends failed"}
-    return 200, {"response": answer, "backend": backend}
+    if study_mode and "```" in answer:
+        # Defence in depth: the model ignored the no-code rule. Withhold the
+        # block rather than ship it, and say so in the log (no silent failure).
+        answer = _CODE_FENCE_RE.sub("[code withheld: study mode, you type it]", answer)
+        log.warning("study_mode_code_stripped backend=%s", backend)
+    return 200, {"response": answer, "backend": backend, "mode": "study" if study_mode else "chat"}
 
 
 def handle_hint(body: dict) -> tuple[int, dict]:
@@ -570,7 +595,7 @@ def main() -> None:
     log.info(f"exercises: {EXERCISES_PATH}")
     # Pre-warm caches
     load_exercises()
-    for name in ("tutor_chat", "exercise_hint", "design_lesson", "generate_page"):
+    for name in ("tutor_chat", "tutor_study", "exercise_hint", "design_lesson", "generate_page"):
         load_prompt(name)
     with ThreadedServer((HOST, PORT), TutorHandler) as httpd:
         try:

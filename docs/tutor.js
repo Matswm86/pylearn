@@ -38,8 +38,10 @@ class TutorAPI {
     return resp.json();
   }
 
-  async chat(question, context = "", history = "") {
-    return this._post("/chat", { question, context, history });
+  async chat(question, context = "", history = "", mode = "") {
+    const body = { question, context, history };
+    if (mode) body.mode = mode;
+    return this._post("/chat", body);
   }
 
   async hint(exerciseId, attempt = "") {
@@ -64,6 +66,11 @@ class TutorUI {
     this.history = this._loadHistory();
     this.currentContext = null; // { type: "exercise"|"topic", data: ... }
     this.loading = false;
+    // Study mode: Pytor explains and quizzes but never writes code.
+    // Only offered when the backend /health lists "study" in modes, so the
+    // toggle can never promise a behaviour the server does not implement.
+    this.studySupported = false;
+    this.studyMode = localStorage.getItem("pylearn_study_mode") === "1";
   }
 
   // --- Init ---
@@ -73,9 +80,12 @@ class TutorUI {
       // Pytor is available whenever the bridge reports ok — either Groq
       // (primary) or Ollama (fallback) is enough.
       this.available = h.status === "ok";
+      this.studySupported = Array.isArray(h.modes) && h.modes.includes("study");
     } catch {
       this.available = false;
+      this.studySupported = false;
     }
+    this._injectStudyToggle();
 
     const toggle = document.getElementById("tutor-toggle");
     const mascot = document.getElementById("pytor-mascot");
@@ -97,6 +107,42 @@ class TutorUI {
     }
 
     this._renderMessages();
+  }
+
+  // --- Study mode ---
+  _injectStudyToggle() {
+    const controls = document.querySelector(".tutor-controls");
+    if (!controls || document.getElementById("tutor-study-toggle")) return;
+    if (!this.available || !this.studySupported) return;
+    const label = document.createElement("label");
+    label.title = "Pytor explains and quizzes you, but never writes code. You type every line.";
+    label.innerHTML = `<input type="checkbox" id="tutor-study-toggle"> Study mode`;
+    controls.insertBefore(label, controls.firstChild);
+    const box = label.querySelector("input");
+    box.checked = this.studyMode;
+    box.addEventListener("change", () => this.setStudyMode(box.checked));
+    this._applyStudyMode();
+  }
+
+  setStudyMode(on) {
+    this.studyMode = !!on;
+    localStorage.setItem("pylearn_study_mode", this.studyMode ? "1" : "0");
+    const box = document.getElementById("tutor-study-toggle");
+    if (box) box.checked = this.studyMode;
+    this._applyStudyMode();
+  }
+
+  _applyStudyMode() {
+    const active = this.studySupported && this.studyMode;
+    const sub = document.querySelector(".tutor-header-sub");
+    if (sub) sub.textContent = active
+      ? "Study mode: explains and quizzes, never writes code"
+      : "Your Python study buddy";
+    const input = document.getElementById("tutor-input");
+    if (input) input.placeholder = active
+      ? "Ask Pytor to explain something or quiz you..."
+      : "Ask Pytor about Python...";
+    document.getElementById("tutor-sidebar")?.classList.toggle("study-mode", active);
   }
 
   // --- Sidebar ---
@@ -176,7 +222,8 @@ class TutorUI {
 
     this._showLoading(true);
     try {
-      const result = await this.api.chat(question, context, historyForApi);
+      const mode = (this.studySupported && this.studyMode) ? "study" : "";
+      const result = await this.api.chat(question, context, historyForApi, mode);
       const response = result.response || result.error || "No response received.";
       this._addMessage("assistant", response);
     } catch (e) {
