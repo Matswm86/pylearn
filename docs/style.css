@@ -851,3 +851,39 @@ body:not(.eli5-mode) .eli5-box { display: none; }
   .skill-card > summary { flex-wrap: wrap; }
   .skill-where a { white-space: normal; }
 }
+
+/* ===== Deep dives card on the Path page ===== */
+.dd-block { border-left: 3px solid var(--border); }
+.dd-block.dd-on { border-left-color: var(--success, #2e9e5b); }
+.dd-block.dd-off { border-left-color: var(--warning, #c08a2e); }
+.dd-badge { white-space: nowrap; }
+.dd-author { font-style: italic; }
+.dd-warning { border-left: 3px solid var(--warning, #c08a2e); padding-left: 10px; }
+
+/* ===== 30 questions page ===== */
+.q-card { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); margin: 10px 0; }
+.q-card > summary { cursor: pointer; padding: 10px 12px; display: flex; gap: 10px; align-items: baseline; list-style: none; }
+.q-card > summary::-webkit-details-marker { display: none; }
+.q-num { font-weight: 700; color: var(--text-dim); min-width: 1.8em; }
+.q-text { flex: 1; }
+.q-level { font-size: 0.7rem; color: var(--text-dim); background: var(--surface-alt); padding: 1px 7px; border-radius: 10px; white-space: nowrap; }
+.q-card.done { border-color: var(--success, #2e9e5b); }
+.q-card.done .q-num::after { content: " \2713"; color: var(--success, #2e9e5b); }
+.q-body { padding: 0 14px 14px 14px; }
+.q-body p { margin: 8px 0; line-height: 1.55; }
+.q-refs { font-size: 0.8rem; color: var(--text-dim); }
+.q-refs a { margin-right: 4px; }
+.q-rate { display: block; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 0.85rem; cursor: pointer; }
+.q-table-wrap { overflow-x: auto; }
+.q-table { border-collapse: collapse; width: 100%; font-size: 0.82rem; }
+.q-table th, .q-table td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; vertical-align: top; }
+.q-table th { background: var(--surface-alt); }
+.q-sig-n { font-weight: 700; white-space: nowrap; }
+.q-sig-weak { color: var(--error, #c0392b); }
+.q-extras li { margin: 8px 0; line-height: 1.5; }
+.q-refs-list { padding-left: 0; list-style: none; }
+.q-refs-list li { margin: 6px 0; font-size: 0.85rem; line-height: 1.45; }
+.q-ref-n { display: inline-block; min-width: 1.8em; color: var(--text-dim); font-weight: 700; }
+@media (max-width: 600px) {
+  .q-card > summary { flex-wrap: wrap; }
+}

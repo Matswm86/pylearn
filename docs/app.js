@@ -302,6 +302,7 @@ function getRoute() {
   if (parts[0] === "playground") return { view: "playground" };
   if (parts[0] === "path") return { view: "path" };
   if (parts[0] === "checklist") return { view: "checklist" };
+  if (parts[0] === "questions") return { view: "questions" };
   return { view: "welcome" };
 }
 
@@ -327,6 +328,7 @@ function render() {
     case "playground": renderPlayground(app); break;
     case "path": renderPath(app); break;
     case "checklist": renderChecklist(app); break;
+    case "questions": renderQuestions(app); break;
     default: renderWelcome(app);
   }
 

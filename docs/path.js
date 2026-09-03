@@ -266,6 +266,43 @@ const PATH_CERTS = {
   ],
 };
 
+// Deep dives: longer material that sits beside the path, not inside it.
+// `onPath: true` means it is part of the work; `onPath: false` means optional
+// theory that no AI engineering job requires.
+const PATH_DEEPDIVES = {
+  id: "deep",
+  title: "Deep dives beside the path",
+  cap: "one is on the path, one is optional theory",
+  intro: "Two long documents that go far past what any phase asks for. Read the first when you reach the retrieval layer of your project. Read the second only if you want the mathematics for its own sake.",
+  items: [
+    {
+      id: "dd_questions",
+      onPath: true,
+      badge: "On the path",
+      title: "Embeddings, Vector Search & Retrieval: 30 questions",
+      author: "@techNmak",
+      where: "Phase 2, level 2, and the retrieval half of Phase 3",
+      blurb: "Thirty questions with answers, covering pooling, cosine versus dot product, contrastive training, BM25, SPLADE, hybrid retrieval and Reciprocal Rank Fusion, cross-encoders, ColBERT late interaction, HNSW, IVF, Product Quantization, metadata filtering, index freshness, embedding-model migration, memory sizing, and the retrieval metrics. Every question is self-rated and saved.",
+      href: "#/questions",
+      linkText: "Open the 30 questions",
+      internal: true,
+    },
+    {
+      id: "dd_18657",
+      onPath: false,
+      badge: "Optional theory, off the path",
+      title: "MIT 18.657: Mathematics of Machine Learning",
+      author: "Philippe Rigollet, MIT, Fall 2015",
+      where: "Nowhere. It is not a phase requirement and it is not a prerequisite for anything below.",
+      blurb: "194 pages, 23 lectures of graduate statistical learning theory: empirical risk minimisation, concentration inequalities, VC dimension, Rademacher complexity, convex relaxations, boosting, support vector machines, mirror descent, stochastic and online optimisation, stochastic and adversarial bandits, Blackwell approachability. It answers how much data a method needs to reach a given accuracy. It teaches nothing about building on foundation models, and it assumes a first graduate course in statistics and measure-theoretic probability.",
+      href: "https://ocw.mit.edu/courses/18-657-mathematics-of-machine-learning-fall-2015/",
+      linkText: "MIT OpenCourseWare course page",
+      internal: false,
+      warning: "Phase 0 has a hard three-week cap for a reason: intuition, not mastery. This course is the opposite of that cap. Opening it before you have shipped the Phase 2 project is the classic way to spend six months feeling productive and shipping nothing.",
+    },
+  ],
+};
+
 // ===== Persistence =====
 const pathProgress = {
   _data: null,
@@ -520,6 +557,39 @@ function renderPathCertsCard() {
     </details>`;
 }
 
+function renderPathDeepDivesCard() {
+  const items = PATH_DEEPDIVES.items.map(it => {
+    const link = it.internal
+      ? `<a class="action-btn" href="${it.href}" onclick="navigate('${it.href.slice(1)}'); return false;">${escapeHtml(it.linkText)} \u2192</a>`
+      : `<a class="action-btn" href="${it.href}" target="_blank" rel="noopener">${escapeHtml(it.linkText)} \u2197</a>`;
+    const warn = it.warning ? `<p class="path-note dd-warning"><strong>Read this first:</strong> ${escapeHtml(it.warning)}</p>` : "";
+    return `
+      <div class="cert-block dd-block ${it.onPath ? "dd-on" : "dd-off"}">
+        <div class="path-group-head">
+          <h3>${escapeHtml(it.title)}</h3>
+          <span class="path-group-count dd-badge">${escapeHtml(it.badge)}</span>
+        </div>
+        <p class="path-note dd-author">${escapeHtml(it.author)}</p>
+        <p class="path-note"><strong>Where it fits:</strong> ${escapeHtml(it.where)}</p>
+        <p class="path-note">${escapeHtml(it.blurb)}</p>
+        ${warn}
+        <p style="margin-top:10px">${link}</p>
+      </div>`;
+  }).join("");
+  return `
+    <details class="phase-card">
+      <summary>
+        <span class="phase-num">\u{1f4da}</span>
+        <span class="phase-title">${escapeHtml(PATH_DEEPDIVES.title)}</span>
+        <span class="phase-cap">${escapeHtml(PATH_DEEPDIVES.cap)}</span>
+      </summary>
+      <div class="phase-body">
+        <p class="path-note">${escapeHtml(PATH_DEEPDIVES.intro)}</p>
+        ${items}
+      </div>
+    </details>`;
+}
+
 function renderPath(app) {
   const phase0 = PATH_PHASES.find(p => p.num === 0);
   const later = PATH_PHASES.filter(p => p.num > 1);
@@ -584,6 +654,8 @@ function renderPath(app) {
     </details>
 
     ${renderPathCertsCard()}
+
+    ${renderPathDeepDivesCard()}
 
     ${later.map(renderPathPhaseCard).join("")}
 
