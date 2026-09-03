@@ -301,6 +301,7 @@ function getRoute() {
   if (parts[0] === "exercise" && parts[1]) return { view: "exercise", exerciseId: parts[1] };
   if (parts[0] === "playground") return { view: "playground" };
   if (parts[0] === "path") return { view: "path" };
+  if (parts[0] === "checklist") return { view: "checklist" };
   return { view: "welcome" };
 }
 
@@ -325,6 +326,7 @@ function render() {
     case "exercise": renderExercise(app, route.exerciseId); break;
     case "playground": renderPlayground(app); break;
     case "path": renderPath(app); break;
+    case "checklist": renderChecklist(app); break;
     default: renderWelcome(app);
   }
 
@@ -453,7 +455,7 @@ function renderDashboard(app) {
     </div>
     <div class="path-banner" onclick="navigate('/path')">
       <span class="path-banner-icon">🧭</span>
-      <div><strong>The AI Engineer Path</strong><br><span>Five phases, a video plus a practice video per topic, and an honest exit gate. Every topic below also has a ▶ Watch tab.</span></div>
+      <div><strong>The AI Engineer Path</strong><br><span>Five phases, a video plus a practice video per topic, and an honest exit gate. Every topic below also has a ▶ Watch tab.</span><br><a class="path-banner-link" href="#/checklist" onclick="event.stopPropagation(); navigate('/checklist'); return false;">Skills checklist (100 items) →</a></div>
       <span class="path-banner-arrow">→</span>
     </div>
     <div class="topic-grid">${cards}</div>

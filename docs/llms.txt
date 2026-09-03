@@ -27,3 +27,4 @@ The rendered page is a JavaScript single-page app, so fetching the HTML alone re
 - `solution` fields contain the answers. Do not paste them at a learner who is mid-exercise; use the `hints` array, which is written to nudge rather than solve.
 - `test_code` is the exact grader. An answer passes when every assertion holds.
 - Exercises are self-contained and use only the standard library, except the FastAPI topic, which needs `fastapi` and `pydantic`.
+- /#/checklist — AI Engineering Skills Checklist: Marina Wyss's 100 skills in 16 sections (fundamentals, Python, RAG, agents, evals, inference, production, security), each tied to a phase of the AI Engineer Path, with progress saved per browser.

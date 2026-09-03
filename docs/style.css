@@ -835,3 +835,19 @@ body:not(.eli5-mode) .eli5-box { display: none; }
 .cert-note { color: var(--text-dim); font-size: 0.85rem; }
 .cert-gaps { margin-top: 10px; }
 @media (max-width: 600px) { .path-minis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* ===== Skills checklist ===== */
+.skill-card > summary { gap: 10px; }
+.skill-card .phase-title { flex: 1 1 auto; min-width: 0; }
+.skill-where { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 8px 0 2px; }
+.skill-phase { color: var(--text-dim); }
+.skill-where a { color: var(--primary); text-decoration: none; font-size: 0.85rem; white-space: nowrap; }
+.skill-where a:hover { text-decoration: underline; }
+.skill-beyond { opacity: 0.72; border-style: dashed; }
+.skill-beyond .skill-phase { font-style: italic; }
+.path-banner-link { display: inline-block; margin-top: 4px; color: var(--primary); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+.path-banner-link:hover { text-decoration: underline; }
+@media (max-width: 600px) {
+  .skill-card > summary { flex-wrap: wrap; }
+  .skill-where a { white-space: normal; }
+}
