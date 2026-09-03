@@ -57,6 +57,10 @@ class TutorAPI {
   }
 }
 
+// A stored conversation older than this is dropped on load, so a new study
+// session starts clean instead of resuming a chat from a previous day.
+const TUTOR_SESSION_MAX_AGE_MS = 8 * 60 * 60 * 1000; // 8 hours
+
 // ===== UI Controller =====
 class TutorUI {
   constructor() {
@@ -338,7 +342,7 @@ class TutorUI {
   // --- History ---
   clearHistory() {
     this.history = [];
-    this._saveHistory();
+    try { localStorage.removeItem("pylearn_tutor_history"); } catch { /* ignore */ }
     this._renderMessages();
   }
 
@@ -351,12 +355,25 @@ class TutorUI {
     this._scrollToBottom();
   }
 
+  // A conversation belongs to a study session, not to the browser profile.
+  // Without this cut-off the sidebar reloaded messages from days earlier and
+  // shipped the last six of them to the model as context on every new
+  // question, so Pytor kept answering inside a conversation Mats had finished.
   _loadHistory() {
+    let stored;
     try {
-      return JSON.parse(localStorage.getItem("pylearn_tutor_history")) || [];
+      stored = JSON.parse(localStorage.getItem("pylearn_tutor_history")) || [];
     } catch {
       return [];
     }
+    if (!Array.isArray(stored) || stored.length === 0) return [];
+    const last = stored[stored.length - 1];
+    const age = Date.now() - (last && last.ts ? last.ts : 0);
+    if (age > TUTOR_SESSION_MAX_AGE_MS) {
+      try { localStorage.removeItem("pylearn_tutor_history"); } catch { /* ignore */ }
+      return [];
+    }
+    return stored;
   }
 
   _saveHistory() {
