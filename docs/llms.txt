@@ -8,6 +8,7 @@ The rendered page is a JavaScript single-page app, so fetching the HTML alone re
 
 - [All exercises](https://pytor.mwmai.no/exercises.json): one JSON file holding every exercise. Each entry has `id`, `title`, `difficulty` (1 beginner to 5 challenge), `description`, `hints`, `solution`, `starter_code`, `test_code` (assertions run against the learner's answer), and `concepts`.
 - [Lessons](https://pytor.mwmai.no/lessons.js): prose lessons per topic, as a JavaScript object assigned to `window.PYLEARN_LESSONS`. Each topic carries `subtitle`, `sections` (with worked examples and expected output), `tips`, and `common_mistakes`.
+- [The AI Engineer Path](https://pytor.mwmai.no/#/path) (data in [path.js](https://pytor.mwmai.no/path.js)): a five-phase study roadmap (math intuition, Python by hand, one escalating project, the five production skills, manufactured experience) with a concept-plus-practice video sequence from the Visually Explained YouTube channel; every topic page also has a Watch tab listing its matching videos. Path progress is stored in the browser only.
 
 ## Topics, in teaching order
 

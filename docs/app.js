@@ -300,6 +300,7 @@ function getRoute() {
   if (parts[0] === "topic" && parts[1]) return { view: "topic", topicId: parts[1], tab: parts[2] || "lesson" };
   if (parts[0] === "exercise" && parts[1]) return { view: "exercise", exerciseId: parts[1] };
   if (parts[0] === "playground") return { view: "playground" };
+  if (parts[0] === "path") return { view: "path" };
   return { view: "welcome" };
 }
 
@@ -323,6 +324,7 @@ function render() {
     case "topic": renderTopic(app, route.topicId, route.tab); break;
     case "exercise": renderExercise(app, route.exerciseId); break;
     case "playground": renderPlayground(app); break;
+    case "path": renderPath(app); break;
     default: renderWelcome(app);
   }
 
@@ -366,6 +368,12 @@ function renderWelcome(app) {
       <p>See the <strong>🧒 ELI5</strong> button in the top-right corner? It's <strong>ON by default</strong>.</p>
       <p>When it's on, every topic and exercise gets extra-simple explanations using everyday analogies — like explaining variables as "labeled jars" or functions as "recipes". Perfect if you've never coded before!</p>
       <p>If you already know some programming, you can click it to turn it off and see just the standard descriptions.</p>
+    </div>
+
+    <div class="welcome-section path-cta">
+      <h2>🧭 Learning Python to build with AI?</h2>
+      <p>Follow <strong>The AI Engineer Path</strong>: five phases from math intuition to real experience, with a short video plus a practice video for every Python topic on this site. You type every line; Pytor explains and quizzes.</p>
+      <button class="start-btn" onclick="navigate('/path')">Open the Path →</button>
     </div>
 
     <div class="welcome-section">
@@ -442,6 +450,11 @@ function renderDashboard(app) {
     <div class="dashboard-header">
       <h1>Your Learning Path</h1>
       <p>Pick a topic to start learning. We recommend going in order!</p>
+    </div>
+    <div class="path-banner" onclick="navigate('/path')">
+      <span class="path-banner-icon">🧭</span>
+      <div><strong>The AI Engineer Path</strong><br><span>Five phases, a video plus a practice video per topic, and an honest exit gate. Every topic below also has a ▶ Watch tab.</span></div>
+      <span class="path-banner-arrow">→</span>
     </div>
     <div class="topic-grid">${cards}</div>
 
@@ -565,6 +578,8 @@ function renderTopic(app, topicId, activeTab) {
         </div>
       `;
     }
+  } else if (activeTab === "watch") {
+    content = typeof renderWatchList === "function" ? renderWatchList(topicId) : "";
   } else {
     // Exercise list
     let items = "";
@@ -603,6 +618,7 @@ function renderTopic(app, topicId, activeTab) {
     <div class="tab-bar">
       <button class="tab ${activeTab === 'lesson' ? 'active' : ''}" onclick="navigate('/topic/${topicId}/lesson')">📖 Lesson</button>
       <button class="tab ${activeTab === 'exercises' ? 'active' : ''}" onclick="navigate('/topic/${topicId}/exercises')">✏️ Exercises</button>
+      <button class="tab ${activeTab === 'watch' ? 'active' : ''}" onclick="navigate('/topic/${topicId}/watch')">▶ Watch</button>
     </div>
     ${content}
   `;
