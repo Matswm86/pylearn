@@ -752,7 +752,7 @@ body:not(.eli5-mode) .eli5-box { display: none; }
 .path-progress { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 16px; }
 .path-progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
 .path-progress-top span { color: var(--text-dim); font-size: 0.9rem; }
-.path-minis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.path-minis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
 .path-mini-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px; gap: 4px; }
 .phase-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 12px; box-shadow: var(--shadow); }
 .phase-card > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 14px 18px; flex-wrap: wrap; }
@@ -825,3 +825,13 @@ body:not(.eli5-mode) .eli5-box { display: none; }
   .badge { padding: 4px 7px; font-size: 0.75rem; }
   .badge-label { display: none; }
 }
+
+/* ===== Path: certification track ===== */
+.phase-certs .phase-num { background: var(--warning-light); font-size: 1rem; }
+.cert-block { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); }
+.cert-block:first-of-type { border-top: none; }
+.cert-sub { font-size: 0.9rem; margin: 14px 0 2px; color: var(--text-dim); font-weight: 600; }
+.cert-weight { margin-left: 6px; white-space: nowrap; }
+.cert-note { color: var(--text-dim); font-size: 0.85rem; }
+.cert-gaps { margin-top: 10px; }
+@media (max-width: 600px) { .path-minis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

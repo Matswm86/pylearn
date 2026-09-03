@@ -195,6 +195,77 @@ const PATH_PHASES = [
 
 const PATH_TYPE_LABEL = { C: "Concept", P: "Practice", MP: "Mini-project" };
 
+// Certification track. Facts from the official Microsoft study guides
+// (skills measured, checked 2026-08-20); CertiAce pages read 2026-09-03.
+const PATH_CERTS = {
+  id: "certs",
+  title: "Certification track: AI-901 → AI-103",
+  cap: "runs alongside Phase 2; needs Phase 1 Python first",
+  intro: "Certificates are a supplement, never the main signal. They get you past a screen; the project and the real experience get you the interview. Both exams below are live; AI-900, AI-102 and DP-100 retired in June 2026, so ignore any material that still names them. Per domain: read the official study guide's bullet list, do the Microsoft Learn module, then the CertiAce module with explanations on. The official Practice Assessment is the bar; a CertiAce mock is a signal.",
+  exams: [
+    {
+      code: "AI-901", name: "Microsoft Azure AI Fundamentals",
+      facts: "Passing score 700. No retirement date. Microsoft lists Python syntax and Azure familiarity as prerequisites, which is why this sits after Phase 1.",
+      official: "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-901",
+      guide: "https://certiace.com/study-guides/ai-901",
+      practice: "https://certiace.com/practice/AI-901",
+      practiceNote: "249 questions; Modules, Randomizer, Practice Exam, AI Practice; free start, account for the full bank",
+      domains: [
+        ["c901_d1", "Identify AI concepts and capabilities", "40-45%"],
+        ["c901_d2", "Implement AI solutions by using Microsoft Foundry", "55-60%"],
+      ],
+      gaps: null,
+      steps: [
+        ["c901_s1", "Read the official study guide once; note that over half the exam is hands-on Foundry"],
+        ["c901_s2", "Microsoft Learn AI-901 learning path finished"],
+        ["c901_s3", "CertiAce study guide read, both CertiAce modules done with explanations on"],
+        ["c901_s4", "Official Practice Assessment (AI Skills Navigator) 800 or more, twice, one of them timed"],
+        ["c901_s5", "Exam booked, on a personal Microsoft account (exam records are unrecoverable if you leave an organisation)"],
+        ["c901_s6", "Passed"],
+      ],
+    },
+    {
+      code: "AI-103", name: "Azure AI Apps and Agents Developer Associate",
+      facts: "The AI Engineer role certificate. Passing score 700, about 60 hours of study with labs. Domain 1 is a restatement of the five skills in Phase 3: model selection, retrieval, agent memory and tools, quotas and cost, monitoring for drift and grounding quality, keyless credentials. Studying for it is studying LLMOps.",
+      official: "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103",
+      guide: "https://certiace.com/study-guides/ai-103",
+      practice: "https://certiace.com/practice/AI-103",
+      practiceNote: "306 questions; Modules, Randomizer, Case Studies, Practice Exam, AI Practice; free start, account for the full bank",
+      domains: [
+        ["c103_d1", "Plan and manage an Azure AI solution", "25-30%"],
+        ["c103_d2", "Implement generative AI and agentic solutions", "30-35%"],
+        ["c103_d3", "Implement computer vision solutions", "10-15%"],
+        ["c103_d4", "Implement text analysis solutions", "10-15%"],
+        ["c103_d5", "Implement information extraction solutions", "10-15%"],
+      ],
+      gaps: {
+        title: "Ten gaps, one lab each",
+        note: "The parts of the exam that are Azure surface rather than concepts. Each one is a lab in the Azure free account, deleted the same day if it has a running cost.",
+        items: [
+          ["c103_g1", "Foundry project model: hub, project, connections"],
+          ["c103_g2", "Azure OpenAI deployment mechanics: quotas, regions, content filters, managed identity"],
+          ["c103_g3", "Azure AI Search: semantic ranker, integrated vectorisation, indexers, skillsets"],
+          ["c103_g4", "Foundry Agent Service: single agent with tools, then multi-agent"],
+          ["c103_g5", "Foundry evaluators: groundedness, relevance, similarity, safety"],
+          ["c103_g6", "Azure AI Document Intelligence"],
+          ["c103_g7", "Azure Content Understanding: documents, images, audio, video"],
+          ["c103_g8", "Azure AI Speech: speech to text, text to speech"],
+          ["c103_g9", "Azure Content Safety: Prompt Shields, groundedness detection, protected material"],
+          ["c103_g10", "CI/CD into Foundry: Bicep or Azure DevOps"],
+        ],
+      },
+      steps: [
+        ["c103_s1", "Read the official study guide; plan hours by domain weight"],
+        ["c103_s2", "Microsoft Learn AI-103 learning path finished"],
+        ["c103_s3", "CertiAce study guide read, all four CertiAce modules done, case studies included"],
+        ["c103_s4", "One CertiAce practice exam per week from week 3; official Practice Assessment 800 or more, timed"],
+        ["c103_s5", "Exam booked"],
+        ["c103_s6", "Passed"],
+      ],
+    },
+  ],
+};
+
 // ===== Persistence =====
 const pathProgress = {
   _data: null,
@@ -232,9 +303,20 @@ function pathCount(ids) {
   return { done, total: ids.length, pct: ids.length ? Math.round(done / ids.length * 100) : 0 };
 }
 
+function pathCertIds() {
+  const ids = [];
+  for (const ex of PATH_CERTS.exams) {
+    for (const [id] of ex.domains) ids.push(id);
+    if (ex.gaps) for (const [id] of ex.gaps.items) ids.push(id);
+    for (const [id] of ex.steps) ids.push(id);
+  }
+  return ids;
+}
+
 function pathAllIds() {
   const ids = pathPhase1Ids();
   for (const p of PATH_PHASES) ids.push(...pathPhaseIds(p));
+  ids.push(...pathCertIds());
   return ids;
 }
 
@@ -328,12 +410,12 @@ function renderPathGroup(group, opts = {}) {
     </div>`;
 }
 
-function renderPathCheckItem(id, text) {
-  if (!id) return `<li class="path-item nocheck"><span>${escapeHtml(text)}</span></li>`;
+function renderPathCheckItem(id, text, suffixHtml = "") {
+  if (!id) return `<li class="path-item nocheck"><span>${escapeHtml(text)}</span>${suffixHtml}</li>`;
   const done = pathProgress.isDone(id);
   return `
     <li class="path-item ${done ? "done" : ""}" data-step="${id}">
-      <label><input type="checkbox" ${done ? "checked" : ""} onchange="pathSetDone('${id}', this.checked)"> <span>${escapeHtml(text)}</span></label>
+      <label><input type="checkbox" ${done ? "checked" : ""} onchange="pathSetDone('${id}', this.checked)"> <span>${escapeHtml(text)}</span>${suffixHtml}</label>
     </li>`;
 }
 
@@ -353,6 +435,7 @@ function renderPathProgressStrip() {
   bars.push(phaseBar("2 Project", pathCount(pathPhaseIds(byNum[2]))));
   bars.push(phaseBar("3 Skills", pathCount(pathPhaseIds(byNum[3]))));
   bars.push(phaseBar("4 Experience", pathCount(pathPhaseIds(byNum[4]))));
+  bars.push(phaseBar("🎓 Certs", pathCount(pathCertIds())));
   return `
     <div class="path-progress-top">
       <strong>${all.done}/${all.total} steps done</strong>
@@ -380,6 +463,63 @@ function renderPathPhaseCard(phase) {
     </details>`;
 }
 
+function renderPathCertExam(ex) {
+  const domainItems = ex.domains.map(([id, text, w]) =>
+    renderPathCheckItem(id, text, `<span class="path-group-count cert-weight">${escapeHtml(w)} of the exam</span>`)
+  ).join("");
+  const stepItems = ex.steps.map(([id, text]) => renderPathCheckItem(id, text)).join("");
+  let gapsHtml = "";
+  if (ex.gaps) {
+    const gapIds = ex.gaps.items.map(([id]) => id);
+    const gc = pathCount(gapIds);
+    gapsHtml = `
+      <details class="path-group cert-gaps">
+        <summary class="path-group-head">
+          <h3>${escapeHtml(ex.gaps.title)}</h3>
+          <span class="path-group-count" data-group-count="${gapIds.join(",")}">${gc.done}/${gc.total}</span>
+        </summary>
+        <p class="path-note">${escapeHtml(ex.gaps.note)}</p>
+        <ul class="path-items">${ex.gaps.items.map(([id, text]) => renderPathCheckItem(id, text)).join("")}</ul>
+      </details>`;
+  }
+  const allIds = [...ex.domains.map(([id]) => id), ...(ex.gaps ? ex.gaps.items.map(([id]) => id) : []), ...ex.steps.map(([id]) => id)];
+  const c = pathCount(allIds);
+  return `
+    <div class="cert-block">
+      <div class="path-group-head">
+        <h3>${escapeHtml(ex.code)}: ${escapeHtml(ex.name)}</h3>
+        <span class="path-group-count" data-group-count="${allIds.join(",")}">${c.done}/${c.total}</span>
+      </div>
+      <p class="path-note">${escapeHtml(ex.facts)}</p>
+      <p class="path-sources cert-sources">
+        <strong>Official first:</strong> <a href="${ex.official}" target="_blank" rel="noopener">Microsoft study guide, skills measured ↗</a><br>
+        <strong>Then CertiAce:</strong> <a href="${ex.guide}" target="_blank" rel="noopener">study guide ↗</a> · <a href="${ex.practice}" target="_blank" rel="noopener">practice ↗</a> <span class="cert-note">(${escapeHtml(ex.practiceNote)})</span>
+      </p>
+      <h4 class="cert-sub">Domains (tick when you can teach it)</h4>
+      <ul class="path-items">${domainItems}</ul>
+      ${gapsHtml}
+      <h4 class="cert-sub">Milestones</h4>
+      <ul class="path-items">${stepItems}</ul>
+    </div>`;
+}
+
+function renderPathCertsCard() {
+  const c = pathCount(pathCertIds());
+  return `
+    <details class="phase-card phase-certs">
+      <summary>
+        <span class="phase-num">🎓</span>
+        <span class="phase-title">${escapeHtml(PATH_CERTS.title)}</span>
+        <span class="phase-cap">${escapeHtml(PATH_CERTS.cap)}</span>
+        <span class="phase-count" data-group-count="${pathCertIds().join(",")}">${c.done}/${c.total}</span>
+      </summary>
+      <div class="phase-body">
+        <p class="path-note">${escapeHtml(PATH_CERTS.intro)}</p>
+        ${PATH_CERTS.exams.map(renderPathCertExam).join("")}
+      </div>
+    </details>`;
+}
+
 function renderPath(app) {
   const phase0 = PATH_PHASES.find(p => p.num === 0);
   const later = PATH_PHASES.filter(p => p.num > 1);
@@ -394,7 +534,7 @@ function renderPath(app) {
 
     <div class="path-hero">
       <h1>🧭 The AI Engineer Path</h1>
-      <p>The goal is to build applications on top of foundation models, not to train them. The method is Marina Wyss's five phases: a short math map, Python by hand, one project you keep escalating, the five skills production teams pay for, and real experience you manufacture yourself.</p>
+      <p>The goal is to build applications on top of foundation models, not to train them. The method is Marina Wyss's five phases: a short math map, Python by hand, one project you keep escalating, the five skills production teams pay for, and real experience you manufacture yourself. A Microsoft certification track (AI-901, then AI-103) runs alongside the project.</p>
       <div class="path-rule"><strong>The one rule:</strong> You type every line. Pytor explains and quizzes. It never writes your code.</div>
     </div>
 
@@ -442,6 +582,8 @@ function renderPath(app) {
         </div>
       </div>
     </details>
+
+    ${renderPathCertsCard()}
 
     ${later.map(renderPathPhaseCard).join("")}
 
