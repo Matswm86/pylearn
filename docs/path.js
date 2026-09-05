@@ -272,8 +272,8 @@ const PATH_CERTS = {
 const PATH_DEEPDIVES = {
   id: "deep",
   title: "Deep dives beside the path",
-  cap: "one is on the path, one is optional theory",
-  intro: "Two long documents that go far past what any phase asks for. Read the first when you reach the retrieval layer of your project. Read the second only if you want the mathematics for its own sake.",
+  cap: "two are on the path, one is optional theory",
+  intro: "Three things that sit beside the phases rather than inside them. Read the first when you reach the retrieval layer of your project, watch the second once as a picture of what an agent is, and open the third only if you want the mathematics for its own sake.",
   items: [
     {
       id: "dd_questions",
@@ -286,6 +286,19 @@ const PATH_DEEPDIVES = {
       href: "#/questions",
       linkText: "Open the 30 questions",
       internal: true,
+    },
+    {
+      id: "dd_agents_pure_python",
+      onPath: true,
+      badge: "On the path, watch only",
+      title: "Building AI Agents in Pure Python (37 min)",
+      author: "Tech With Tim, 30 August 2026",
+      where: "Phase 2, level 3: the first agent with a read-only tool",
+      blurb: "A chat loop on the OpenAI chat-completions API, a message list as memory, and one read_file tool declared as a JSON schema that the model asks for and the loop executes. The framing to keep: every agent is a model, a set of tools and a loop, and Claude Code, Cursor and Codex are that pattern done carefully. What the video leaves out and your build must not: tests, evals, error handling.",
+      href: "https://www.youtube.com/watch?v=c9AnqCeyxbI",
+      linkText: "Watch on YouTube",
+      internal: false,
+      warning: "Watch it as a picture, do not type along. The author says the AI generates the code anyway and hands out the finished files. Your version is hand-typed, tests first, on the free Gemini key, when the path reaches level 3.",
     },
     {
       id: "dd_18657",
