@@ -63,6 +63,12 @@ GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "").strip()
 GROQ_TIMEOUT = 30
 OLLAMA_TIMEOUT = 120
 
+# Quest-mode exchanges (the PyQuest game) are appended here, one JSON line
+# each, so the tutor's answers can be reviewed later. No IPs, no headers, just
+# the question, the game context, the answer, backend and timing. Empty
+# string disables it.
+QUEST_LOG_PATH = os.environ.get("QUEST_LOG_PATH", str(SCRIPT_DIR / "quest_chat.jsonl"))
+
 # CORS: same-origin requests from pytor.mwmai.no need no CORS header, but
 # the GitHub Pages mirror (matswm86.github.io/pylearn) needs explicit allow.
 CORS_ALLOWED_ORIGINS = {
@@ -312,6 +318,26 @@ def handle_health() -> tuple[int, dict]:
 
 
 _CODE_FENCE_RE = re.compile(r"```.*?```", re.S)
+_quest_log_lock = threading.Lock()
+
+
+def log_quest_exchange(question: str, context: str, answer: str, backend: str, ms: int) -> None:
+    """Append one quest-mode exchange for later review. Never raises."""
+    if not QUEST_LOG_PATH:
+        return
+    row = {
+        "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "question": question[:2000],
+        "context": context[:1000],
+        "answer": answer[:6000],
+        "backend": backend,
+        "ms": ms,
+    }
+    try:
+        with _quest_log_lock, open(QUEST_LOG_PATH, "a", encoding="utf-8") as handle:
+            handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+    except OSError as exc:
+        log.warning("quest log write failed: %s", exc)
 
 
 def handle_chat(body: dict) -> tuple[int, dict]:
@@ -377,14 +403,19 @@ def handle_chat(body: dict) -> tuple[int, dict]:
         f"{reminder}"
     )
 
+    started = time.monotonic()
     answer, backend = chat_llm(
         system_prompt,
         user_message,
-        max_tokens=900 if quest_mode else 512,
+        max_tokens=1200 if quest_mode else 512,
         temperature=0.4 if quest_mode else 0.7,
     )
     if answer is None:
         return 502, {"response": None, "error": "both backends failed"}
+    if quest_mode:
+        log_quest_exchange(
+            question, context, answer, backend, int((time.monotonic() - started) * 1000)
+        )
     if study_mode and "```" in answer:
         # Defence in depth: the model ignored the no-code rule. Withhold the
         # block rather than ship it, and say so in the log (no silent failure).
