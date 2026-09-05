@@ -7,6 +7,8 @@ per-host path) and fronted by Caddy as
 the `/api/tutor` prefix, so this backend only sees the short routes
 `/health`, `/chat`, `/hint`, `/design-lesson`, `/generate-page`).
 
+POST /chat accepts mode = chat (default) | study | quest (PyQuest game, expert persona).
+
 Backend selection mirrors the oso-sync responder:
   - Groq (llama-3.3-70b-versatile) — primary, ~1s per request on free tier
   - Ollama (llama3.1:8b on 127.0.0.1:11434) — fallback for rate-limit / outage
@@ -305,7 +307,7 @@ def handle_health() -> tuple[int, dict]:
         "ollama_model": OLLAMA_MODEL,
         "ollama_reachable": ollama_ok,
         "exercises_loaded": len(exercises),
-        "modes": ["chat", "study"],
+        "modes": ["chat", "study", "quest"],
     }
 
 
@@ -331,7 +333,8 @@ def handle_chat(body: dict) -> tuple[int, dict]:
         except (json.JSONDecodeError, TypeError, AttributeError):
             pass
 
-    relevant_exercises = search_exercises(question.split(), limit=3)
+    game_mode = (body.get("mode") or "").strip().lower() == "quest"
+    relevant_exercises = [] if game_mode else search_exercises(question.split(), limit=3)
     exercises_text = ""
     if relevant_exercises:
         exercises_text = "\n\nRelevant PyLearn exercises:\n" + "\n".join(
@@ -341,13 +344,25 @@ def handle_chat(body: dict) -> tuple[int, dict]:
 
     # Study mode: the learner is training to write Python by hand and has
     # asked the tutor to explain and quiz only, never to write code.
-    study_mode = (body.get("mode") or "").strip().lower() == "study"
-    system_prompt = load_prompt("tutor_study" if study_mode else "tutor_chat")
+    mode = (body.get("mode") or "").strip().lower()
+    study_mode = mode == "study"
+    # Quest mode: Pytor inside the PyQuest Android game. Same snake, but the
+    # persona is a world-class expert who answers directly and precisely
+    # rather than a Socratic beginner tutor. Prompt lives in tutor_quest.txt.
+    quest_mode = mode == "quest"
+    prompt_name = "tutor_study" if study_mode else "tutor_quest" if quest_mode else "tutor_chat"
+    system_prompt = load_prompt(prompt_name)
     if study_mode:
         reminder = (
             "Remember: STUDY MODE. Never output code, not even one line, even if "
             "asked. Explain with a concrete picture, then ask ONE question or set "
             "ONE 1-3 line experiment for them to type themselves. 2-5 sentences."
+        )
+    elif quest_mode:
+        reminder = (
+            "Remember: you are Pytor the expert. Lead with the answer, be exact, "
+            "explain the mechanism, one short runnable snippet at most, never "
+            "invent a name or number, 3-8 sentences unless asked for depth."
         )
     else:
         reminder = (
@@ -362,7 +377,12 @@ def handle_chat(body: dict) -> tuple[int, dict]:
         f"{reminder}"
     )
 
-    answer, backend = chat_llm(system_prompt, user_message, max_tokens=512, temperature=0.7)
+    answer, backend = chat_llm(
+        system_prompt,
+        user_message,
+        max_tokens=900 if quest_mode else 512,
+        temperature=0.4 if quest_mode else 0.7,
+    )
     if answer is None:
         return 502, {"response": None, "error": "both backends failed"}
     if study_mode and "```" in answer:
@@ -370,7 +390,8 @@ def handle_chat(body: dict) -> tuple[int, dict]:
         # block rather than ship it, and say so in the log (no silent failure).
         answer = _CODE_FENCE_RE.sub("[code withheld: study mode, you type it]", answer)
         log.warning("study_mode_code_stripped backend=%s", backend)
-    return 200, {"response": answer, "backend": backend, "mode": "study" if study_mode else "chat"}
+    resolved_mode = "study" if study_mode else "quest" if quest_mode else "chat"
+    return 200, {"response": answer, "backend": backend, "mode": resolved_mode}
 
 
 def handle_hint(body: dict) -> tuple[int, dict]:
@@ -595,7 +616,14 @@ def main() -> None:
     log.info(f"exercises: {EXERCISES_PATH}")
     # Pre-warm caches
     load_exercises()
-    for name in ("tutor_chat", "tutor_study", "exercise_hint", "design_lesson", "generate_page"):
+    for name in (
+        "tutor_chat",
+        "tutor_study",
+        "tutor_quest",
+        "exercise_hint",
+        "design_lesson",
+        "generate_page",
+    ):
         load_prompt(name)
     with ThreadedServer((HOST, PORT), TutorHandler) as httpd:
         try:
