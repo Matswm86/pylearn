@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Python Block Bench: 44 drag-and-drop puzzles covering syntax, types, f-strings, collections, control flow, functions, imports, classes, JSON and API calls.">
+<title>Python Block Bench · PyLearn</title>
+<link rel="icon" href="/pytor.webp">
+</head>
+<body>
+
+<style>
+:root{
+  --bg:#EEF1F5; --panel:#FFFFFF; --panel2:#F6F8FB; --ink:#1B2430; --ink2:#55627A; --line:#D6DCE6;
+  --accent:#3572A5; --accent-ink:#FFFFFF; --ok:#2E8B57; --ok-bg:#E4F4EA; --bad:#B4432F; --bad-bg:#FBE9E5;
+  --kw:#7A4BC2; --str:#C2691B; --num:#2F8F5B; --fn:#2A6FB0; --punc:#6B7686; --name:#3B4A63; --cmt:#7B8797;
+  --slot:#EDF1F7; --slot-hover:#DCE7F5; --term:#1B2430; --term-ink:#DDE6F0;
+  --shadow:0 1px 2px rgba(20,30,50,.08),0 6px 18px rgba(20,30,50,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161C; --panel:#1B2129; --panel2:#222A34; --ink:#E6EBF2; --ink2:#9AA7B8; --line:#2E3946;
+    --accent:#6FA8DC; --accent-ink:#0F1620; --ok:#5CC48A; --ok-bg:#1B3327; --bad:#E58A78; --bad-bg:#3A231E;
+    --kw:#B892F0; --str:#F0A86A; --num:#7DD3A0; --fn:#7FB6EC; --punc:#94A0B2; --name:#C9D3E0; --cmt:#7B8797;
+    --slot:#28313D; --slot-hover:#34445A; --term:#0C1016; --term-ink:#DDE6F0;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12161C; --panel:#1B2129; --panel2:#222A34; --ink:#E6EBF2; --ink2:#9AA7B8; --line:#2E3946;
+  --accent:#6FA8DC; --accent-ink:#0F1620; --ok:#5CC48A; --ok-bg:#1B3327; --bad:#E58A78; --bad-bg:#3A231E;
+  --kw:#B892F0; --str:#F0A86A; --num:#7DD3A0; --fn:#7FB6EC; --punc:#94A0B2; --name:#C9D3E0; --cmt:#7B8797;
+  --slot:#28313D; --slot-hover:#34445A; --term:#0C1016; --term-ink:#DDE6F0;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+.back{display:inline-block;font-size:13px;color:var(--accent);text-decoration:none;margin:0 0 14px 44px}
+.back:hover{text-decoration:underline}
+@media (max-width:860px){.back{margin:0 0 8px}}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5;margin:0}
+h1,h2,h3{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-wrap:balance;margin:0}
+code,.mono{font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+
+.side{background:var(--panel);border-right:1px solid var(--line);padding:22px 18px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-weight:600}
+.brand h1{font-size:20px;font-weight:700;letter-spacing:-.01em}
+.tag{font-size:12px;color:var(--ink2);text-transform:uppercase;letter-spacing:.08em;margin:0 0 18px 44px}
+.total{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);margin-bottom:18px}
+.bar{flex:1;height:6px;background:var(--slot);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;text-align:left;border:0;background:transparent;color:var(--ink);padding:8px 10px;border-radius:8px}
+.nav button:hover{background:var(--panel2)}
+.nav button.active{background:var(--accent);color:var(--accent-ink)}
+.nav .n{font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:12px;opacity:.7}
+.nav .dots{display:flex;gap:3px}
+.nav .dots i{width:6px;height:6px;border-radius:50%;background:var(--line);display:block}
+.nav .dots i.done{background:var(--ok)}
+.nav button.active .dots i{background:rgba(255,255,255,.35)}
+.nav button.active .dots i.done{background:#fff}
+
+.main{padding:28px clamp(16px,4vw,48px) 60px;max-width:1000px}
+.sec-head{margin-bottom:18px}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink2)}
+.sec-head h2{font-size:30px;font-weight:700;letter-spacing:-.02em;margin:2px 0 8px}
+.intro{color:var(--ink2);max-width:62ch}
+.intro code{background:var(--slot);padding:1px 5px;border-radius:4px;font-size:.92em;color:var(--ink)}
+
+.exlist{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 18px}
+.exlist button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:13px}
+.exlist button.active{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.exlist button.done::before{content:"✓ ";color:var(--ok)}
+.exlist button.active.done::before{color:var(--accent-ink)}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.goal{padding:18px 22px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+.goal h3{font-size:20px;font-weight:700}
+.goal p{margin:4px 0 0;color:var(--ink2);max-width:62ch}
+.want{background:var(--term);color:var(--term-ink);border-radius:8px;padding:8px 12px;font-size:13px;white-space:pre;min-width:160px}
+.want b{display:block;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:400;font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.6;margin-bottom:4px}
+@media (max-width:640px){.goal{grid-template-columns:1fr}}
+
+.teach{padding:16px 22px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1.2fr 1fr;gap:18px;background:var(--panel)}
+@media (max-width:760px){.teach{grid-template-columns:1fr}}
+.teach h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.teach p{margin:0 0 8px;font-size:15px;max-width:60ch}
+.teach p:last-child{margin-bottom:0}
+.teach code{background:var(--slot);padding:1px 5px;border-radius:4px;font-size:.92em}
+.teach .example{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:13.5px;white-space:pre;overflow-x:auto;line-height:1.6}
+.teach .example .outl{border-top:1px dashed var(--line);margin-top:8px;padding-top:8px;color:var(--ink2)}
+.teach .example .outl::before{content:"output:  ";color:var(--cmt);font-style:italic}
+.teach.collapsed .body{display:none}
+.teach .toggle{border:0;background:transparent;color:var(--ink2);font-size:13px;padding:0;text-decoration:underline;justify-self:start}
+.palette{padding:14px 22px;background:var(--panel2);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;min-height:58px;align-items:center}
+.palette .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink2);margin-right:6px}
+.chip{font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:14px;padding:5px 11px;border-radius:7px;color:#fff;border:0;cursor:grab;user-select:none;box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);white-space:pre;line-height:1.4}
+.chip:active{cursor:grabbing}
+.chip.sel{outline:3px solid var(--ink);outline-offset:1px}
+.chip.kw{background:var(--kw)} .chip.str{background:var(--str)} .chip.num{background:var(--num)}
+.chip.fn{background:var(--fn)} .chip.punc{background:var(--punc)} .chip.name{background:var(--name)}
+.chip.lab{background:var(--panel);color:var(--ink);border:1.5px solid var(--accent);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:13px;box-shadow:none}
+.palette.empty::after{content:"All blocks placed. Press Check.";font-size:13px;color:var(--ink2)}
+
+.canvas{padding:18px 22px;overflow-x:auto}
+.codeline{font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:15px;line-height:2.1;white-space:pre;display:flex;align-items:center;min-height:36px}
+.codeline .ln{width:28px;color:var(--cmt);font-size:12px;user-select:none;flex:none}
+.k{color:var(--kw);font-weight:600}.s{color:var(--str)}.n{color:var(--num)}.f{color:var(--fn)}.c{color:var(--cmt);font-style:italic}
+.slot{display:inline-flex;align-items:center;min-width:64px;height:30px;padding:0 6px;border-radius:7px;background:var(--slot);border:1.5px dashed var(--punc);vertical-align:middle;margin:0 2px}
+.slot.over{background:var(--slot-hover);border-style:solid;border-color:var(--accent)}
+.slot.filled{border:0;padding:0;background:transparent}
+.slot.filled .chip{cursor:pointer}
+.slot.right .chip{outline:2px solid var(--ok)}
+.slot.wrong .chip{outline:2px solid var(--bad)}
+.lspan{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;margin:0 2px}
+.lspan .code{padding:0 3px;border-bottom:2px dashed var(--punc);border-radius:2px}
+.lspan .slot{min-width:110px;height:26px;font-size:12px;margin-top:2px}
+.lspan .chip.lab{padding:2px 8px;font-size:12px}
+.lspan.right .code{border-bottom-color:var(--ok);background:var(--ok-bg)}
+.lspan.wrong .code{border-bottom-color:var(--bad);background:var(--bad-bg)}
+.lcode .codeline{line-height:1.6;align-items:flex-end;min-height:60px}
+
+.plines{display:flex;flex-direction:column;gap:6px}
+.pline{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:4px 8px 4px 4px;cursor:grab}
+.pline.over{border-color:var(--accent);border-style:dashed}
+.pline .grip{color:var(--punc);padding:0 6px;user-select:none}
+.pline .code{font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:15px;white-space:pre}
+.pline .code .ind{display:inline-block;background:repeating-linear-gradient(90deg,transparent 0 30px,var(--line) 30px 31px);border-radius:3px;height:1.4em;vertical-align:middle}
+.pline .ctl{display:flex;gap:2px}
+.pline .ctl button{border:1px solid var(--line);background:var(--panel);color:var(--ink);width:30px;height:28px;border-radius:6px;font-size:13px}
+.pline.right{border-color:var(--ok);background:var(--ok-bg)}
+.pline.wrong{border-color:var(--bad);background:var(--bad-bg)}
+
+.actions{display:flex;gap:10px;align-items:center;padding:14px 22px;border-top:1px solid var(--line);flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:9px 16px;border-radius:9px;font-weight:700}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.next{margin-left:auto}
+.fb{padding:0 22px 18px;display:none}
+.fb.show{display:block}
+.msg{border-radius:10px;padding:12px 14px;font-weight:700}
+.msg.ok{background:var(--ok-bg);color:var(--ok)}
+.msg.bad{background:var(--bad-bg);color:var(--bad)}
+.why{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:700px){.why{grid-template-columns:1fr}}
+.why .box{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.why .box h4{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink2)}
+.why .box p{margin:0;font-size:15px}
+.why .box code{background:var(--slot);padding:1px 5px;border-radius:4px;font-size:.92em}
+.term{background:var(--term);color:var(--term-ink);border-radius:10px;padding:12px 14px;font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:14px;white-space:pre-wrap}
+.term::before{content:"$ python main.py\A";color:#7B8797}
+.hint{color:var(--ink2);font-size:14px;padding:0 22px 16px;display:none}
+.hint.show{display:block}
+.hint p{margin:4px 0;padding:8px 12px;background:var(--panel2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;color:var(--ink)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;font-size:12px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+@media (max-width:860px){
+  .app{grid-template-columns:1fr}
+  .side{position:static !important;height:auto !important;border-right:0;border-bottom:1px solid var(--line);padding:14px 16px 10px}
+  .tag,.legend{display:none}
+  .brand{margin-bottom:8px}
+  .total{margin-bottom:10px}
+  .nav{flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:6px;scrollbar-width:thin}
+  .nav button{grid-template-columns:auto auto;flex:none;padding:6px 10px;border:1px solid var(--line);white-space:nowrap;font-size:13px}
+  .nav button .n{display:none}
+  .main{padding:16px 12px 48px}
+  .sec-head h2{font-size:24px}
+  .goal,.palette,.canvas,.actions,.teach{padding-left:14px;padding-right:14px}
+  .codeline{font-size:14px}
+  .btn{padding:9px 12px}
+  .btn.next{margin-left:0}
+}
+@media (pointer:coarse){ .chip{padding:8px 13px;font-size:15px} .slot{min-height:36px;min-width:72px} .pline .ctl button{width:36px;height:34px} .lspan .slot{min-height:30px} }
+.touchnote{display:none;font-size:12px;color:var(--ink2);width:100%}
+@media (pointer:coarse){ .touchnote{display:block} }
+.pline .code{overflow-x:auto;max-width:100%}
+</style>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand"><div class="logo">&gt;_</div><h1>Python Block Bench</h1></div>
+    <p class="tag">drag blocks · build code · read the output</p>
+    <a class="back" href="/">← Back to PyLearn</a>
+    <div class="total"><div class="bar"><i id="totalbar"></i></div><span id="totaltxt">0 / 0</span></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="legend">
+      <span><i style="background:var(--kw)"></i>keyword</span><span><i style="background:var(--str)"></i>string</span>
+      <span><i style="background:var(--num)"></i>number</span><span><i style="background:var(--fn)"></i>function / method</span>
+      <span><i style="background:var(--name)"></i>name</span><span><i style="background:var(--punc)"></i>punctuation</span>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="sec-head" id="sechead"></div>
+    <div class="exlist" id="exlist"></div>
+    <div class="card" id="card"></div>
+  </main>
+</div>
+
+<script>
+// ---------- Exercise data ----------
+// Types: fill (drag blocks into ___ gaps), order (drag lines into order, set indent), label (drag labels onto code parts)
+const SECTIONS = [
+{ id:'syntax', title:'Basic syntax', intro:'Python reads top to bottom. Indentation (4 spaces) is part of the grammar, not decoration. <code>#</code> starts a comment. <code>print()</code> writes to the screen.', ex:[
+ { t:'fill', title:'Your first print', goal:'Put text on the screen.', out:'Hello, Ada!',
+   teach:'<p><code>print()</code> shows something on the screen. Whatever you put between the parentheses gets shown.</p><p>Text must be wrapped in quotes, <code>"like this"</code> or <code>\'like this\'</code>. The quotes tell Python "this is text, not code". Without quotes Python thinks each word is the name of a variable and crashes.</p>',
+   ex:['print("Good morning")', 'Good morning'],
+   code:['print(___)'], ans:[['"Hello, Ada!"',"'Hello, Ada!'"]], extra:['Hello, Ada!',"'Hello, Ada!"],
+   hints:['Look at the example: the text sits inside quotes. Which block has a quote at the start AND the end?','The block that starts with " and ends with " is the only one Python accepts as text.'],
+   why:'<code>print</code> is a function. The thing inside the parentheses is its argument. Quotes make it a string; without quotes Python looks for a variable named Hello and fails.' },
+ { t:'fill', title:'Leave a comment', goal:'Make line 1 a note for humans so Python skips it.', out:'Runs',
+   teach:'<p>A comment is a note in the code that Python ignores. It starts with the hash sign <code>#</code> and runs to the end of the line. You use comments to explain what code does.</p><p>Other languages use <code>//</code> or <code>/* */</code>. Python uses only <code>#</code>.</p>',
+   ex:['# this is ignored\nprint("only this runs")', 'only this runs'],
+   code:['___ This line is for humans only','print("Runs")'], ans:[['#']], extra:['//','--','/*'],
+   hints:['In the example, which symbol starts the ignored line?','The hash sign, #. The others belong to other languages.'],
+   why:'Everything after <code>#</code> on a line is ignored. Other languages use <code>//</code>; Python does not.' },
+ { t:'order', title:'Indentation decides the block', goal:'Order the lines so "Expensive" prints only when the condition is true, and "Done" always prints.', out:'Expensive\nDone',
+   teach:'<p>A line ending in a colon <code>:</code> opens a block. The lines that belong to it are pushed in by 4 spaces. That push is called indentation, and in Python it is not optional: it is how Python knows which lines are inside.</p><p>When the indentation goes back to the left edge, the block is over.</p><p>In this puzzle, use the ▸ button to push a line in, ◂ to pull it back.</p>',
+   ex:['age = 20\nif age >= 18:\n    print("adult")\nprint("checked")', 'adult\nchecked'],
+   lines:[['price = 120',0],['if price > 100:',0],['print("Expensive")',1],['print("Done")',0]],
+   hints:['The variable must be created first. Then the if line with the colon. Which one line belongs inside the if?','Order: price, if, print("Expensive") pushed in once, print("Done") at the left edge.'],
+   why:'The line indented under <code>if</code> belongs to it. The un-indented <code>print("Done")</code> is outside the if, so it always runs.' },
+ { t:'fill', title:'Operators', goal:'Pick the operator that gives each result.', out:'3\n1\n8',
+   teach:'<p>Python does maths with operators. The usual four: <code>+ - * /</code>. Three less familiar ones matter too:</p><p><code>//</code> divides and throws away the decimal part (7 // 2 is 3).<br><code>%</code> gives the remainder after division (7 % 2 is 1, because 2 fits three times with 1 left).<br><code>**</code> is "to the power of" (2 ** 3 is 2×2×2 = 8).</p>',
+   ex:['print(9 / 2)\nprint(9 // 2)\nprint(9 % 2)\nprint(3 ** 2)', '4.5\n4\n1\n9'],
+   code:['print(7 ___ 2)   # 3','print(7 ___ 2)   # 1','print(2 ___ 3)   # 8'], ans:[['//'],['%'],['**']], extra:['/','*','+'],
+   hints:['Line 1 wants 3 from 7 and 2: that is division without the decimal. Line 2 wants the leftover. Line 3 wants a power.','Line 1: //. Line 2: %. Line 3: **.'],
+   why:'<code>7 // 2</code> drops the decimal (3). <code>7 % 2</code> gives what is left over (1). <code>2 ** 3</code> is 2 to the power 3 (8). Plain <code>/</code> would give 3.5.' },
+]},
+{ id:'vars', title:'Variables & data types', intro:'A variable is a name pointing at a value. <code>=</code> assigns. Every value has a type: <code>str</code> text, <code>int</code> whole number, <code>float</code> decimal, <code>bool</code> True/False, <code>None</code> nothing. f-strings put values inside text.', ex:[
+ { t:'fill', title:'Assign and inspect', goal:'Store a value under a name, then ask Python what type it is.', out:"<class 'int'>",
+   teach:'<p>A variable is a name that holds a value. You create one with a single equals sign: <code>name = value</code>. Read it as "name becomes value".</p><p>Every value has a type. <code>type(x)</code> is a function that tells you the type of x. A whole number is an <code>int</code>.</p><p>Careful: <code>==</code> (two signs) means "is equal to?", a question. <code>=</code> (one sign) stores.</p>',
+   ex:['city = "Bergen"\nprint(type(city))', "<class 'str'>"],
+   code:['points ___ 42','print(___(points))'], ans:[['='],['type']], extra:['==','str','print'],
+   hints:['Storing a value uses one equals sign. The function that reports a type is named in the example.','Line 1: =. Line 2: type.'],
+   why:'One <code>=</code> assigns. Two <code>==</code> compares. <code>type()</code> returns the class of a value.' },
+ { t:'fill', title:'Five types', goal:'Give each variable a value of the type written in the comment after it.', out:"MNQ 20 20.25 True None",
+   teach:'<p>The five basic types:</p><p><code>str</code> text, always in quotes: <code>"MNQ"</code>. Note <code>"20"</code> in quotes is text, not a number.<br><code>int</code> whole number, no quotes: <code>20</code>.<br><code>float</code> number with a decimal point: <code>20.25</code>.<br><code>bool</code> only two values, <code>True</code> or <code>False</code>, capital first letter.<br><code>None</code> means "no value here", capital N.</p>',
+   ex:['a = "hi"     # str\nb = 3        # int\nc = 3.5      # float\nd = False    # bool\ne = None     # None\nprint(a, b, c, d, e)', 'hi 3 3.5 False None'],
+   code:['symbol = ___     # str','qty = ___        # int','price = ___      # float','live = ___       # bool','fill = ___       # None','print(symbol, qty, price, live, fill)'],
+   ans:[['"MNQ"'],['20'],['20.25'],['True'],['None']], extra:['"20"','true','null'],
+   hints:['Quotes = str. No decimal point = int. Decimal point = float. Capital True = bool. None is spelled with capital N. The lowercase true and null are not Python.','"MNQ", 20, 20.25, True, None.'],
+   why:'<code>"20"</code> in quotes is a string, not a number. Python spells booleans <code>True</code>/<code>False</code> with a capital, and nothing is <code>None</code>. JSON uses <code>true</code>/<code>null</code>; Python does not.' },
+ { t:'fill', title:'Your first f-string', goal:'Build one sentence from two variables.', out:'MNQ trades at 20125.5',
+   teach:'<p>An f-string is text with variables pasted into it. Put the letter <code>f</code> right before the opening quote, then write the variable name inside curly braces <code>{ }</code>.</p><p><code>f"Hello {name}"</code> becomes <code>Hello Ada</code> if name holds "Ada". Without the <code>f</code>, Python prints the braces literally: <code>Hello {name}</code>.</p>',
+   ex:['city = "Oslo"\ntemp = 14\nprint(f"{city} is {temp} degrees")', 'Oslo is 14 degrees'],
+   code:['symbol = "MNQ"','price = 20125.5','print(___"___ trades at ___")'], ans:[['f'],['{symbol}'],['{price}']], extra:['symbol','"price"','$'],
+   hints:['The first gap is the single letter that goes before the quote. The other two gaps are variable names inside curly braces.','f, then {symbol}, then {price}.'],
+   why:'<code>f"..."</code> is a formatted string. Anything inside <code>{ }</code> is Python code evaluated and pasted in as text. Without the <code>f</code>, the braces print literally.' },
+ { t:'fill', title:'Format numbers inside f-strings', goal:'Show pnl with 2 decimals and wr as a percentage with 1 decimal.', out:'PnL: 1234.50 | Win rate: 62.3%',
+   teach:'<p>Inside the braces you can add a colon and a format code to control how a number looks.</p><p><code>{x:.2f}</code> shows x with exactly 2 decimals (the f means fixed decimal).<br><code>{x:.1%}</code> multiplies by 100, adds a % sign, keeps 1 decimal.<br>The number after the dot is how many decimals you want.</p>',
+   ex:['price = 3.14159\nshare = 0.5\nprint(f"{price:.1f} and {share:.0%}")', '3.1 and 50%'],
+   code:['pnl = 1234.5','wr = 0.6234','print(f"PnL: {pnl___} | Win rate: {wr___}")'], ans:[[':.2f'],[':.1%']], extra:[':.2%',':d',':.1f'],
+   hints:['1234.50 has 2 decimals and no % sign. 62.3% has 1 decimal and a % sign.','pnl gets :.2f. wr gets :.1%.'],
+   why:'<code>{pnl:.2f}</code> means fixed-point with 2 decimals. <code>{wr:.1%}</code> multiplies by 100, adds %, keeps 1 decimal. This is how you make reports readable.' },
+ { t:'order', title:'Values flow downward', goal:'Each line uses the one above it. Put them in an order that runs.', out:'HI MATS',
+   teach:'<p>Python runs lines top to bottom. A variable only exists after the line that creates it has run. So if line 3 uses <code>greeting</code>, the line that creates <code>greeting</code> must come earlier.</p><p><code>.upper()</code> is a method on text: <code>"abc".upper()</code> gives <code>"ABC"</code>.</p>',
+   ex:['word = "go"\nloud = word.upper()\nprint(loud)', 'GO'],
+   lines:[['name = "Ada"',0],['greeting = f"Hi {name}"',0],['shout = greeting.upper()',0],['print(shout)',0]],
+   hints:['Which line needs nothing? That goes first. Then find the line that uses only what already exists.','name, greeting, shout, print. Nothing is indented.'],
+   why:'A variable must exist before you use it. <code>greeting</code> needs <code>name</code>; <code>shout</code> needs <code>greeting</code>.' },
+]},
+{ id:'collections', title:'Collections', intro:'Lists <code>[]</code> are ordered and changeable. Dicts <code>{}</code> map keys to values. Tuples <code>()</code> are ordered but frozen. Sets <code>{}</code> hold unique items only. API responses are almost always dicts and lists nested together.', ex:[
+ { t:'fill', title:'A list, and picking from it', goal:'Wrap the items in list brackets, then fetch the first one.', out:'MNQ',
+   teach:'<p>A list holds several values in order. You write it with square brackets and commas: <code>[10, 20, 30]</code>.</p><p>You pick one item with its position in square brackets. Positions start at 0, not 1: <code>nums[0]</code> is the first item, <code>nums[1]</code> the second.</p>',
+   ex:['colors = ["red", "green", "blue"]\nprint(colors[1])', 'green'],
+   code:['symbols = ___"MNQ", "MGC", "MES"___','print(symbols[___])'], ans:[['['],[']'],['0']], extra:['(',')','1'],
+   hints:['Lists use square brackets. The first item is at position zero.','[ and ] around the items, then 0 for the first item.'],
+   why:'Square brackets make a list. <code>symbols[0]</code> is the first item because Python indexes from zero. <code>symbols[1]</code> would be MGC.' },
+ { t:'fill', title:'A dictionary lookup', goal:'Look up a value by its key.', out:'MNQ',
+   teach:'<p>A dictionary stores pairs: a key and its value, like a real dictionary maps a word to a meaning. You write it with curly braces: <code>{"key": value}</code>.</p><p>To get a value, put the key in square brackets: <code>d["key"]</code>. Keys are usually text, so they keep their quotes. <code>d[key]</code> without quotes would look for a variable called key.</p>',
+   ex:['person = {"name": "Ola", "age": 30}\nprint(person["age"])', '30'],
+   code:['trade = {"symbol": "MNQ", "qty": 2}','print(trade[___])'], ans:[['"symbol"']], extra:['symbol','0','"MNQ"'],
+   hints:['You want the value MNQ. Which key is it stored under? Write the key exactly as it appears in the dict, quotes included.','"symbol", with quotes.'],
+   why:'A dict has no positions, only keys. <code>trade["symbol"]</code> asks for the value stored under the string key.' },
+ { t:'fill', title:'Tuple and set', goal:'Make point a tuple and tags a set.', out:'2',
+   teach:'<p>A tuple is like a list but frozen: once made it cannot change. Round brackets: <code>(1, 2)</code>. Use it for fixed pairs like coordinates.</p><p>A set is a bag of unique items: duplicates vanish. Curly braces with no colons: <code>{"a", "b"}</code>. <code>len()</code> counts items in any collection.</p>',
+   ex:['pair = (3, 4)\nletters = {"x", "y", "x"}\nprint(len(letters))', '2'],
+   code:['point = ___1, 2___','tags = ___"a", "b", "a"___','print(len(tags))'], ans:[['('],[')'],['{'],['}']], extra:['[',']'],
+   hints:['Tuples use round brackets, sets use curly braces. The output 2 shows the duplicate "a" was dropped, which only a set does.','( ) around 1, 2 and { } around the strings.'],
+   why:'<code>(1, 2)</code> cannot be changed after creation. <code>{"a","b","a"}</code> keeps one "a", so <code>len</code> is 2.' },
+ { t:'order', title:'Build a list step by step', goal:'Start empty, add two prices in order, print.', out:'[100, 105]',
+   teach:'<p><code>[]</code> is an empty list. <code>mylist.append(x)</code> adds x to the end. The list must exist before you can append to it, and the order you append is the order you get.</p>',
+   ex:['names = []\nnames.append("a")\nnames.append("b")\nprint(names)', "['a', 'b']"],
+   lines:[['prices = []',0],['prices.append(100)',0],['prices.append(105)',0],['print(prices)',0]],
+   hints:['Create the empty list first. The output shows 100 before 105, so which append comes first?','prices = [], append(100), append(105), print.'],
+   why:'<code>.append()</code> adds to the end. Appending 100 then 105 gives <code>[100, 105]</code>.' },
+ { t:'fill', title:'Loop over a dict', goal:'Walk through every key/value pair.', out:'symbol -> MNQ\nqty -> 2',
+   teach:'<p>A <code>for</code> loop repeats its indented body once per item. To loop over a dictionary\'s pairs, call <code>.items()</code> on it. Each round gives you two names: the key and the value.</p><p><code>.keys()</code> would give only keys, <code>.values()</code> only values.</p>',
+   ex:['ages = {"Ola": 30, "Kari": 28}\nfor name, age in ages.items():\n    print(name, age)', 'Ola 30\nKari 28'],
+   code:['trade = {"symbol": "MNQ", "qty": 2}','for key, value in trade___():','    print(f"{key} -> {value}")'], ans:[['.items']], extra:['.keys','.values','.pairs'],
+   hints:['The loop names two things, key and value. Which method gives both at once?','.items'],
+   why:'<code>.items()</code> yields (key, value) pairs. This loop is how you inspect any API response.' },
+]},
+{ id:'flow', title:'Control flow', intro:'<code>if / elif / else</code> pick a branch. <code>for</code> repeats over a collection. <code>while</code> repeats until a condition turns false. <code>break</code> leaves the loop, <code>continue</code> skips to the next round.', ex:[
+ { t:'fill', title:'Three branches', goal:'Complete the chain: if, else-if, else.', out:'Flat',
+   teach:'<p><code>if</code> checks a condition. <code>elif</code> ("else if") checks another one only if the first was false. <code>else</code> catches everything left over and has no condition. Only one branch runs.</p>',
+   ex:['temp = 5\nif temp > 20:\n    print("warm")\nelif temp > 0:\n    print("cool")\nelse:\n    print("freezing")', 'cool'],
+   code:['pnl = 0','if pnl > 0:','    print("Green")','___ pnl == 0:','    print("Flat")','___:','    print("Red")'], ans:[['elif'],['else']], extra:['else if','elseif','then'],
+   hints:['Python writes "else if" as one short word. The final catch-all has no condition.','elif, then else.'],
+   why:'<code>elif</code> is Python\'s "else if". <code>else</code> takes no condition. Only the first true branch runs.' },
+ { t:'order', title:'A for loop with a body', goal:'Print each symbol, then print done once.', out:'MNQ\nMGC\ndone',
+   teach:'<p><code>for s in symbols:</code> runs the indented lines once for each item, with <code>s</code> holding the current item. A line at the left edge after the loop runs once, after the loop is finished.</p>',
+   ex:['for n in [1, 2]:\n    print(n)\nprint("end")', '1\n2\nend'],
+   lines:[['symbols = ["MNQ", "MGC"]',0],['for s in symbols:',0],['print(s)',1],['print("done")',0]],
+   hints:['The list must exist before the loop. Only the line that repeats goes inside (indented).','symbols, for, print(s) indented once, print("done") at the edge.'],
+   why:'The indented line runs once per item. The un-indented <code>print("done")</code> runs after the loop finishes.' },
+ { t:'fill', title:'Count down with while', goal:'Loop while n is above zero, printing and shrinking n each round.', out:'3\n2\n1',
+   teach:'<p><code>while condition:</code> repeats its body as long as the condition is true. Something inside must change the condition or the loop never ends.</p><p><code>n -= 1</code> is shorthand for <code>n = n - 1</code>. <code>n += 1</code> adds one.</p>',
+   ex:['n = 0\nwhile n < 2:\n    print(n)\n    n += 1', '0\n1'],
+   code:['n = 3','while n ___ 0:','    print(n)','    n ___ 1'], ans:[['>'],['-=']], extra:['<','=-','+='],
+   hints:['n starts at 3 and must keep going while it is bigger than 0. Each round n must get smaller.','> and -=.'],
+   why:'<code>while</code> re-checks the condition every round. <code>n -= 1</code> shrinks n. Forget it and the loop never ends.' },
+ { t:'fill', title:'break and continue', goal:'Skip even numbers, stop once n passes 7.', out:'1\n3\n5\n7',
+   teach:'<p>Two words control a loop from inside.</p><p><code>continue</code> skips the rest of this round and jumps to the next item.<br><code>break</code> stops the whole loop immediately.</p><p><code>range(10)</code> gives 0,1,2,...,9. <code>n % 2 == 0</code> is true for even numbers.</p>',
+   ex:['for n in range(5):\n    if n == 1:\n        continue\n    if n == 3:\n        break\n    print(n)', '0\n2'],
+   code:['for n in range(10):','    if n % 2 == 0:','        ___','    if n > 7:','        ___','    print(n)'], ans:[['continue'],['break']], extra:['pass','stop','skip'],
+   hints:['Even numbers should be skipped, not stop the loop. Passing 7 should end everything.','continue for the even check, break for n > 7.'],
+   why:'<code>continue</code> jumps to the next n without printing. <code>break</code> exits the whole loop at n = 9.' },
+ { t:'order', title:'Nested indentation', goal:'An if inside a for. Two levels of indent.', out:'big: 150\nend',
+   teach:'<p>Blocks can sit inside blocks. Each colon opens a new level, and each level is pushed in by 4 more spaces. An <code>if</code> inside a <code>for</code> is indented once; the line inside that <code>if</code> is indented twice.</p>',
+   ex:['for x in [1, 5]:\n    if x > 3:\n        print("large")\nprint("done")', 'large\ndone'],
+   lines:[['for p in [50, 150]:',0],['if p > 100:',1],['print(f"big: {p}")',2],['print("end")',0]],
+   hints:['for at the edge. The if is inside the for (one push). The print is inside the if (two pushes). "end" is outside everything.','Indents: 0, 1, 2, 0 in that order.'],
+   why:'Each colon opens a block, and each block indents one more level. <code>print("end")</code> at level 0 is outside both.' },
+]},
+{ id:'functions', title:'Functions', intro:'<code>def</code> defines a function. The names in the parentheses are <b>parameters</b> (placeholders). The values you pass when calling are <b>arguments</b>. <code>return</code> sends a value back to the caller.', ex:[
+ { t:'fill', title:'Define, return, call', goal:'Write a function that takes a name and returns a greeting, then call it.', out:'Hi Ada',
+   teach:'<p>A function is a named, reusable block of code. <code>def greet(name):</code> defines one called greet. The <code>name</code> in the parentheses is a <b>parameter</b>: a placeholder for whatever value comes in.</p><p><code>return</code> sends a result back out. Calling <code>greet("Ada")</code> runs the function with name = "Ada". That "Ada" is the <b>argument</b>: the real value you pass.</p><p>Parameter = the slot. Argument = what you put in the slot.</p>',
+   ex:['def double(x):\n    return x * 2\n\nprint(double(21))', '42'],
+   code:['___ greet(name):','    ___ f"Hi {name}"','print(greet(___))'], ans:[['def'],['return'],['"Ada"']], extra:['function','print','name'],
+   hints:['Line 1 starts a definition. Line 2 sends the result out. Line 3 passes a real value in, and it is text.','def, return, "Ada" with quotes.'],
+   why:'<code>name</code> is the parameter. <code>"Ada"</code> is the argument. <code>return</code> hands the result to <code>print</code>.' },
+ { t:'label', title:'Name the parts', goal:'Drag each label onto the matching part of the code.',
+   teach:'<p>Read the code below in two halves. The <code>def</code> line is the <b>definition</b>: its name, its parameters, and any default values (<code>pct=0.01</code> means "if nobody gives pct, use 0.01").</p><p>The last line is the <b>call</b>: the function name followed by arguments. <code>50000</code> is a positional argument (matched by position to balance). <code>pct=0.02</code> is a keyword argument (matched by name).</p>',
+   ex:['def area(w, h=1):\n    return w * h\n\nprint(area(4, h=3))', '12'],
+   code:'def [[fname|risk]]([[param|balance]], [[default|pct=0.01]]):\n    [[ret|return balance * pct]]\n\nloss = [[call|risk]]([[arg|50000]], [[kwarg|pct=0.02]])',
+   labels:[{k:'fname',t:'function name'},{k:'param',t:'parameter'},{k:'default',t:'default argument'},{k:'ret',t:'return statement'},{k:'call',t:'function call'},{k:'arg',t:'positional argument'},{k:'kwarg',t:'keyword argument'}], extra:['import','method'],
+   hints:['Things on the def line are about defining. Things on the loss = line are about calling. name=value in a call is a keyword argument.','Line 1: function name, parameter, default argument. Line 2: return statement. Line 4: function call, positional argument, keyword argument.'],
+   why:'<code>balance</code> and <code>pct</code> are parameters. <code>50000</code> is passed by position, <code>pct=0.02</code> by keyword. The default is used only when the caller leaves pct out.' },
+ { t:'fill', title:'Default arguments', goal:'Give risk a default of 0.01, call once with the default and once overriding it.', out:'500.0\n1000.0',
+   teach:'<p>A parameter can have a default: <code>def f(a, b=5):</code>. Now <code>f(1)</code> uses b = 5, and <code>f(1, 9)</code> uses b = 9. Defaults make the common case short.</p><p>Do the maths: 50000 × 0.01 = 500.0.</p>',
+   ex:['def total(price, tax=0.25):\n    return price * (1 + tax)\n\nprint(total(100))\nprint(total(100, 0.0))', '125.0\n100.0'],
+   code:['def size(balance, risk=___):','    return balance * risk','print(size(50000))','print(size(50000, ___))'], ans:[['0.01'],['0.02']], extra:['0.1','1','risk'],
+   hints:['50000 times what gives 500.0? That is the default. 50000 times what gives 1000.0? That is the override.','0.01 then 0.02.'],
+   why:'<code>size(50000)</code> uses the default, 50000 × 0.01 = 500.0. <code>size(50000, 0.02)</code> overrides it.' },
+ { t:'fill', title:'return, not print', goal:'Make add give its result back so total can hold it.', out:'5',
+   teach:'<p><code>print</code> shows a value on screen and then it is gone. <code>return</code> hands the value back to whoever called the function, so it can be stored in a variable or used further.</p><p>A function with no return gives back <code>None</code>. So <code>total = add(2, 3)</code> only works if add returns.</p>',
+   ex:['def square(n):\n    return n * n\n\nresult = square(4)\nprint(result + 1)', '17'],
+   code:['def add(a, b):','    ___ a + b','total = add(2, 3)','print(total)'], ans:[['return']], extra:['print','yield','give'],
+   hints:['Line 3 stores the result in total. For that to work, the function must send the value back, not just show it.','return'],
+   why:'If the function only printed, <code>total</code> would be <code>None</code>. <code>return</code> makes a function usable as a value.' },
+ { t:'order', title:'Define before you call', goal:'Python must have seen the def before the call runs.', out:'MNQ: 2 contracts',
+   teach:'<p>The def and its indented body come first. The call comes after, at the left edge. Arguments fill parameters left to right: in <code>show("MNQ", 2)</code>, symbol becomes "MNQ" and qty becomes 2.</p>',
+   ex:['def hello(who):\n    print(f"hello {who}")\n\nhello("world")', 'hello world'],
+   lines:[['def show(symbol, qty):',0],['print(f"{symbol}: {qty} contracts")',1],['show("MNQ", 2)',0]],
+   hints:['def first, its body pushed in, then the call at the edge.','def (0), print (1), show (0).'],
+   why:'The body is indented under def. The call at level 0 comes after.' },
+]},
+{ id:'imports', title:'Imports & packages', intro:'<code>import x</code> loads a module; you then write <code>x.thing</code>. <code>from x import thing</code> loads just that name. <code>pip install</code> runs in the terminal, not in Python, and fetches packages that are not built in.', ex:[
+ { t:'fill', title:'import a module', goal:'Load the math module, then use a function from it.', out:'4.0',
+   teach:'<p>A module is a file of ready-made code. <code>import math</code> loads the built-in math module. After that you reach its contents with a dot: <code>math.sqrt(16)</code> means "the sqrt function inside math".</p>',
+   ex:['import random\nprint(random.choice(["a", "a", "a"]))', 'a'],
+   code:['___ math','print(math.___(16))'], ans:[['import'],['sqrt']], extra:['include','require','root'],
+   hints:['The keyword that loads a module is in the example. sqrt is short for square root.','import, then sqrt.'],
+   why:'After <code>import math</code> everything inside lives under the <code>math.</code> prefix.' },
+ { t:'fill', title:'from ... import ...', goal:'Pull sqrt directly into your file so you can call it without the prefix.', out:'4.0',
+   teach:'<p><code>from math import sqrt</code> copies just one name out of the module. Now you write <code>sqrt(16)</code> with no <code>math.</code> in front. The trade-off: <code>math.pi</code> is not available, because you never imported math itself.</p>',
+   ex:['from random import choice\nprint(choice(["b"]))', 'b'],
+   code:['from math ___ sqrt','print(___(16))'], ans:[['import'],['sqrt']], extra:['math.sqrt','get','load'],
+   hints:['The pattern is from X import Y. After that, Y is used bare, no prefix.','import, then sqrt (not math.sqrt).'],
+   why:'<code>from math import sqrt</code> copies one name. Now <code>sqrt(16)</code> works and <code>math.sqrt</code> would fail.' },
+ { t:'fill', title:'Aliases', goal:'Give a long module a short nickname.', out:'2.3.0',
+   teach:'<p><code>import pandas as pd</code> loads pandas but lets you call it <code>pd</code>. It only changes the name you type. You will see <code>as pd</code> and <code>as np</code> (numpy) in almost every data script.</p>',
+   ex:['import datetime as dt\nprint(dt.date(2026, 9, 7).year)', '2026'],
+   code:['import pandas ___ pd','print(pd.__version__)'], ans:[['as']], extra:['alias','=','->'],
+   hints:['A two-letter keyword between the module and its nickname.','as'],
+   why:'<code>as pd</code> is convention for pandas. It only changes the name you type.' },
+ { t:'fill', title:'Installing a package', goal:'This is a terminal command, not Python. Install the requests library.', out:'Successfully installed requests-2.32.3',
+   teach:'<p>Modules like math come with Python. Others, like requests or openai, must be downloaded first. The tool for that is <code>pip</code>, and you run it in the terminal, not inside a .py file:</p><p><code>pip install openai</code></p><p>After that, <code>import openai</code> works in your Python code.</p>',
+   ex:['pip install numpy', 'Successfully installed numpy-2.1.0'],
+   code:['___ install requests'], ans:[['pip']], extra:['import','python','apt'],
+   hints:['The Python package installer, three letters, shown in the example.','pip'],
+   why:'<code>pip</code> downloads packages from PyPI. Install name and import name usually match but not always.' },
+ { t:'order', title:'Import, then use', goal:'Imports go at the top. Nothing can use json before it is imported.', out:'{"qty": 2}',
+   teach:'<p>Convention and necessity agree: all imports go at the top of the file. A line that uses <code>json.dumps</code> will crash if the import has not run yet. <code>json.dumps(d)</code> turns a dict into JSON text.</p>',
+   ex:['import math\nprint(math.floor(2.7))', '2'],
+   lines:[['import json',0],['trade = {"qty": 2}',0],['text = json.dumps(trade)',0],['print(text)',0]],
+   hints:['Import first. Then create the dict. Then convert it. Then print the converted text.','import, trade, text, print.'],
+   why:'<code>json.dumps</code> turns a dict into a JSON string. The import must run first.' },
+]},
+{ id:'classes', title:'Simple classes', intro:'A class is a blueprint. An object is one thing built from it. <code>__init__</code> runs when you build one. <code>self</code> is the object itself. Methods are functions that live on the class.', ex:[
+ { t:'fill', title:'Blueprint and constructor', goal:'Define a Bot class whose constructor stores the name on the object.', out:'Drift',
+   teach:'<p>A class is a blueprint for objects. <code>class Bot:</code> starts one.</p><p>Inside, <code>def __init__(self, name):</code> is the constructor: the function that runs when you build an object with <code>Bot("Drift")</code>. Two underscores each side of init.</p><p><code>self</code> means "this particular object". <code>self.name = name</code> saves the incoming name onto the object, so later <code>bot.name</code> gives it back.</p>',
+   ex:['class Dog:\n    def __init__(self, sound):\n        self.sound = sound\n\nrex = Dog("woof")\nprint(rex.sound)', 'woof'],
+   code:['___ Bot:','    def ___(self, name):','        ___.name = name','','bot = Bot("Drift")','print(bot.name)'], ans:[['class'],['__init__'],['self']], extra:['def','init','this'],
+   hints:['Line 1 opens a blueprint. Line 2 is the constructor with underscores. Line 3 stores onto "this object".','class, __init__, self.'],
+   why:'<code>Bot("Drift")</code> calls <code>__init__</code> with self = the new object and name = "Drift".' },
+ { t:'fill', title:'A method', goal:'Add a method that uses the stored name, then call it on the object.', out:'I am Drift',
+   teach:'<p>A method is a function defined inside a class. Its first parameter is always <code>self</code>, so it can reach the object\'s data (<code>self.name</code>).</p><p>You call it with a dot on the object: <code>bot.hello()</code>. You do not pass self yourself; Python fills it in with bot.</p>',
+   ex:['class Dog:\n    def __init__(self, sound):\n        self.sound = sound\n    def speak(self):\n        return self.sound * 2\n\nrex = Dog("woof")\nprint(rex.speak())', 'woofwoof'],
+   code:['class Bot:','    def __init__(self, name):','        self.name = name','    def hello(___):','        return f"I am {self.name}"','','bot = Bot("Drift")','print(bot.___())'], ans:[['self'],['hello']], extra:['name','bot','this'],
+   hints:['Every method starts with the same first parameter. The last line calls the method by its name after the dot.','self, then hello.'],
+   why:'<code>bot.hello()</code> means "call hello with self = bot". That is why <code>self.name</code> knows which bot it is.' },
+ { t:'label', title:'Name the parts', goal:'Drag each label onto the matching part.',
+   teach:'<p>Vocabulary check. <b>class</b>: the blueprint keyword. <b>constructor</b>: <code>__init__</code>. <b>self</b>: the object being built. <b>attribute</b>: data stored on the object (<code>self.balance</code>). <b>object</b> (or instance): one thing built from the class, here <code>acct</code>. <b>attribute access</b>: reading data off an object with a dot.</p>',
+   ex:['class Car:\n    def __init__(self, km):\n        self.km = km\n\nmine = Car(120000)\nprint(mine.km)', '120000'],
+   code:'[[cls|class]] Account:\n    def [[init|__init__]]([[self|self]], balance):\n        [[attr|self.balance]] = balance\n\n[[obj|acct]] = Account(50000)\nprint([[mcall|acct.balance]])',
+   labels:[{k:'cls',t:'class keyword'},{k:'init',t:'constructor'},{k:'self',t:'self'},{k:'attr',t:'attribute'},{k:'obj',t:'object (instance)'},{k:'mcall',t:'attribute access'}], extra:['parameter','import'],
+   hints:['The name on the left of = after the class block is the object. Reading .balance off it is attribute access.','class keyword, constructor, self, attribute, object, attribute access, top to bottom.'],
+   why:'<code>Account</code> is the class, <code>acct</code> is one object. In the OpenAI snippet, <code>client = OpenAI()</code> is exactly this.' },
+ { t:'order', title:'Class, then object, then use', goal:'Order so the class exists before you build from it.', out:'MNQ',
+   teach:'<p>Inside a class, the def is indented once and the def\'s body twice. After the class block ends (back at the left edge), you can build an object and read its attribute.</p>',
+   ex:['class Cat:\n    def __init__(self, n):\n        self.n = n\n\nc = Cat(9)\nprint(c.n)', '9'],
+   lines:[['class Trade:',0],['def __init__(self, symbol):',1],['self.symbol = symbol',2],['t = Trade("MNQ")',0],['print(t.symbol)',0]],
+   hints:['class at the edge, def pushed in once, self.symbol pushed in twice, then the two using lines at the edge.','Indents 0, 1, 2, 0, 0.'],
+   why:'The class body is indented once, the method body twice. Only after the class is complete can <code>Trade("MNQ")</code> build an object.' },
+]},
+{ id:'json', title:'Working with JSON', intro:'JSON is text that looks like Python dicts and lists. <code>json.loads</code> turns text into Python; <code>json.dumps</code> turns Python into text. The s means string. Spelling differs: JSON <code>true / false / null</code> is Python <code>True / False / None</code>.', ex:[
+ { t:'fill', title:'Text to Python', goal:'Parse a JSON string into a dict, then read a field.', out:'2',
+   teach:'<p>JSON is text. It looks like a Python dict but it is just characters in a string, so <code>raw["qty"]</code> would fail. <code>json.loads(raw)</code> (load string) reads the text and builds a real dict from it. After that, normal dict lookups work.</p>',
+   ex:['import json\ntxt = \'{"a": 1}\'\nd = json.loads(txt)\nprint(d["a"])', '1'],
+   code:['import json','raw = \'{"symbol": "MNQ", "qty": 2}\'','data = json.___(raw)','print(data[___])'], ans:[['loads'],['"qty"']], extra:['load','parse','qty'],
+   hints:['load + s, because the input is a string. Then look up the key that holds 2, quotes included.','loads, then "qty".'],
+   why:'<code>loads</code> = load string. <code>json.load</code> without the s reads from a file instead.' },
+ { t:'fill', title:'Python to text', goal:'Turn a dict into a JSON string to send over the network.', out:'{"symbol": "MNQ", "qty": 2}',
+   teach:'<p>The opposite direction: <code>json.dumps(d)</code> (dump to string) turns a dict into JSON text. You need this because networks carry text, not Python objects.</p>',
+   ex:['import json\nd = {"b": True}\nprint(json.dumps(d))', '{"b": true}'],
+   code:['import json','trade = {"symbol": "MNQ", "qty": 2}','text = json.___(trade)','print(text)'], ans:[['dumps']], extra:['dump','stringify','encode'],
+   hints:['dump + s, the mirror of loads.','dumps'],
+   why:'<code>dumps</code> = dump to string. The requests library can do this for you with <code>json=</code>.' },
+ { t:'fill', title:'Spelling differences', goal:'Translate the JSON values into their Python equivalents.', out:"{'ok': True, 'error': None}",
+   teach:'<p>JSON and Python spell three things differently:</p><p>JSON <code>true</code> is Python <code>True</code>.<br>JSON <code>false</code> is Python <code>False</code>.<br>JSON <code>null</code> is Python <code>None</code>.</p><p><code>json.loads</code> translates automatically. When API docs show <code>null</code>, expect <code>None</code> in your code.</p>',
+   ex:['# JSON: {"done": false}\nd = {"done": False}\nprint(d)', "{'done': False}"],
+   code:['# JSON:   {"ok": true, "error": null}','data = {"ok": ___, "error": ___}','print(data)'], ans:[['True'],['None']], extra:['true','null','Null','TRUE'],
+   hints:['Python capitalises only the first letter, and it has no word null.','True, None.'],
+   why:'<code>json.loads</code> does this translation for you.' },
+ { t:'fill', title:'Dig into a nested response', goal:'Walk the path down to the text.', out:'Buy the dip.',
+   teach:'<p>Real API responses nest: a dict holding a list holding dicts. You read them one step at a time, left to right.</p><p>Rule: after a dict, use a key in quotes <code>["choices"]</code>. After a list, use a position number <code>[0]</code>. Chain them: <code>d["a"][0]["b"]</code>.</p>',
+   ex:['d = {"items": [{"id": 7}]}\nprint(d["items"][0]["id"])', '7'],
+   code:['resp = {','  "choices": [','    {"message": {"role": "assistant", "content": "Buy the dip."}}','  ]','}','print(resp["choices"][___]["message"][___])'], ans:[['0'],['"content"']], extra:['1','"role"','content'],
+   hints:['"choices" is a list, so the next step is a position. Then inside "message", which key holds the sentence?','0, then "content".'],
+   why:'<code>resp["choices"]</code> is a list, so the next step is an index. Then key by key down to <code>"content"</code>.' },
+]},
+{ id:'apis', title:'Calling APIs', intro:'An API is a URL you send requests to. <code>requests.get</code> fetches, <code>requests.post</code> sends. Headers carry things like your API key. <code>r.json()</code> parses the response body into a dict. Status 200 means OK.', ex:[
+ { t:'fill', title:'A GET request', goal:'Fetch a URL and check the status code.', out:'200',
+   teach:'<p>An API is a web address that answers with data instead of a web page. The <code>requests</code> library talks to it. <code>requests.get(url)</code> fetches and returns a response object, usually named <code>r</code>.</p><p><code>r.status_code</code> is a number: 200 OK, 401 bad key, 404 wrong URL, 429 too many requests. It is an attribute, so no parentheses.</p>',
+   ex:['import requests\nr = requests.get("https://example.com")\nprint(r.status_code)', '200'],
+   code:['import requests','r = requests.___("https://api.example.com/price")','print(r.___)'], ans:[['get'],['status_code']], extra:['fetch','post','status'],
+   hints:['Fetching is get. The number attribute has an underscore in its name and no parentheses.','get, then status_code.'],
+   why:'<code>requests.get(url)</code> returns a Response object. <code>status_code</code> is an attribute.' },
+ { t:'fill', title:'Headers and API keys', goal:'Put the key in an Authorization header and pass the dict to the request.', out:'200',
+   teach:'<p>Most APIs need a key to prove who you are. It travels in the headers: a dict sent along with the request. The common form is <code>{"Authorization": "Bearer YOUR_KEY"}</code>, built with an f-string so the variable is pasted in.</p><p>You pass it as a keyword argument: <code>requests.get(url, headers=headers)</code>. Left of = is the parameter name, right of = is your variable. Same word twice is normal.</p>',
+   ex:['token = "abc"\nh = {"Authorization": f"Bearer {token}"}\nr = requests.get(url, headers=h)', ''],
+   code:['api_key = "sk-..."','headers = {"Authorization": f"Bearer {___}"}','r = requests.get(url, ___=headers)','print(r.status_code)'], ans:[['api_key'],['headers']], extra:['"api_key"','key','auth'],
+   hints:['Inside the f-string braces goes the variable holding the key, no quotes. The keyword argument is named the same as the dict.','api_key, then headers.'],
+   why:'<code>headers=headers</code> is a keyword argument: parameter name left, your variable right.' },
+ { t:'fill', title:'POST JSON, read JSON', goal:'Send a payload as JSON and parse the JSON answer.', out:'Azure AI is a cloud platform for building AI apps.',
+   teach:'<p>To send data, use <code>requests.post</code>. Pass your dict with <code>json=payload</code> and requests converts it to JSON text for you.</p><p>The answer body is JSON text. <code>r.json()</code> is a method (parentheses) that parses it into a dict, the same as json.loads.</p>',
+   ex:['r = requests.post(url, json={"q": "hi"})\ndata = r.json()\nprint(data["answer"])', 'hello'],
+   code:['payload = {"model": "some-model", "input": "Explain Azure AI in one sentence."}','r = requests.___(url, json=payload, headers=headers)','data = r.___()','print(data["output_text"])'], ans:[['post'],['json']], extra:['send','get','text','loads'],
+   hints:['Sending data is post. The method that parses the body has the same name as the format.','post, then json.'],
+   why:'<code>json=payload</code> makes requests serialise for you. <code>r.json()</code> parses the body.' },
+ { t:'order', title:'The whole request flow', goal:'Import, build the URL and headers, send, parse, print.', out:'20125.5',
+   teach:'<p>Every API script has the same skeleton: import, set up url and headers, send the request, parse the response, use the data. The order is forced: you cannot send before the url exists, or parse before sending.</p>',
+   ex:['import requests\nu = "https://x.y/z"\nr = requests.get(u)\nd = r.json()\nprint(d["v"])', '1'],
+   lines:[['import requests',0],['url = "https://api.example.com/quote/MNQ"',0],['headers = {"Authorization": "Bearer sk-..."}',0],['r = requests.get(url, headers=headers)',0],['data = r.json()',0],['print(data["last"])',0]],
+   hints:['Import first. Then the two setup lines. Then the line that uses both. Then parse r. Then print from data.','import, url, headers, r =, data =, print.'],
+   why:'This shape repeats in every API script. SDKs like openai wrap the same steps in a class.' },
+]},
+{ id:'reading', title:'Reading real code', intro:'The target snippet from your list. You do not need every detail, only what each piece is: an import, a variable holding an object, a method call with keyword arguments, and a return value you print.', ex:[
+ { t:'label', title:'The OpenAI snippet', goal:'Label every part of the code you wanted to understand.',
+   teach:'<p>Everything here you have now met.</p><p>Line 1: a <b>from-import</b> that loads the <b>class</b> OpenAI. Line 3: <code>OpenAI()</code> <b>builds an object</b> (like Bot("Drift")) and stores it in the <b>variable</b> client. Lines 5-8: <code>client.responses.create(...)</code> is a <b>method call</b> on that object with two <b>keyword arguments</b>; what it gives back is the <b>return value</b>, stored in response. Line 10: <code>print</code> is a <b>function call</b> showing the <b>attribute</b> output_text.</p>',
+   ex:['from pathlib import Path\np = Path("notes.txt")\ntext = p.read_text(encoding="utf-8")\nprint(text)', '(file contents)'],
+   code:'[[imp|from openai import]] [[cls|OpenAI]]\n\n[[var|client]] = [[ctor|OpenAI()]]\n\n[[ret|response]] = [[call|client.responses.create]](\n    [[kw1|model="some-model"]],\n    [[kw2|input="Explain Azure AI in one sentence."]]\n)\n\n[[prn|print]]([[attr|response.output_text]])',
+   labels:[{k:'imp',t:'import statement'},{k:'cls',t:'class'},{k:'var',t:'variable (object)'},{k:'ctor',t:'build the object'},{k:'ret',t:'return value'},{k:'call',t:'method call'},{k:'kw1',t:'keyword argument'},{k:'kw2',t:'keyword argument'},{k:'prn',t:'function call'},{k:'attr',t:'attribute'}], extra:['parameter','loop'],
+   hints:['Left of = is where a value lands. name=value inside parentheses is a keyword argument. A dotted name with () is a method call; without () it is an attribute.','Read the Learn first panel again: it walks the code line by line in the same order as the labels.'],
+   why:'<code>OpenAI()</code> builds an object. <code>client.responses.create(...)</code> is a method on it with two keyword arguments. Its return lands in <code>response</code>, and <code>.output_text</code> is an attribute on that.' },
+ { t:'fill', title:'Rebuild it yourself', goal:'Fill the gaps in the same snippet from memory.', out:'Azure AI is a cloud platform for building AI apps.',
+   teach:'<p>Same code, now you write it. Remember: <code>from X import Y</code>; a class is called with parentheses to build an object; the method name is create; string arguments keep their quotes; an attribute has no parentheses.</p>',
+   ex:['from openai import OpenAI\nclient = OpenAI()\nresponse = client.responses.create(model="m", input="hi")\nprint(response.output_text)', '...'],
+   code:['___ openai import OpenAI','','client = ___()','','response = client.responses.___(','    model=___,','    input="Explain Azure AI in one sentence."',')','','print(response.___)'],
+   ans:[['from'],['OpenAI'],['create'],['"some-model"'],['output_text']], extra:['import','openai','call','some-model','output_text()'],
+   hints:['Gap 1 is the first word of a from-import. Gap 2 is the class name. Gap 4 is text so it needs quotes. Gap 5 is an attribute, no ().','from, OpenAI, create, "some-model", output_text.'],
+   why:'Same pattern as requests.post, one level up: the SDK hides the URL, headers and JSON.' },
+ { t:'label', title:'Same idea with requests', goal:'Map the plain-requests version to the same concepts.',
+   teach:'<p>This is what the OpenAI class does for you under the hood. <code>requests.post</code> is a <b>function in a module</b> (not a method on an object you built). <code>url</code> is a <b>positional argument</b>; <code>json=</code> and <code>headers=</code> are <b>keyword arguments</b>. <code>r.json()</code> is a <b>method call</b> on the returned response.</p>',
+   ex:['import requests\nr = requests.get("https://x.y", timeout=5)\nprint(r.json()["k"])', 'v'],
+   code:'[[imp|import requests]]\n\n[[var|headers]] = {"Authorization": f"Bearer {api_key}"}\n\n[[ret|r]] = [[call|requests.post]](\n    [[arg|url]],\n    [[kw1|json={"model": "some-model", "input": "Hi"}]],\n    [[kw2|headers=headers]]\n)\n\nprint([[meth|r.json()]]["output_text"])',
+   labels:[{k:'imp',t:'import statement'},{k:'var',t:'variable (dict)'},{k:'ret',t:'return value'},{k:'call',t:'function call'},{k:'arg',t:'positional argument'},{k:'kw1',t:'keyword argument'},{k:'kw2',t:'keyword argument'},{k:'meth',t:'method call'}], extra:['class','default argument'],
+   hints:['A bare name inside the call is positional. name=value is keyword. requests.post is a function; r.json() is a method on r.','import statement, variable (dict), return value, function call, positional argument, keyword argument ×2, method call.'],
+   why:'<code>requests.post</code> is a function in a module; <code>r.json()</code> is a method on the returned object. Every SDK you meet is a thin layer over this.' },
+]},
+];
+
+// ---------- Utilities ----------
+const KW = new Set(['def','class','return','if','elif','else','for','while','in','import','from','as','break','continue','True','False','None','and','or','not','with','is','pass']);
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function hl(s){
+  s = esc(s);
+  return s.replace(/(#.*$)|(&quot;|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(\d+\.\d+|\d+)\b|\b(def|class|return|if|elif|else|for|while|in|import|from|as|break|continue|True|False|None|and|or|not|with|is|pass)\b|\b([A-Za-z_]\w*)(?=\()/gm,
+    (m,c,str,num,kw,fn)=>{ if(c) return `<span class="c">${c}</span>`; if(str) return `<span class="s">${str}</span>`; if(num) return `<span class="n">${num}</span>`; if(kw) return `<span class="k">${kw}</span>`; if(fn) return `<span class="f">${fn}</span>`; return m;});
+}
+function cat(tok){
+  if(KW.has(tok)) return 'kw';
+  if(/^["']/.test(tok)) return 'str';
+  if(/^-?\d/.test(tok) || /^:\.?\d/.test(tok)) return 'num';
+  if(/^\.?[a-z_]\w*$/i.test(tok) && (tok.startsWith('.')||/^(print|type|len|sqrt|get|post|json|loads|dumps|create|hello|status_code|output_text|__init__|pip)$/.test(tok))) return 'fn';
+  if(/^[A-Za-z_{][\w{}.=]*$/.test(tok)) return 'name';
+  return 'punc';
+}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function uid(sec,i){return `${sec.id}-${i}`;}
+
+let progress = {};
+try{ progress = JSON.parse(localStorage.getItem('pbb-progress')||'{}'); }catch(e){ progress = {}; }
+function save(){ try{ localStorage.setItem('pbb-progress', JSON.stringify(progress)); }catch(e){} }
+
+let cur = {s:0, e:0};
+try{ const c = JSON.parse(localStorage.getItem('pbb-cur')||'null'); if(c && SECTIONS[c.s] && SECTIONS[c.s].ex[c.e]) cur = c; }catch(e){}
+
+// ---------- Render nav ----------
+const total = SECTIONS.reduce((n,s)=>n+s.ex.length,0);
+function renderNav(){
+  const nav = document.getElementById('nav'); nav.innerHTML='';
+  SECTIONS.forEach((s,si)=>{
+    const b = document.createElement('button');
+    b.className = si===cur.s?'active':'';
+    b.innerHTML = `<span class="n">${String(si+1).padStart(2,'0')}</span><span>${s.title}</span><span class="dots">${s.ex.map((_,i)=>`<i class="${progress[uid(s,i)]?'done':''}"></i>`).join('')}</span>`;
+    b.onclick = ()=>{ cur={s:si,e:0}; render(); };
+    nav.appendChild(b);
+  });
+  const done = Object.keys(progress).filter(k=>progress[k]).length;
+  document.getElementById('totalbar').style.width = (100*done/total)+'%';
+  document.getElementById('totaltxt').textContent = `${done} / ${total}`;
+}
+
+// ---------- Drag/drop plumbing ----------
+let selected = null; // click-to-place fallback
+let dragChip = null;
+function makeChip(text, cls){
+  const c = document.createElement('span');
+  c.className = 'chip '+cls; c.textContent = text; c.draggable = true; c.tabIndex = 0;
+  c.addEventListener('dragstart', e=>{ dragChip = c; e.dataTransfer.setData('text/plain', text); e.dataTransfer.effectAllowed='move'; });
+  c.addEventListener('dragend', ()=>{ dragChip=null; });
+  c.addEventListener('click', e=>{ e.stopPropagation(); chipClick(c); });
+  c.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); chipClick(c);} });
+  return c;
+}
+function chipClick(c){
+  const slot = c.closest('.slot');
+  if(slot){ returnToPalette(c, slot); return; }
+  if(selected===c){ c.classList.remove('sel'); selected=null; return; }
+  if(selected) selected.classList.remove('sel');
+  selected = c; c.classList.add('sel');
+}
+function placeChip(chip, slot){
+  const prev = slot.querySelector('.chip');
+  const pal = document.getElementById('palette');
+  if(prev){ prev.classList.remove('sel'); pal.appendChild(prev); }
+  const from = chip.closest('.slot'); if(from){ from.classList.remove('filled'); }
+  chip.classList.remove('sel'); selected=null;
+  slot.appendChild(chip); slot.classList.add('filled'); slot.classList.remove('over','right','wrong');
+  const ls = slot.closest('.lspan'); if(ls) ls.classList.remove('right','wrong');
+  pal.classList.toggle('empty', !pal.querySelector('.chip'));
+}
+function returnToPalette(chip, slot){
+  const pal = document.getElementById('palette');
+  slot.classList.remove('filled','right','wrong'); const ls = slot.closest('.lspan'); if(ls) ls.classList.remove('right','wrong');
+  pal.appendChild(chip); pal.classList.remove('empty');
+}
+function makeSlot(){
+  const s = document.createElement('span'); s.className='slot'; s.tabIndex=0;
+  s.addEventListener('dragover', e=>{ e.preventDefault(); s.classList.add('over'); });
+  s.addEventListener('dragleave', ()=>s.classList.remove('over'));
+  s.addEventListener('drop', e=>{ e.preventDefault(); s.classList.remove('over'); if(dragChip) placeChip(dragChip, s); });
+  s.addEventListener('click', e=>{ if(e.target.closest('.chip')) return; if(selected) placeChip(selected, s); });
+  s.addEventListener('keydown', e=>{ if((e.key==='Enter'||e.key===' ') && selected){ e.preventDefault(); placeChip(selected, s);} });
+  return s;
+}
+function paletteDropTarget(pal){
+  pal.addEventListener('dragover', e=>e.preventDefault());
+  pal.addEventListener('drop', e=>{ e.preventDefault(); if(dragChip){ const slot = dragChip.closest('.slot'); if(slot) returnToPalette(dragChip, slot); } });
+  pal.addEventListener('click', ()=>{ if(selected && selected.closest('.slot')) returnToPalette(selected, selected.closest('.slot')); });
+}
+
+// ---------- Render exercise ----------
+function render(){
+  try{ localStorage.setItem('pbb-cur', JSON.stringify(cur)); }catch(e){}
+  renderNav(); selected=null;
+  const sec = SECTIONS[cur.s], ex = sec.ex[cur.e], id = uid(sec,cur.e);
+  document.getElementById('sechead').innerHTML = `<div class="eyebrow">Topic ${cur.s+1} of ${SECTIONS.length}</div><h2>${sec.title}</h2><p class="intro">${sec.intro}</p>`;
+  const el = document.getElementById('exlist'); el.innerHTML='';
+  sec.ex.forEach((x,i)=>{ const b=document.createElement('button'); b.textContent=`${i+1}. ${x.title}`; b.className=(i===cur.e?'active ':'')+(progress[uid(sec,i)]?'done':''); b.onclick=()=>{cur.e=i;render();}; el.appendChild(b); });
+
+  const card = document.getElementById('card'); card.innerHTML='';
+  const goal = document.createElement('div'); goal.className='goal';
+  goal.innerHTML = `<div><h3>${ex.title}</h3><p>${ex.goal}</p></div>` + (ex.out!==undefined?`<div class="want mono"><b>Expected output</b>${esc(ex.out)}</div>`:'');
+  card.appendChild(goal);
+  if(ex.teach){
+    const t=document.createElement('section'); t.className='teach'; if(progress[id]) t.classList.add('collapsed');
+    const exOut = ex.ex && ex.ex[1] ? '<div class="outl">'+esc(ex.ex[1])+'</div>' : '';
+    t.innerHTML='<div class="body"><h4>Learn first</h4>'+ex.teach+'</div>'+(ex.ex?'<div class="body"><h4>Worked example</h4><div class="example">'+hl(ex.ex[0])+exOut+'</div></div>':'')+'<button class="toggle">'+(progress[id]?'Show the lesson':'Hide the lesson')+'</button>';
+    t.querySelector('.toggle').onclick=()=>{ t.classList.toggle('collapsed'); t.querySelector('.toggle').textContent=t.classList.contains('collapsed')?'Show the lesson':'Hide the lesson'; };
+    card.appendChild(t);
+  }
+
+  const pal = document.createElement('div'); pal.className='palette'; pal.id='palette';
+  pal.innerHTML = `<span class="lbl">Blocks</span>`; paletteDropTarget(pal);
+  const tn=document.createElement('span'); tn.className='touchnote'; tn.textContent='On a phone: tap a block, then tap the gap it belongs in. Tap a placed block to send it back.';
+  const canvas = document.createElement('div'); canvas.className='canvas'; canvas.id='canvas';
+
+  if(ex.t==='fill'){
+    const toks = shuffle([...ex.ans.map(a=>a[0]), ...ex.extra]);
+    toks.forEach(t=>pal.appendChild(makeChip(t, cat(t))));
+    ex.code.forEach((line,li)=>{
+      const row = document.createElement('div'); row.className='codeline';
+      row.innerHTML = `<span class="ln">${li+1}</span>`;
+      const parts = line.split('___');
+      parts.forEach((p,pi)=>{ const sp=document.createElement('span'); sp.innerHTML=hl(p); row.appendChild(sp); if(pi<parts.length-1) row.appendChild(makeSlot()); });
+      canvas.appendChild(row);
+    });
+    pal.appendChild(tn); card.appendChild(pal); card.appendChild(canvas);
+  } else if(ex.t==='label'){
+    const labs = shuffle([...ex.labels.map(l=>l.t), ...ex.extra]);
+    labs.forEach(t=>pal.appendChild(makeChip(t,'lab')));
+    canvas.classList.add('lcode');
+    ex.code.split('\n').forEach((line,li)=>{
+      const row = document.createElement('div'); row.className='codeline';
+      row.innerHTML = `<span class="ln">${li+1}</span>`;
+      const re = /\[\[(\w+)\|([^\]]+)\]\]/g; let last=0, m;
+      while((m=re.exec(line))){
+        const sp=document.createElement('span'); sp.innerHTML=hl(line.slice(last,m.index)); row.appendChild(sp);
+        const ls=document.createElement('span'); ls.className='lspan'; ls.dataset.k=m[1];
+        const cd=document.createElement('span'); cd.className='code'; cd.innerHTML=hl(m[2]); ls.appendChild(cd); ls.appendChild(makeSlot());
+        row.appendChild(ls); last=re.lastIndex;
+      }
+      const tail=document.createElement('span'); tail.innerHTML=hl(line.slice(last)); row.appendChild(tail);
+      canvas.appendChild(row);
+    });
+    pal.appendChild(tn); card.appendChild(pal); card.appendChild(canvas);
+  } else if(ex.t==='order'){
+    const wrap = document.createElement('div'); wrap.className='plines'; wrap.id='plines';
+    shuffle(ex.lines.map((l,i)=>({code:l[0], target:l[1], i}))).forEach(l=>{
+      const p=document.createElement('div'); p.className='pline'; p.draggable=true; p.dataset.i=l.i; p.dataset.ind=0;
+      p.innerHTML=`<span class="grip">⋮⋮</span><span class="code"><span class="ind"></span>${hl(l.code)}</span><span class="ctl"><button title="Outdent">◂</button><button title="Indent">▸</button><button title="Move up">↑</button><button title="Move down">↓</button></span>`;
+      const [o,ind,up,dn]=p.querySelectorAll('button');
+      const setInd=d=>{ const v=Math.max(0,Math.min(3,+p.dataset.ind+d)); p.dataset.ind=v; p.querySelector('.ind').style.width=(v*31)+'px'; p.classList.remove('right','wrong'); };
+      o.onclick=()=>setInd(-1); ind.onclick=()=>setInd(1);
+      up.onclick=()=>{ if(p.previousElementSibling) wrap.insertBefore(p,p.previousElementSibling); clearMarks(); };
+      dn.onclick=()=>{ if(p.nextElementSibling) wrap.insertBefore(p.nextElementSibling,p); clearMarks(); };
+      p.addEventListener('dragstart',e=>{ dragChip=p; e.dataTransfer.effectAllowed='move'; });
+      p.addEventListener('dragover',e=>{ e.preventDefault(); p.classList.add('over'); });
+      p.addEventListener('dragleave',()=>p.classList.remove('over'));
+      p.addEventListener('drop',e=>{ e.preventDefault(); p.classList.remove('over'); if(dragChip&&dragChip!==p&&dragChip.classList.contains('pline')){ const r=p.getBoundingClientRect(); const before=e.clientY<r.top+r.height/2; wrap.insertBefore(dragChip, before?p:p.nextSibling); clearMarks(); } });
+      wrap.appendChild(p);
+    });
+    pal.innerHTML=`<span class="lbl">Drag lines (or use ↑ ↓) to reorder · ◂ ▸ change indent · each ▸ is 4 spaces</span>`;
+    card.appendChild(pal); canvas.appendChild(wrap); card.appendChild(canvas);
+  }
+
+  const act = document.createElement('div'); act.className='actions';
+  act.innerHTML=`<button class="btn primary" id="check">Check</button><button class="btn" id="hintb">Hint 1 of 2</button><button class="btn" id="solve">Show solution</button><button class="btn" id="reset">Reset</button><button class="btn next" id="next">Next ›</button>`;
+  card.appendChild(act);
+  const fb = document.createElement('div'); fb.className='fb'; fb.id='fb'; card.appendChild(fb);
+  const hint = document.createElement('div'); hint.className='hint'; hint.id='hint'; card.appendChild(hint);
+  let hintN=0; revealed=false;
+
+  document.getElementById('check').onclick=()=>check(ex,id);
+  document.getElementById('hintb').onclick=()=>{ if(hintN<ex.hints.length){ hintN++; hint.innerHTML=ex.hints.slice(0,hintN).map((t,i)=>'<p><b>Hint '+(i+1)+':</b> '+t+'</p>').join(''); hint.classList.add('show'); } document.getElementById('hintb').textContent = hintN<ex.hints.length?`Hint ${hintN+1} of ${ex.hints.length}`:'No more hints'; };
+  document.getElementById('solve').onclick=()=>{ revealed=true; solve(ex); check(ex,id); };
+  document.getElementById('reset').onclick=()=>render();
+  document.getElementById('next').onclick=()=>{ if(cur.e<sec.ex.length-1) cur.e++; else if(cur.s<SECTIONS.length-1){cur.s++;cur.e=0;} render(); window.scrollTo({top:0}); };
+}
+let revealed=false;
+function solve(ex){
+  const pal=document.getElementById('palette');
+  const grab=t=>[...pal.querySelectorAll('.chip')].find(c=>c.textContent===t);
+  if(ex.t==='fill'){
+    document.querySelectorAll('#canvas .slot').forEach((s,i)=>{ const have=s.querySelector('.chip'); if(have && ex.ans[i].includes(have.textContent)) return; if(have) returnToPalette(have,s); const c=grab(ex.ans[i][0]); if(c) placeChip(c,s); });
+  } else if(ex.t==='label'){
+    document.querySelectorAll('#canvas .lspan').forEach(sp=>{ const want=ex.labels.find(l=>l.k===sp.dataset.k).t; const s=sp.querySelector('.slot'); const have=s.querySelector('.chip'); if(have && have.textContent===want) return; if(have) returnToPalette(have,s); const c=grab(want); if(c) placeChip(c,s); });
+  } else {
+    const wrap=document.getElementById('plines'); const ps=[...wrap.querySelectorAll('.pline')].sort((a,b)=>+a.dataset.i-+b.dataset.i);
+    ps.forEach(p=>{ wrap.appendChild(p); const v=ex.lines[+p.dataset.i][1]; p.dataset.ind=v; p.querySelector('.ind').style.width=(v*31)+'px'; });
+  }
+}
+function clearMarks(){ document.querySelectorAll('.pline').forEach(p=>p.classList.remove('right','wrong')); }
+
+function check(ex,id){
+  let ok=true, msg='';
+  if(ex.t==='fill'){
+    const slots=[...document.querySelectorAll('#canvas .slot')];
+    slots.forEach((s,i)=>{ const c=s.querySelector('.chip'); const good=c && ex.ans[i].includes(c.textContent); s.classList.toggle('right',!!good); s.classList.toggle('wrong',!good); if(!good) ok=false; });
+    const empty=slots.filter(s=>!s.querySelector('.chip')).length;
+    msg = ok?(revealed?'Solution shown. Press Reset and try it yourself to earn the tick.':'Correct. This code runs and prints the expected output.'):(empty?`${empty} gap${empty>1?'s':''} still empty. Drag a block in, or click a block then click the gap.`:'Not yet. Red gaps hold the wrong block; click a block to send it back.');
+  } else if(ex.t==='label'){
+    const spans=[...document.querySelectorAll('#canvas .lspan')];
+    spans.forEach(sp=>{ const c=sp.querySelector('.chip'); const want=ex.labels.find(l=>l.k===sp.dataset.k).t; const good=c && c.textContent===want; sp.classList.toggle('right',!!good); sp.classList.toggle('wrong',!good); if(!good) ok=false; });
+    msg = ok?(revealed?'Solution shown. Reset and place the labels yourself to earn the tick.':'Every part labelled correctly.'):'Some labels are on the wrong part. Red underline = wrong or missing.';
+  } else {
+    const ps=[...document.querySelectorAll('#plines .pline')];
+    ps.forEach((p,pos)=>{ const good=+p.dataset.i===pos && +p.dataset.ind===ex.lines[pos][1]; p.classList.toggle('right',good); p.classList.toggle('wrong',!good); if(!good) ok=false; });
+    msg = ok?(revealed?'Solution shown. Reset and order them yourself to earn the tick.':'Correct order and indentation.'):'Red lines are in the wrong position or have the wrong indent.';
+  }
+  const fb=document.getElementById('fb'); fb.classList.add('show');
+  fb.innerHTML=`<div class="msg ${ok?'ok':'bad'}">${msg}</div>` + (ok?`<div class="why"><div class="box"><h4>Why it works</h4><p>${ex.why}</p></div>${ex.out!==undefined?`<div class="term">${esc(ex.out)}</div>`:'<div class="box"><h4>Carry this</h4><p>Reading code is naming its parts. You just did that.</p></div>'}</div>`:'');
+  if(ok && !revealed){ progress[id]=true; save(); renderNav(); document.querySelectorAll('#exlist button')[cur.e].classList.add('done'); }
+}
+render();
+</script>
+
+</body>
+</html>
