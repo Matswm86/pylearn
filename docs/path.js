@@ -210,6 +210,8 @@ const PATH_CERTS = {
       guide: "https://certiace.com/study-guides/ai-901",
       practice: "https://certiace.com/practice/AI-901",
       practiceNote: "249 questions; Modules, Randomizer, Practice Exam, AI Practice; free start, account for the full bank",
+      drill: "#/exam",
+      drillNote: "50 questions written for this site in the five exam item types, weighted to the two domains, with 15 prerequisite Python syntax items; every explanation links the Microsoft Learn page it was checked against",
       domains: [
         ["c901_d1", "Identify AI concepts and capabilities", "40-45%"],
         ["c901_d2", "Implement AI solutions by using Microsoft Foundry", "55-60%"],
@@ -544,6 +546,7 @@ function renderPathCertExam(ex) {
       <p class="path-sources cert-sources">
         <strong>Official first:</strong> <a href="${ex.official}" target="_blank" rel="noopener">Microsoft study guide, skills measured ↗</a><br>
         <strong>Then CertiAce:</strong> <a href="${ex.guide}" target="_blank" rel="noopener">study guide ↗</a> · <a href="${ex.practice}" target="_blank" rel="noopener">practice ↗</a> <span class="cert-note">(${escapeHtml(ex.practiceNote)})</span>
+        ${ex.drill ? `<br><strong>Drill here:</strong> <a href="${ex.drill}">${escapeHtml(ex.code)} drill on this site →</a> <span class="cert-note">(${escapeHtml(ex.drillNote)})</span>` : ""}
       </p>
       <h4 class="cert-sub">Domains (tick when you can teach it)</h4>
       <ul class="path-items">${domainItems}</ul>
