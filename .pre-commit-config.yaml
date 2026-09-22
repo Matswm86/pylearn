@@ -36,7 +36,7 @@ repos:
     hooks:
       - id: detect-secrets-scan
         name: Detect secrets (scan-only, baseline-locked)
-        entry: /home/mats/MWM-AI/scripts/detect-secrets-scan.sh
+        entry: /home/mm/MWM/scripts/detect-secrets-scan.sh
         language: system
         stages: [pre-commit, pre-push]
         exclude: |
@@ -58,7 +58,7 @@ repos:
     hooks:
       - id: require-ablation-coverage
         name: Require paired-ablation baseline for new SCCS eval gates
-        entry: /home/mats/MWM-AI/scripts/pre-commit/require-ablation-coverage.sh
+        entry: /home/mm/MWM/scripts/pre-commit/require-ablation-coverage.sh
         language: system
         stages: [commit-msg]
         always_run: true
