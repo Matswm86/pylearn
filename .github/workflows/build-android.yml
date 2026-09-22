@@ -1,7 +1,10 @@
 name: build-android
 
 # Builds the PyQuest debug APK, attaches it to the rolling "latest" pre-release
-# and points the README download link at the build that just ran.
+# and points the app README download link at the build that just ran.
+#
+# PyQuest is the Android app in pyquest/ inside this repo; the Pytor site is
+# docs/. Every path below is relative to pyquest/ via the defaults block.
 #
 # Nothing is built on a workstation: Gradle needs more memory than the dev box
 # has. CI is the only place an APK is produced.
@@ -10,7 +13,9 @@ on:
   push:
     branches: [main]
     tags: ['v*']
+    paths: ['pyquest/**', '.github/workflows/build-android.yml']
   pull_request:
+    paths: ['pyquest/**', '.github/workflows/build-android.yml']
   workflow_dispatch:
 
 permissions:
@@ -19,6 +24,10 @@ permissions:
 concurrency:
   group: build-android-${{ github.ref }}
   cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: pyquest
 
 jobs:
   curriculum:
@@ -58,6 +67,8 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          build-root-directory: pyquest
 
       - name: Unit tests
         run: |
@@ -82,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pyquest-debug-apk
-          path: ${{ env.APK_FILE }}
+          path: pyquest/${{ env.APK_FILE }}
           if-no-files-found: error
           retention-days: 30
 
@@ -103,7 +114,7 @@ jobs:
 
             Debug-signed. If you are reinstalling over a build with a different
             signature, uninstall the old one first.
-          files: ${{ env.APK_FILE }}
+          files: pyquest/${{ env.APK_FILE }}
           fail_on_unmatched_files: true
 
       # The filename changes every build, so a link typed into README.md by hand
@@ -120,6 +131,7 @@ jobs:
           git checkout -- . 2>/dev/null || true
           git fetch --depth=1 origin main
           git checkout -B _readme_bump FETCH_HEAD
+          cd "$GITHUB_WORKSPACE/pyquest"
           python3 - "$APK_FILE" <<'EOF'
           import re
           import sys
@@ -147,7 +159,7 @@ jobs:
           name: ${{ github.ref_name }}
           body: |
             PyQuest ${{ github.ref_name }}. Sideload only, debug-signed.
-          files: ${{ env.APK_FILE }}
+          files: pyquest/${{ env.APK_FILE }}
           fail_on_unmatched_files: true
 
   # The app has to actually start. A green compile says nothing about whether the
@@ -168,6 +180,8 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          build-root-directory: pyquest
 
       - name: Enable KVM
         run: |
@@ -186,12 +200,12 @@ jobs:
           ram-size: 3072M
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          script: bash tools/smoke.sh
+          script: cd pyquest && bash tools/smoke.sh
 
       - name: Upload logcat and screenshot
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pyquest-smoke
-          path: smoke/
+          path: pyquest/smoke/
           if-no-files-found: warn

@@ -1,123 +1,142 @@
-# PyLearn — Learn Python Interactively
+# Pytor and PyQuest
+
+Two ways to learn Python and AI engineering, sharing one tutor and one repo.
+
+| | What it is | Where |
+|---|---|---|
+| **Pytor** | The **site**. Real Python typed in a browser, run in the browser, graded instantly. | [pytor.mwmai.no](https://pytor.mwmai.no/) |
+| **PyQuest** | The **app**. An Android game you tap through on a phone, no typing. | [pyquest/](pyquest/) · [latest APK](https://github.com/Matswm86/pylearn/releases) |
+
+Pytor is also the name of the snake who tutors you in both. On the site he is a
+beginner's guide; in the app he is an expert. Same character, different register.
 
 <p align="center">
-  <img src="docs/pytor.webp" alt="Pytor — the friendly Python snake mascot" width="200">
+  <img src="docs/pytor.webp" alt="Pytor, the Python snake tutor" width="180">
 </p>
-
-**400 hands-on exercises. Zero setup. Runs in your browser.**
-**Meet Pytor, your built-in AI Python tutor.**
-
-[**Start Learning → pytor.mwmai.no**](https://pytor.mwmai.no/)
-
-*Mirror: [matswm86.github.io/pylearn](https://matswm86.github.io/pylearn/)*
 
 ---
 
-## What is this?
+## Pytor, the site
 
-PyLearn is a free, interactive app that teaches Python programming from absolute zero. No installation, no accounts — open the link and start coding. Along the way, **Pytor** — a friendly Python snake AI tutor — lives in the corner of the screen, ready to answer questions, give Socratic hints, and generate custom lessons on demand.
+**450 exercises. Zero setup. Runs in your browser.** No account, no install, no server
+doing the work: Python itself is compiled to WebAssembly and executes on your machine.
 
-- Works on **phones, tablets, and desktops**
-- Python runs **directly in your browser** (via [Pyodide](https://pyodide.org/))
-- **Instant feedback** — write code, click Run, see if you got it right
-- **Progress tracking** — streaks and completion stats saved locally
+### The nine topics
 
-## Topics (400 exercises)
+| # | Topic | Exercises | What you learn |
+|---|---|:---:|---|
+| 1 | Variables | 50 | Storing data, naming, assignment, f-strings, scope |
+| 2 | Data Types | 50 | int, float, str, bool, conversion, string methods |
+| 3 | Conditionals | 50 | if/elif/else, boolean logic, ternary, match/case |
+| 4 | Loops | 50 | for, while, range, break/continue, nesting, enumerate |
+| 5 | Functions | 50 | def, arguments, return, *args/**kwargs, closures, decorators |
+| 6 | Lists & Sets | 50 | Indexing, slicing, comprehensions, sorting, set operations |
+| 7 | Dictionaries | 50 | Key-value pairs, nesting, comprehensions, Counter, grouping |
+| 8 | FastAPI | 50 | Pydantic models, validation, CRUD APIs, auth, middleware |
+| 9 | API Calling | 50 | JSON, HTTP headers, auth, pagination, rate limiting, webhooks |
 
-| # | Topic | Exercises | What you'll learn |
-|---|-------|:---------:|-------------------|
-| 1 | **Variables** | 50 | Storing data, naming, assignment, f-strings, scope |
-| 2 | **Data Types** | 50 | int, float, str, bool, type conversion, string methods |
-| 3 | **Conditionals** | 50 | if/elif/else, boolean logic, ternary, match/case |
-| 4 | **Functions** | 50 | def, arguments, return, *args/**kwargs, closures, decorators |
-| 5 | **Lists & Sets** | 50 | Indexing, slicing, comprehensions, sorting, set operations |
-| 6 | **Dictionaries** | 50 | Key-value pairs, nesting, comprehensions, Counter, grouping |
-| 7 | **FastAPI** | 50 | Pydantic models, validation, CRUD APIs, auth, middleware |
-| 8 | **API Calling** | 50 | JSON, HTTP headers, auth, pagination, rate limiting, webhooks |
+Each topic opens with a lesson in plain English, with analogies, runnable examples and
+the mistakes people actually make, then 50 exercises that climb from Beginner to
+Challenge.
 
-Each topic has a **lesson** with plain-English explanations, analogies, runnable examples, and common mistakes — plus **50 progressive exercises** from Beginner to Challenge.
+### The rest of the site
 
-## Meet Pytor — your AI Python tutor
+| Route | What it is |
+|---|---|
+| `#/playground` | A full browser Python IDE. No exercise, no grading, just run code |
+| `#/path` | The AI Engineer Path: a study route through the topics, each paired with a video worth watching, plus the AI-901 to AI-103 certification track |
+| `#/checklist` | A 100-item AI engineering skills checklist you tick off as you go |
+| `#/exam` | A 50-question AI-901 drill in real exam format |
+| `#/questions` | 30 questions on embeddings and retrieval, the part of AI engineering that is hardest to learn from a tutorial |
+| `/blocks/` | Python Block Bench: 44 drag-and-drop syntax puzzles, no keyboard needed |
 
-<img src="docs/pytor.webp" alt="Pytor" width="110" align="right">
+### ELI5 mode
 
-Pytor is the friendly Python snake who lives in the bottom-right corner of PyLearn. Click him (or the **🐍 Pytor** button in the top bar) to open a chat sidebar where you can:
+On by default. Variables are labelled jars, functions are recipes, lists are shopping
+lists, dictionaries are phone books, APIs are restaurant waiters. Toggle it off in the
+top-right when the analogies stop helping.
 
-- **Ask questions** about any Python concept — Pytor uses Socratic questioning to guide you to the answer instead of just handing it over
-- **Get a hint** on any exercise you're stuck on — Pytor reads your current code and points at what to try next
-- **Generate a custom lesson** on any topic — type "decorators" or "asyncio" and Pytor builds an interactive HTML lesson on the fly
+### Pytor, the tutor in the corner
 
-**Under the hood:**
-- Primary: [Groq](https://groq.com/) with `llama-3.3-70b-versatile` (~1-2s responses)
-- Fallback: local [Ollama](https://ollama.com/) with `llama3.1:8b`
-- Backend: tiny stdlib-only Python HTTP bridge at `pytor.mwmai.no/api/tutor`
-- Frontend: vanilla JS, no framework — graceful no-op if the backend is unreachable
+Click the snake (or the **🐍 Pytor** button) to open a chat sidebar:
 
-## ELI5 Mode
+- **Ask anything** about Python. He answers Socratically, steering you to the answer
+  rather than handing it over.
+- **Get a hint** on the exercise you are stuck on. He reads the code you have actually
+  written and points at the next thing to try.
+- **Generate a lesson** on any topic. Type "decorators" or "asyncio" and he builds an
+  interactive lesson on the spot.
 
-The **Explain Like I'm 5** mode is on by default. It adds simplified explanations using everyday analogies:
+Under the hood: a Groq-hosted model first, a local Ollama model as the fallback, behind a
+small stdlib-only Python bridge at `pytor.mwmai.no/api/tutor`. The model names live in
+environment variables, not in the code, because hosted model catalogues change. The
+frontend is vanilla JS and degrades to a no-op if the bridge is unreachable, so the
+exercises never depend on the tutor being up.
 
-- Variables = labeled jars
-- Functions = recipes
-- Lists = shopping lists
-- Dictionaries = phone books
-- APIs = restaurant waiters
+---
 
-Toggle it with the **ELI5** button in the top-right corner.
+## PyQuest, the app
 
-## How it works
+An Android game that walks from `print("hello")` to scoping and pricing an AI-engineering
+consultancy job: **231 questions across 8 tiers**, multiple-choice cards and Scratch-style
+drag blocks, Leitner spaced repetition, weak-tag tracking, XP and streaks. Pytor rides
+along as an expert, with a 95-entry offline reference and an online chat mode.
 
-1. **Pick a topic** — start with Variables if you're brand new
-2. **Read the lesson** — concepts explained with analogies and live examples
-3. **Do the exercises** — write Python in the built-in editor
-4. **Click Run & Check** — your code runs in-browser and gets auto-graded
-5. **Use hints** if stuck — each exercise has progressive hints
-6. **Check the solution** — learn from the answer when needed
+It has no Python interpreter on purpose. Typing Python on a phone keyboard is miserable,
+and the site already does that properly. Full detail in [pyquest/README.md](pyquest/README.md).
 
-## For developers
+---
 
-### Project structure
+## Repo layout
 
 ```
-pylearn/
-├── docs/                # Static site (GitHub Pages)
-│   ├── index.html       # Main page
-│   ├── style.css        # Responsive styles
-│   ├── app.js           # SPA logic + Pyodide integration
-│   ├── lessons.js       # Lesson content for all 8 topics
-│   └── exercises.json   # 400 exercises (generated)
-├── pylearn/             # Python source
-│   └── exercises/       # Exercise definitions with auto-grading
-├── build.py             # Generates exercises.json from Python source
-└── pyproject.toml
+docs/                Pytor, the site (served by GitHub Pages and by pytor.mwmai.no)
+  index.html         shell and SPA router
+  app.js             routing, Pyodide integration, exercise flow
+  lessons.js         lesson content for all nine topics
+  exercises.json     450 exercises, generated from the Python source
+  path.js  checklist.js  exam.js  questions.js  playground.js  tutor.js
+  blocks/            Python Block Bench
+pylearn/             Python source of truth for the exercises, with auto-grading
+build.py             regenerates docs/exercises.json from pylearn/
+mcp-servers/         the Pytor tutor bridge (Groq primary, Ollama fallback)
+solutions/  tests/
+pyquest/             PyQuest, the Android app (Kotlin + Compose)
+.github/workflows/   the Android build, which only fires on changes under pyquest/
 ```
 
-### Rebuilding exercise data
-
-The Python source in `pylearn/exercises/` is the source of truth. Each exercise has test mechanisms (check lambdas, function test cases, or expected output). The build script converts these to web-compatible assertion strings:
+## Working on it
 
 ```bash
-python build.py    # Regenerates docs/exercises.json
+# the site
+cd docs && python -m http.server 8000     # then open http://localhost:8000
+
+# regenerate exercise data after editing pylearn/exercises/*.py
+python build.py
+
+# the app
+cd pyquest && ./gradlew testDebugUnitTest
 ```
 
-### Running locally
+Exercises are defined in `pylearn/exercises/*.py` as `make_exercise()` calls carrying a
+description, hints, a solution and a test mechanism. `build.py` turns those into
+web-runnable assertions. Never hand-edit `docs/exercises.json`.
 
-```bash
-cd docs && python -m http.server 8000
-# Open http://localhost:8000
-```
+APKs are never built on a workstation: Gradle needs more memory than the dev box has, so
+GitHub Actions is the only place an APK is produced.
 
-### Tech stack
+## Tech
 
-- **[Pyodide](https://pyodide.org/)** — CPython compiled to WebAssembly, runs Python in the browser
-- **[CodeMirror 5](https://codemirror.net/5/)** — Code editor with Python syntax highlighting
-- **Vanilla JS** — No framework, hash-based SPA routing
-- **LocalStorage** — Progress persistence, no backend needed
+[Pyodide](https://pyodide.org/) (CPython on WebAssembly), [CodeMirror 5](https://codemirror.net/5/),
+vanilla JS with hash routing, LocalStorage for progress. Kotlin and Jetpack Compose on the
+app side.
 
 ## Contributing
 
-Exercise data lives in `pylearn/exercises/*.py`. Each exercise is a `make_exercise()` call with description, hints, solution, and test mechanism. PRs welcome for new exercises, better descriptions, or additional topics.
+New exercises, clearer descriptions and extra topics are all welcome. Exercise data lives
+in `pylearn/exercises/`; question data lives in `pyquest/app/src/main/assets/curriculum/`
+and is validated by a gate that runs before CI will build anything.
 
-## License
+## Licence
 
-MIT
+MIT.

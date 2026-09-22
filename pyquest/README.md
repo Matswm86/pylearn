@@ -1,4 +1,8 @@
-# PyQuest
+# PyQuest (the Android app)
+
+PyQuest is the **app** half of this repo. The **site** half is [Pytor](../README.md) at
+[pytor.mwmai.no](https://pytor.mwmai.no/), which is where you type real Python in a
+browser. PyQuest is what you play on a phone, where typing Python is miserable.
 
 An Android game that walks you from `print("hello")` to scoping and pricing an
 AI-engineering consultancy job, with Pytor the snake as your expert tutor the
@@ -10,8 +14,8 @@ The design lives in [DESIGN.md](DESIGN.md).
 
 ## 📲 Download
 
-**[⬇ Latest APK](https://github.com/Matswm86/pyquest/releases/download/latest/pyquest-6952aa3.apk)**
-&nbsp;·&nbsp; [all builds](https://github.com/Matswm86/pyquest/releases)
+**[⬇ Latest APK](https://github.com/Matswm86/pylearn/releases/download/latest/pyquest-6952aa3.apk)**
+&nbsp;·&nbsp; [all builds](https://github.com/Matswm86/pylearn/releases)
 
 Open the link on your phone, tap the file, and allow "install from this source"
 when Android asks. Android 8.0 or newer (minSdk 26). The filename carries the
@@ -19,12 +23,15 @@ commit id on purpose, so your browser can never serve you a cached old build. If
 the link 404s, a newer build has landed: grab the newest `pyquest-*.apk` off the
 releases page.
 
+Builds moved from the old standalone `pyquest` repo to this one on 2026-09-22. APKs
+released before that date still live on the archived repo and still install.
+
 Debug-signed. Reinstalling over a build with a different signature means
 uninstalling the old one first.
 
 ## Pytor
 
-Pytor is the tutor from [PyLearn](https://pytor.mwmai.no/), and inside PyQuest he
+Pytor is the tutor from the site in this same repo, and inside PyQuest he
 is an expert rather than a beginner's guide: core-developer-level Python, senior
 software engineering, and production-level AI and LLM engineering. He shows up
 in four places:
@@ -36,7 +43,7 @@ in four places:
 | Pytor tab, Codex | 95 dense reference notes across Python, software engineering and AI/LLMs, searchable offline | no |
 | Pytor tab, Chat | A conversation with the expert, with the game's context attached | yes |
 
-Chat talks to the tutor service behind PyLearn in its `quest` mode; the model
+Chat talks to the same tutor service the site uses, in its `quest` mode; the model
 key stays on the server. When there is no connection, or the service is down or
 busy, Pytor answers from the Codex instead and says so. You can turn the online
 half off in the You tab.
@@ -70,11 +77,13 @@ context, answer, backend, timing, no IP) so Pytor's answers can be audited.
 
 ## Building
 
-Every APK is built in GitHub Actions, which also publishes it to the rolling
-`latest` pre-release and rewrites the download link above to match. Pushing to
-`main` is the whole release process. CI validates the curriculum and the Codex,
-runs the unit tests, builds the APK, then boots it on an emulator and checks
-that the track actually rendered.
+Every APK is built in GitHub Actions by
+[`.github/workflows/build-android.yml`](../.github/workflows/build-android.yml) at the
+repo root, which also publishes it to the rolling `latest` pre-release and rewrites the
+download link above to match. The workflow only fires on changes under `pyquest/`, so
+editing the site never triggers an Android build. Pushing to `main` is the whole release
+process. CI validates the curriculum and the Codex, runs the unit tests, builds the APK,
+then boots it on an emulator and checks that the track actually rendered.
 
 ```bash
 gh workflow run build-android.yml            # trigger a build by hand
@@ -87,7 +96,8 @@ Tagging `vX.Y.Z` publishes a normal, non-rolling release instead.
 ## Adding questions
 
 Questions are data, never Kotlin. Edit
-`app/src/main/assets/curriculum/tier_NN.json` and run the gate:
+`pyquest/app/src/main/assets/curriculum/tier_NN.json` and run the gate from inside
+`pyquest/`:
 
 ```bash
 python3 tools/validate_curriculum.py
@@ -137,7 +147,7 @@ a middle dot so they can be told apart on a phone.
 
 ### Codex shape
 
-`app/src/main/assets/codex/codex.json` holds `entries`, each with `id`, `domain`
+`pyquest/app/src/main/assets/codex/codex.json` holds `entries`, each with `id`, `domain`
 (`python`, `engineering` or `ai`), `title`, `tags`, a one-sentence `summary`, a
 `body` of at least 200 characters, optional `code`, and `related` ids that must
 exist. Search is offline and weights title and tags over body text.
@@ -147,4 +157,4 @@ exist. Search is offline and weights title and tags over body text.
 Grading compares the assembled sequence to `answer`, or to any entry in `accept`.
 That keeps the APK small, the app fully offline and the feedback instant, at the
 cost of not grading free-form typed code. Typing Python on a phone keyboard is
-miserable, and [PyLearn](https://pytor.mwmai.no/) already covers that on desktop.
+miserable, and the Pytor site in this repo already covers that on desktop.
