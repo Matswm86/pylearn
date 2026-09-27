@@ -115,6 +115,42 @@ RATE_LIMITS: dict[str, tuple[int, float]] = {
 _rate_buckets: dict[tuple[str, str], deque] = {}
 _rate_lock = threading.Lock()
 
+# Global daily ceiling on LLM routes. Per-IP limits alone let a slow
+# multi-IP drain exhaust the Groq quota (2026-09-26 audit). Resets at
+# UTC midnight; in-memory, so a restart also resets it.
+GLOBAL_DAILY_CAP = int(os.environ.get("TUTOR_DAILY_CAP", "1500"))
+MAX_BODY_BYTES = int(os.environ.get("TUTOR_MAX_BODY_BYTES", str(64 * 1024)))
+_global_day = ""
+_global_calls = 0
+_global_cap_hits = 0
+
+
+class DailyCapReached(Exception):
+    """Raised by chat_llm once today's global LLM call budget is spent."""
+
+
+def global_cap_check() -> bool:
+    """Count one LLM call against today's global cap. False once exhausted."""
+    global _global_day, _global_calls, _global_cap_hits
+    today = time.strftime("%Y-%m-%d", time.gmtime())
+    with _rate_lock:
+        if today != _global_day:
+            _global_day, _global_calls = today, 0
+        if _global_calls >= GLOBAL_DAILY_CAP:
+            _global_cap_hits += 1
+            return False
+        _global_calls += 1
+        return True
+    today = time.strftime("%Y-%m-%d", time.gmtime())
+    with _rate_lock:
+        if today != _global_day:
+            _global_day, _global_calls = today, 0
+        if _global_calls >= GLOBAL_DAILY_CAP:
+            _global_cap_hits += 1
+            return False
+        _global_calls += 1
+        return True
+
 
 def rate_limit_check(client_ip: str, path: str) -> tuple[bool, int]:
     """Return (allowed, retry_after_seconds). retry_after is 0 when allowed."""
@@ -277,6 +313,9 @@ def chat_llm(
     system: str, user: str, *, max_tokens: int = 600, temperature: float = 0.7
 ) -> tuple[str | None, str]:
     """Returns (response, backend_name). Groq-primary, Ollama-fallback."""
+    if not global_cap_check():
+        log.warning(f"global daily cap {GLOBAL_DAILY_CAP} reached, refusing LLM call")
+        raise DailyCapReached
     answer = query_groq(system, user, max_tokens=max_tokens, temperature=temperature)
     if answer is not None:
         return answer, "groq"
@@ -310,6 +349,9 @@ def handle_health() -> tuple[int, dict]:
         "backend": "groq" if groq_ok else "ollama",
         "groq": groq_ok,
         "groq_model": GROQ_MODEL,
+        "global_calls_today": _global_calls,
+        "global_daily_cap": GLOBAL_DAILY_CAP,
+        "global_cap_hits": _global_cap_hits,
         "ollama_model": OLLAMA_MODEL,
         "ollama_reachable": ollama_ok,
         "exercises_loaded": len(exercises),
@@ -551,12 +593,13 @@ class TutorHandler(BaseHTTPRequestHandler):
 
     def _client_ip(self) -> str:
         # Behind Caddy reverse_proxy: the real origin is in X-Forwarded-For.
-        # The first entry of XFF is the original client, the rest are proxy
-        # hops. Fall back to client_address[0] when no XFF is set (direct
+        # Use the LAST entry: it is the one Caddy itself appended, so a client
+        # cannot spoof it (a forged leftmost entry could dodge the per-IP
+        # limit). Fall back to client_address[0] when no XFF is set (direct
         # localhost testing).
         xff = self.headers.get("X-Forwarded-For", "")
         if xff:
-            return xff.split(",", 1)[0].strip()
+            return xff.rsplit(",", 1)[-1].strip()
         return self.client_address[0]
 
     def _cors_headers(self) -> None:
@@ -618,6 +661,13 @@ class TutorHandler(BaseHTTPRequestHandler):
         if method == "POST":
             try:
                 length = int(self.headers.get("Content-Length", "0") or "0")
+            except ValueError:
+                self._write_json(400, {"error": "invalid Content-Length"})
+                return
+            if length > MAX_BODY_BYTES:
+                self._write_json(413, {"error": f"body over {MAX_BODY_BYTES} bytes"})
+                return
+            try:
                 raw = self.rfile.read(length) if length > 0 else b""
                 body = json.loads(raw.decode("utf-8")) if raw else {}
             except (ValueError, json.JSONDecodeError):
@@ -626,6 +676,9 @@ class TutorHandler(BaseHTTPRequestHandler):
 
         try:
             status, payload = handler(body)
+        except DailyCapReached:
+            self._write_json(429, {"error": "tutor daily limit reached, try again tomorrow"})
+            return
         except Exception as exc:  # noqa: BLE001
             log.exception(f"handler {method} {path} crashed")
             self._write_json(500, {"error": f"{type(exc).__name__}: {exc}"})
