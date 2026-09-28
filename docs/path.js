@@ -164,6 +164,7 @@ const PATH_PHASES = [
     id: "p2", num: 2, title: "One escalating project", cap: "one project, four levels",
     intro: "A project of your own: your data, your problem, a real user. Not a tutorial follow-along, not a Kaggle notebook, not a to-do app nobody uses.",
     items: [
+      ["p2_0", "Scope it before any code: the problem, a success metric at user, technical and system level, p50/p99 latency and cost-per-request targets, and 2-3 candidate models to test on one test set. Fill the RAG, agent and monitoring sections of the scoping doc as each level arrives"],
       ["p2_1", "L1: one LLM API call plus a simple interface, structured output, a fallback when the model fails"],
       ["p2_2", "L2: retrieval over your own data: chunking, embeddings, a vector store, an eval per component"],
       ["p2_3", "L3: an agent loop with read-only tools first; instrument it; grant write access only once the loop is reliable"],
@@ -211,7 +212,7 @@ const PATH_CERTS = {
       practice: "https://certiace.com/practice/AI-901",
       practiceNote: "249 questions; Modules, Randomizer, Practice Exam, AI Practice; free start, account for the full bank",
       drill: "#/exam",
-      drillNote: "50 questions written for this site in the five exam item types, weighted to the two domains, with 15 prerequisite Python syntax items; every explanation links the Microsoft Learn page it was checked against",
+      drillNote: "74 questions written for this site in the five exam item types: 35 weighted to the two domains, 15 prerequisite Python syntax items and a 24-question second set on speech, vision and Content Understanding; every explanation links the Microsoft Learn page it was checked against",
       domains: [
         ["c901_d1", "Identify AI concepts and capabilities", "40-45%"],
         ["c901_d2", "Implement AI solutions by using Microsoft Foundry", "55-60%"],
