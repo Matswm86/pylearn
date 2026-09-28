@@ -14,7 +14,7 @@ The design lives in [DESIGN.md](DESIGN.md).
 
 ## 📲 Download
 
-**[⬇ Latest APK](https://github.com/Matswm86/pylearn/releases/download/latest/pyquest-6952aa3.apk)**
+**[⬇ Latest APK](https://github.com/Matswm86/pylearn/releases/download/latest/pyquest-0bde565.apk)**
 &nbsp;·&nbsp; [all builds](https://github.com/Matswm86/pylearn/releases)
 
 Open the link on your phone, tap the file, and allow "install from this source"
