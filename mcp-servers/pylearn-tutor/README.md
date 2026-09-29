@@ -30,7 +30,7 @@ Environment variables (defaults shown):
 ```bash
 OLLAMA_URL=http://localhost:11434          # Ollama server endpoint
 OLLAMA_MODEL=llama3.2:3b                   # LLM model to use
-PYLEARN_EXERCISES_PATH=../../../docs/exercises.json  # Path to exercises JSON
+PYLEARN_EXERCISES_PATH=../../docs/exercises.json  # Path to exercises JSON
 ```
 
 ## Starting the Server

@@ -140,4 +140,4 @@ and is validated by a gate that runs before CI will build anything.
 
 ## Licence
 
-MIT, see [LICENSE](LICENSE). The two fonts bundled in PyQuest (Archivo and JetBrains Mono) are under the SIL Open Font License; their texts are in `pyquest/licenses/`.
+MIT, see [LICENSE](LICENSE). The fonts bundled with the site (Atkinson Hyperlegible Next and JetBrains Mono) and in PyQuest (Archivo and JetBrains Mono) are under the SIL Open Font License; their texts are in `docs/fonts/` and `pyquest/licenses/`.

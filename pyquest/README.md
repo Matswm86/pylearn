@@ -135,6 +135,9 @@ characters. CI runs both validators before the APK job starts.
 }
 ```
 
+The sample is abridged: every real question also carries a `teach` lesson and exactly
+three `hints`, or the validator rejects it.
+
 `type` is `mcq` (tap one of `options`), `multi` (tap every option in
 `answer`; the app shows "Choose N" from its length, and tap order does not matter), `blocks` (place a subset of `tray` in
 order, distractors allowed), `order` (every tray block must be used), `fill`
