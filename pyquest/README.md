@@ -6,9 +6,9 @@ browser. PyQuest is what you play on a phone, where typing Python is miserable.
 
 An Android game that walks you from `print("hello")` to scoping and pricing an
 AI-engineering consultancy job, with Pytor the snake as your expert tutor the
-whole way up. Multiple-choice cards and Scratch-style drag blocks; the same
-placement move carries you from syntax tokens at tier 1 to pipeline components
-at tier 8.
+whole way up, and a ninth tier of AI-901 exam prep after that. Multiple-choice
+cards and Scratch-style drag blocks; the same placement move carries you from
+syntax tokens at tier 1 to pipeline components at tier 8.
 
 The design lives in [DESIGN.md](DESIGN.md).
 
@@ -60,9 +60,10 @@ half off in the You tab.
 | Local play log with share sheet export (You tab) | shipped |
 | Tiers 1 to 7 | 30 to 32 questions each, 5 levels each |
 | Tier 8 "AI consultancy sims" | 19 questions, 3 levels, two pipeline sims |
+| Tier 9 "AI-901 exam prep" | 46 questions, 5 levels, multiple-choice and ordering cards |
 | Pytor's Codex | 95 entries: 32 Python, 30 engineering, 33 AI/LLM |
 
-231 questions in total. Every one carries hints and an expert note, and every
+277 questions in total. Every one carries hints and an expert note, and every
 multiple-choice option order and block tray is shuffled at authoring time so
 nothing can be learnt by position.
 
@@ -80,10 +81,11 @@ context, answer, backend, timing, no IP) so Pytor's answers can be audited.
 Every APK is built in GitHub Actions by
 [`.github/workflows/build-android.yml`](../.github/workflows/build-android.yml) at the
 repo root, which also publishes it to the rolling `latest` pre-release and rewrites the
-download link above to match. The workflow only fires on changes under `pyquest/`, so
-editing the site never triggers an Android build. Pushing to `main` is the whole release
-process. CI validates the curriculum and the Codex, runs the unit tests, builds the APK,
-then boots it on an emulator and checks that the track actually rendered.
+download link above to match. The workflow only fires on changes under `pyquest/` (or to
+the workflow file itself), so editing the site never triggers an Android build. Pushing
+to `main` is the whole release process. CI validates the curriculum and the Codex, runs
+the unit tests, builds the APK, then boots it on an emulator and checks that the track
+actually rendered.
 
 ```bash
 gh workflow run build-android.yml            # trigger a build by hand
