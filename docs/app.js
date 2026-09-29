@@ -1,4 +1,4 @@
-/* ===== PyLearn App ===== */
+/* ===== Pytor App ===== */
 
 const TOPIC_META = {
   variables:   { icon: "📦", color: "#3b82f6" },
@@ -342,88 +342,60 @@ function render() {
   window.scrollTo(0, 0);
 }
 
+function toggleTheme() {
+  const root = document.documentElement;
+  const current = root.getAttribute("data-theme") ||
+    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const next = current === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  try { localStorage.setItem("pytor-theme", next); } catch (e) { /* storage blocked: theme lasts this visit */ }
+}
+
 function renderWelcome(app) {
   app.innerHTML = `
-    <div class="welcome-hero">
-      <h1>🐍 Learn Python Interactively</h1>
-      <p class="tagline">400 hands-on exercises. Zero setup. Runs in your browser.</p>
-      <button class="start-btn" onclick="navigate('/dashboard')">Start Learning →</button>
-      <button class="action-btn" style="margin-left:8px" onclick="navigate('/playground')">🧪 Open Playground</button>
-    </div>
+    <section class="welcome-hero">
+      <div class="welcome-hero-copy">
+        <h1>Learn Python by typing real Python.</h1>
+        <p class="tagline">${exerciseData ? exerciseData.total_exercises : 450} exercises that run and get graded right here in your browser, even on a phone. Nothing to install. Pytor explains anything you get stuck on.</p>
+        <div class="welcome-hero-actions">
+          <button class="start-btn" onclick="navigate('/dashboard')">Start with Variables</button>
+          <a class="hero-link" href="#/playground">Open the playground</a>
+        </div>
+      </div>
+      <img class="welcome-hero-pytor" src="pytor.webp" alt="Pytor, a blue and yellow snake in glasses, typing on a laptop">
+    </section>
+
+    <ul class="ways">
+      <li><button class="way" onclick="navigate('/dashboard')"><span class="way-icon">📦</span><strong>Nine topics, 50 exercises each</strong><span>Variables to FastAPI. Each topic opens with a plain-English lesson, then you write the code.</span></button></li>
+      <li><button class="way" onclick="navigate('/path')"><span class="way-icon">🧭</span><strong>The AI Engineer Path</strong><span>Five phases with a video and a practice video per topic, and an honest exit gate.</span></button></li>
+      <li><button class="way" onclick="navigate('/exam')"><span class="way-icon">🎓</span><strong>AI-901 drill</strong><span>Exam-style questions with the reasoning behind every answer.</span></button></li>
+      <li><button class="way" onclick="location.href='/blocks/'"><span class="way-icon">🧩</span><strong>Block Bench</strong><span>Drag-and-drop syntax puzzles for when you want to learn without typing.</span></button></li>
+    </ul>
 
     <div class="welcome-section">
-      <h2>👋 What is this?</h2>
-      <p>PyLearn is a free, interactive app that teaches you Python programming from absolute zero. You don't need to install anything — everything runs right here in your browser, even on your phone!</p>
-      <p>Whether you've never written a line of code or want to sharpen your skills, this app guides you step by step with clear explanations and instant feedback.</p>
-    </div>
-
-    <div class="welcome-section">
-      <h2>🤔 What is Python?</h2>
-      <p>Python is one of the most popular programming languages in the world. Think of it as a way to give instructions to your computer — like writing a recipe that a very literal robot chef will follow exactly.</p>
-      <p>People use Python to build websites, analyze data, create AI, automate boring tasks, and much more. It's famous for being easy to read — it almost looks like English!</p>
+      <h2>What Python looks like</h2>
+      <p>Python is a way to give your computer instructions, written so it almost reads like English. People use it to build websites, analyse data, automate boring jobs and build AI.</p>
       <div class="example-box">
-        <span class="comment"># This is Python code. See? It's readable!</span><br>
+        <span class="comment"># Store a name, then use it in a message</span><br>
         name = "World"<br>
         print(f"Hello, {name}!")<br>
         <div class="output">→ Hello, World!</div>
       </div>
     </div>
 
-    <div class="welcome-section" style="background:linear-gradient(135deg,#fef9c3,#fef3c7);border:2px solid #f59e0b">
-      <h2>🧒 "Explain Like I'm 5" Mode</h2>
-      <p>See the <strong>🧒 ELI5</strong> button in the top-right corner? It's <strong>ON by default</strong>.</p>
-      <p>When it's on, every topic and exercise gets extra-simple explanations using everyday analogies — like explaining variables as "labeled jars" or functions as "recipes". Perfect if you've never coded before!</p>
-      <p>If you already know some programming, you can click it to turn it off and see just the standard descriptions.</p>
-    </div>
-
-    <div class="welcome-section path-cta">
-      <h2>🧭 Learning Python to build with AI?</h2>
-      <p>Follow <strong>The AI Engineer Path</strong>: five phases from math intuition to real experience, with a short video plus a practice video for every Python topic on this site. You type every line; Pytor explains and quizzes.</p>
-      <button class="start-btn" onclick="navigate('/path')">Open the Path →</button>
+    <div class="welcome-section eli5-note">
+      <h2>🧒 Explain Like I'm 5 is on</h2>
+      <p>Every lesson and exercise gets an extra explanation with an everyday comparison, like variables as labelled jars. If you already code, switch it off with the <strong>ELI5</strong> button at the top.</p>
     </div>
 
     <div class="welcome-section">
-      <h2>📖 How to use PyLearn</h2>
+      <h2>How an exercise works</h2>
       <ul>
-        <li><strong>Pick a topic</strong> — Start with "Variables" if you're brand new</li>
-        <li><strong>Read the lesson</strong> — Each topic has a lesson explaining the concept in plain English</li>
-        <li><strong>Try the examples</strong> — Run the code examples to see how they work</li>
-        <li><strong>Do the exercises</strong> — Write code, click Run, get instant feedback</li>
-        <li><strong>Use hints</strong> — Stuck? Each exercise has hints to guide you</li>
-        <li><strong>Check the solution</strong> — Learn from the answer if you need to</li>
+        <li><strong>Read the task</strong> and write your code in the editor.</li>
+        <li><strong>Press Run &amp; Check.</strong> Your code runs in the browser and gets marked on the spot.</li>
+        <li><strong>Stuck?</strong> Open a hint, ask Pytor, or look at the solution and try again.</li>
       </ul>
-    </div>
-
-    <div class="welcome-section">
-      <h2>🎯 What you'll learn</h2>
-      <ul>
-        <li><strong>Variables</strong> — How to store and name data (like labeled boxes)</li>
-        <li><strong>Data Types</strong> — Numbers, text, true/false, and how to work with them</li>
-        <li><strong>Conditionals</strong> — Making decisions in code (if this, do that)</li>
-        <li><strong>Functions</strong> — Reusable blocks of code (like recipes)</li>
-        <li><strong>Lists & Sets</strong> — Collections of items (like shopping lists)</li>
-        <li><strong>Dictionaries</strong> — Key-value lookups (like a phone book)</li>
-        <li><strong>FastAPI</strong> — Building web APIs with Python</li>
-        <li><strong>API Calling</strong> — Talking to other services from your code</li>
-      </ul>
-    </div>
-
-    <div class="welcome-section">
-      <h2>💻 Your first Python code</h2>
-      <p>Here's what it looks like. Don't worry about understanding every detail yet — you'll learn all of this step by step!</p>
-      <div class="example-box">
-        <span class="comment"># Create a variable (a labeled box)</span><br>
-        my_name = "Alex"<br><br>
-        <span class="comment"># Use it in a message</span><br>
-        print(f"Hi, I'm {my_name}!")<br><br>
-        <span class="comment"># Do some math</span><br>
-        age = 25<br>
-        next_year = age + 1<br>
-        print(f"I'm {age} now, and {next_year} next year")<br>
-        <div class="output">→ Hi, I'm Alex!<br>→ I'm 25 now, and 26 next year</div>
-      </div>
-      <p style="margin-top:12px">Ready? Let's go! 👇</p>
-      <button class="start-btn" onclick="navigate('/dashboard')" style="margin-top:12px">Start with Variables →</button>
+      <button class="start-btn" onclick="navigate('/dashboard')" style="margin-top:12px">Pick a topic</button>
     </div>
   `;
 }

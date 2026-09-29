@@ -3,7 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>PyLearn - Learn Python Interactively</title>
+<title>Pytor: learn Python in your browser</title>
+<meta name="description" content="Learn Python by typing real code. 450 exercises that run and get graded in your browser, a playground, an AI engineer path and Pytor the tutor snake.">
+<meta name="theme-color" content="#697ae4">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('pytor-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { /* storage blocked: follow the system setting */ }
+})();
+</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css" integrity="sha384-zaeBlB/vwYsDRSlFajnDd7OydJ0cWk+c2OWybl3eSUf6hW2EbhlCsQPqKr3gkznT" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/dracula.min.css" integrity="sha384-ccdJwIIg/K0Ab6aXF4MPACh7ckk61tvQFTrfkhXZEALgAETURNZIAuQLcS/aPbrM" crossorigin="anonymous">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
@@ -13,10 +23,10 @@
 
 <!-- Top bar -->
 <header id="topbar">
-  <div class="topbar-left" onclick="navigate('/')">
-    <span class="logo">🐍</span>
-    <span class="brand">PyLearn</span>
-  </div>
+  <button class="topbar-left" onclick="navigate('/')" aria-label="Pytor home">
+    <img class="logo" src="pytor.webp" alt="">
+    <span class="brand">Pytor</span>
+  </button>
   <div class="topbar-right">
     <button class="badge pg-nav-btn" onclick="navigate('/path')" title="The AI Engineer Path">🧭<span class="badge-label"> Path</span></button>
     <button class="badge pg-nav-btn" onclick="navigate('/checklist')" title="AI engineering skills checklist">📋<span class="badge-label"> Skills</span></button>
@@ -25,6 +35,7 @@
     <a class="badge pg-nav-btn" href="/blocks/" title="Python Block Bench: drag-and-drop syntax puzzles" style="text-decoration:none">🧩<span class="badge-label"> Blocks</span></a>
     <button class="badge pg-nav-btn" onclick="navigate('/playground')" title="Open the Python playground">🧪<span class="badge-label"> Playground</span></button>
     <button id="eli5-toggle" class="badge eli5-btn active" onclick="toggleEli5()" title="Explain Like I'm 5 mode">🧒 ELI5</button>
+    <button id="theme-btn" class="badge theme-btn" onclick="toggleTheme()" title="Switch light or dark" aria-label="Switch light or dark"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
     <span id="streak-badge" class="badge" title="Daily streak"></span>
     <span id="progress-badge" class="badge" title="Exercises completed"></span>
     <button id="tutor-toggle" class="badge tutor-toggle-btn" onclick="window.tutorUI?.toggleSidebar()" title="Ask Pytor" style="display:none">
