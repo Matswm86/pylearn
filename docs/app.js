@@ -2,7 +2,7 @@
 
 const TOPIC_META = {
   variables:   { icon: "📦", color: "#3b82f6" },
-  data_types:  { icon: "🔤", color: "#8b5cf6" },
+  data_types:  { icon: "🔤", color: "#0e7c86" },
   conditionals:{ icon: "🔀", color: "#f59e0b" },
   loops:       { icon: "🔁", color: "#14b8a6" },
   functions:   { icon: "⚙️", color: "#10b981" },
@@ -362,7 +362,7 @@ function renderWelcome(app) {
           <a class="hero-link" href="#/playground">Open the playground</a>
         </div>
       </div>
-      <img class="welcome-hero-pytor" src="pytor.webp" alt="Pytor, a blue and yellow snake in glasses, typing on a laptop">
+      <img class="welcome-hero-pytor" src="pytor-cut.webp" alt="Pytor, a blue and yellow snake in glasses, typing on a laptop">
     </section>
 
     <ul class="ways">

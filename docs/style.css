@@ -12,16 +12,16 @@
 @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 100 800; font-display: swap;
   src: url(fonts/jetbrains-mono-latin.woff2) format('woff2'); }
 
-/* Palette taken from Pytor himself: periwinkle backdrop, blue coils, yellow belly, indigo ink. */
+/* Palette taken from Pytor himself: blue coils and yellow belly on a deep navy stage, slate neutrals, teal for the tutor. */
 :root {
   color-scheme: light;
-  --bg: #f2f3fa;
+  --bg: #f3f5f8;
   --surface: #ffffff;
-  --surface-alt: #e9ebf6;
-  --border: #d8dbec;
-  --text: #1b1e36;
-  --text-dim: #555b80;
-  --text-light: #72779a;
+  --surface-alt: #e9edf2;
+  --border: #d6dde6;
+  --text: #16202e;
+  --text-dim: #4f5d70;
+  --text-light: #6b788a;
   --primary: #2f64c8;
   --primary-hover: #234fa3;
   --primary-light: #dce6fa;
@@ -39,61 +39,61 @@
   --warning-ink: #6b4e00;
   --warning-border: #f0d77a;
   --yellow: #f4c430;
-  --accent: #5b63d6;
-  --accent-light: #e7e8fb;
-  --accent-ink: #3a3fa6;
-  --accent-border: #c3c6f3;
+  --accent: #0e7c86;
+  --accent-light: #dcf1f2;
+  --accent-ink: #0a5a61;
+  --accent-border: #a6d9dc;
   --pink-light: #fbe4f0;
   --pink-ink: #8f1d57;
-  --peri-top: #8492e6;
-  --peri: #697ae4;
-  --peri-deep: #5267e4;
-  --code-bg: #1b1e36;
-  --code-bar: #14162a;
-  --code-fg: #dce0f5;
-  --code-dim: #8a90b8;
-  --code-rule: #2c3057;
-  --code-btn: #2c3057;
-  --code-btn-border: #3d4270;
+  --peri-top: #1f4a7a;
+  --peri: #17365c;
+  --peri-deep: #102742;
+  --code-bg: #13202e;
+  --code-bar: #0d1621;
+  --code-fg: #dde6f0;
+  --code-dim: #8595a8;
+  --code-rule: #243447;
+  --code-btn: #243447;
+  --code-btn-border: #34485e;
   --code-err: #ff8fa3;
-  --scrim: rgba(20, 22, 42, 0.55);
+  --scrim: rgba(10, 18, 28, 0.55);
   --radius: 14px;
   --radius-sm: 8px;
-  --shadow: 0 1px 0 rgba(27, 30, 54, 0.04);
-  --shadow-lg: 0 8px 24px rgba(27, 30, 54, 0.12);
+  --shadow: 0 1px 0 rgba(22, 32, 46, 0.04);
+  --shadow-lg: 0 8px 24px rgba(22, 32, 46, 0.12);
   --font: 'Atkinson Next', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
   --topbar-h: 56px;
 }
 
-/* Dark: the same indigo ink becomes the room, Pytor's colours stay as the light sources. */
+/* Dark: navy slate becomes the room; Pytor's blue and yellow stay as the light sources. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #12142a; --surface: #1a1d38; --surface-alt: #232746; --border: #30355c;
-    --text: #e8eaf8; --text-dim: #aab0d4; --text-light: #8a90b8;
+    --bg: #0f1620; --surface: #16202c; --surface-alt: #1e2a38; --border: #2b3a4c;
+    --text: #e6edf5; --text-dim: #a7b4c4; --text-light: #8391a3;
     --primary: #7ea6f2; --primary-hover: #a3c0f6; --primary-light: #263766; --primary-bg: #1d2748; --on-primary: #0f1733;
     --success: #4cc792; --success-light: #173a2e; --success-ink: #8fe3bd; --success-border: #2b6b52;
     --error: #ff8a80; --error-light: #432026; --error-ink: #ffb4ab; --warning: #f4c430;
     --warning-light: #3b3218; --warning-ink: #f6d77a; --warning-border: #6b5a22;
-    --accent: #9aa1f5; --accent-light: #2a2d5c; --accent-ink: #c5c9ff; --accent-border: #454a8c;
+    --accent: #5fc9c0; --accent-light: #15343a; --accent-ink: #9ee3dc; --accent-border: #2a5d62;
     --pink-light: #3d1f33; --pink-ink: #f5a8cf;
-    --code-bg: #0d0f22; --code-bar: #090a18; --code-rule: #262a4d;
+    --code-bg: #0b121b; --code-bar: #070c12; --code-rule: #1f2c3b;
     --scrim: rgba(0, 0, 0, 0.6);
     --shadow: none; --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.45);
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #12142a; --surface: #1a1d38; --surface-alt: #232746; --border: #30355c;
-  --text: #e8eaf8; --text-dim: #aab0d4; --text-light: #8a90b8;
+  --bg: #0f1620; --surface: #16202c; --surface-alt: #1e2a38; --border: #2b3a4c;
+  --text: #e6edf5; --text-dim: #a7b4c4; --text-light: #8391a3;
   --primary: #7ea6f2; --primary-hover: #a3c0f6; --primary-light: #263766; --primary-bg: #1d2748; --on-primary: #0f1733;
   --success: #4cc792; --success-light: #173a2e; --success-ink: #8fe3bd; --success-border: #2b6b52;
   --error: #ff8a80; --error-light: #432026; --error-ink: #ffb4ab; --warning: #f4c430;
   --warning-light: #3b3218; --warning-ink: #f6d77a; --warning-border: #6b5a22;
-  --accent: #9aa1f5; --accent-light: #2a2d5c; --accent-ink: #c5c9ff; --accent-border: #454a8c;
+  --accent: #5fc9c0; --accent-light: #15343a; --accent-ink: #9ee3dc; --accent-border: #2a5d62;
   --pink-light: #3d1f33; --pink-ink: #f5a8cf;
-  --code-bg: #0d0f22; --code-bar: #090a18; --code-rule: #262a4d;
+  --code-bg: #0b121b; --code-bar: #070c12; --code-rule: #1f2c3b;
   --scrim: rgba(0, 0, 0, 0.6);
   --shadow: none; --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.45);
 }
@@ -170,15 +170,13 @@ body:not(.eli5-mode) .eli5-box { display: none; }
   font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.05; font-weight: 800;
   letter-spacing: -0.02em; margin-bottom: 14px; color: #fff;
 }
-.welcome-hero .tagline { color: #e9ecff; font-size: 1.12rem; line-height: 1.55; margin-bottom: 26px; max-width: 30rem; }
+.welcome-hero .tagline { color: #d6e2f0; font-size: 1.12rem; line-height: 1.55; margin-bottom: 26px; max-width: 30rem; }
 .welcome-hero-actions { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
-.welcome-hero .start-btn { background: var(--yellow); color: #1b1e36; }
+.welcome-hero .start-btn { background: var(--yellow); color: #16202e; }
 .welcome-hero .start-btn:hover { background: #ffd65a; }
 .welcome-hero .hero-link { color: #fff; font-weight: 700; text-underline-offset: 4px; }
 .welcome-hero-pytor {
   align-self: end; justify-self: end; width: 100%; max-width: 360px; display: block;
-  -webkit-mask-image: radial-gradient(ellipse 52% 56% at 52% 56%, #000 50%, transparent 100%);
-  mask-image: radial-gradient(ellipse 52% 56% at 52% 56%, #000 50%, transparent 100%);
 }
 .ways { list-style: none; padding: 0; margin: 0 0 28px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .way {
@@ -556,7 +554,7 @@ body:not(.eli5-mode) .eli5-box { display: none; }
   border: none; padding: 0; margin: 0;
   background: radial-gradient(circle at 50% 0%, var(--peri-top), var(--peri) 60%, var(--peri-deep));
   border-radius: 50%;
-  box-shadow: 0 6px 20px rgba(82, 103, 228, 0.35);
+  box-shadow: 0 6px 20px rgba(16, 39, 66, 0.35);
   cursor: pointer;
   z-index: 150;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -564,7 +562,7 @@ body:not(.eli5-mode) .eli5-box { display: none; }
 }
 .pytor-mascot:hover {
   transform: translateY(-4px) scale(1.06);
-  box-shadow: 0 10px 28px rgba(82, 103, 228, 0.45);
+  box-shadow: 0 10px 28px rgba(16, 39, 66, 0.45);
   animation-play-state: paused;
 }
 .pytor-mascot:active { transform: translateY(-2px) scale(1.02); }
