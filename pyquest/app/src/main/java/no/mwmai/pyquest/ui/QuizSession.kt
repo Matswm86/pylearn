@@ -133,7 +133,7 @@ class QuizSession(
         } else {
             emptyList()
         }
-        optionOrder = if (question != null && question.type == QuestionType.MCQ) {
+        optionOrder = if (question != null && question.type in TAP_TYPES) {
             question.options.indices.shuffled(random)
         } else {
             emptyList()
@@ -147,6 +147,17 @@ class QuizSession(
     /** Index into [displayedOptions] of the picked option, or null. */
     val selectedDisplayIndex: Int?
         get() = selection.firstOrNull()?.let { optionOrder.indexOf(it) }?.takeIf { it >= 0 }
+
+    /** Indices into [displayedOptions] of every picked option. */
+    val selectedDisplayIndices: Set<Int>
+        get() = selection.map { optionOrder.indexOf(it) }.filter { it >= 0 }.toSet()
+
+    /** Indices into [displayedOptions] of every correct option. */
+    val correctDisplayIndices: Set<Int>
+        get() {
+            val q = current ?: return emptySet()
+            return q.answer.map { optionOrder.indexOf(q.options.indexOf(it)) }.filter { it >= 0 }.toSet()
+        }
 
     /** Index into [displayedOptions] of the correct option, or -1. */
     val correctDisplayIndex: Int
@@ -166,7 +177,18 @@ class QuizSession(
     fun select(index: Int) {
         if (checked) return
         val question = current ?: return
-        if (question.type == QuestionType.MCQ) selection = listOf(index)
+        when (question.type) {
+            QuestionType.MCQ -> selection = listOf(index)
+            QuestionType.MULTI -> selection = if (index in selection) {
+                selection - index
+            } else if (selection.size < question.answer.size) {
+                selection + index
+            } else {
+                // Full: tapping a new option swaps out the oldest pick.
+                selection.drop(1) + index
+            }
+            else -> Unit
+        }
     }
 
     fun setBlocks(placed: List<Int>) {
@@ -194,6 +216,7 @@ class QuizSession(
             val question = current ?: return false
             return when (question.type) {
                 QuestionType.MCQ -> selection.size == 1
+                QuestionType.MULTI -> selection.size == question.answer.size
                 QuestionType.BLOCKS, QuestionType.ORDER -> selection.isNotEmpty()
                 QuestionType.FILL, QuestionType.PIPELINE -> slots.isNotEmpty() && slots.all { it != null }
             }
@@ -280,5 +303,6 @@ class QuizSession(
 
     private companion object {
         const val REQUEUE_GAP = 3
+        val TAP_TYPES = setOf(QuestionType.MCQ, QuestionType.MULTI)
     }
 }

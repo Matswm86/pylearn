@@ -124,6 +124,15 @@ fun QuestionScreen(
                     onSelect = session::selectDisplayed,
                 )
 
+                QuestionType.MULTI -> MultiAnswer(
+                    options = session.displayedOptions,
+                    pick = question.answer.size,
+                    selected = session.selectedDisplayIndices,
+                    correct = session.correctDisplayIndices,
+                    checked = session.checked,
+                    onToggle = session::selectDisplayed,
+                )
+
                 QuestionType.BLOCKS, QuestionType.ORDER -> BlocksAnswer(
                     choices = question.tray,
                     placed = session.selection,

@@ -24,7 +24,7 @@ data class Question(
     val prompt: String,
     /** Optional read-only snippet shown above the answer area, in monospace. */
     val code: String? = null,
-    /** Tap targets for [QuestionType.MCQ]. */
+    /** Tap targets for [QuestionType.MCQ] and [QuestionType.MULTI]. */
     val options: List<String> = emptyList(),
     /** Plain draggable blocks for [QuestionType.BLOCKS] and [QuestionType.ORDER]. */
     val tray: List<String> = emptyList(),
@@ -57,7 +57,11 @@ data class Question(
     val reviewed: String? = null,
 ) {
     fun isCorrect(given: List<String>): Boolean =
-        given == answer || accept.any { it == given }
+        if (type == QuestionType.MULTI) {
+            given.toSet() == answer.toSet() && given.size == answer.size
+        } else {
+            given == answer || accept.any { it == given }
+        }
 
     /**
      * The pool a player picks from, addressed by index. Multiple-choice uses the
@@ -66,7 +70,7 @@ data class Question(
      */
     val choices: List<String>
         get() = when (type) {
-            QuestionType.MCQ -> options
+            QuestionType.MCQ, QuestionType.MULTI -> options
             QuestionType.BLOCKS, QuestionType.ORDER -> tray
             QuestionType.FILL, QuestionType.PIPELINE -> blocks.map { it.id }
         }
@@ -100,6 +104,13 @@ enum class QuestionType {
     /** Four options, tap one. */
     @SerialName("mcq")
     MCQ,
+
+    /**
+     * Several options, tap every right one. [Question.answer] holds all of them
+     * and the prompt says how many to pick, the way the exam's select-N items do.
+     */
+    @SerialName("multi")
+    MULTI,
 
     /** Drag blocks from the tray into an ordered answer row. */
     @SerialName("blocks")

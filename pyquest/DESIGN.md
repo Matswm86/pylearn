@@ -83,6 +83,8 @@ Tier 8, drag-block:
 Five formats, all thumb-first, all gradeable without running Python:
 
 1. **mcq**: four lettered options, tap one.
+   **multi**: the exam's select-N item. Check boxes, a "Choose N" counter, graded
+   as a set. Yes/no statement grids are written as "which N statements are true".
 2. **blocks**: drag blocks from a tray into an ordered answer row, distractors allowed.
 3. **order**: same interaction, but every tray block must be used.
 4. **fill**: blocks drop into typed gaps inside real, rendered code. Blocks are

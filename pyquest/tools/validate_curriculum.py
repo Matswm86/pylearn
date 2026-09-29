@@ -20,7 +20,7 @@ from pathlib import Path
 DEFAULT_DIR = Path("app/src/main/assets/curriculum")
 FILE_PATTERN = re.compile(r"^tier_(\d{2})\.json$")
 ID_PATTERN = re.compile(r"^t(\d+)\.l(\d+)\.q(\d+)$")
-VALID_TYPES = {"mcq", "blocks", "order", "fill", "pipeline"}
+VALID_TYPES = {"mcq", "multi", "blocks", "order", "fill", "pipeline"}
 GAP = re.compile(r"\{(\d+)}")
 WHITESPACE = re.compile(r"\s+")
 MIN_EXPLAIN_CHARS = 40
@@ -141,6 +141,24 @@ def check_question(question: dict, tier_number: int, seen_ids: set[str]) -> list
             problems.append(f"{qid}: mcq has duplicate options")
         if question.get("tray"):
             problems.append(f"{qid}: mcq must not carry a tray")
+    elif qtype == "multi":
+        options = question.get("options") or []
+        if not 3 <= len(options) <= 6:
+            problems.append(f"{qid}: multi needs 3 to 6 options, found {len(options)}")
+        if not 2 <= len(answer) < len(options):
+            problems.append(f"{qid}: multi answer must hold at least 2 options and fewer than all")
+        missing = [a for a in answer if a not in options]
+        if missing:
+            problems.append(f"{qid}: multi answer {missing!r} not among the options")
+        if len(set(answer)) != len(answer) or len(set(options)) != len(options):
+            problems.append(f"{qid}: multi has duplicate options or answers")
+        # The app shows "Choose N" from the answer size; the prompt must agree.
+        words = {2: "two", 3: "three", 4: "four"}
+        n = len(answer)
+        if str(n) not in question.get("prompt", "") and words.get(n, "#") not in question.get("prompt", "").lower():
+            problems.append(f"{qid}: multi prompt must say how many to pick ({n})")
+        if question.get("tray"):
+            problems.append(f"{qid}: multi must not carry a tray")
     elif qtype == "fill":
         problems.extend(check_fill(qid, question, answer))
     elif qtype == "pipeline":
