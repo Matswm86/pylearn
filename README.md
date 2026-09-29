@@ -78,7 +78,7 @@ is unreachable, so the exercises never depend on the tutor being up.
 ## PyQuest, the app
 
 An Android game that walks from `print("hello")` to scoping and pricing an AI-engineering
-consultancy job, plus a tier of AI-901 exam prep: **277 questions across 9 tiers**,
+consultancy job, plus a tier of AI-901 exam prep: **325 questions across 9 tiers**,
 multiple-choice cards and Scratch-style drag blocks, Leitner spaced repetition, weak-tag
 tracking, XP and streaks. Pytor rides along as an expert, with a 95-entry offline
 reference and an online chat mode.

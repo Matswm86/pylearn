@@ -53,17 +53,17 @@ half off in the You tab.
 | Piece | Status |
 |-------|--------|
 | Gradle + Compose app, CI build, emulator smoke test, rolling APK release | shipped |
-| `mcq`, `blocks`, `order`, `fill`, `pipeline` question types | shipped |
+| `mcq`, `multi`, `blocks`, `order`, `fill`, `pipeline` question types | shipped |
 | Track, Pytor and You tabs; hint sheet; expert notes; review misses | shipped |
 | Leitner spaced repetition, first-try accuracy, weak-tag tracking, XP, streak | shipped |
 | Per-level progress (cleared, solved, mastered) on the track and the You tab | shipped |
 | Local play log with share sheet export (You tab) | shipped |
 | Tiers 1 to 7 | 30 to 32 questions each, 5 levels each |
 | Tier 8 "AI consultancy sims" | 19 questions, 3 levels, two pipeline sims |
-| Tier 9 "AI-901 exam prep" | 46 questions, 5 levels, multiple-choice and ordering cards |
+| Tier 9 "AI-901 exam prep" | 94 questions, 5 levels: multiple-choice, choose-N and ordering cards |
 | Pytor's Codex | 95 entries: 32 Python, 30 engineering, 33 AI/LLM |
 
-277 questions in total. Every one carries hints and an expert note, and every
+325 questions in total. Every one carries hints and an expert note, and every
 multiple-choice option order and block tray is shuffled at authoring time so
 nothing can be learnt by position.
 
@@ -135,7 +135,8 @@ characters. CI runs both validators before the APK job starts.
 }
 ```
 
-`type` is `mcq` (tap one of `options`), `blocks` (place a subset of `tray` in
+`type` is `mcq` (tap one of `options`), `multi` (tap every option in
+`answer`; the app shows "Choose N" from its length, and tap order does not matter), `blocks` (place a subset of `tray` in
 order, distractors allowed), `order` (every tray block must be used), `fill`
 (blocks go into `{0}`-style gaps in `template`) or `pipeline` (blocks are stages
 with `ms` and `cost`, wired against the budget in `brief`). `accept` holds

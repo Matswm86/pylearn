@@ -1,7 +1,7 @@
 {
   "tier": 9,
   "title": "AI-901 exam prep",
-  "subtitle": "Microsoft Azure AI Fundamentals: the drill from the Pytor site",
+  "subtitle": "Microsoft Azure AI Fundamentals: exam-shaped drill, including select-N items",
   "lessons": [
     "responsible AI",
     "workloads & text",
@@ -255,6 +255,333 @@
         "images"
       ],
       "reviewed": "2026-09-28"
+    },
+    {
+      "id": "t9.l1.q9",
+      "tier": 9,
+      "level": 1,
+      "type": "multi",
+      "prompt": "You are reviewing a release checklist. Which three items are principles in Microsoft's Responsible AI framework? Choose three.",
+      "options": [
+        "Reliability and safety",
+        "Cost optimization",
+        "Continuous deployment",
+        "Fairness",
+        "Privacy and security",
+        "Model quantization"
+      ],
+      "answer": [
+        "Reliability and safety",
+        "Fairness",
+        "Privacy and security"
+      ],
+      "explain": "The six principles are fairness, reliability and safety, privacy and security, inclusiveness, transparency, and accountability. Cost optimization, continuous deployment and quantization are good engineering practice, but none of them is a principle in the framework.",
+      "teach": "Microsoft groups responsible AI into six named principles. Each one answers a different question about a system: does it treat groups equally, does it behave safely under stress, does it protect data, can everyone use it, can people understand it, and who answers for it. Exam distractors are usually sensible engineering goals that are simply not on that list of six.",
+      "hints": [
+        "Start by recalling the list of six principles and say them to yourself before reading the options. Anything that is not one of those six names is a distractor, however sensible it sounds as an engineering goal.",
+        "Three of the options are things an engineering team optimises for speed, money or model size. Ask whether each option is about how people are treated or protected, or about how the system is built and shipped.",
+        "The six principles cover equal treatment, safe behaviour, data protection, access for everyone, understandability and ownership. Match each option against that list and keep exactly the three that appear on it."
+      ],
+      "deep": "Exam items on the six principles often list real practices that are not principles, like cost control or CI/CD. Learn the six names word for word. Reliability and safety, and privacy and security, each count as a single principle even though each name joins two words.",
+      "xp": 15,
+      "tags": [
+        "responsible-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q10",
+      "tier": 9,
+      "level": 1,
+      "type": "multi",
+      "prompt": "Which two belong in a responsible AI review before a generative feature ships? Choose two.",
+      "options": [
+        "A configuration that sets temperature as low as it will go",
+        "A red-team pass that tries to make the system produce harmful output",
+        "A written guarantee that the model will never be wrong",
+        "Documented known limitations and intended uses"
+      ],
+      "answer": [
+        "A red-team pass that tries to make the system produce harmful output",
+        "Documented known limitations and intended uses"
+      ],
+      "explain": "Documenting what the system is for and where it fails supports transparency, and adversarial testing finds harms that happy-path tests miss. A minimum temperature is a tuning choice with no ethical content, and nobody can guarantee a model is never wrong.",
+      "teach": "A responsible AI review happens before launch and asks two kinds of question. First, is it written down what the system is meant for and where it is known to fail? Second, has anyone deliberately tried to break it, by pushing it towards harmful, biased or unsafe output? Settings that only change the style of answers are not part of that review.",
+      "hints": [
+        "Think about what a reviewer needs to see before signing off: evidence about the system's purpose and limits, and evidence about how it behaves when someone tries to misuse it on purpose.",
+        "One option is a model setting that changes how varied the wording is. Ask yourself whether changing variety tells a reviewer anything about harm or limits. It does not, so treat it with suspicion.",
+        "Another option promises something no generative model can promise. A review produces evidence and documentation, never guarantees of perfection. Keep the two options that produce documents or test evidence."
+      ],
+      "deep": "Red-teaming is Microsoft's term for structured adversarial testing of generative systems, and it feeds the map, measure and manage cycle. Transparency notes are the published form of documented limitations. Both appear in the Foundry responsible AI guidance.",
+      "xp": 15,
+      "tags": [
+        "responsible-ai",
+        "generative-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q11",
+      "tier": 9,
+      "level": 1,
+      "type": "multi",
+      "prompt": "A hospital billing team pilots an assistant that drafts replies to patient billing questions. Staff must approve every draft before it is sent. Which two statements are true? Choose two.",
+      "options": [
+        "Logging which staff member approved each reply supports accountability",
+        "Requiring staff approval before a reply is sent supports accountability",
+        "Once the assistant scores above 95% accuracy it should make final billing decisions on its own",
+        "Because a human approves every draft, the team no longer needs to test for unfair outcomes"
+      ],
+      "answer": [
+        "Logging which staff member approved each reply supports accountability",
+        "Requiring staff approval before a reply is sent supports accountability"
+      ],
+      "explain": "Accountability means named people answer for what the system does, and human sign-off plus an approval log shows it. Human review does not replace fairness testing, because a reviewer sees one draft at a time and cannot spot a pattern across thousands. An accuracy score does not transfer accountability for a financial decision to the model.",
+      "teach": "Accountability is the principle that people, not the AI system, remain answerable for what it does. In practice that means a human in the loop for important decisions and a record of who approved what. It sits alongside the other principles and does not replace them: a human approver is not a fairness test.",
+      "hints": [
+        "Two statements describe mechanisms that keep a named person answerable for each reply. Two others argue that some mechanism makes another safeguard unnecessary. Be wary of any claim that one control replaces another.",
+        "Consider whether a single person approving drafts one at a time could notice that a whole group of patients gets worse replies. Patterns across thousands of cases are what fairness testing exists to find.",
+        "A high accuracy number measures how often the model is right. It says nothing about who answers when it is wrong, so it cannot hand a financial decision to the model. Keep the two statements about approval and records."
+      ],
+      "deep": "On the exam, human-in-the-loop and audit trails map to accountability, while testing outcomes across groups maps to fairness. Principles stack. Distractors that say one control removes the need for another are almost always false.",
+      "xp": 15,
+      "tags": [
+        "responsible-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q12",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "A bank's pre-release review of an AI loan assistant plans to delete applicants' identity-verification photos as soon as they are no longer needed. Which Responsible AI principle does this support?",
+      "options": [
+        "Inclusiveness",
+        "Transparency",
+        "Fairness",
+        "Privacy and security"
+      ],
+      "answer": [
+        "Privacy and security"
+      ],
+      "explain": "Keeping personal data only as long as needed and then deleting it protects applicants' data, which is privacy and security. Transparency is about explaining the system, fairness is about unbiased outcomes, and inclusiveness is about everyone being able to use it.",
+      "teach": "One principle covers how an AI system collects, stores and uses personal data. It asks whether data was gathered with consent, whether it is protected from people who should not see it, and whether it is kept only as long as it is needed. Photos of identity documents are some of the most sensitive data a bank holds.",
+      "hints": [
+        "Look at what the practice actually does: it removes sensitive personal data after its purpose is served. Ask which principle is concerned with personal data, how long it is held and who can reach it.",
+        "Transparency would be about telling people how the system decides. Fairness would be about equal outcomes between groups. Neither of those is about deleting data, so set them aside.",
+        "Inclusiveness is about access for people of all abilities. That leaves the principle whose name combines protecting personal information with keeping systems safe from misuse."
+      ],
+      "deep": "Data minimisation and retention limits are classic privacy controls and show up in exam scenarios as 'delete when no longer needed' or 'visible only to staff involved'. Data gathered without consent also points to this principle.",
+      "xp": 10,
+      "tags": [
+        "responsible-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q13",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "A bank plans to publish a description of the data its AI loan assistant was trained on and the assistant's known limitations. Which Responsible AI principle does this support?",
+      "options": [
+        "Transparency",
+        "Accountability",
+        "Fairness",
+        "Reliability and safety"
+      ],
+      "answer": [
+        "Transparency"
+      ],
+      "explain": "Publishing what the system learned from and where it falls short helps people understand it, which is transparency. Accountability is about who answers for its decisions, reliability is about safe behaviour, and fairness is about unbiased outcomes.",
+      "teach": "Transparency means people can understand how an AI system works, what data shaped it, and where it is likely to be wrong. Microsoft publishes transparency notes for its own AI services for exactly this reason. The principle is about explanation and disclosure, not about who is responsible or how well the system performs.",
+      "hints": [
+        "The practice is about publishing information so that outsiders can understand the system. Ask which principle is about making a system understandable and open about its limits.",
+        "Accountability is close but different: it names who is answerable, not what the system learned. Reliability is about how the system behaves under stress, which publishing a document does not change.",
+        "Fairness would require measuring outcomes across groups. A published description of data and limits is disclosure, so choose the principle about openness and explanation."
+      ],
+      "deep": "Watch the pair transparency versus accountability: explaining how it works is transparency, and naming who answers for it is accountability. Microsoft's transparency notes for Azure AI services are a real example you can cite.",
+      "xp": 10,
+      "tags": [
+        "responsible-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q14",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "Which statement is an example of one of Microsoft's Responsible AI principles?",
+      "options": [
+        "AI systems should put developers' interests first",
+        "AI systems should treat people fairly",
+        "AI systems should use black-box models",
+        "AI systems should keep the details of their design secret"
+      ],
+      "answer": [
+        "AI systems should treat people fairly"
+      ],
+      "explain": "Treating people fairly is the fairness principle. Secrecy about design and black-box models run against transparency, and putting developers first runs against the principles' focus on the people affected.",
+      "teach": "Microsoft's six Responsible AI principles are fairness, reliability and safety, privacy and security, inclusiveness, transparency and accountability. Each one is written from the point of view of the people the system affects. A useful exam test is to ask whether a statement protects those people or protects the builder.",
+      "hints": [
+        "Read each option and ask who benefits. The principles protect the people the system affects, so any option that benefits the builder at their expense is unlikely to be right.",
+        "Two options argue for hiding how the system works. One principle is specifically about making systems understandable, so those two options contradict it rather than express it.",
+        "Of the remaining two, one puts developers first. The other describes equal treatment of people, which is the first principle on Microsoft's list."
+      ],
+      "deep": "Items that ask for an example of a principle often use distractors that are the opposite of a principle, such as secrecy against transparency. Flip each distractor to see which principle it breaks. That also trains the matching items.",
+      "xp": 10,
+      "tags": [
+        "responsible-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q15",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "What is an example of the Responsible AI principle of transparency?",
+      "options": [
+        "Ensuring opportunities are allocated equally to all applicants",
+        "Ensuring developers are accountable for the solutions they build",
+        "Storing users' private data securely",
+        "Helping users understand the decisions made by an AI system"
+      ],
+      "answer": [
+        "Helping users understand the decisions made by an AI system"
+      ],
+      "explain": "Transparency is about making the system and its decisions understandable. Equal allocation is fairness, developers answering for solutions is accountability, and secure storage is privacy and security.",
+      "teach": "Each principle has a signature verb. Fairness is about treating groups equally, accountability about people answering for the system, privacy and security about protecting data, and transparency about explaining. When a question names one principle, the right option is the one that does that principle's verb.",
+      "hints": [
+        "The question names the principle, so the job is to find the option whose action matches it. Translate transparency into an everyday verb before you read the options.",
+        "Three options each describe a different principle: equal allocation, people answering for their work, and data protection. Name the principle each one belongs to.",
+        "Once those three are labelled with other principles, only one option is about explanation and understanding of what the system decided."
+      ],
+      "deep": "These items are the matching table in multiple-choice form. Four options usually map to four different principles. Label every option, not just the one you like, and the answer is the only one left carrying the requested name.",
+      "xp": 10,
+      "tags": [
+        "responsible-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q16",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "A company building voice-controlled smart-home devices wants to find barriers that could unintentionally leave some groups of users out, such as people with speech impairments or strong accents. Which Responsible AI principle is this?",
+      "options": [
+        "Fairness",
+        "Accountability",
+        "Inclusiveness",
+        "Privacy and security"
+      ],
+      "answer": [
+        "Inclusiveness"
+      ],
+      "explain": "Finding and removing barriers so people of all abilities and backgrounds can use the system is inclusiveness. Fairness is about unbiased outcomes between groups, accountability about who answers for the system, and privacy about protecting data.",
+      "teach": "Inclusiveness asks whether everyone can use the system, including people with disabilities, different accents or languages, or limited access to technology. Fairness asks a related but different question: once people use it, are outcomes equal across groups? Access comes first, outcomes second.",
+      "hints": [
+        "The key word is barriers: some people might not be able to use the device at all. Ask which principle is about access for people of all abilities and backgrounds.",
+        "Fairness is the tempting distractor. Fairness compares outcomes between groups who already use the system, whereas this scenario is about people who might be shut out from using it at all.",
+        "Accountability and privacy have nothing to do with speech impairments or accents. Choose the principle about designing so that nobody is left out."
+      ],
+      "deep": "Accessibility features such as screen readers, captions, several languages and support for varied speech map to inclusiveness. Bias in decisions such as loans or hiring maps to fairness. The exam pairs these two often.",
+      "xp": 10,
+      "tags": [
+        "responsible-ai",
+        "speech"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q17",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "A language model was trained on data that was collected without the owners' permission. Which Responsible AI principle does this breach?",
+      "options": [
+        "Inclusiveness",
+        "Reliability and safety",
+        "Transparency",
+        "Privacy and security"
+      ],
+      "answer": [
+        "Privacy and security"
+      ],
+      "explain": "Using data without consent breaches privacy and security, which requires that data is collected and used only with consent or a proper legal basis. The other principles are about safe behaviour, access and explanation.",
+      "teach": "The privacy and security principle covers the whole life of data: how it is collected, whether people agreed to that, who can access it and how long it is kept. A model can work perfectly well and still breach this principle if the data behind it was taken without permission.",
+      "hints": [
+        "The problem in this scenario is how the data was obtained, not how the model behaves. Ask which principle is concerned with consent and the handling of personal data.",
+        "Reliability and safety would be about the model failing or causing harm through its behaviour. Nothing in the scenario says the model behaves badly, so set that option aside.",
+        "Inclusiveness is about access, and transparency is about explaining the system. Neither covers consent to use data, which leaves the principle about protecting people's information."
+      ],
+      "deep": "Consent and lawful basis for training data is a live issue for generative models and a common exam angle. If the scenario mentions permission, consent or personal data, reach for privacy and security first.",
+      "xp": 10,
+      "tags": [
+        "responsible-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q18",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "An AI system is designed to refuse to make a prediction when important input fields are missing or contain unusual values. Which Responsible AI principle does this design support?",
+      "options": [
+        "Inclusiveness",
+        "Reliability and safety",
+        "Privacy and security",
+        "Transparency"
+      ],
+      "answer": [
+        "Reliability and safety"
+      ],
+      "explain": "Declining to predict on missing or out-of-range input is fail-safe behaviour, which is reliability and safety. It keeps the system from making confident decisions on data it was never built for.",
+      "teach": "Reliability and safety asks whether an AI system behaves predictably, including when things go wrong. Real input is messy: fields go missing and values fall outside anything the model saw in training. A reliable system notices this and fails gracefully, for example by refusing to answer or handing the case to a person.",
+      "hints": [
+        "Think about what the design protects against: bad decisions made from bad input. Ask which principle is about a system behaving safely when conditions are not ideal.",
+        "Transparency would be about explaining the decision, but here the system makes no decision at all. Privacy would be about data protection, which the scenario does not mention.",
+        "Inclusiveness is about access for all users. That leaves the principle about consistent, safe behaviour under unexpected or imperfect conditions."
+      ],
+      "deep": "Fail-safe defaults, confidence thresholds, load testing and defined behaviour at low confidence all map to reliability and safety. Content filtering is also classed under safety in Microsoft's guidance.",
+      "xp": 10,
+      "tags": [
+        "responsible-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q19",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "A lending team says its credit model is fair because its overall accuracy is 97%. What is wrong with that argument?",
+      "options": [
+        "High overall accuracy can hide much worse accuracy for one group, so outcomes must be compared across groups",
+        "Fairness only applies to generative models, not credit models",
+        "Fairness requires every applicant to receive exactly the same output",
+        "Nothing: fairness is achieved once accuracy passes 95%"
+      ],
+      "answer": [
+        "High overall accuracy can hide much worse accuracy for one group, so outcomes must be compared across groups"
+      ],
+      "explain": "An average over everyone can look excellent while one smaller group is served badly, so fairness is checked by comparing outcomes group by group. Fairness does not mean identical outputs, which would ignore real differences between applicants, and it applies to every kind of AI system.",
+      "teach": "Fairness means people in similar situations get similar outcomes, whatever group they belong to. The standard way to check it is to break results down by group, for example by gender or age, and compare error rates and approval rates. A single overall number mixes every group together and can hide a gap.",
+      "hints": [
+        "Imagine 95% of applicants belong to one group and the model is nearly perfect for them. Ask what the overall accuracy would look like even if the model were poor for the other 5%.",
+        "Fairness is about similar people getting similar outcomes. Giving everyone the exact same output would ignore real differences such as income, so that option misreads the principle.",
+        "Fairness is one of Microsoft's six principles for all AI systems, not just generative ones. The right option describes what is actually needed to show fairness."
+      ],
+      "deep": "Fairness assessment compares metrics such as error rate or selection rate across sensitive groups, and Azure's responsible AI dashboard includes this breakdown. An exam statement that equates fairness with high accuracy or identical output is false.",
+      "xp": 10,
+      "tags": [
+        "responsible-ai"
+      ],
+      "reviewed": "2026-09-29"
     },
     {
       "id": "t9.l2.q1",
@@ -622,6 +949,344 @@
       "reviewed": "2026-09-28"
     },
     {
+      "id": "t9.l2.q13",
+      "tier": 9,
+      "level": 2,
+      "type": "multi",
+      "prompt": "A team adds retrieval-augmented generation (RAG) to an internal chat assistant so answers come from the company's own documents. Which two statements are true? Choose two.",
+      "options": [
+        "RAG requires the documents to have been in the model's original training data",
+        "The retrieved content is added to the prompt alongside the user's question as grounding data",
+        "RAG retrains the model's weights on the company documents before each answer",
+        "A RAG response can include citations that point back to the source content"
+      ],
+      "answer": [
+        "The retrieved content is added to the prompt alongside the user's question as grounding data",
+        "A RAG response can include citations that point back to the source content"
+      ],
+      "explain": "RAG retrieves, augments the prompt, then generates. The retrieved text becomes part of the input for that one request, so the weights never change, and because the answer is built from identifiable passages it can cite them. Nothing is trained, so the documents can be private or brand new.",
+      "teach": "Retrieval-augmented generation has three steps: search your own content for passages related to the question, paste those passages into the prompt, and let the model answer from them. The model itself is never changed. That is the line between RAG and fine-tuning: RAG changes what the model reads, fine-tuning changes the model.",
+      "hints": [
+        "Remember the three words in the name: retrieval, augmented, generation. Ask where the retrieved text goes. It has to reach the model somehow for a single request.",
+        "Two statements talk about the model's weights or its original training. Ask whether RAG changes the model at all. If nothing is trained, neither of those statements can be true.",
+        "Because each answer is built from specific retrieved passages, the app knows which passages it used. That makes it possible to show the user where the answer came from."
+      ],
+      "deep": "A classic exam trap says RAG retrains or fine-tunes. It never does. RAG is the right choice when content changes often, is private, or must be cited. Fine-tuning is for style and behaviour learned from many examples.",
+      "xp": 15,
+      "tags": [
+        "rag",
+        "grounding",
+        "generative-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q14",
+      "tier": 9,
+      "level": 2,
+      "type": "multi",
+      "prompt": "A developer is tuning how much text is sent to a model per request. Which three statements are true? Choose three.",
+      "options": [
+        "The context window limits the prompt and the response together",
+        "One token always equals exactly one English word",
+        "Trimming old conversation turns can silently drop earlier instructions",
+        "Longer prompts cost more"
+      ],
+      "answer": [
+        "The context window limits the prompt and the response together",
+        "Trimming old conversation turns can silently drop earlier instructions",
+        "Longer prompts cost more"
+      ],
+      "explain": "The context window is a shared budget for input and output, so a long prompt leaves less room to answer. Input tokens are billed, so longer prompts cost more. Tokens are word pieces, not words. Trimming history to fit is normal and is also how earlier rules quietly fall out of the conversation.",
+      "teach": "A model reads and writes in tokens, which are pieces of words; a common English word is often one token and a long or rare word is several. Every model has a context window, the most tokens it can handle in one request, counting both what you send and what it writes back. Pricing is also counted in tokens.",
+      "hints": [
+        "Three statements are about consequences of the context window and token billing. One makes an exact claim about how tokens relate to words. Exact claims like always are worth testing.",
+        "Think about a long or unusual word such as 'unbelievably'. A tokenizer splits it into several pieces. That tells you whether one token always equals one word.",
+        "If a chat app drops the oldest turns to stay inside the window, and an instruction was given in those turns, the model no longer sees it. That consequence is real and easy to miss."
+      ],
+      "deep": "Rough rule for English: about four characters or three quarters of a word per token. Cost is counted on input and output tokens separately, and output usually costs more per token. Long system messages are paid on every call.",
+      "xp": 15,
+      "tags": [
+        "tokens",
+        "parameters"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q15",
+      "tier": 9,
+      "level": 2,
+      "type": "multi",
+      "prompt": "Which two factors directly determine what a single generative AI request costs? Choose two.",
+      "options": [
+        "The number of stop sequences configured",
+        "The number of output tokens",
+        "The number of input tokens",
+        "The temperature setting"
+      ],
+      "answer": [
+        "The number of output tokens",
+        "The number of input tokens"
+      ],
+      "explain": "Billing counts tokens in and tokens out, which is why a long system message resent on every call is a recurring cost and why capping output length is a real lever. Temperature and stop sequences change the answer's shape without changing the price per token.",
+      "teach": "Pay-as-you-go generative models are billed per token. Everything you send, including the system message, earlier turns and retrieved passages, counts as input tokens. Everything the model writes back counts as output tokens. Settings that change how the model chooses words do not change what a token costs.",
+      "hints": [
+        "Ask what the provider actually meters. A bill is built from something you can count on every request, the same way a phone bill counts minutes.",
+        "Temperature changes how random the word choice is. It does not make the answer longer or shorter by itself, so it does not change the bill directly.",
+        "Stop sequences can end an answer early, but they are a setting, not a unit of billing. The two units that are billed are what goes in and what comes out."
+      ],
+      "deep": "Max completion tokens caps the output side of the bill, and trimming history or retrieved passages cuts the input side. Provisioned throughput deployments bill for reserved capacity instead of per token, which the exam sometimes contrasts with pay-as-you-go.",
+      "xp": 15,
+      "tags": [
+        "tokens",
+        "parameters"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q16",
+      "tier": 9,
+      "level": 2,
+      "type": "multi",
+      "prompt": "Which two are common use cases for generative AI? Choose two.",
+      "options": [
+        "Creating original artwork from a text description",
+        "Classifying email messages as spam or not spam",
+        "Generating draft replies for customer service agents",
+        "Predicting next month's sales revenue from historical data"
+      ],
+      "answer": [
+        "Creating original artwork from a text description",
+        "Generating draft replies for customer service agents"
+      ],
+      "explain": "Generative AI creates new content such as text, images, code and audio, so drafting replies and making artwork both qualify. Spam filtering is classification and revenue forecasting is regression; both predict a label or a number rather than create content.",
+      "teach": "The simplest test for generative AI is whether the output is new content: a paragraph, a picture, a piece of code or a voice clip. Classic machine learning outputs a label such as spam or not spam, or a number such as next month's revenue. Both are useful, but only the first kind is generative.",
+      "hints": [
+        "For each option, ask what the output looks like. Is it a new piece of content that did not exist before, or a label or number that describes something that already exists?",
+        "Spam filtering outputs one of two labels for an existing email. That is a classification task, which predicts a category rather than creating anything.",
+        "Revenue forecasting outputs a single number from historical data, which is regression. The two remaining options both produce brand new text or images."
+      ],
+      "deep": "On the exam, words like draft, write, create, generate or compose point to generative AI. Classify, predict, detect and score point to classic machine learning or analysis services. Agentic AI is generative AI that also takes actions through tools.",
+      "xp": 15,
+      "tags": [
+        "generative-ai",
+        "workloads"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q17",
+      "tier": 9,
+      "level": 2,
+      "type": "multi",
+      "prompt": "Which two tasks can the Azure Language service perform on text? Choose two.",
+      "options": [
+        "Generate an image from a text description",
+        "Identify companies and organizations mentioned in a document",
+        "Detect handwritten signatures in a scanned document",
+        "Identify which language a piece of text is written in"
+      ],
+      "answer": [
+        "Identify companies and organizations mentioned in a document",
+        "Identify which language a piece of text is written in"
+      ],
+      "explain": "Language detection and named entity recognition are both text analysis features of Azure Language. Spotting a signature is a vision task on an image, and generating an image needs an image-generation model.",
+      "teach": "Azure Language in Foundry Tools works on text. Its features include language detection, sentiment analysis, key phrase extraction, named entity recognition, PII detection and summarization. It never looks at pixels, so anything that needs to see an image, including handwriting, belongs to a vision service.",
+      "hints": [
+        "Ask what kind of input each task needs. The Language service reads text, so any task that must look at an image is outside what it can do.",
+        "A handwritten signature is a mark on a scanned page. Finding it means analysing an image, so it belongs to a vision capability rather than a text one.",
+        "Generating a picture is a generative image task. The two remaining tasks both take plain text in and return facts about it: which language, and which organizations are named."
+      ],
+      "deep": "Language detection returns a language code plus a confidence score, and entity recognition returns categories such as Person, Location and Organization. Typical exam pairings: companies means entities, main topics means key phrases, tone means sentiment.",
+      "xp": 15,
+      "tags": [
+        "nlp",
+        "workloads"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q18",
+      "tier": 9,
+      "level": 2,
+      "type": "mcq",
+      "prompt": "A solution reads manuscripts written in several languages and sorts them by topic. Which two text analysis techniques does it most likely use?",
+      "options": [
+        "Translation and sentiment analysis",
+        "Translation and key phrase extraction",
+        "Speech recognition and entity recognition",
+        "Speech recognition and language modeling"
+      ],
+      "answer": [
+        "Translation and key phrase extraction"
+      ],
+      "explain": "Manuscripts in several languages need translation into a common language, and sorting by topic needs the main terms of each text, which is key phrase extraction. Speech recognition does not apply to written text, and sentiment measures tone, not topic.",
+      "teach": "Text analysis questions usually hide two clues. One tells you about the input: is it written or spoken, and in which language? The other tells you about the output: tone, topics, names, or a summary. Match each clue to one capability and the pair of answers falls out.",
+      "hints": [
+        "Split the scenario into two needs. The first comes from 'several languages', the second from 'sort by topic'. Find a capability for each before reading the options.",
+        "Manuscripts are written documents, so any option that includes speech recognition is wrong from the start. That removes two options in one step.",
+        "Sentiment tells you whether text is positive or negative, which is tone, not subject. Topic sorting needs the main terms each document talks about."
+      ],
+      "deep": "Key phrase extraction returns the main talking points of a text, which makes it the classic tool for tagging or grouping documents by topic. A generative model could also do this. The exam, though, expects the named text analysis feature when it is listed.",
+      "xp": 10,
+      "tags": [
+        "nlp",
+        "workloads"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q19",
+      "tier": 9,
+      "level": 2,
+      "type": "multi",
+      "prompt": "Which two scenarios are examples of a natural language processing workload? Choose two.",
+      "options": [
+        "A website that answers visitors' questions from a knowledge base",
+        "A robot on an assembly line that fits headlamps into cars",
+        "A sensor that turns on a fan when machinery reaches a set temperature",
+        "A smart speaker that answers questions such as 'what will the weather be like today?'"
+      ],
+      "answer": [
+        "A website that answers visitors' questions from a knowledge base",
+        "A smart speaker that answers questions such as 'what will the weather be like today?'"
+      ],
+      "explain": "Both correct options must understand human language and respond to it. A temperature threshold is rule-based automation, and the assembly robot is industrial robotics; neither handles language.",
+      "teach": "Natural language processing is any workload where the system has to understand or produce human language, written or spoken. A voice assistant uses speech recognition plus language understanding, and a question-answering website uses language understanding over text. If no human language is involved, it is not NLP.",
+      "hints": [
+        "For each scenario, ask whether a person's words are part of the input or output. If nobody is speaking or typing to the system, it is not a language workload.",
+        "A fan that switches on at a temperature follows a fixed rule on a sensor reading. No language is involved, however smart the device sounds.",
+        "The headlamp robot handles physical parts. The two remaining scenarios both take a question in human language and return an answer."
+      ],
+      "deep": "Older exam banks call these conversational AI. On AI-901 the same scenarios fall under text analysis, speech and agents. The underlying test is the same: does the system work with human language?",
+      "xp": 15,
+      "tags": [
+        "nlp",
+        "workloads"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q20",
+      "tier": 9,
+      "level": 2,
+      "type": "mcq",
+      "prompt": "Which kind of model should you deploy in Foundry to summarize the text of a long document?",
+      "options": [
+        "A Whisper speech-to-text model",
+        "A DALL-E image-generation model",
+        "A GPT-family chat model",
+        "A text-embedding model"
+      ],
+      "answer": [
+        "A GPT-family chat model"
+      ],
+      "explain": "Summarizing means reading text and writing new, shorter text, which is what a GPT-family language model does. Whisper turns audio into text, DALL-E makes images, and an embedding model turns text into vectors for search without writing anything.",
+      "teach": "The Foundry model catalog groups models by what goes in and what comes out. Chat or completion models take text and write text. Speech models such as Whisper take audio and return text. Image models such as DALL-E take text and return pictures. Embedding models take text and return a list of numbers used for similarity search.",
+      "hints": [
+        "Name the input and output of the task first. Summarizing takes text in and must write new text out. Now ask which model family has exactly that shape.",
+        "Whisper takes audio in, and DALL-E puts images out. Neither has text-in, text-out as its main job, so they cannot write a summary of a document.",
+        "An embedding model does take text in, but what comes out is a vector of numbers used for search. It never writes a sentence, so it cannot produce a summary."
+      ],
+      "deep": "Identify an appropriate model based on capabilities is an explicit AI-901 skill. Match on modality first, then on task. Embedding models are the quiet distractor because they do read text; they just never write any.",
+      "xp": 10,
+      "tags": [
+        "generative-ai",
+        "foundry"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q21",
+      "tier": 9,
+      "level": 2,
+      "type": "mcq",
+      "prompt": "Which of these models is suited to generating program code from a description?",
+      "options": [
+        "DALL-E",
+        "A Swin image-classification model",
+        "Whisper",
+        "A GPT-4-class language model"
+      ],
+      "answer": [
+        "A GPT-4-class language model"
+      ],
+      "explain": "Code is text, and GPT-4-class language models are trained on large amounts of code as well as prose, so they write and explain code. Whisper transcribes audio, DALL-E generates images, and Swin is a vision model that labels images.",
+      "teach": "Large language models learn from huge amounts of text, and much of that text is source code. That is why a general chat model can write, explain and fix code. Models built for other modalities, such as audio transcription or image classification, have no ability to produce code.",
+      "hints": [
+        "Program code is a kind of text, written in a programming language instead of English. Ask which of the four models reads and writes text as its main job.",
+        "Whisper's input is audio and its output is a transcript. DALL-E's output is a picture. Neither writes code, whatever prompt you give it.",
+        "Swin is a vision model: it takes an image and returns a label such as cat or car. That leaves the one general-purpose language model."
+      ],
+      "deep": "One popular practice video marks the Swin image model as the answer here, which is wrong. Swin (Shifted Window Transformer) is an image classifier in the Foundry catalog and has no code generation. Trust modality: text out needs a language model.",
+      "xp": 10,
+      "tags": [
+        "generative-ai",
+        "foundry"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q22",
+      "tier": 9,
+      "level": 2,
+      "type": "mcq",
+      "prompt": "A developer deploys a pretrained model in Foundry and sends it prompts from an app. Which stage of the model's life is the app using?",
+      "options": [
+        "Fine-tuning",
+        "Data labelling",
+        "Inference",
+        "Training"
+      ],
+      "answer": [
+        "Inference"
+      ],
+      "explain": "Training is when a model learns from data, and inference is when the trained model produces outputs for new input. Sending prompts to a deployed model is inference; nothing is being learned.",
+      "teach": "A model has two main stages. During training it learns patterns from large amounts of data, which is slow and expensive and is done once or rarely. During inference the finished model is given new input and produces an output, such as an answer, a label or an image. Most AI-901 work is on the inference side: deploying models and calling them.",
+      "hints": [
+        "Ask whether the model is learning anything new when the app sends it a prompt, or only using what it already learned.",
+        "Training and fine-tuning both change the model by learning from data. The scenario says the model is pretrained and simply being called.",
+        "Data labelling prepares examples for training and is done by people or tools, not by an app sending prompts. One stage remains: using the trained model."
+      ],
+      "deep": "The course video for AI-901 stresses that exam-level work is mostly consuming models, which means inference. Cost follows the same split: training costs are paid up front by the model provider, and you pay for inference per token or per deployment hour.",
+      "xp": 10,
+      "tags": [
+        "generative-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q23",
+      "tier": 9,
+      "level": 2,
+      "type": "multi",
+      "prompt": "Which two statements about large language models are true? Choose two.",
+      "options": [
+        "Fluent, confident output can still be wrong, so important outputs need review",
+        "A larger model is guaranteed to be safe and accurate for any business task",
+        "They understand text the same way a person does, so fluent answers are reliable",
+        "They generate text one token at a time, choosing likely next tokens from learned patterns"
+      ],
+      "answer": [
+        "Fluent, confident output can still be wrong, so important outputs need review",
+        "They generate text one token at a time, choosing likely next tokens from learned patterns"
+      ],
+      "explain": "LLMs produce text token by token from statistical patterns, which is why they sound fluent and why that fluency can hide errors. They do not understand the way people do, and size alone guarantees neither safety nor fitness for a task.",
+      "teach": "A large language model is trained on huge amounts of text and learns which tokens tend to follow which. When it answers, it predicts one likely token after another. That makes it fluent across many tasks, from summarising to writing code, but it has no built-in check that what it writes is true, which is why grounding and review matter.",
+      "hints": [
+        "Two statements describe how LLMs work and what follows from it. Two make strong promises about understanding or guarantees. Test the promises first.",
+        "If a model predicts likely words, could it write a smooth sentence that is factually wrong? Your answer tells you whether fluency proves reliability.",
+        "Size increases what a model can do, but ask whether anything about size would stop it from producing an error or harmful text in a specific business setting."
+      ],
+      "deep": "Hallucination is the name for confident but unsupported output. Microsoft's mitigations are grounding with RAG, clear system instructions, content filters, evaluation and human review. Exam statements claiming an LLM understands like a human or that bigger means safe are false.",
+      "xp": 15,
+      "tags": [
+        "generative-ai",
+        "tokens"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
       "id": "t9.l3.q1",
       "tier": 9,
       "level": 3,
@@ -929,6 +1594,338 @@
       "reviewed": "2026-09-28"
     },
     {
+      "id": "t9.l3.q11",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "An app uses the Responses API to send a prompt to a vision-enabled model deployed in Foundry, and must include an image for the model to analyse. Which content item type carries the image?",
+      "options": [
+        "output_image",
+        "input_image",
+        "image_base64",
+        "image_generation"
+      ],
+      "answer": [
+        "input_image"
+      ],
+      "explain": "In the Responses API, content you send is typed input_text or input_image, so an image for analysis goes in an input_image item, either as a URL or as a base64 data URL. output_image and image_generation relate to producing images, and image_base64 is not an item type.",
+      "teach": "Requests to a multimodal model are built from typed content items. Each item says what it is and which direction it travels. In the Responses API, anything you send starts with input_, such as input_text for words and input_image for pictures. Items the model sends back are output items.",
+      "hints": [
+        "Ask which direction the image travels. You are sending it to the model for analysis, so the item type should describe something going in, not something coming out.",
+        "Two options are about making images, which is the opposite of analysing one. Set those aside, because the model here only looks at a picture you supply.",
+        "Base64 is one way to encode the image data inside the item, not the name of the item type. The item type follows the same naming pattern as input_text."
+      ],
+      "deep": "The image itself sits in image_url, either as an https URL or as data:image/jpeg;base64,... for local bytes. The older Chat Completions API uses a user message whose content array has text and image_url items. Both shapes appear in AI-901 labs.",
+      "xp": 10,
+      "tags": [
+        "vision",
+        "foundry",
+        "python"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q12",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "Which of these tasks can Azure AI Vision perform?",
+      "options": [
+        "Extract key phrases from a set of documents",
+        "Extract the text from scanned handwritten letters",
+        "Create thumbnails for training videos",
+        "Identify animal breeds in live video streams"
+      ],
+      "answer": [
+        "Extract the text from scanned handwritten letters"
+      ],
+      "explain": "Azure AI Vision's OCR (Read) feature extracts printed and handwritten text from images. Key phrase extraction is a Language feature, and video thumbnails and live breed identification are not Vision image analysis features.",
+      "teach": "Azure AI Vision analyses still images. Its main features are captions, tags, object detection, people detection, smart cropping, and OCR, which reads printed and handwritten text. Tasks on plain text belong to Azure Language, and custom categories such as specific breeds need a custom-trained model.",
+      "hints": [
+        "Ask whether each task works on an image, on text, or on video. Azure AI Vision's home ground is a still image, including a scanned page.",
+        "Key phrase extraction runs on text that is already machine-readable, so it belongs to the Language service, not to a vision service.",
+        "The two video options need either video processing or a custom-trained model. Reading handwriting from a scanned page is the built-in OCR capability."
+      ],
+      "deep": "OCR in Azure AI Vision handles both printed and handwritten text across many languages. For structured fields from forms, such as invoice totals, the exam prefers Document Intelligence or Content Understanding over plain OCR.",
+      "xp": 10,
+      "tags": [
+        "vision"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q13",
+      "tier": 9,
+      "level": 3,
+      "type": "multi",
+      "prompt": "For which two workloads can you use computer vision? Choose two.",
+      "options": [
+        "Describing the contents of an image in a sentence",
+        "Assigning each pixel in an image to the object it belongs to",
+        "Detecting anomalies in a stream of sensor data",
+        "Creating charts that visualise numerical data"
+      ],
+      "answer": [
+        "Describing the contents of an image in a sentence",
+        "Assigning each pixel in an image to the object it belongs to"
+      ],
+      "explain": "Labelling each pixel is image segmentation and writing a sentence about an image is captioning; both are computer vision because both analyse images. Sensor anomaly detection works on numbers over time, and charting is data visualisation.",
+      "teach": "Computer vision means software that interprets images or video. Its common tasks are classification (what is this image of?), object detection (where are the things?), segmentation (which pixels belong to which thing?), OCR (what text is shown?) and captioning (describe the scene). Producing a picture from data is visualisation, not vision.",
+      "hints": [
+        "Ask whether each workload takes an image as its input. Computer vision interprets pictures; it does not create charts or read sensor streams.",
+        "Anomaly detection on sensor data works on numbers over time. There is no picture anywhere in that task, so it is not a vision workload.",
+        "Charts are pictures made from numbers, which is the opposite direction. The two remaining workloads both read an image: one labels pixels, the other describes the scene."
+      ],
+      "deep": "Segmentation assigns every pixel to an object, while object detection draws a bounding box. Exam scenarios about precise outlines, such as weeds between crop rows, point to segmentation, and 'where is each item' points to detection.",
+      "xp": 15,
+      "tags": [
+        "vision",
+        "workloads"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q14",
+      "tier": 9,
+      "level": 3,
+      "type": "multi",
+      "prompt": "A quality team plans to use object detection on photos from a production line. Which three can object detection do? Choose three.",
+      "options": [
+        "Find the location of a damaged product in an image",
+        "Read the serial number printed on each product",
+        "Find several damaged products in the same image",
+        "Tell apart several different types of damaged product in one image"
+      ],
+      "answer": [
+        "Find the location of a damaged product in an image",
+        "Find several damaged products in the same image",
+        "Tell apart several different types of damaged product in one image"
+      ],
+      "explain": "Object detection returns a bounding box and a label for each object it finds, so it locates objects, finds several instances, and distinguishes several classes in one image. Reading a printed serial number is OCR.",
+      "teach": "Object detection answers where the things are and what each thing is. For every object it finds, it returns a label and a bounding box. It handles many objects and many types in one picture. It does not read text; turning pixels of letters into characters is a separate capability called OCR.",
+      "hints": [
+        "Recall what object detection returns for each object it finds: a label and a box around it. Check each option against that output.",
+        "A box plus a label can be repeated for every object in a picture, and the labels can differ. So think about whether several items, or several kinds of item, cause a problem.",
+        "Reading a serial number means turning the shapes of letters into characters. Object detection could find where the label is, but reading it is a different capability."
+      ],
+      "deep": "Custom detection of domain objects, such as specific defect types, needs a model trained on your own labelled images. Older exams name Custom Vision for this. Know the principle: prebuilt models know common objects, and custom classes need training.",
+      "xp": 15,
+      "tags": [
+        "vision"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q15",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "Which Azure AI Vision feature generates a human-readable sentence describing a photograph?",
+      "options": [
+        "Image categorization",
+        "Image type detection",
+        "Image tagging",
+        "Image captioning"
+      ],
+      "answer": [
+        "Image captioning"
+      ],
+      "explain": "Captioning, also called image description, writes a full sentence about the scene. Tagging returns single-word labels, categorization puts the image into a broad category, and type detection says whether it is a photo or clip art.",
+      "teach": "Image analysis can return several kinds of description. Tags are single words such as dog, beach or sky. Categories are broad buckets such as outdoor or food. A caption is a full sentence such as 'a dog running on a beach', written for a human to read. Only the caption is a sentence.",
+      "hints": [
+        "The key words are human-readable sentence. Ask which feature outputs a full sentence rather than single words or a category name.",
+        "Tagging returns a list of labels such as dog and beach. That is useful for search, but it is a list of words, not a sentence.",
+        "Categorization and type detection each return one broad label about the whole image. Only one feature writes a description in natural language."
+      ],
+      "deep": "Azure AI Vision 4.0 offers captions and dense captions, which caption individual regions. For open-ended questions about an image, AI-901 also expects you to know that a vision-enabled chat model can describe images in whatever detail the prompt asks for.",
+      "xp": 10,
+      "tags": [
+        "vision"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q16",
+      "tier": 9,
+      "level": 3,
+      "type": "multi",
+      "prompt": "In which two scenarios would you use speech synthesis? Choose two.",
+      "options": [
+        "A phone system reads back a card number the caller typed on the keypad",
+        "A character in a computer game speaks its lines aloud to the player",
+        "Live captions are generated for a news broadcast",
+        "Key phrases are extracted from a recorded meeting"
+      ],
+      "answer": [
+        "A phone system reads back a card number the caller typed on the keypad",
+        "A character in a computer game speaks its lines aloud to the player"
+      ],
+      "explain": "Speech synthesis turns text into spoken audio, which is what the phone read-back and the game character need. Live captions need speech to text, and key phrases from a recording need speech to text followed by text analysis.",
+      "teach": "Speech has two directions. Speech recognition, or speech to text, listens to audio and writes down the words. Speech synthesis, or text to speech, takes text and speaks it aloud in a natural voice. Most speech questions come down to which direction the data flows.",
+      "hints": [
+        "For each scenario, ask what the input is and what the output is. Synthesis must start with text and end with audio a person hears.",
+        "Captions start with someone speaking and end with written words, which is the opposite direction. Set that scenario aside.",
+        "Pulling key phrases from a meeting recording starts with audio too, so it needs transcription first. The two remaining scenarios both end with a voice speaking."
+      ],
+      "deep": "Azure Speech's neural voices produce synthesis, and SSML controls pronunciation, pauses and speaking style. For AI-901 labs, SpeechSynthesizer speaks text and SpeechRecognizer transcribes. Both take a SpeechConfig.",
+      "xp": 15,
+      "tags": [
+        "speech"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q17",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "While you present at a conference, your talk is turned into subtitles for the audience in real time. Which capability is this?",
+      "options": [
+        "Speech synthesis",
+        "Translation",
+        "Sentiment analysis",
+        "Speech recognition"
+      ],
+      "answer": [
+        "Speech recognition"
+      ],
+      "explain": "Turning spoken words into text as they are said is speech recognition, also called speech to text. Synthesis goes the other way, sentiment judges tone, and translation would only be needed if the subtitles were in another language.",
+      "teach": "Speech recognition listens to audio and produces text. In real time it powers live captions, and in batch mode it transcribes recordings. Speech synthesis is the reverse: text becomes audio. If the question adds 'in another language', translation joins in, and Azure offers speech translation for that case.",
+      "hints": [
+        "Name the input and the output: the input is your voice, and the output is text on a screen. Ask which capability goes from audio to text.",
+        "Speech synthesis is the mirror image: it reads text aloud. Here nothing is being read aloud to the audience, so it cannot be the answer.",
+        "The scenario never says the subtitles are in a different language, so translation is not needed. Sentiment would only judge the tone of your words."
+      ],
+      "deep": "Real-time speech to text streams partial results as the speaker talks, and batch transcription processes stored files asynchronously. Choose batch for thousands of recordings in storage and real time for live captions.",
+      "xp": 10,
+      "tags": [
+        "speech"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q18",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "A voice app built with the Azure Speech SDK must listen for one short spoken command, turn it into text, and then stop listening. Which SpeechRecognizer method fits?",
+      "code": "speech_config = speechsdk.SpeechConfig(subscription=key, region=region)\nrecognizer = speechsdk.SpeechRecognizer(speech_config=speech_config)\nresult = recognizer.____",
+      "options": [
+        "start_continuous_recognition()",
+        "start_keyword_recognition()",
+        "recognize_once()",
+        "speak_text_async()"
+      ],
+      "answer": [
+        "recognize_once()"
+      ],
+      "explain": "recognize_once() listens for a single utterance, returns when the speaker pauses, and stops, which fits a one-off command. Continuous recognition keeps listening for long audio, keyword recognition waits for a wake word, and speak_text_async belongs to the synthesizer and speaks text aloud.",
+      "teach": "The Speech SDK's SpeechRecognizer has two main listening modes. Single-shot recognition captures one utterance and returns when the speaker stops talking, which suits short commands. Continuous recognition runs until you stop it and raises events as text arrives, which suits dictation, meetings and long files.",
+      "hints": [
+        "The command is short and the app should stop after it. Ask which method's name says it captures a single piece of speech and then returns.",
+        "Continuous recognition keeps running until you stop it, which suits meetings or long recordings rather than one quick command.",
+        "Keyword recognition waits for a wake word, and the method that speaks text belongs to the synthesizer, not the recognizer. One method remains."
+      ],
+      "deep": "recognize_once() stops after the first utterance and caps how much audio it will take, so it is wrong for long files. For a long recording, use continuous recognition with the recognized event, or batch transcription for many stored files.",
+      "xp": 10,
+      "tags": [
+        "speech",
+        "python"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q19",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "An app uses the Speech SDK to turn text into speech and must save the audio to a WAV file instead of playing it. What should audio_config be set to before creating the SpeechSynthesizer?",
+      "options": [
+        "speechsdk.audio.AudioConfig(use_default_microphone=True)",
+        "speechsdk.audio.AudioOutputConfig(filename=\"output.wav\")",
+        "speechsdk.SpeechConfig(filename=\"output.wav\")",
+        "speechsdk.audio.AudioOutputConfig(use_default_speaker=True)"
+      ],
+      "answer": [
+        "speechsdk.audio.AudioOutputConfig(filename=\"output.wav\")"
+      ],
+      "explain": "AudioOutputConfig says where synthesized audio goes, and its filename argument writes it to a file. The default-speaker version plays the audio aloud, AudioConfig with a microphone configures input for recognition, and SpeechConfig holds the key and region, not the output destination.",
+      "teach": "The Speech SDK separates three concerns. SpeechConfig says how to connect: key, region or endpoint, voice. An audio config says where sound comes from or goes to: a microphone, a speaker, or a file. The synthesizer or recognizer combines the two. For synthesis, the output side is AudioOutputConfig.",
+      "hints": [
+        "The audio is coming out of the service, not going into it. Look for the class whose name says output, then check which argument points at a file.",
+        "SpeechConfig holds connection details such as the key and region. Ask whether where the audio is saved belongs with connection details or with audio routing.",
+        "Two options use the output class. One sends audio to the speakers, the other writes it to disk. The requirement says a file."
+      ],
+      "deep": "If you pass audio_config=None, the result's audio_data holds the bytes in memory, which suits web apps that stream audio back. Output format, such as MP3 or WAV sample rate, is set on SpeechConfig with set_speech_synthesis_output_format.",
+      "xp": 10,
+      "tags": [
+        "speech",
+        "python"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q20",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "What does the Voice Live API in Azure Speech in Foundry Tools provide?",
+      "options": [
+        "A batch service that transcribes stored audio files overnight",
+        "A tool for cloning a specific person's voice from a sample",
+        "Speech recognition, generative AI reasoning and speech synthesis combined in one low-latency interface for voice agents",
+        "Speech-to-text only; you must add a model and text-to-speech yourself"
+      ],
+      "answer": [
+        "Speech recognition, generative AI reasoning and speech synthesis combined in one low-latency interface for voice agents"
+      ],
+      "explain": "Voice Live joins listening, reasoning with a generative model and speaking into one managed real-time API, so you do not wire three services together. It is not transcription-only, not a batch service, and not a voice-cloning tool.",
+      "teach": "A voice agent needs three stages: turn the user's speech into text, decide what to say with a language model, and turn the reply into speech. You can chain three services yourself, but every hand-off adds delay and code. Voice Live runs all three stages behind one real-time connection built for natural conversation.",
+      "hints": [
+        "Think about the three stages a spoken conversation with an AI needs: hearing, thinking and speaking. Ask how much of that the API is meant to cover.",
+        "Batch transcription processes stored files and is not live at all, while Voice Live, as the name says, is about live conversation.",
+        "Speech-to-text-only would leave you building the other two stages yourself, which is exactly the effort this API is meant to remove."
+      ],
+      "deep": "Voice Live also handles conversational details such as interruptions, noise suppression and end-of-turn detection. AI-901's skill 'respond to spoken prompts by using a deployed multimodal model' is the other route: audio-capable models take audio in and return audio directly.",
+      "xp": 10,
+      "tags": [
+        "speech",
+        "generative-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l3.q21",
+      "tier": 9,
+      "level": 3,
+      "type": "multi",
+      "prompt": "A developer is testing image prompts with a vision-enabled model in Foundry. Which two statements are true? Choose two.",
+      "options": [
+        "The Responses API can take an image either as a URL or as base64-encoded data",
+        "You must deploy a text-only model because image handling happens in your app code",
+        "In the Foundry playground you can attach a local image and type a question in the same message",
+        "Images can only be sent as base64 data, never as a URL"
+      ],
+      "answer": [
+        "The Responses API can take an image either as a URL or as base64-encoded data",
+        "In the Foundry playground you can attach a local image and type a question in the same message"
+      ],
+      "explain": "The playground supports attaching an image alongside text for multimodal models, and the API accepts a public URL or a data URL with base64 bytes. The word only makes the third statement false, and a text-only model cannot read images, so the model itself must be multimodal.",
+      "teach": "A vision-enabled, or multimodal, model reads images and text together in one prompt. You can try it in the Foundry playground by attaching a picture, and in code you pass the image in the request either as a link the service can fetch or as the raw bytes encoded in base64. The model does the seeing; your app only sends the picture.",
+      "hints": [
+        "Two statements describe ways to get an image to the model, one in the portal and one in code. Two others restrict what is possible. Test the restrictions first.",
+        "A public image already on the web can simply be linked, while a file on your laptop cannot be fetched by the service. So think about whether both ways of sending an image are needed.",
+        "Ask where image understanding actually happens. If a text-only model received an image, nothing in it could interpret the pixels."
+      ],
+      "deep": "Words like only, must, never and always often mark false statements in yes/no grids. Local files go in as data:image/jpeg;base64,... and hosted files as https URLs. The model deployment must support vision, as GPT-4o and GPT-4.1 do.",
+      "xp": 15,
+      "tags": [
+        "vision",
+        "foundry"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
       "id": "t9.l4.q1",
       "tier": 9,
       "level": 4,
@@ -1077,6 +2074,96 @@
         "video"
       ],
       "reviewed": "2026-09-28"
+    },
+    {
+      "id": "t9.l4.q6",
+      "tier": 9,
+      "level": 4,
+      "type": "mcq",
+      "prompt": "An app processes voicemail recordings with Azure Content Understanding in Foundry Tools. Which feature turns the audio into text?",
+      "options": [
+        "Key phrase extraction",
+        "Voice Live",
+        "Optical character recognition (OCR)",
+        "Transcription"
+      ],
+      "answer": [
+        "Transcription"
+      ],
+      "explain": "Content Understanding's audio analyzers first transcribe speech to text and then extract fields from the transcript. Key phrase extraction works on text that already exists, OCR reads text in images, and Voice Live is a real-time voice conversation API.",
+      "teach": "Content Understanding extracts structured information from documents, images, audio and video. For audio it works in two stages: it transcribes the speech into text, then applies your field schema to that transcript. Every modality has a first step that turns raw content into something the model can reason over.",
+      "hints": [
+        "Think about what must happen first before anything can be extracted from a voicemail. The spoken words need to become written words.",
+        "OCR also produces text, but from pixels in an image, not from sound. Match the capability to the kind of input, which here is audio.",
+        "Key phrases can only be pulled from text that already exists, and Voice Live is for live two-way voice conversations. The remaining option names the audio-to-text step."
+      ],
+      "deep": "Audio analyzers return a transcript with speaker and timing information plus your custom fields, for example caller name or requested action. The video analyzer adds scene segmentation and key frames on top of transcription.",
+      "xp": 10,
+      "tags": [
+        "content-understanding",
+        "speech"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l4.q7",
+      "tier": 9,
+      "level": 4,
+      "type": "mcq",
+      "prompt": "A retailer wants descriptions of what appears on each of its product photos, returned as structured fields. Which Content Understanding analyzer type should it use?",
+      "options": [
+        "Audio analyzer",
+        "Video analyzer",
+        "Image analyzer",
+        "Document analyzer"
+      ],
+      "answer": [
+        "Image analyzer"
+      ],
+      "explain": "The four base analyzers map one-to-one to the input modality, and a product photo is an image. Documents, video and audio each have their own analyzer, and every custom analyzer inherits from one of the four.",
+      "teach": "Content Understanding has four base analyzer types: document, image, audio and video. You choose the type by asking what kind of file you have, not what you want out of it. You then add a field schema describing what to extract, and the service returns those fields as structured JSON.",
+      "hints": [
+        "The rule for choosing an analyzer is to look at the file, not the goal. Ask what kind of file a product photo is.",
+        "A document analyzer is for pages such as PDFs, invoices and forms. A photo of a product is not a page of text, even if a label appears in it.",
+        "Video and audio analyzers need time-based media. A single still photo leaves only one analyzer type."
+      ],
+      "deep": "Extract information from images by using Content Understanding is a named AI-901 skill. Image analyzers can return generated fields such as a description or category, alongside fields extracted from what is visible.",
+      "xp": 10,
+      "tags": [
+        "content-understanding",
+        "vision"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l4.q8",
+      "tier": 9,
+      "level": 4,
+      "type": "multi",
+      "prompt": "In which two scenarios would you use a document-extraction service such as Azure Document Intelligence or a Content Understanding document analyzer? Choose two.",
+      "options": [
+        "Extract the invoice number from a supplier invoice",
+        "Identify the retailer from a photographed receipt",
+        "Translate a letter from French to English",
+        "Find images of a product in an online catalog"
+      ],
+      "answer": [
+        "Extract the invoice number from a supplier invoice",
+        "Identify the retailer from a photographed receipt"
+      ],
+      "explain": "Receipts and invoices are documents with known fields such as merchant name, totals and invoice numbers, which document extraction returns as structured data. Translation belongs to Translator, and searching a catalog for images is visual search.",
+      "teach": "Document extraction goes beyond OCR. OCR returns all the text on a page, while document extraction returns named fields, such as MerchantName, InvoiceId and Total, together with their values. Prebuilt models cover common documents like receipts, invoices and ID cards, and custom schemas cover your own forms.",
+      "hints": [
+        "Ask whether each scenario starts with a business document and wants specific named values out of it. That pattern is exactly what document extraction is for.",
+        "Translating a letter changes its language but pulls out no fields. That is a job for a translation service, even though the input is a document.",
+        "Finding product images is a search over pictures. The two remaining scenarios both read a receipt or an invoice and return one named value."
+      ],
+      "deep": "On AI-901, Content Understanding is the named Foundry tool for document, image, audio and video extraction, and Document Intelligence still appears in older-style items. Both beat plain OCR whenever the question asks for named or nested fields.",
+      "xp": 15,
+      "tags": [
+        "content-understanding"
+      ],
+      "reviewed": "2026-09-29"
     },
     {
       "id": "t9.l5.q1",
@@ -1418,6 +2505,380 @@
         "cost"
       ],
       "reviewed": "2026-09-28"
+    },
+    {
+      "id": "t9.l5.q12",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "A developer is writing prompts for a deployed chat model. Which two statements are true? Choose two.",
+      "options": [
+        "Few-shot examples placed in the prompt change the model's weights",
+        "Asking the model to work through the steps can improve answers to multi-step problems",
+        "A system message guarantees the model will never produce unwanted output",
+        "A system message sets the assistant's role and the rules it should follow"
+      ],
+      "answer": [
+        "Asking the model to work through the steps can improve answers to multi-step problems",
+        "A system message sets the assistant's role and the rules it should follow"
+      ],
+      "explain": "The system message steers role and rules, and prompting the model to reason step by step is a documented technique for multi-step problems. Few-shot examples teach within one request only and train nothing, and a system message is instruction, not enforcement, which is why content filters exist as a separate layer.",
+      "teach": "Prompt engineering changes what the model reads, never the model itself. The system message sets the role, tone and rules. Few-shot examples show the pattern you want inside the same request. Asking for step-by-step reasoning helps on problems with several steps. None of these is a hard guarantee.",
+      "hints": [
+        "Sort the statements into two groups: those claiming a prompt changes the model permanently or guarantees an outcome, and those claiming a prompt steers the model's behaviour.",
+        "Ask what happens to few-shot examples after the request ends. If nothing is trained, the model has forgotten them on the next call, so its weights cannot have changed.",
+        "A determined user can argue with a system message. That is why content filtering exists as a separate control, so any statement promising never should be treated with suspicion."
+      ],
+      "deep": "Exam pattern: prompts steer and filters enforce. Words like guarantees, never and always in a prompt-engineering statement usually mark it false. Few-shot is sometimes called in-context learning, and the context part is the clue that it is temporary.",
+      "xp": 15,
+      "tags": [
+        "generative-ai",
+        "parameters"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q13",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "A team is setting up evaluation for a grounded assistant. Which three statements are true? Choose three.",
+      "options": [
+        "Evaluations can be re-run on a fixed dataset every time the prompt changes",
+        "Groundedness measures whether the answer is supported by the retrieved context",
+        "One manual spot-check of a few answers is enough to sign off a production release",
+        "Relevance measures whether the answer addresses the question that was asked"
+      ],
+      "answer": [
+        "Evaluations can be re-run on a fixed dataset every time the prompt changes",
+        "Groundedness measures whether the answer is supported by the retrieved context",
+        "Relevance measures whether the answer addresses the question that was asked"
+      ],
+      "explain": "Groundedness and relevance are distinct: an answer can be perfectly grounded in a passage that has nothing to do with the question. Manual spot-checks help early but are not a release gate. Re-running a fixed evaluation set on every prompt change is the point of automated evaluation, because prompt edits regress quietly.",
+      "teach": "Foundry offers built-in evaluators for generative apps. Groundedness asks whether each claim in the answer is backed by the retrieved context. Relevance asks whether the answer responds to the actual question. Others cover coherence, fluency and safety. You run them over a fixed test set so that results are comparable between versions.",
+      "hints": [
+        "Two statements define metrics. Check each definition carefully: one metric compares the answer with the context, the other compares the answer with the question.",
+        "Ask whether a handful of answers checked by hand could catch a problem that only affects one kind of question in twenty. That tells you whether spot-checks are enough for release.",
+        "A fixed dataset means the same questions every time, so any change in scores comes from your change. That is exactly how you catch a prompt edit that quietly makes things worse."
+      ],
+      "deep": "Grounded but irrelevant, and relevant but ungrounded, are both real failure modes, which is why the two metrics are separate. Foundry can run evaluations in bulk on a dataset and continuously on production traffic.",
+      "xp": 15,
+      "tags": [
+        "foundry",
+        "grounding"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q14",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "A team is deploying an agent that can act on behalf of users. Which two statements are true? Choose two.",
+      "options": [
+        "An agent's tools should run with full administrator permissions to avoid errors",
+        "Giving an agent tools removes the need to check what it produces",
+        "Conversation state lets an agent use earlier turns as context",
+        "An agent can be given tools it may call to fetch data or take actions"
+      ],
+      "answer": [
+        "Conversation state lets an agent use earlier turns as context",
+        "An agent can be given tools it may call to fetch data or take actions"
+      ],
+      "explain": "Tools extend what an agent can do and widen the damage it can cause at the same time, so its credentials should be scoped to exactly what it needs. Nothing about tool use removes the need for evaluation and monitoring; tools raise the stakes of skipping them.",
+      "teach": "An agent is a model plus instructions plus tools plus memory of the conversation. Tools let it call functions, search data or act in other systems. Conversation state, called a thread, lets it remember earlier turns. Because an agent can act, security rules such as least privilege matter more than they do for a plain chat model.",
+      "hints": [
+        "Two statements describe what agents are made of. Two others make claims about safety shortcuts. Test each shortcut by asking what would happen if the agent made a mistake.",
+        "If an agent's tool runs as administrator and the model misreads an instruction, what is the worst it could do? That tells you how to judge the permissions statement.",
+        "Tools let an agent do more, which means a wrong output can now cause a real action. Ask whether that makes checking its output more or less important."
+      ],
+      "deep": "Least privilege, managed identity, human approval for risky actions and continuous evaluation are the standard agent controls. Foundry Agent Service stores conversation state in threads and lets you attach tools such as file search, code interpreter and your own functions.",
+      "xp": 15,
+      "tags": [
+        "foundry",
+        "security",
+        "generative-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q15",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "A team is deciding which planned features need an agent and which need only a single call to a generative model. Which two statements are true? Choose two.",
+      "options": [
+        "Rewriting one paragraph in a friendlier tone needs an agent",
+        "An assistant that must look up an employee's ticket and then open a new one in the helpdesk system is a good fit for an agent with tools",
+        "Summarizing an email the user pastes in needs only a single model call",
+        "An agent must be fine-tuned before it can use tools"
+      ],
+      "answer": [
+        "An assistant that must look up an employee's ticket and then open a new one in the helpdesk system is a good fit for an agent with tools",
+        "Summarizing an email the user pastes in needs only a single model call"
+      ],
+      "explain": "An agent earns its place when a job takes several steps, calls tools or systems, and keeps state between turns. One-shot text jobs such as rewriting or summarizing need only a prompt and a response. Agents get their tools through configuration and instructions, with no fine-tuning involved.",
+      "teach": "Not every AI feature needs an agent. A single model call takes a prompt and returns text, which is enough for rewriting, summarizing or classifying something the user provides. An agent adds tools, several steps and memory, and is worth that extra complexity when the job must look things up or change things in other systems.",
+      "hints": [
+        "For each feature, ask whether it needs anything beyond the text the user provides. If everything needed is already in the prompt, a single call is enough.",
+        "The helpdesk feature must read one system and then write to another. Ask how a model could do that without being given tools.",
+        "Tools are attached to an agent through its configuration. Ask whether fine-tuning, which changes a model's weights, has anything to do with giving it access to a function."
+      ],
+      "deep": "The agentic AI workload is new on AI-901. Look for scenario words like look up, then do, across systems, or on the user's behalf. Plain transform-this-text jobs are generative AI without agents and cost less and fail less.",
+      "xp": 15,
+      "tags": [
+        "foundry",
+        "generative-ai",
+        "workloads"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q16",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "Which two situations point towards fine-tuning a model rather than using retrieval? Choose two.",
+      "options": [
+        "You have a large set of high-quality example inputs and outputs",
+        "You need answers about documents that change daily",
+        "You want every answer to cite the source passage it came from",
+        "You need the model to follow a very specific output format or house style on every call"
+      ],
+      "answer": [
+        "You have a large set of high-quality example inputs and outputs",
+        "You need the model to follow a very specific output format or house style on every call"
+      ],
+      "explain": "Fine-tuning teaches behaviour and style from many worked examples, and those examples must exist. Fast-changing content and citations are retrieval's job, because retrieval reads the document at request time and can point at it.",
+      "teach": "Fine-tuning and retrieval solve different problems. Fine-tuning trains a model further on many example conversations so that it reliably adopts a style, format or behaviour. Retrieval leaves the model alone and gives it fresh facts inside the prompt. A useful short version: fine-tune for how it answers, retrieve for what it knows.",
+      "hints": [
+        "Sort the four situations into 'how the model should answer' and 'what facts the model needs'. Fine-tuning mainly changes the first of these.",
+        "If documents change every day, a model trained last week is already out of date. Ask which approach reads the latest version at the moment of the question.",
+        "Citations need to point to a specific passage the answer came from. Fine-tuned knowledge is blended into weights and has no passage to point at."
+      ],
+      "deep": "Fine-tuning is expensive and needs hundreds of good examples. Microsoft's guidance is to try prompt engineering, then RAG, and only then fine-tuning. The approaches combine: a fine-tuned model can still use RAG.",
+      "xp": 15,
+      "tags": [
+        "rag",
+        "generative-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q17",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "A developer has deployed a chat model in Foundry and tested it in the playground. Which two items does a small Python app need before it can send prompts to that deployment? Choose two.",
+      "options": [
+        "The dataset the model was trained on",
+        "The display name of the Foundry project",
+        "The exported playground chat history",
+        "A credential: an API key or a Microsoft Entra ID identity",
+        "The endpoint of the project or deployment"
+      ],
+      "answer": [
+        "A credential: an API key or a Microsoft Entra ID identity",
+        "The endpoint of the project or deployment"
+      ],
+      "explain": "A client needs to know where to send the request, which is the endpoint, and how to prove it is allowed to, which is a key or an Entra ID token. The deployment name is passed as the model in each call. Playground history, training data and the display name play no part in calling the model.",
+      "teach": "Every call to a cloud AI service answers two questions: where does the request go, and who is asking? The endpoint answers the first; it is the URL of your Foundry project or resource. A credential answers the second: either an API key or a token from Microsoft Entra ID. With those two and the deployment name, the SDK can make the call.",
+      "hints": [
+        "Think of posting a letter: you need an address, and something that proves you are allowed to send it. Look for the two options that play those two roles.",
+        "The playground chat history is a record of your testing. The app does not need to replay your old conversations to send a new prompt.",
+        "Training data stays with whoever trained the model, and a display name is just a label in the portal. Neither is used to reach or authenticate to the deployment."
+      ],
+      "deep": "In the Foundry SDK you create a client from the project endpoint and a credential such as DefaultAzureCredential, then pass the deployment name as the model parameter. Entra ID with a managed identity avoids storing keys at all.",
+      "xp": 15,
+      "tags": [
+        "foundry",
+        "python",
+        "security"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q18",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "You are creating an agent in Microsoft Foundry that must take on a specific role and behave in a set way when it responds to users. What should you configure?",
+      "options": [
+        "Temperature",
+        "System instructions",
+        "Max completion tokens",
+        "Tokens per minute (TPM)"
+      ],
+      "answer": [
+        "System instructions"
+      ],
+      "explain": "An agent's instructions define its role, tone, rules and what it should refuse. Temperature controls randomness, TPM is a throughput quota, and max completion tokens caps reply length.",
+      "teach": "When you create an agent in the Foundry portal you give it a model, instructions and optional tools. The instructions are a system message written in plain language: who the agent is, how it should speak, what it may and may not do. Numeric settings tune how it generates text but cannot describe a role.",
+      "hints": [
+        "A role and a way of behaving are described in words. Ask which option lets you write sentences telling the agent who it is and how to act.",
+        "Temperature is a number that changes how varied the wording is. A number cannot tell the agent it is a polite travel assistant.",
+        "TPM and max completion tokens are limits on throughput and length. They control how much, not how, so leave the option where you describe the behaviour."
+      ],
+      "deep": "The exam likes to offer parameters as answers to behaviour questions. Behaviour and role go in instructions, randomness in temperature or top-p, length and cost in max tokens, throughput in TPM quota. Learn that four-way split and several items become easy.",
+      "xp": 10,
+      "tags": [
+        "foundry",
+        "parameters"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q19",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "What are two purposes of the instructions you give a generative AI model or agent? Choose two.",
+      "options": [
+        "Set the Azure region where inference runs",
+        "Define the agent's role and behaviour",
+        "Define constraints on the model's responses",
+        "Set the tokens-per-minute allocation for the model",
+        "Choose which model the request is sent to"
+      ],
+      "answer": [
+        "Define the agent's role and behaviour",
+        "Define constraints on the model's responses"
+      ],
+      "explain": "Instructions say who the model is, how it behaves and what limits its answers must respect, such as topics to refuse or a required format. Model choice, region and TPM are deployment settings configured outside the prompt.",
+      "teach": "Instructions, also called the system prompt, are text the model reads before every user message. They can set a persona, a tone, a scope, rules to follow and the format of answers. They cannot change infrastructure: which model runs, where it runs and how much traffic it may take are decided when you create the deployment.",
+      "hints": [
+        "Ask which options could be written as a sentence to the model, such as 'you are a support agent' or 'answer only about billing'. Those are what instructions can do.",
+        "The model, the region and the traffic quota are all chosen when the deployment is created in Azure. A sentence in the prompt cannot move a deployment to another region.",
+        "That leaves one option about identity and behaviour and one about limits on the answers. Both are things the model reads and follows."
+      ],
+      "deep": "On AI-901, 'create effective system and user prompts' is an explicit skill. Good instructions state a role, a scope, output format and a fallback, such as saying you do not know when the context lacks the answer. That fallback is also a grounding control.",
+      "xp": 15,
+      "tags": [
+        "foundry",
+        "generative-ai"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q20",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "You plan to deploy a model from the Foundry model catalog so that it runs on dedicated virtual machines hosted for your project. Which deployment option should you use?",
+      "options": [
+        "Plain Azure virtual machines",
+        "Serverless API",
+        "Azure Kubernetes Service cluster",
+        "Managed compute"
+      ],
+      "answer": [
+        "Managed compute"
+      ],
+      "explain": "Managed compute deploys the model to dedicated virtual machines that Azure manages for you, and you pay for the VM hours. A serverless API runs the model on shared Microsoft-hosted capacity with pay-per-token billing and no VMs of your own. AKS and raw VMs would mean hosting the model yourself outside Foundry's deployment options.",
+      "teach": "Foundry offers two main ways to deploy catalog models. Serverless, also called standard or pay-as-you-go, means Microsoft hosts the model on shared infrastructure and you pay per token. Managed compute means Foundry provisions dedicated virtual machines for your deployment and you pay for them while they run, whether or not they are busy.",
+      "hints": [
+        "The key word is dedicated. Ask which deployment option gives your model its own machines instead of sharing Microsoft's.",
+        "Serverless means you never see or pay for machines; you pay per token on shared capacity. That is the opposite of dedicated virtual machines.",
+        "Kubernetes clusters and plain virtual machines would mean building the hosting yourself, outside Foundry's deployment choices. One option is Foundry's own managed dedicated-VM choice."
+      ],
+      "deep": "One practice video marks serverless API as the answer here, which contradicts Microsoft's documentation. Serverless is pay-per-token on Microsoft-hosted capacity, and managed compute is dedicated VMs billed per hour. Some models are offered only one way.",
+      "xp": 10,
+      "tags": [
+        "foundry"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q21",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "In a Foundry project, a gpt-4.1-mini model is deployed on the resource contoso-ai under the deployment name support-bot. An app calls it with the OpenAI Python client pointed at that resource. What should the model argument be?",
+      "code": "client = OpenAI(\n    api_key=key,\n    base_url=\"https://contoso-ai.openai.azure.com/openai/v1/\",\n)\nresponse = client.responses.create(\n    model=____,\n    input=\"Hello\",\n)",
+      "options": [
+        "\"support-bot\"",
+        "\"contoso-ai\"",
+        "\"gpt-4.1-mini\"",
+        "The Foundry project name"
+      ],
+      "answer": [
+        "\"support-bot\""
+      ],
+      "explain": "On Azure you call a deployment, so the model argument carries the deployment name, which routes the request to that deployment's settings and quota. The resource name goes in the endpoint URL, and the base model name alone does not identify which deployment to use.",
+      "teach": "In Azure, you never call a base model directly. You first create a deployment: a named instance of a model with its own version, quota and filters. Code then talks to the resource's endpoint URL and names the deployment in each request. Two deployments of the same model can have different settings, which is why the name matters.",
+      "hints": [
+        "Three names appear in the scenario: the resource, the model and the deployment. Ask which one is already used in the endpoint URL, and which is left to identify the target.",
+        "The same base model could be deployed twice on one resource with different quotas or filters. Ask which name lets a request pick between those two.",
+        "On Azure the model argument names the thing you created in the portal, not the catalog entry you created it from."
+      ],
+      "deep": "With the OpenAI SDK against Azure, the base_url is https://<resource>.openai.azure.com/openai/v1/ and model= takes the deployment name. The exam likes to offer the base model name as a distractor, because on the public OpenAI API that name would be right.",
+      "xp": 10,
+      "tags": [
+        "foundry",
+        "python"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q22",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "Which two statements about a model deployed in Foundry are true? Choose two.",
+      "options": [
+        "Temperature must be chosen during deployment and cannot change afterwards",
+        "Temperature is set on each request or in the playground, not fixed when the model is deployed",
+        "The base model name routes each request to the right deployment",
+        "After deployment you can use the model both from code and from testing tools such as the playground"
+      ],
+      "answer": [
+        "Temperature is set on each request or in the playground, not fixed when the model is deployed",
+        "After deployment you can use the model both from code and from testing tools such as the playground"
+      ],
+      "explain": "Temperature is an inference parameter sent with each request, so it can change call by call. A deployment is reachable from the playground and from SDK code alike. Requests are routed by deployment name, because the same base model can have several deployments.",
+      "teach": "Deployment settings and request settings are different things. When you deploy, you pick the model, version, deployment name, deployment type and quota. Each request then carries its own parameters, such as temperature, top-p and max tokens. That split lets one deployment serve both a creative feature and a precise one.",
+      "hints": [
+        "Sort the statements into deployment-time settings and per-request settings. Ask which group temperature belongs to by thinking about whether two calls could use different values.",
+        "Once a model is deployed, the playground and your Python code both talk to the same endpoint. Ask whether anything would stop you using both.",
+        "If two deployments of the same base model exist, the base model's name cannot say which one you meant. Something more specific must do the routing."
+      ],
+      "deep": "Deployment time fixes model, version, name, type (standard, global, provisioned) and TPM quota. Request time sets messages or input, temperature, top_p, max tokens, tools and tool_choice. Exam statements that move a request parameter into deployment time are false.",
+      "xp": 15,
+      "tags": [
+        "foundry",
+        "parameters"
+      ],
+      "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q23",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "An agent in Foundry has one function tool that looks up order status. It must call a tool every time it responds, never answering from the model alone. What should tool_choice be set to?",
+      "options": [
+        "\"parallel\"",
+        "\"none\"",
+        "\"auto\"",
+        "\"required\""
+      ],
+      "answer": [
+        "\"required\""
+      ],
+      "explain": "tool_choice=\"required\" forces the model to call at least one tool on every turn. \"auto\" lets the model decide, which is the default, \"none\" forbids tool calls, and \"parallel\" is not a tool_choice value.",
+      "teach": "When a model has tools, tool_choice controls whether it uses them. With auto, the model decides for itself whether a tool is needed. With none, it may not call tools. With required, it must call a tool. You can also name one specific function to force that exact tool.",
+      "hints": [
+        "The requirement says the agent must use a tool every time it responds. Ask which setting takes away the model's freedom to skip its tools.",
+        "auto is the default and leaves the decision to the model, which means it might sometimes answer without calling anything. That breaks the every-time rule.",
+        "none is the opposite of what is needed. Of the remaining options, only one is a real tool_choice value, and its name says a call must happen."
+      ],
+      "deep": "Forcing a tool on every turn can loop, because the model must call a tool even after it has the answer. Common practice is to force the first call, then switch back to auto. You can also force a specific function by passing its name instead of \"required\".",
+      "xp": 10,
+      "tags": [
+        "foundry",
+        "python"
+      ],
+      "reviewed": "2026-09-29"
     }
   ]
 }
