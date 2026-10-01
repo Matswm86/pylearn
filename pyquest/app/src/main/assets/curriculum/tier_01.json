@@ -1513,7 +1513,7 @@
       "tier": 1,
       "level": 6,
       "type": "order",
-      "prompt": "Each line uses the one above it. Put them in an order that runs. Expected output: HI MATS",
+      "prompt": "Each line uses the one above it. Put them in an order that runs. Expected output: HI ADA",
       "tray": [
         "shout = greeting.upper()",
         "print(shout)",

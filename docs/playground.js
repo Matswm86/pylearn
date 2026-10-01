@@ -42,7 +42,7 @@ function pgLoad() {
   } catch { /* fall through to defaults */ }
   PG.files = { "main.py": PG_DEFAULT };
   PG.active = "main.py";
-  PG.stdin = "Mats";
+  PG.stdin = "Ada";
 }
 
 function pgSave() {

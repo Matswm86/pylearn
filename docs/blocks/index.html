@@ -258,7 +258,7 @@ const SECTIONS = [
    code:['pnl = 1234.5','wr = 0.6234','print(f"PnL: {pnl___} | Win rate: {wr___}")'], ans:[[':.2f'],[':.1%']], extra:[':.2%',':d',':.1f'],
    hints:['1234.50 has 2 decimals and no % sign. 62.3% has 1 decimal and a % sign.','pnl gets :.2f. wr gets :.1%.'],
    why:'<code>{pnl:.2f}</code> means fixed-point with 2 decimals. <code>{wr:.1%}</code> multiplies by 100, adds %, keeps 1 decimal. This is how you make reports readable.' },
- { t:'order', title:'Values flow downward', goal:'Each line uses the one above it. Put them in an order that runs.', out:'HI MATS',
+ { t:'order', title:'Values flow downward', goal:'Each line uses the one above it. Put them in an order that runs.', out:'HI ADA',
    teach:'<p>Python runs lines top to bottom. A variable only exists after the line that creates it has run. So if line 3 uses <code>greeting</code>, the line that creates <code>greeting</code> must come earlier.</p><p><code>.upper()</code> is a method on text: <code>"abc".upper()</code> gives <code>"ABC"</code>.</p>',
    ex:['word = "go"\nloud = word.upper()\nprint(loud)', 'GO'],
    lines:[['name = "Ada"',0],['greeting = f"Hi {name}"',0],['shout = greeting.upper()',0],['print(shout)',0]],
