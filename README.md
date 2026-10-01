@@ -2,10 +2,18 @@
 
 Two ways to learn Python and AI engineering, sharing one tutor and one repo.
 
+## 📱 Download PyQuest for Android
+
+### **[⬇ Download the PyQuest APK](https://github.com/Matswm86/pylearn/releases/download/latest/pyquest-4d93b69.apk)**
+
+Open that link on your Android phone, then open the downloaded file and allow
+installs from your browser when Android asks. The link always points at the
+newest build. Older builds: [all releases](https://github.com/Matswm86/pylearn/releases).
+
 | | What it is | Where |
 |---|---|---|
 | **Pytor** | The **site**. Real Python typed in a browser, run in the browser, graded instantly. | [pytor.mwmai.no](https://pytor.mwmai.no/) |
-| **PyQuest** | The **app**. An Android game you tap through on a phone, no typing. | [pyquest/](pyquest/) · [latest APK](https://github.com/Matswm86/pylearn/releases) |
+| **PyQuest** | The **app**. An Android game you tap through on a phone, no typing. | [pyquest/](pyquest/) · [download APK](https://github.com/Matswm86/pylearn/releases/download/latest/pyquest-4d93b69.apk) |
 
 Pytor is also the name of the snake who tutors you in both. On the site he is a
 beginner's guide; in the app he is an expert. Same character, different register.

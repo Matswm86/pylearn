@@ -134,18 +134,20 @@ jobs:
           git checkout -- . 2>/dev/null || true
           git fetch --depth=1 origin main
           git checkout -B _readme_bump FETCH_HEAD
-          cd "$GITHUB_WORKSPACE/pyquest"
-          python3 - "$APK_FILE" <<'EOF'
+          cd "$GITHUB_WORKSPACE"
+          # Both the repo front page and the app README carry the download link.
+          python3 - "$APK_FILE" README.md pyquest/README.md <<'EOF'
           import re
           import sys
 
           apk = sys.argv[1]
-          text = open("README.md", encoding="utf-8").read()
-          out = re.sub(r"pyquest-[0-9a-f]{7,40}\.apk", apk, text)
-          open("README.md", "w", encoding="utf-8").write(out)
-          print("README unchanged" if out == text else f"README -> {apk}")
+          for path in sys.argv[2:]:
+              text = open(path, encoding="utf-8").read()
+              out = re.sub(r"pyquest-[0-9a-f]{7,40}\.apk", apk, text)
+              open(path, "w", encoding="utf-8").write(out)
+              print(f"{path} unchanged" if out == text else f"{path} -> {apk}")
           EOF
-          if git diff --quiet -- README.md; then
+          if git diff --quiet -- README.md pyquest/README.md; then
             echo "README already points at ${APK_FILE}"; exit 0
           fi
           git config user.name  "github-actions[bot]"
