@@ -7,7 +7,8 @@
     "strings",
     "lists",
     "dicts & sets",
-    "slicing"
+    "slicing",
+    "block bench"
   ],
   "pytor": "Everything in Python is an object with a type, and the type decides what + and [ ] mean. Get the containers under your fingers now; every later tier is built from them.",
   "questions": [
@@ -1050,6 +1051,252 @@
         "lists"
       ],
       "reviewed": "2026-09-05"
+    },
+    {
+      "id": "t2.l6.q1",
+      "tier": 2,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Wrap the items in list brackets, then fetch the first one. Expected output: MNQ",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "(",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": "]",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "[",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "1",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": ")",
+          "kind": "expr"
+        },
+        {
+          "id": "b5",
+          "code": "0",
+          "kind": "expr"
+        }
+      ],
+      "template": "symbols = {0}\"MNQ\", \"MGC\", \"MES\"{1}\nprint(symbols[{2}])",
+      "answer": [
+        "b2",
+        "b1",
+        "b5"
+      ],
+      "explain": "Square brackets make a list. symbols[0] is the first item because Python indexes from zero. symbols[1] would be MGC.",
+      "teach": "A list stores several values in one variable, in order. The items are separated by commas and sit inside a matching pair of brackets, as the example shows. To fetch one, you write its position in brackets right after the variable name. Careful: Python counts positions from a different starting number than everyday life. In the example, green is the second item, yet its position is 1.\n\nExample:\ncolors = [\"red\", \"green\", \"blue\"]\nprint(colors[1])\nprints green",
+      "hints": [
+        "Look at the template. The first two gaps surround the three items, and the third gap sits inside the brackets after the variable name. Python has several kinds of brackets and each has its own job, so think about which pair marks a list.",
+        "Round brackets usually wrap function calls or make a tuple, which is a different type, so they are not the list marker. The opening gap needs an opening bracket and the closing gap a closing one, so check each option's direction. For the position, remember that the lesson put the second item at position one.",
+        "The opening gap takes the square bracket that opens, and the closing gap takes the square bracket that closes. For the position, the first item sits one step before the second item, and the second item is at position one, so count back from there."
+      ],
+      "deep": "Zero based indexing comes from offsets: an index is how far you are from the start, so the first item is zero steps away. Negative indexes count from the end, so symbols[-1] is the last item, and a slice like symbols[0:2] stops before index 2. A list can change in place; a tuple cannot.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "collections"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t2.l6.q2",
+      "tier": 2,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Look up a value by its key. Expected output: MNQ",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "0",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": "\"MNQ\"",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "symbol",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "\"symbol\"",
+          "kind": "expr"
+        }
+      ],
+      "template": "trade = {\"symbol\": \"MNQ\", \"qty\": 2}\nprint(trade[{0}])",
+      "answer": [
+        "b3"
+      ],
+      "explain": "A dict has no positions, only keys. trade[\"symbol\"] asks for the value stored under the string key.",
+      "teach": "A dictionary stores pairs, each one a key and its value, a bit like a real dictionary maps a word to its meaning. You write it with curly braces and colons, for example {\"name\": \"Ola\"}. To fetch a value, put the key in square brackets right after the dictionary's name. A key that is text keeps its quotes, because a bare word without quotes would be read as a variable name instead. Dictionaries have no positions, so you never ask for the first or second item.\n\nExample:\nperson = {\"name\": \"Ola\", \"age\": 30}\nprint(person[\"age\"])\nprints 30",
+      "hints": [
+        "You want the value MNQ out of the dictionary called trade. A dictionary does not number its items the way a list does. Every value sits behind a label called a key, and you ask for the value by putting that label inside the square brackets.",
+        "Look at the first line and read each pair as label, colon, value. Find the pair whose value is MNQ and notice what stands on the left of its colon. That left side is the key you must give, so notice also exactly how it is written there, because the lookup has to match it.",
+        "One option is a plain number, which would be a position, and another is the value MNQ itself, and neither is a label in this dictionary. Of the other two, one is a bare name that Python would hunt for as a variable, and the other is the label written as text. You need the text one."
+      ],
+      "deep": "A dict is a hash table: d[k] hashes the key and jumps to its slot, so lookup is O(1) on average. A missing key raises KeyError, so use d.get(\"symbol\") when it may be absent, since that returns None or a default you choose. A bare name like symbol raises NameError instead.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "collections"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t2.l6.q3",
+      "tier": 2,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Make point a tuple and tags a set. Expected output: 2",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "[",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": ")",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "]",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "{",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": "(",
+          "kind": "expr"
+        },
+        {
+          "id": "b5",
+          "code": "}",
+          "kind": "expr"
+        }
+      ],
+      "template": "point = {0}1, 2{1}\ntags = {2}\"a\", \"b\", \"a\"{3}\nprint(len(tags))",
+      "answer": [
+        "b4",
+        "b1",
+        "b3",
+        "b5"
+      ],
+      "explain": "(1, 2) cannot be changed after creation. {\"a\",\"b\",\"a\"} keeps one \"a\", so len is 2.",
+      "teach": "A tuple is like a list that has been frozen: once you make it you cannot add, remove or change items, which suits fixed groups such as a coordinate pair. A set is a bag of unique items: put the same value in twice and only one copy is kept, and order does not matter. len() counts the items in any collection. Python tells the kinds apart by the brackets around the items, and a list uses square ones.\n\nExample:\nnums = [5, 5, 7]\nprint(len(nums))\nprints 3",
+      "hints": [
+        "Two different collections are being made here. The output is 2 even though three strings are listed, so one of them must throw away repeats. Decide which of tuple and set does that, and which one is the frozen pair of numbers.",
+        "Two of the six options are square brackets, and a square pair makes a list, which is neither collection asked for here, so you can ignore those. Of the rest, one opening and closing pair belongs to the tuple and the other opening and closing pair belongs to the set.",
+        "The tuple wears the same brackets you type after a function name when you call it, such as after print. The set wears the same brackets as a dictionary, only with no colons inside. Make sure each collection starts and ends with a matching pair."
+      ],
+      "deep": "Tuples are immutable and hashable when their items are, so they work as dict keys; lists cannot. Sets are hash tables of unique members, so x in s is O(1). Traps: {} alone makes an empty dict, not an empty set (use set()), and a one item tuple needs a trailing comma, like (1,).",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "collections"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t2.l6.q4",
+      "tier": 2,
+      "level": 6,
+      "type": "order",
+      "prompt": "Start empty, add two prices in order, print. Expected output: [100, 105]",
+      "tray": [
+        "prices.append(100)",
+        "prices.append(105)",
+        "prices = []",
+        "print(prices)"
+      ],
+      "answer": [
+        "prices = []",
+        "prices.append(100)",
+        "prices.append(105)",
+        "print(prices)"
+      ],
+      "explain": ".append() adds to the end. Appending 100 then 105 gives [100, 105].",
+      "teach": "A list is an ordered collection written with square brackets, and [] on its own is an empty one. Calling mylist.append(x) adds x at the end. Python runs lines from top to bottom, so a name must be created before any later line uses it, otherwise you get a NameError. The order of your appends is the order of the items you get back.\n\nExample:\nnames = []\nnames.append(\"a\")\nnames.append(\"b\")\nprint(names)\nprints ['a', 'b']",
+      "hints": [
+        "Python reads your program from the top down, one line after another, and it can only use a name after that name has been created. Look at the four lines and ask which one makes something that the other three all depend on.",
+        "Once the list exists, the two append lines fill it. The output [100, 105] tells you which value was added first, because append always puts a new item at the end. Then ask where the printing line belongs: before or after the list has been filled?",
+        "Think of it as a short story. First you get an empty box, then you drop one price in, then you drop the next price in, and only at the very end do you open the box and show what is inside. Put the line that makes the box first and the line that shows it last."
+      ],
+      "deep": "list.append mutates in place and returns None, so prices = prices.append(100) would set prices to None, a classic trap. Appending is amortised O(1) because lists over-allocate spare room. For many items, extend() or a list comprehension is usually neater than a loop of appends.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "collections"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t2.l6.q5",
+      "tier": 2,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Walk through every key/value pair. Expected output: symbol -> MNQ\nqty -> 2",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": ".items",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": ".values",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": ".keys",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": ".pairs",
+          "kind": "expr"
+        }
+      ],
+      "template": "trade = {\"symbol\": \"MNQ\", \"qty\": 2}\nfor key, value in trade{0}():\n    print(f\"{key} -> {value}\")",
+      "answer": [
+        "b0"
+      ],
+      "explain": ".items() yields (key, value) pairs. This loop is how you inspect any API response.",
+      "teach": "A for loop repeats its indented body once per item. When each item is a pair, you can give the loop two names and Python splits the pair across them, as in the example. A dictionary can hand over its contents through methods, which are functions attached to it and called with a dot and round brackets. Different methods give different shapes: only the labels, only the values, or each label together with its value.\n\nExample:\npairs = [(\"a\", 1), (\"b\", 2)]\nfor letter, number in pairs:\n    print(letter, number)\nprints a 1\nb 2",
+      "hints": [
+        "The loop line names two variables, key and value, so every round of the loop must hand Python a pair rather than a single thing. Think about which of the four method names would give back each key together with its value in one go.",
+        "One of the four names is made up and does not exist on dictionaries at all. Another gives back only the keys and another gives back only the values, so a loop with two variable names would crash on those. That leaves one name worth choosing.",
+        "The name you want is a plural noun for the individual things held inside a collection, each entry being a key with its value attached. The option that sounds like 'pair' is not a real method name. The dot is part of the option and the round brackets are already in the template."
+      ],
+      "deep": "d.items() returns a view object, not a copy: it is cheap to create and reflects later changes. Each element is a tuple, and for key, value in unpacks it. Changing the dict's size mid loop raises RuntimeError, so iterate over list(d.items()) if you must add or delete.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "collections"
+      ],
+      "reviewed": "2026-10-01"
     }
   ]
 }

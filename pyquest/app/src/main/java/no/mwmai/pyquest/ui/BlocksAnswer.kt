@@ -261,9 +261,19 @@ private fun ChipSurface(
             .padding(horizontal = 11.dp, vertical = 8.dp),
     ) {
         Text(
-            text = label,
+            text = showIndent(label),
             style = CodeStyle,
             color = if (placed) Pal.Lime else Pal.Text,
         )
     }
+}
+
+/**
+ * Leading spaces are part of a Python line's meaning but vanish inside a chip,
+ * so each one is drawn as a middle dot. Only the indentation is marked; spaces
+ * inside the line stay plain.
+ */
+internal fun showIndent(label: String): String {
+    val indent = label.length - label.trimStart(' ').length
+    return if (indent == 0) label else "·".repeat(indent) + label.substring(indent)
 }

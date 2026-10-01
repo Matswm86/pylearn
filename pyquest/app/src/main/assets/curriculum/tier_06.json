@@ -7,7 +7,8 @@
     "FastAPI",
     "async / await",
     "pytest",
-    "typing & logging"
+    "typing & logging",
+    "block bench"
   ],
   "pytor": "This tier is the difference between a script and a service. Timeouts, status checks, tests that never touch the network, and logs the operator can read at 3 a.m.",
   "questions": [
@@ -1034,6 +1035,207 @@
         "logging"
       ],
       "reviewed": "2026-09-05"
+    },
+    {
+      "id": "t6.l6.q1",
+      "tier": 6,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Fetch a URL and check the status code. Expected output: 200",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "status_code",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "status",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "get",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "fetch",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "post",
+          "kind": "var"
+        }
+      ],
+      "template": "import requests\nr = requests.{0}(\"https://api.example.com/price\")\nprint(r.{1})",
+      "answer": [
+        "b2",
+        "b0"
+      ],
+      "explain": "requests.get(url) returns a Response object. status_code is an attribute.",
+      "teach": "An API is a web address that replies with data instead of a web page. Python's requests library talks to it, and each call is a function named after the kind of request. Some kinds only read something, others send data. The reply comes back as a response object that keeps a three digit number saying how it went: 200 means fine, 401 bad key, 404 wrong URL, 429 too many requests. Facts stored on an object are attributes, read without parentheses.\n\nExample of an attribute:\nfrom pathlib import Path\np = Path(\"notes/todo.txt\")\nprint(p.name)\nprints todo.txt",
+      "hints": [
+        "Two blanks, two different jobs. The first names the kind of request, and here you only want to look at a price, not submit anything. The second reads a stored fact from the response object r, so remember what the lesson said about attributes and parentheses.",
+        "In the first blank, one option is for sending data, and another is a plausible English word that the requests library simply does not define. That leaves the verb for plain reading. For the second, the attribute name is spelled with two words joined together, because it describes a status and a code.",
+        "Choose the short verb that means to ask for and receive, the same thing your browser does when you open a page. For the second blank, r has no attribute called just plain status; the number lives in the longer name that has an underscore in the middle."
+      ],
+      "deep": "requests.get returns a Response whose status code is a plain int. A 404 or 500 is not an exception by default, so call r.raise_for_status() to turn bad codes into HTTPError. Always pass timeout=, because requests waits forever if you do not.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "calling-apis"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t6.l6.q2",
+      "tier": 6,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Put the key in an Authorization header and pass the dict to the request. Expected output: 200",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "headers",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "auth",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "\"api_key\"",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "api_key",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "key",
+          "kind": "var"
+        }
+      ],
+      "template": "api_key = \"sk-...\"\nheaders = {\"Authorization\": f\"Bearer {{0}}\"}\nr = requests.get(url, {1}=headers)\nprint(r.status_code)",
+      "answer": [
+        "b3",
+        "b0"
+      ],
+      "explain": "headers=headers is a keyword argument: parameter name left, your variable right.",
+      "teach": "A header is a label and value pair sent along with a web request, and many APIs read an Authorization header to learn who is calling. The pairs travel together as a dict. An f-string builds text with values pasted in: a name inside curly braces is looked up and replaced by its value, but quotes around it turn it into ordinary text. A keyword argument is written name=value in a call, where the left side must be a name the function was built to accept.\n\nExample:\nname = \"Ada\"\nprint(f\"Hi {name}\")\nprint(\"a\", \"b\", sep=\"-\")\nprints Hi Ada and then a-b",
+      "hints": [
+        "There are two blanks, and they do different jobs. The first sits inside the curly braces of an f-string, so think about what Python does with whatever is written between braces. The second is the name on the left of an equals sign in the function call.",
+        "Between braces, a bare name is replaced by the value stored under that name, while quoted text would be pasted in as it is and the server would receive the wrong thing. Look at the first line of the code to see which variable holds the key. For the second blank, the parameter name must be one requests really accepts.",
+        "The first blank is the variable from the top line, written without quotes. The second blank is the parameter requests uses for these extra labels, and it is the same plural word as the dict variable on the right of the equals sign. Shorter words like auth or key are not where a header dict goes."
+      ],
+      "deep": "Keyword arguments let one word play two roles: the parameter name on the left, your variable on the right. Never hard code real keys in source; read them with os.environ and keep them out of git. Logging the whole header dict leaks the bearer token.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "calling-apis"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t6.l6.q3",
+      "tier": 6,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Send a payload as JSON and parse the JSON answer. Expected output: Azure AI is a cloud platform for building AI apps.",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "post",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "send",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "get",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "json",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "loads",
+          "kind": "var"
+        },
+        {
+          "id": "b5",
+          "code": "text",
+          "kind": "var"
+        }
+      ],
+      "template": "payload = {\"model\": \"some-model\", \"input\": \"Explain Azure AI in one sentence.\"}\nr = requests.{0}(url, json=payload, headers=headers)\ndata = r.{1}()\nprint(data[\"output_text\"])",
+      "answer": [
+        "b0",
+        "b3"
+      ],
+      "explain": "json=payload makes requests serialise for you. r.json() parses the body.",
+      "teach": "Web requests come in kinds. One kind only reads something, and another kind sends data to the server in the body of the request. When you hand requests a Python dict as the body, it can convert the dict to JSON text for you. The reply body also arrives as text, which is not yet a dict you can index by key, so it must be parsed. For a string you already hold, json.loads does that.\n\nExample:\nimport json\nreply = '{\"answer\": \"hello\"}'\nprint(json.loads(reply)[\"answer\"])\nprints hello",
+      "hints": [
+        "Two blanks again. The first is the kind of request, and this time you are submitting a payload, not just looking something up. The second is the method called on r to turn the reply text into a dict that you can index by key, as the print line does.",
+        "For the first blank, rule out the option that only reads and the option that is not a real requests function at all. For the second, remember that loads belongs to the module that handles this format and takes a string, while a response object has its own parsing helper, and another option is just the raw body text.",
+        "The first blank is the kind of request that submits data, the partner of reading. The second is a method named after the data format itself, and it is called with parentheses on r, so it is not the raw text attribute, which is only a plain string."
+      ],
+      "deep": "Passing json=payload serialises the dict and also sets Content-Type to application/json, which data=payload does not do (it form-encodes). r.json() raises an error when the body is not valid JSON, so check the status code or call raise_for_status first.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "calling-apis"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t6.l6.q4",
+      "tier": 6,
+      "level": 6,
+      "type": "order",
+      "prompt": "Import, build the URL and headers, send, parse, print. Expected output: 20125.5",
+      "tray": [
+        "headers = {\"Authorization\": \"Bearer sk-...\"}",
+        "import requests",
+        "url = \"https://api.example.com/quote/MNQ\"",
+        "r = requests.get(url, headers=headers)",
+        "data = r.json()",
+        "print(data[\"last\"])"
+      ],
+      "answer": [
+        "import requests",
+        "url = \"https://api.example.com/quote/MNQ\"",
+        "headers = {\"Authorization\": \"Bearer sk-...\"}",
+        "r = requests.get(url, headers=headers)",
+        "data = r.json()",
+        "print(data[\"last\"])"
+      ],
+      "explain": "This shape repeats in every API script. SDKs like openai wrap the same steps in a class.",
+      "teach": "Python runs a script from the top line to the bottom line, one at a time. A line can only use names that earlier lines already created, so reaching a name too soon stops the program with a NameError.\n\nprint(total)\ntotal = 5\n\nThis crashes, because total does not exist yet when print runs. Put the assignment first and it prints 5. Scripts that talk to web services are chains built on this rule: each step makes something, such as an address, a reply or a piece of data, that a later step needs.",
+      "hints": [
+        "Think of the script as a chain where each line makes something that a later line needs. Pick up each line in the tray and ask which names it uses. Then ask whether those names would already exist if the line were placed early. Lines that use no earlier names are the safest candidates to place first.",
+        "Find the line that actually sends the request. It mentions three names: the library, the address and the extra information that travels with it. All three must be defined above it. Next, look at the line that opens up the reply and the line that shows one value from it, and ask what each of them depends on.",
+        "Nearly there: the line that brings in the library belongs at the very top, and the line that shows the final value belongs at the very bottom. The two setup lines both come before the request. To order those two, imagine describing the request out loud: where it goes first, then how you identify yourself."
+      ],
+      "deep": "Real scripts add two things to this skeleton: a timeout on the request so it cannot hang forever, and r.raise_for_status() right after it so a 401 or 500 stops the script before .json() tries to parse an error page. Keep tokens in environment variables, never in the source file.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "calling-apis"
+      ],
+      "reviewed": "2026-10-01"
     }
   ]
 }

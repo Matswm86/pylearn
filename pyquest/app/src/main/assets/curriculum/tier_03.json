@@ -7,7 +7,8 @@
     "for & range",
     "while & break",
     "accumulators",
-    "comprehensions"
+    "comprehensions",
+    "block bench"
   ],
   "pytor": "Control flow is where a script becomes a program. Master the three shapes here: branch, loop, accumulate. Comprehensions are the same shapes compressed.",
   "questions": [
@@ -1093,6 +1094,235 @@
         "boolean"
       ],
       "reviewed": "2026-09-05"
+    },
+    {
+      "id": "t3.l6.q1",
+      "tier": 3,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Complete the chain: if, else-if, else. Expected output: Flat",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "then",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "else",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "elseif",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "else if",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": "elif",
+          "kind": "var"
+        }
+      ],
+      "template": "pnl = 0\nif pnl > 0:\n    print(\"Green\")\n{0} pnl == 0:\n    print(\"Flat\")\n{1}:\n    print(\"Red\")",
+      "answer": [
+        "b4",
+        "b1"
+      ],
+      "explain": "elif is Python's \"else if\". else takes no condition. Only the first true branch runs.",
+      "teach": "An if statement runs its indented lines only when its condition is true. When there are more than two outcomes, Python lets you chain further tests under the first one and end with a branch that catches whatever is left, which needs no condition. Python checks the chain from the top, runs the first branch whose test is true and skips all the rest, so at most one branch ever runs.\n\nExample:\ntemp = 25\nif temp > 20:\n    print(\"warm\")\nprint(\"checked\")\nprints warm\nchecked",
+      "hints": [
+        "This is a chain of three branches. The first tests whether pnl is above zero, the second tests whether it equals zero, and the last handles everything else. Ask yourself which branch needs a condition after its keyword and which one does not.",
+        "The second branch needs a keyword meaning 'otherwise, if this other thing is true'. Several options look like a plausible way to write that, but Python accepts only one spelling, and it is a single word with no space in it. The last branch simply means 'otherwise', so its keyword stands alone before the colon.",
+        "Cross out 'then', which Python never uses in an if statement, and the two word version, which Python rejects as a syntax error. Of the remaining spellings for the middle branch, one is long and looks like other languages, and the other is a short four letter word. The final branch uses the plain word for 'otherwise'."
+      ],
+      "deep": "Only the first true branch runs, so order matters: a broad test placed above a narrow one hides it. The trap is writing separate if statements instead of a chain, because each is tested on its own and several can run. elif and else are clauses of one if statement, not statements themselves.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "control-flow"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t3.l6.q2",
+      "tier": 3,
+      "level": 6,
+      "type": "blocks",
+      "prompt": "Print each symbol, then print done once. Expected output: MNQ\nMGC\ndone",
+      "tray": [
+        "for s in symbols:",
+        "    for s in symbols:",
+        "print(\"done\")",
+        "symbols = [\"MNQ\", \"MGC\"]",
+        "    symbols = [\"MNQ\", \"MGC\"]",
+        "    print(s)"
+      ],
+      "answer": [
+        "symbols = [\"MNQ\", \"MGC\"]",
+        "for s in symbols:",
+        "    print(s)",
+        "print(\"done\")"
+      ],
+      "explain": "The indented line runs once per item. The un-indented print(\"done\") runs after the loop finishes.",
+      "teach": "A for loop repeats the lines indented under it, once for every item in a collection. On each round, a name you choose holds the current item. Python knows which lines belong to the loop only by their indentation, four spaces in from the edge. The first line back at the left edge is outside the loop, so it runs just once, after the last round has finished.\n\nExample:\nfor n in [1, 2]:\n    print(n)\nprint(\"end\")\nprints 1\n2\nend",
+      "hints": [
+        "Think about what each line needs before it can run. A loop needs something to walk through, so one line has to exist before the loop starts. Also look at the tray pieces: some are pushed in by four spaces and some sit flush left, and that decides whether they repeat.",
+        "Only the line that should repeat for every symbol goes inside the loop, indented by four spaces. The message that appears once at the very end goes after the loop and sits at the left edge. Two tray pieces are decoys: they are indented copies of lines that belong at the left edge.",
+        "The finished program has four lines in this order: the list is created, the loop header comes next, then one indented line that shows the current item, and last the once only message at the left edge. Check that the loop header ends with a colon and that nothing in front of it is indented."
+      ],
+      "deep": "Python has no braces: indentation is the block, and the tokenizer emits INDENT and DEDENT tokens, so a dedent is what ends the loop body. The loop variable also stays alive after the loop, still holding the last item, which surprises people coming from other languages.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "control-flow"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t3.l6.q3",
+      "tier": 3,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Loop while n is above zero, printing and shrinking n each round. Expected output: 3\n2\n1",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "<",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": ">",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "=-",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "-=",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": "+=",
+          "kind": "expr"
+        }
+      ],
+      "template": "n = 3\nwhile n {0} 0:\n    print(n)\n    n {1} 1",
+      "answer": [
+        "b1",
+        "b3"
+      ],
+      "explain": "while re-checks the condition every round. n -= 1 shrinks n. Forget it and the loop never ends.",
+      "teach": "A while loop repeats its body for as long as its condition is True, and it checks the condition again before every round. If nothing inside the loop changes the values the condition looks at, the condition stays True forever and the program never stops. Python has shortcuts for updating a variable: n += 1 means n = n + 1, and n *= 2 means n = n * 2.\n\nExample:\nn = 0\nwhile n < 2:\n    print(n)\n    n += 1\nprints 0\n1",
+      "hints": [
+        "Read the expected output: 3, then 2, then 1, and it never prints 0. So the loop must keep running while n is still positive, which needs a comparison in the first gap. The second gap must change n every round so the loop can finally stop. Think about which direction n has to move to get from 3 down towards 0.",
+        "For the first gap, you want a test that is True for 3, 2 and 1 but False once n reaches 0. Ask whether n sits on the bigger side or the smaller side of zero while the loop runs. For the second gap, look for a shortcut that changes n and stores the result back in n in one step, and read the characters carefully, because two options use the same two symbols in different orders.",
+        "The comparison is the one that points the opposite way to the less-than sign used in the lesson example. The update is the shortcut that subtracts from n and saves the result back, the mirror image of the adding shortcut. The reversed-order option is a trap: Python reads it as n = -1, a plain assignment of negative one."
+      ],
+      "deep": "Augmented assignment like n -= 1 rebinds n to a new int, since ints are immutable. The trap is n =- 1, which is legal and parses as n = -1, so the loop silently ends after one round. When you write a while loop, always check that the body moves the condition towards False.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "control-flow"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t3.l6.q4",
+      "tier": 3,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Skip even numbers, stop once n passes 7. Expected output: 1\n3\n5\n7",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "pass",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "skip",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "continue",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "stop",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "break",
+          "kind": "var"
+        }
+      ],
+      "template": "for n in range(10):\n    if n % 2 == 0:\n        {0}\n    if n > 7:\n        {1}\n    print(n)",
+      "answer": [
+        "b2",
+        "b4"
+      ],
+      "explain": "continue jumps to the next n without printing. break exits the whole loop at n = 9.",
+      "teach": "Inside a loop body, a few single-word statements steer the loop from the inside. Some abandon the rest of the current round and move on to the next item. Others abandon the loop entirely and carry on with the code after it. One word does neither: pass does nothing at all and is only a placeholder where Python needs a statement. Also, range(10) gives 0 to 9, and n % 2 is the remainder after dividing by 2, so n % 2 == 0 is True for even numbers.\n\nExample:\nfor n in range(4):\n    if n % 2 == 0:\n        print(n)\nprints 0\n2",
+      "hints": [
+        "Look at the expected output: only odd numbers appear, and nothing above 7. That means the loop needs one action for even numbers that skips just that round and keeps going, and a different action that ends the whole loop. Decide which gap needs which behaviour before you read the options.",
+        "The first gap runs for 0, 2, 4 and so on, and the loop must carry on afterwards without reaching the print. The second gap runs once n is past 7, and no later numbers should be handled, so the loop must be left completely. One option does nothing at all, so it cannot skip anything, and two options are plain English words that Python does not treat as loop commands.",
+        "The two real loop commands are the verb meaning 'carry on with the next round' and the verb meaning 'burst out of the loop'. Match the first to the even-number gap and the second to the past-7 gap. The words skip and stop sound right, but Python has no such statements and would raise a NameError."
+      ],
+      "deep": "continue and break only affect the innermost loop they sit in. A loop's optional else clause runs only when the loop finishes without hitting break. pass is not flow control: it is a no-op that exists because an empty block is a syntax error. Unknown words like skip or stop just raise NameError.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "control-flow"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t3.l6.q5",
+      "tier": 3,
+      "level": 6,
+      "type": "blocks",
+      "prompt": "An if inside a for. Two levels of indent. Expected output: big: 150\nend",
+      "tray": [
+        "    for p in [50, 150]:",
+        "    if p > 100:",
+        "        print(f\"big: {p}\")",
+        "if p > 100:",
+        "print(\"end\")",
+        "for p in [50, 150]:"
+      ],
+      "answer": [
+        "for p in [50, 150]:",
+        "    if p > 100:",
+        "        print(f\"big: {p}\")",
+        "print(\"end\")"
+      ],
+      "explain": "Each colon opens a block, and each block indents one more level. print(\"end\") at level 0 is outside both.",
+      "teach": "Python uses indentation instead of braces to show which lines belong inside which block. A line that ends with a colon opens a block, and the lines inside it are pushed in by the same amount, usually 4 spaces. A block can sit inside another block, which pushes its lines in one more level. A line back at the left edge is outside every block and runs after the blocks have finished.\n\nExample:\nfor x in [1, 5]:\n    print(\"check\", x)\n    if x > 3:\n        print(\"large\")\nprint(\"done\")\nprints check 1\ncheck 5\nlarge\ndone",
+      "hints": [
+        "Look at the tray and notice that several lines appear twice with different amounts of leading space. Only one copy of each is right. Work out the nesting first: which statement is the outer loop, which is the decision inside it, and which line is the action inside that decision.",
+        "The line that prints the big number should happen only when the condition holds, so it must sit inside the if. The if should be tested for every number, so it must sit inside the for. The final print should run once, after the loop finishes, so it belongs to neither block. Count how many levels of 4 spaces each line therefore needs.",
+        "Pick the copy of the loop line that sits at the left edge, since nothing contains it. The decision goes exactly one level in and the line it guards goes exactly two levels in, so use the matching copies. The closing line returns to the left edge. The decoys are the copies pushed in too far or not far enough."
+      ],
+      "deep": "Python's tokenizer turns a deeper indent into an INDENT token and a shallower one into DEDENT, which is how blocks get built without braces. Mixing tabs and spaces in one block can raise TabError, so configure your editor for 4 spaces per level, as PEP 8 advises.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "control-flow"
+      ],
+      "reviewed": "2026-10-01"
     }
   ]
 }

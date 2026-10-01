@@ -7,7 +7,8 @@
     "workloads & text",
     "speech & vision",
     "Content Understanding",
-    "building on Foundry"
+    "building on Foundry",
+    "Python readiness"
   ],
   "pytor": "This is exam day in miniature. Every wrong option here is a real capability that answers a different question, so decide what has to come out before you look at the options.",
   "questions": [
@@ -582,6 +583,48 @@
         "responsible-ai"
       ],
       "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l1.q20",
+      "tier": 9,
+      "level": 1,
+      "type": "match",
+      "prompt": "A bank runs a pre-release review of an AI loan assistant. Match each planned practice to the Responsible AI principle it supports.",
+      "options": [
+        "Fairness",
+        "Reliability and safety",
+        "Privacy and security",
+        "Inclusiveness",
+        "Transparency",
+        "Accountability"
+      ],
+      "rows": [
+        "Delete applicants' identity-verification photos as soon as they are no longer needed",
+        "Publish a description of the data the assistant was trained on and its known limitations",
+        "Generate text captions for spoken responses so customers with hearing impairments are not excluded",
+        "Name the people who answer for the assistant's decisions in a governance framework",
+        "Load-test the assistant and define what it does when its confidence is low"
+      ],
+      "answer": [
+        "Privacy and security",
+        "Transparency",
+        "Inclusiveness",
+        "Accountability",
+        "Reliability and safety"
+      ],
+      "explain": "Transparency is about making the system understandable; accountability is about who answers for it. Inclusiveness is about people of all abilities being able to use the system, which is different from fairness, which is about unbiased outcomes across groups.",
+      "teach": "Microsoft names six Responsible AI principles. Fairness is about similar people getting similar outcomes. Reliability and safety is about working consistently and failing safely. Privacy and security is about protecting personal data. Inclusiveness is about people of every ability and background being able to use the system. Transparency is about people understanding how and why it behaves as it does. Accountability is about named humans and organisations answering for it. To match a practice to a principle, ask which worry the practice is meant to calm.",
+      "hints": [
+        "Each row describes a concrete action, and each option is a principle that names the worry behind such an action. Read one row at a time and ask who is being protected or helped by it, and what could go wrong if the team skipped it. There are six options but only five rows, so one principle is a decoy.",
+        "Sort the rows by what they act on. One concerns personal data held about people, one concerns telling the public how the system was built, one concerns people who might be unable to use a feature, one concerns who is on the hook when something goes wrong, and one concerns how the system holds up under stress. Match each theme to the principle whose definition fits it.",
+        "Two pairs are easy to mix up. Making a system understandable to outsiders is not the same as naming who is responsible for it, and making it usable by everyone is not the same as making its outcomes unbiased across groups. The unused option is the one about unbiased outcomes, because none of the five rows tests for that."
+      ],
+      "deep": "Each principle has a typical artefact: bias testing for fairness, stress tests and fallbacks for reliability, data minimisation for privacy, accessibility features for inclusiveness, model documentation for transparency, named owners for accountability. The exam favours near pairs, so separate understanding from owning, and access from equal outcomes.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
     },
     {
       "id": "t9.l2.q1",
@@ -1285,6 +1328,77 @@
         "tokens"
       ],
       "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l2.q24",
+      "tier": 9,
+      "level": 2,
+      "type": "multi",
+      "prompt": "A team is choosing a machine learning approach. Which three statements are true? Choose three.",
+      "options": [
+        "Supervised learning needs training examples that already carry the answer",
+        "Regression predicts a continuous numeric value",
+        "Clustering needs a labelled target column",
+        "A classification model outputs a category rather than a number"
+      ],
+      "answer": [
+        "Supervised learning needs training examples that already carry the answer",
+        "Regression predicts a continuous numeric value",
+        "A classification model outputs a category rather than a number"
+      ],
+      "explain": "Supervised learning learns from labelled examples, and splits into regression, which predicts a number, and classification, which predicts a category. Clustering is unsupervised: it groups similar records without any labels, which is exactly why teams reach for it when nothing is labelled yet.",
+      "teach": "Machine learning finds patterns in data instead of following hand-written rules. In supervised learning, every training example comes with the right answer, called a label, and the model learns to predict that label for new data. The label can be a number, such as a house price, or a category, such as spam or not spam. In unsupervised learning there are no labels at all, so the model looks for structure on its own, for example by grouping similar records together.",
+      "hints": [
+        "Three of the four statements are true and one is false, so your job is to find the odd one out. Focus on what the data must contain and what the model gives back, then ask whether each statement matches how that kind of learning really works.",
+        "The word label is the key. For each statement, ask whether the approach it describes uses a column that already holds the right answer. Then check the output types: a number that can take any value in a range is one kind of task, while a fixed set of named groups is another.",
+        "One statement gives an approach a requirement that the approach does not have. Picture a pile of customer records where nobody has tagged anything yet, and you still want similar customers grouped together. Could that job demand a target column? Whichever option contradicts this is the one to leave out."
+      ],
+      "deep": "Regression and classification both need labels, which is why both are supervised. Clustering, such as k-means, optimises a similarity measure with no target, so you judge it by inspection or a silhouette score rather than accuracy. A classifier that outputs a probability is still classification, because the final decision is a category.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l2.q25",
+      "tier": 9,
+      "level": 2,
+      "type": "match",
+      "prompt": "Match each requirement to the AI capability that satisfies it.",
+      "options": [
+        "Speech to text",
+        "Translation",
+        "Sentiment analysis",
+        "Object detection",
+        "Text to speech",
+        "Image generation"
+      ],
+      "rows": [
+        "Turn a recorded meeting into a written transcript",
+        "Convert a Norwegian support ticket into English for a London team",
+        "Decide whether a product review reads as positive or negative",
+        "Find and box every product logo in a shelf photo"
+      ],
+      "answer": [
+        "Speech to text",
+        "Translation",
+        "Sentiment analysis",
+        "Object detection"
+      ],
+      "explain": "Speech to text and text to speech are opposite directions of the same pairing, and mixing them up is a common exam trap. Translation changes language while preserving meaning; sentiment analysis judges tone; object detection locates things in an image.",
+      "teach": "AI services are often named by the job they do on an input. Speech services work with spoken audio, either listening to it or producing it. Language services work with written text, for example changing it into another language or judging its mood. Vision services work with pictures, for example describing a photo or finding things inside it, and generative image models create new pictures from a written prompt. A good habit is to name the input and the output of any task first.",
+      "hints": [
+        "Each requirement starts with a type of input and ends with a type of output or judgement. Before looking at the options, write down for each row what goes in (audio, text or an image) and what comes out. The matching capability is the one that does exactly that conversion or analysis.",
+        "Two options involve spoken audio but run in opposite directions, so check which side the audio is on for the row. Another option changes the language of text while keeping its meaning, and another judges how the writer feels. One more finds where things are in a picture, and the last creates new pictures from a prompt.",
+        "Three of the rows are about understanding something that already exists: a recording, a ticket in another language, a review's mood. The fourth is about locating items within an image. Two options are not needed here: one produces audio from written words, and one creates new images rather than analysing existing ones."
+      ],
+      "deep": "The Azure speech service covers both directions of audio and text, a translator service changes language, a language service scores sentiment, and a vision service detects objects. Detection returns bounding boxes with labels and confidence, while classification gives one label for the whole image, a split the exam likes to test.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
     },
     {
       "id": "t9.l3.q1",
@@ -2166,6 +2280,44 @@
       "reviewed": "2026-09-29"
     },
     {
+      "id": "t9.l4.q9",
+      "tier": 9,
+      "level": 4,
+      "type": "match",
+      "prompt": "Match each requirement to the Content Understanding analyzer type that handles it.",
+      "options": [
+        "Document analyzer",
+        "Audio analyzer",
+        "Video analyzer",
+        "Image analyzer"
+      ],
+      "rows": [
+        "Pull the invoice number and total from supplier PDFs",
+        "Transcribe voicemails and extract the caller's request",
+        "Split a training video into scenes with a description of each",
+        "Describe what appears on product photos"
+      ],
+      "answer": [
+        "Document analyzer",
+        "Audio analyzer",
+        "Video analyzer",
+        "Image analyzer"
+      ],
+      "explain": "The four base analyzers map one-to-one to the input modality, and every custom analyzer inherits from one of them. Picking the type is a matter of asking what the file is, not what you want out of it.",
+      "teach": "Content Understanding is an Azure service that turns messy files into structured fields you can store in a database. You configure an analyzer, a reusable definition of what to extract, and the service runs it on each file you send. Analyzers are organised by the kind of file they accept, because each kind of media needs different processing, such as reading page layout versus listening to speech.",
+      "hints": [
+        "For this kind of question, ignore what you want out of the file and look only at what the file is. Read each row and underline the noun for the input, such as a PDF, a voicemail, a video or a photo.",
+        "There are four options and four rows, and the options are named for the kind of media they accept. Each row names the media it works on, even if only by its everyday word, so a recording of a spoken message is one kind and a moving recording with pictures is another. Pair the obvious ones first.",
+        "If two rows seem close, separate moving pictures from still ones, and page-based files from photographs. Decide whether each file is something you read, hear, watch or look at, then pick the option named for that kind of media. The goal in the sentence does not change which option fits."
+      ],
+      "deep": "Custom analyzers inherit from a base one and add a field schema, so you name fields such as InvoiceNumber and the service fills them in. The modality choice comes first, the schema second. A video analyzer also transcribes the speech in the video, so you rarely need a separate audio step.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
       "id": "t9.l5.q1",
       "tier": 9,
       "level": 5,
@@ -2879,6 +3031,501 @@
         "python"
       ],
       "reviewed": "2026-09-29"
+    },
+    {
+      "id": "t9.l5.q24",
+      "tier": 9,
+      "level": 5,
+      "type": "match",
+      "prompt": "Match each setting to the job it does when an app calls a deployed model.",
+      "options": [
+        "Sets the assistant's role and rules",
+        "Controls how random the word choice is",
+        "Caps how long, and so how costly, each reply can be",
+        "Makes the model callable by name from an app"
+      ],
+      "rows": [
+        "System instructions",
+        "Temperature",
+        "Max completion tokens",
+        "Model deployment"
+      ],
+      "answer": [
+        "Sets the assistant's role and rules",
+        "Controls how random the word choice is",
+        "Caps how long, and so how costly, each reply can be",
+        "Makes the model callable by name from an app"
+      ],
+      "explain": "Instructions shape behaviour, temperature shapes variety, the token cap shapes length and therefore cost, and a deployment is the named, callable instance of a model. The exam likes to offer one of these as the answer to a question about another, most often temperature as a fix for length.",
+      "teach": "A request to a language model carries more than the user's question. Some settings steer what the model is told, some steer how it picks words, and some limit size. Text is counted in tokens, small chunks of a word, and replies are limited and billed by token count. The model writes one token at a time by choosing among likely candidates, and a setting can make that choice strict or loose. Cloud platforms also expect you to set a model up before your code can reach it.",
+      "hints": [
+        "Each row is a setting, and each option describes a job. Take the rows one at a time and say aloud what you would expect to change if you altered that setting. Some settings change what the model is told, some change how it samples words, some change size, and one is about access.",
+        "Two rows give strong clues. One is about tokens, the unit that replies are counted and billed in, and one is about randomness, which links to how the model picks among likely next words. Match those two first and the remaining pair becomes much easier to separate.",
+        "For the remaining two, ask which one is text you write to give the assistant a persona and boundaries, and which one is an object you create on the platform before any code can reach the model. Remember that a setting for variety does not control reply length, which is a common trap."
+      ],
+      "deep": "Temperature and top_p both reshape the next-token distribution, so tune one at a time. A max token cap truncates a reply rather than making it concise, so ask for brevity in the instructions too. Reasoning models may fix or reject the temperature setting.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q1",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "What does len(\"hello\") return?",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "It raises a TypeError"
+      ],
+      "answer": [
+        "5"
+      ],
+      "explain": "len() returns the number of items in a container; for a string that is the number of characters, so \"hello\" gives 5. There is no off-by-one for the terminating character, because Python strings do not use one.",
+      "teach": "len() is a built in function that counts how many items a container holds. Give it a list and it counts the elements; give it a string and it counts the characters, including spaces and punctuation. It counts the way you would count things on a shelf, starting from one, unlike index positions, which start from zero.\nnums = [10, 20, 30]\nlen(nums)   # 3\nlen(\"a b\")  # 3, the space counts too",
+      "hints": [
+        "Think about what len stands for: length. It asks how many things are inside whatever you hand it. Here the thing is a piece of text in quotes, so the question becomes how many characters make it up.",
+        "Count the letters one at a time, touching a finger on each as you go, and start your count at one. Ignore the quotation marks, because they only tell Python that this is text and are not part of the string itself.",
+        "Two of the wrong options come from counting mistakes: one is a letter short and one adds something that is not there, as if the text ended with a hidden extra character. The last wrong option claims an error, but len happily accepts strings. Your own careful count of the letters is the answer."
+      ],
+      "deep": "len() calls the object's __len__ method, so it is constant time for str, list and dict because the size is stored, not counted. For strings it counts Unicode code points, not bytes or visible glyphs: an accented letter built from a base letter plus a combining mark counts as 2.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q2",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "Which expression creates a dictionary?",
+      "options": [
+        "[\"a\", 1]",
+        "(\"a\", 1)",
+        "{\"a\": 1}",
+        "{\"a\", 1}"
+      ],
+      "answer": [
+        "{\"a\": 1}"
+      ],
+      "explain": "Curly braces with colon-separated pairs create a dict. Square brackets make a list and parentheses make a tuple. The trap is the last one: curly braces without colons create a set, so {\"a\", 1} is a two-element set, not a mapping.",
+      "teach": "A dictionary stores pairs, where each key is a label and each value is the thing filed under that label. You look things up by key instead of by position, like finding a phone number by searching for a name. Python has several collection types, such as lists, tuples and sets, and each one has its own written form so that Python can tell which one you mean. Once a dictionary exists, you read from it like this:\nphone[\"Sam\"]\nwhich hands back whatever is filed under the key \"Sam\".",
+      "hints": [
+        "This question is about how Python tells collections apart by the brackets and symbols you write. Think about what makes a dictionary special: every entry is a pair made of a key and a value, so the written form needs some mark that links the two halves of each entry.",
+        "Look at each option and ask two things: which kind of bracket does it use, and is each entry a single loose item or a linked pair? Square brackets and round brackets already belong to two other well known collections, so you can set those two options aside.",
+        "Two options are left, and they use the same kind of bracket, so the brackets alone will not settle it. The difference is one small symbol. Pick the option where something sits between the two pieces of the entry to link a key with its value, rather than the one that just lists loose items separated by commas."
+      ],
+      "deep": "Curly braces are shared by dict and set literals, and the colon is what decides between them. A classic trap is that {} on its own is an empty dict, not an empty set, so use set() for that. Dict keys must be hashable, which is why a list cannot be a key but a tuple of hashable items can.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q3",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "What does print(type([])) output?",
+      "options": [
+        "<class 'list'>",
+        "<class 'array'>",
+        "list",
+        "[]"
+      ],
+      "answer": [
+        "<class 'list'>"
+      ],
+      "explain": "type() returns the type object, and printing it shows the  form. Python has no built-in type called array; the built-in sequence type is list.",
+      "teach": "Every value in Python has a type, and the built in function type() tells you which one. The answer is itself an object, so print shows it in a fixed text format rather than as a bare word. Try it on a piece of text:\nprint(type(\"hi\"))\nThis prints <class 'str'>, which reads as: the class named str. The name inside the quotes is the name of the type. Note that type() reports what a value is, not what it looks like when you write it.",
+      "hints": [
+        "Two separate ideas meet in this question. First, what kind of thing does type() give back, and how does print display it? Second, what is the name Python uses for the value written with square brackets and nothing inside? Work out each idea on its own, then combine them.",
+        "Remember the format shown earlier: the word class, then the type's name in quotes, all wrapped in angle brackets. Now think about the name itself. Python's everyday ordered collection that you can change has a short, plain name, and it is not the word that some other languages use for a similar thing.",
+        "Rule out the options that print only a bare name or only the brackets, since print shows a type object in the angle bracket form you saw earlier. Two options remain, and one of them uses a type name that Python does not have as a built in. Choose the other one, the name of the type behind a square bracket collection."
+      ],
+      "deep": "type(x) returns the class object, and print calls str() on it, which for classes gives the <class '...'> form. In real code prefer isinstance(x, list) over type(x) == list so subclasses still match. The array module and numpy arrays exist, but neither is the type of the literal [].",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q4",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "What happens when you evaluate \"3\" + 3?",
+      "options": [
+        "It returns 6",
+        "It returns \"33\"",
+        "It raises a TypeError",
+        "It returns \"6\""
+      ],
+      "answer": [
+        "It raises a TypeError"
+      ],
+      "explain": "Python does not coerce between str and int for +, so mixing them raises TypeError: can only concatenate str (not \"int\") to str. You have to say which you meant: int(\"3\") + 3 gives 6, and \"3\" + str(3) gives \"33\".",
+      "teach": "Quotes turn something into text, even if it looks like a number. The text \"3\" is a character, while the number 3 is a value you can do arithmetic with. The + sign has two jobs: with two numbers it adds, and with two pieces of text it joins them end to end.\n2 + 2 gives 4\n\"a\" + \"b\" gives \"ab\"\nBoth jobs work when the two sides are the same kind of thing. What happens when the two sides are different kinds is worth thinking through before you run it.",
+      "hints": [
+        "Start by looking at the two sides of the plus sign and asking what kind of value each one is. One of them has quotes around it and one does not. The question is whether Python treats those as the same kind of thing, and what it does when asked to combine two different kinds.",
+        "Python gives plus two jobs: adding numbers and joining text. Neither job makes sense with one of each. Some languages quietly convert one side so the line works anyway, but Python prefers to make you decide. Think about which style Python follows here, guess and convert, or stop and complain.",
+        "Several options suggest that Python quietly produced some value, either a number or a piece of text. Ask yourself whether Python would pick which of those two conversions you wanted without being told. If it refuses to guess, no value comes out at all, and something else happens instead of a result."
+      ],
+      "deep": "Python is strongly typed: it will not silently convert between str and int, whereas JavaScript would quietly give \"33\" here. Convert on purpose with int(), str() or an f-string so the intent is visible. Note that \"3\" * 3 does work, because it means repeat the text.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q5",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "Given nums = [1, 2, 3, 4, 5], what is nums[1:4]?",
+      "options": [
+        "[1, 2, 3, 4]",
+        "[2, 3, 4]",
+        "[2, 3, 4, 5]",
+        "[1, 2, 3]"
+      ],
+      "answer": [
+        "[2, 3, 4]"
+      ],
+      "explain": "Slices start at the first index and stop before the second, so 1:4 takes positions 1, 2 and 3. Indexing starts at 0, which is why the result begins at 2 and not at 1.",
+      "teach": "Positions in a list are counted from zero, so the first item sits at position 0, the second at position 1, and so on. A slice copies a stretch of the list, written start:stop inside square brackets. The slice begins at the start position and runs up to, but not including, the stop position.\nletters = [\"a\", \"b\", \"c\", \"d\", \"e\", \"f\"]\nletters[0:2]\nThis picks positions 0 and 1, so the result is [\"a\", \"b\"].",
+      "hints": [
+        "Before slicing, write the list out with its positions underneath each item, starting your count at zero rather than one. The numbers 1 and 4 in the brackets are positions, not values, so you first need to know which item sits at each position.",
+        "A slice has a start and a stop. The start position is included. The stop position works differently from what many people expect: Python stops just before reaching it. Mark where the slice begins and where it stops, and keep only the items between those two marks.",
+        "Check each option by looking at its first item and its last item. The first item must be the one sitting at position 1, which is not the very first item of the list. The last item must be the one just before position 4. Also, the number of items should equal stop minus start."
+      ],
+      "deep": "A slice is a half-open interval, so len(nums[a:b]) is b - a and nums[:k] + nums[k:] rebuilds the list with no gap or overlap. Slices make a shallow copy and never raise IndexError for out-of-range bounds; they just clamp.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q6",
+      "tier": 9,
+      "level": 6,
+      "type": "multi",
+      "prompt": "Which three statements are true? Choose three.",
+      "options": [
+        "An empty list is falsy in a boolean test",
+        "Strings are mutable, so s[0] = \"x\" works",
+        "is compares identity while == compares value",
+        "A tuple can be used as a dictionary key"
+      ],
+      "answer": [
+        "An empty list is falsy in a boolean test",
+        "is compares identity while == compares value",
+        "A tuple can be used as a dictionary key"
+      ],
+      "explain": "Empty containers, 0 and None are falsy. Strings are immutable, so you build a new one instead of editing in place. is asks whether two names point at the same object, which is why it is the wrong tool for comparing numbers or strings. Tuples are hashable when their contents are, so they work as keys where lists do not.",
+      "teach": "This question mixes four small ideas. Truthiness: in an if, Python can judge any value as yes or no, and a few values count as no while most count as yes. Mutability: some objects can be edited in place, others never change once made. Identity versus equality: two names can hold equal content yet be two separate objects, and Python has a separate tool for each question. Hashing: a dictionary finds its keys by a fixed fingerprint, so a key's fingerprint must never change. Try bool(0) in the REPL to see truthiness at work.",
+      "hints": [
+        "Judge each statement on its own as true or false before comparing them. Exactly three are true and one is false, so you are really hunting for the single false statement. Picture typing each claim into a Python prompt and ask what would actually happen.",
+        "The false statement is about changing something in place. Think about what happens if you try to assign to a single character of a piece of text: does Python edit it, or does it complain? Compare that with a list, where assigning to one position is perfectly fine.",
+        "Now confirm the other three. Python has one tool that asks whether two names are the very same object and another that asks whether their contents match. Containers holding nothing count as no in a yes or no test. And a key needs a fingerprint that never changes, which an object you can edit in place cannot promise."
+      ],
+      "deep": "Falsy values are None, False, zero of any numeric type, and empty str, list, tuple, dict, set and range. Use is only for singletons like None; small-int caching makes is seem to work on numbers, which is a CPython detail. A tuple is hashable only if all its items are, so (1, [2]) fails as a key.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q7",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "Given name = \"Ada\", what does f\"Hi {name}\" produce?",
+      "options": [
+        "Hi {name}",
+        "Hi Ada",
+        "f\"Hi Ada\"",
+        "It raises a NameError"
+      ],
+      "answer": [
+        "Hi Ada"
+      ],
+      "explain": "An f-string evaluates each brace expression and substitutes the result, so you get Hi Ada. Without the f prefix the braces stay literal, which is the usual reason this appears not to work.",
+      "teach": "A normal string is just text, and Python copies every character as it is. An f-string is a string with the letter f right before its opening quote, and that letter switches on a feature: anything inside curly braces is treated as a small piece of Python code, evaluated, and the result is placed into the text. Example with a different value:\nprint(f\"{2 + 3} apples\")\nThis shows 5 apples, because 2 + 3 was worked out first and then dropped into the text.",
+      "hints": [
+        "Look closely at what comes before the opening quote and at what sits inside the curly braces. Both details matter. Ask yourself what that leading letter tells Python to do with the braces, and what the name inside them refers to.",
+        "Inside the braces is a name, and the line above the question has already given that name a value. Python looks the name up and swaps the braces and everything in them for that value, turned into text. Nothing else in the string is touched, so the words around the braces stay exactly as typed.",
+        "Read the options with that in mind. One option leaves the braces and the name untouched, which would only happen without the special prefix. One keeps the letter f and the quote marks as if they were part of the text, which they are not. One claims the name does not exist, but it was defined."
+      ],
+      "deep": "f-strings are compiled into a join of the literal pieces and formatted values, so they are faster than % formatting or str.format. They accept format specs like f\"{x:.2f}\", and f\"{x=}\" prints both the expression and its value, which is handy for debugging.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q8",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "Which line defines a function whose second parameter has a default value?",
+      "options": [
+        "def f(a, b = 2):",
+        "def f(a, b: 2):",
+        "function f(a, b = 2):",
+        "def f(a, default b = 2):"
+      ],
+      "answer": [
+        "def f(a, b = 2):"
+      ],
+      "explain": "Defaults are written with = in the parameter list. A colon there would be an annotation, not a default, Python uses def rather than function, and there is no default keyword.",
+      "teach": "A function can be written so that some of its inputs are optional. You do that in the def line by giving a parameter a fallback value, which Python uses whenever the caller leaves that argument out. Think of a coffee order where sugar is assumed to be none unless you ask.\ngreet('Ada')\ngreet('Ada', 'Hello')\nIf greet was written that way, both calls are legal: the first uses the fallback and the second overrides it. Parameters without a fallback are required, and Python insists they come first.",
+      "hints": [
+        "This question is about optional inputs to a function. Read every option and check how it begins, because only one word is the one Python uses to start defining a function, and a line that starts differently cannot be valid whatever follows.",
+        "Next look inside the brackets. Python has a plain symbol for attaching a value to a name, the same one you use in a line like x = 5. A different symbol in a parameter list is used for a note about what kind of value is expected, so it does not supply a fallback.",
+        "Two options can be dropped on grammar alone: one begins with a word Python does not use for functions, and another invents an extra word inside the parameter list that Python does not have. Of the two that remain, choose the one where b is simply given its value, the way a variable would be."
+      ],
+      "deep": "A default value is evaluated once, when the def statement runs, not on every call. That makes b=[] a classic trap, because every call shares one list. Use None as the default and build the list inside the function. PEP 8 writes b=2 without spaces, but b: int = 2 with spaces once there is an annotation.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q9",
+      "tier": 9,
+      "level": 6,
+      "type": "order",
+      "prompt": "Arrange the clauses of a full try statement in the order Python requires.",
+      "tray": [
+        "except",
+        "try",
+        "else",
+        "finally"
+      ],
+      "answer": [
+        "try",
+        "except",
+        "else",
+        "finally"
+      ],
+      "explain": "The order is fixed: try, then except, then the optional else which runs only when no exception was raised, then finally which runs either way. Python spells the handler except; catch belongs to other languages.",
+      "teach": "Programs fail sometimes: a file is missing, a number is mistyped. A try statement lets you plan for that. One clause holds the risky code. Another clause is the handler that takes over if an error is raised, and you name the kind of error it deals with. An optional clause holds code that should run only when nothing went wrong. A cleanup clause holds work such as closing a file and runs whatever happened. Python is strict about how these parts are arranged, and a wrong arrangement is a SyntaxError.",
+      "hints": [
+        "Think of the story of a risky action: you attempt something, something may go wrong, and afterwards you tidy up. Each of the four words names one part of that story. Start by asking which word has to open the whole statement, because nothing else can exist before it.",
+        "The handler clause exists to deal with whatever the guarded code raises, so it belongs right beside that code. The success-only clause only makes sense once the handlers have had their chance, so it waits behind them. Place those three pieces and see which one is left over.",
+        "The cleanup clause is promised to run in every case, whether things succeeded or failed, so it cannot be tucked into the middle of the others. Once the other three are in place, ask where a clause that always runs regardless of the outcome naturally belongs."
+      ],
+      "deep": "The cleanup clause runs even after a return, a break or an unhandled exception, so it is the place for releasing resources, though a with statement usually does that job better. Keep the guarded body tiny: errors raised in the success clause are not covered by the handlers, so they are never swallowed by accident.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q10",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "What does [x * 2 for x in range(3)] evaluate to?",
+      "options": [
+        "[0, 2, 4]",
+        "[2, 4, 6]",
+        "[0, 1, 2]",
+        "[1, 2, 3]"
+      ],
+      "answer": [
+        "[0, 2, 4]"
+      ],
+      "explain": "range(3) yields 0, 1, 2, and the comprehension doubles each one, giving [0, 2, 4]. range starts at 0 and stops before its argument, which is the half of this most people get wrong.",
+      "teach": "A list comprehension builds a new list in one line: an expression, then a for clause that supplies values, all inside square brackets. It replaces a loop that creates an empty list and appends to it.\nwords = [w.upper() for w in ['a', 'b']]\n# words is ['A', 'B']\nThe expression runs once for every value the for clause supplies. The built in range produces a run of whole numbers to loop over, and you can always see exactly which ones with list(range(4)) in the interpreter.",
+      "hints": [
+        "Break the expression into two parts: the for clause on the right, which decides what values x takes, and the expression on the left, which decides what goes into the list. Work out the values first, then apply the expression to each one.",
+        "The tricky part is range. Ask yourself two questions: what is the very first number it produces, and does the number inside the brackets ever appear in its output? Many learners guess that counting starts at one and ends on the given number, so test that guess honestly.",
+        "Once you know the values x will take, there should be exactly as many of them as the number inside the brackets. Double each one, keeping the order. Then look for the option with the right length whose smallest entry is twice the smallest value x can be."
+      ],
+      "deep": "range and slices share a half open convention: the start is included, the stop is not, so range(a, b) holds exactly b - a numbers and neighbouring ranges join without overlap. A comprehension also keeps x in its own scope, so it never leaks out.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q11",
+      "tier": 9,
+      "level": 6,
+      "type": "match",
+      "prompt": "Match each Python operator to what it does.",
+      "options": [
+        "Floor division",
+        "Remainder",
+        "Exponent",
+        "Not equal",
+        "Assignment",
+        "Membership test"
+      ],
+      "rows": [
+        "//",
+        "%",
+        "**",
+        "!=",
+        "in"
+      ],
+      "mono": true,
+      "answer": [
+        "Floor division",
+        "Remainder",
+        "Exponent",
+        "Not equal",
+        "Membership test"
+      ],
+      "explain": "// divides and discards the fractional part, % gives what is left over, ** raises to a power, != is inequality, and in tests membership. A single = is assignment and never a comparison, which is why Python rejects it inside an if condition instead of silently assigning.",
+      "teach": "Operators are the little symbols or words that tell Python what to do with the values on either side. Arithmetic operators such as + and - give back a number. Comparison operators such as > and == give back True or False. Some operators are spelled as words, for example and, or and not. Reading code fluently means knowing each one on sight, including those that look like a doubled or altered version of a familiar symbol.\nprint(7 + 2)  # 9\nprint(7 > 2)  # True",
+      "hints": [
+        "Five rows need partners and there are six choices, so exactly one choice will stay unused. Start with the rows you are most sure of and cross each choice off as you use it. Leaving the hardest rows until last makes them easy by elimination.",
+        "Group the choices by family. Several are arithmetic, one is a comparison that answers yes or no, and one asks whether something is contained in a collection. Two rows are doubled up versions of everyday symbols, and the doubling changes the meaning: one is related to division and the other to multiplication.",
+        "Picture dividing 7 sweets between 3 children: one operator tells you how many whole sweets each child gets, another tells you how many are left over on the table. The doubled star is repeated multiplication, like squaring. The leftover choice is the one that stores a value, and none of the rows does that."
+      ],
+      "deep": "// rounds toward negative infinity, not toward zero, so -7 // 2 is -4, and % takes the sign of the right operand so that a == (a // b) * b + a % b always holds. C truncates toward zero instead. divmod(a, b) returns both results at once.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q12",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "Given d = {\"a\": 1}, what does d.get(\"b\", 0) return?",
+      "options": [
+        "0",
+        "None",
+        "It raises a KeyError",
+        "{}"
+      ],
+      "answer": [
+        "0"
+      ],
+      "explain": "get() returns the default you pass when the key is missing, so you get 0. Calling d[\"b\"] instead would raise KeyError, and get() with no default returns None rather than raising.",
+      "teach": "A dictionary stores values under labels called keys. You read one with square brackets, or with the method get:\nd = {'x': 5}\nprint(d['x'])\nprint(d.get('x'))\nBoth show 5 because the key exists. The two ways only behave differently when the key is absent, and that difference is the whole reason get exists. The method also accepts an optional second argument, which the Python docs call default.",
+      "hints": [
+        "Start by noticing that the dictionary holds only one key, a, while the question asks about a different key, b. So this is a lookup of a missing key, not an ordinary one. The whole question is what get does in that situation.",
+        "Read the second argument carefully: it is there for exactly this moment. Ask yourself why a method would bother to accept a spare value as input if it never used it. Also notice that get is a method call with parentheses, not a square bracket lookup, and that changes how a missing key is handled.",
+        "Compare get with its bracket cousin: a bracket lookup of a missing key stops the program, while get is designed to avoid that and hand you something instead. With one argument it hands back Python's own empty value, and with two it hands back the one you chose. Decide which of those cases this call is."
+      ],
+      "deep": "d.get(k, default) never inserts the key. To insert as well, use d.setdefault(k, v) or collections.defaultdict. Note that the default argument is evaluated eagerly even when the key exists, so d.get(k, expensive()) always pays for the call.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q13",
+      "tier": 9,
+      "level": 6,
+      "type": "multi",
+      "prompt": "Which two loops correctly visit every key and its value in a dict d?",
+      "options": [
+        "for k, v in d.items():",
+        "for k in d: v = d[k]",
+        "for k, v in d:",
+        "for v in d.values(): k = d[v]"
+      ],
+      "answer": [
+        "for k, v in d.items():",
+        "for k in d: v = d[k]"
+      ],
+      "explain": "items() yields (key, value) pairs, so it unpacks into two names. Iterating the dict directly yields keys, which you can then look up. Unpacking d itself fails because iterating a dict gives you one key at a time, not a pair, and the last option looks up a value as if it were a key.",
+      "teach": "A for loop takes whatever it is walking through and hands you one item per step. If each item is a pair, you can unpack it into two names right in the loop line:\nfor name, score in [('Ann', 3), ('Bo', 5)]:\n    print(name, score)\nA dictionary stores pairs of key and value, and it can be walked through in a few different ways, each handing your loop a different kind of item. Before you pick a loop, ask what one step of it actually gives you, and test it by printing.",
+      "hints": [
+        "Two of the four lines are correct, so check each one on its own rather than comparing them against each other. For each line, ask what one step of the loop hands over, and whether the names on the left can actually receive it.",
+        "Remember that a plain loop over a dictionary, with no method call, gives one thing per step and not a pair. A line that tries to split each step into two names will therefore struggle. Also check which lines have both a key and a value in hand by the time the body runs.",
+        "One correct line asks the dictionary for its pairs and unpacks them. The other takes a single item from the loop and uses it to fetch the matching value in the body. Among the wrong lines, watch for the one that treats a value as though it were a key, which only works by luck."
+      ],
+      "deep": "Iterating a dict yields keys, in insertion order since Python 3.7. Prefer items() over d[k] inside the loop: it skips a hash lookup per key and reads more clearly. Never add or remove keys while looping, which raises RuntimeError; loop over list(d) when you must.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q14",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "What is the bug in def add_item(item, basket=[]): basket.append(item); return basket?",
+      "options": [
+        "The default list is created once at definition time and shared by every call",
+        "append() returns None, so the function returns nothing",
+        "Lists cannot be used as parameters",
+        "The function needs a global declaration"
+      ],
+      "answer": [
+        "The default list is created once at definition time and shared by every call"
+      ],
+      "explain": "Default arguments are evaluated once when the def runs, so every call that omits basket mutates the same list and items accumulate across calls. The fix is basket=None with basket = [] if basket is None inside the body.",
+      "teach": "In Python, def is a statement that runs when execution reaches it, and what it produces is a function object. A list is mutable, meaning methods like append change that very list in place instead of making a new one. If two names point at one list, a change through either name shows up through both.\n\nExample:\na = [1]\nb = a\nb.append(2)\nprint(a)\nprints [1, 2]",
+      "hints": [
+        "Read the function slowly and ask where the list called basket comes from when a caller passes only item. Think about the moment Python processes the def line itself, as opposed to the moment you call the function, and how many separate lists that could create.",
+        "Picture calling add_item('a') and then add_item('b'), without ever passing a basket. Does the second call begin with an empty list, or with whatever the first call left behind? Also notice that the function ends with return basket, so the return value is not the problem.",
+        "Three of the options make claims you can test. Lists are perfectly legal parameters. The function ends with return basket, so append returning None does not matter. And nothing here rebinds a global name, so no global statement is needed. That leaves the option about when the default list is created and how many copies exist."
+      ],
+      "deep": "Defaults are evaluated once and stored on the function object (see add_item.__defaults__), so the same list is reused on every call. Use None as a sentinel and build the list inside. The same trap hits dict and set, which is why dataclasses reject list defaults and want field(default_factory=list).",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q15",
+      "tier": 9,
+      "level": 6,
+      "type": "multi",
+      "prompt": "Which three statements are true? Choose three.",
+      "options": [
+        "from math import sqrt puts sqrt directly in the current namespace",
+        "A name assigned inside a function is local unless declared global",
+        "After import math as m, the name math is still usable",
+        "Indentation, not braces, defines block structure in Python"
+      ],
+      "answer": [
+        "from math import sqrt puts sqrt directly in the current namespace",
+        "A name assigned inside a function is local unless declared global",
+        "Indentation, not braces, defines block structure in Python"
+      ],
+      "explain": "from X import Y binds Y itself, so you call sqrt() rather than math.sqrt(). Assignment inside a function creates a local name, which is why reassigning a module-level variable without global silently makes a second one. import math as m binds only m, so math is not defined. Blocks are defined by indentation, which makes consistent indenting part of the syntax rather than a style choice.",
+      "teach": "Python tracks names in namespaces, like labelled boxes: an import or an assignment creates a name in one of them, and each function call gets its own private box. When you judge a statement about imports or scope, ask which exact name is created and in which box. Python also has no braces: where a block of code starts and ends is shown by how far a line is pushed in from the left.\n\nExample:\nimport json\nprint(json.dumps([1]))\nprints [1]\nHere the name json is created, so you write json. before dumps.",
+      "hints": [
+        "This is a choose-three question, so exactly one statement is false. Try to spot the false one first, and the other three are your answer. For each statement, ask which name Python actually creates, and in which namespace that name lives.",
+        "Look hard at the statement about import math as m. The word as gives the module a nickname. Ask yourself whether Python also keeps the original name next to the nickname, or whether only one name gets bound. Try to imagine typing math.pi on the very next line.",
+        "Once the odd one is set aside, the remaining three should each feel familiar: using a function with no module prefix in front of it, an assignment inside a function creating that function's own private name, and blocks being shown by spacing rather than curly braces."
+      ],
+      "deep": "Import statements are just name binding. from math import sqrt binds sqrt to the same object, while import math as m binds only m. Scope is decided at compile time: if a function assigns to a name anywhere, that name is local throughout it, so reading it before the assignment raises UnboundLocalError.",
+      "xp": 10,
+      "tags": [
+        "ai-901"
+      ],
+      "reviewed": "2026-10-01"
     }
   ]
 }

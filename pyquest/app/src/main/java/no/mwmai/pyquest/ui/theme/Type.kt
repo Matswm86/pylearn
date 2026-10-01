@@ -12,15 +12,15 @@ import androidx.compose.ui.unit.sp
 import no.mwmai.pyquest.R
 
 /**
- * Archivo for the interface, JetBrains Mono for anything that is Python.
+ * Atkinson Hyperlegible Next for the interface, JetBrains Mono for anything that is Python.
  *
  * Both ship as variable fonts, so one file covers every weight and the APK does
  * not carry eight near-identical TTFs. The weight axis is set per style through
  * [FontVariation], which needs API 26; minSdk is 26.
  */
 @OptIn(ExperimentalTextApi::class)
-private fun archivo(weight: FontWeight) = Font(
-    resId = R.font.archivo_variable,
+private fun atkinson(weight: FontWeight) = Font(
+    resId = R.font.atkinson_next_variable,
     weight = weight,
     style = FontStyle.Normal,
     variationSettings = FontVariation.Settings(FontVariation.weight(weight.weight)),
@@ -34,12 +34,12 @@ private fun mono(weight: FontWeight) = Font(
     variationSettings = FontVariation.Settings(FontVariation.weight(weight.weight)),
 )
 
-val Archivo = FontFamily(
-    archivo(FontWeight.Normal),
-    archivo(FontWeight.Medium),
-    archivo(FontWeight.SemiBold),
-    archivo(FontWeight.Bold),
-    archivo(FontWeight.ExtraBold),
+val Atkinson = FontFamily(
+    atkinson(FontWeight.Normal),
+    atkinson(FontWeight.Medium),
+    atkinson(FontWeight.SemiBold),
+    atkinson(FontWeight.Bold),
+    atkinson(FontWeight.ExtraBold),
 )
 
 val JetBrainsMono = FontFamily(
@@ -54,57 +54,57 @@ val JetBrainsMono = FontFamily(
  */
 val PyQuestTypography = Typography(
     headlineMedium = TextStyle(
-        fontFamily = Archivo,
+        fontFamily = Atkinson,
         fontWeight = FontWeight.ExtraBold,
         fontSize = 30.sp,
         lineHeight = 34.sp,
-        letterSpacing = (-0.5).sp,
+        letterSpacing = 0.sp,
     ),
     headlineSmall = TextStyle(
-        fontFamily = Archivo,
+        fontFamily = Atkinson,
         fontWeight = FontWeight.Bold,
         fontSize = 25.sp,
         lineHeight = 30.sp,
-        letterSpacing = (-0.4).sp,
+        letterSpacing = 0.sp,
     ),
     titleLarge = TextStyle(
-        fontFamily = Archivo,
+        fontFamily = Atkinson,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
         lineHeight = 24.sp,
     ),
     titleMedium = TextStyle(
-        fontFamily = Archivo,
+        fontFamily = Atkinson,
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         lineHeight = 20.sp,
     ),
     titleSmall = TextStyle(
-        fontFamily = Archivo,
+        fontFamily = Atkinson,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
         lineHeight = 18.sp,
     ),
     bodyLarge = TextStyle(
-        fontFamily = Archivo,
+        fontFamily = Atkinson,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 22.sp,
     ),
     bodyMedium = TextStyle(
-        fontFamily = Archivo,
+        fontFamily = Atkinson,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
     ),
     bodySmall = TextStyle(
-        fontFamily = Archivo,
+        fontFamily = Atkinson,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
+        fontSize = 13.sp,
+        lineHeight = 18.sp,
     ),
     labelLarge = TextStyle(
-        fontFamily = Archivo,
+        fontFamily = Atkinson,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
         lineHeight = 18.sp,
@@ -121,8 +121,8 @@ val PyQuestTypography = Typography(
     labelSmall = TextStyle(
         fontFamily = JetBrainsMono,
         fontWeight = FontWeight.Medium,
-        fontSize = 10.sp,
-        lineHeight = 13.sp,
+        fontSize = 11.sp,
+        lineHeight = 14.sp,
         letterSpacing = 1.0.sp,
     ),
 )

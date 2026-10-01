@@ -184,7 +184,7 @@ private fun TierCard(
     }
     val chipFg = when {
         allCleared -> Pal.Lime
-        isCurrent -> Pal.Screen
+        isCurrent -> Pal.OnAccent
         else -> Pal.Locked
     }
     // Progress a player can see move: levels cleared, then mastery once every
@@ -199,7 +199,7 @@ private fun TierCard(
     }
     val tagColor = when {
         mastered || allCleared || clearedLevels > 0 || isCurrent -> Pal.Lime
-        tier.capstone -> Pal.Violet
+        tier.capstone -> Pal.Teal
         else -> Pal.Locked
     }
 
@@ -280,7 +280,7 @@ private fun TierCard(
                             state.cleared -> Pal.LimeSoft
                             else -> Pal.Chip
                         }
-                        val fg = if (state.mastery >= 1f) Pal.Screen else if (state.cleared) Pal.Lime else Pal.Text
+                        val fg = if (state.mastery >= 1f) Pal.OnAccent else if (state.cleared) Pal.PrimaryInk else Pal.Text
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
@@ -302,7 +302,7 @@ private fun TierCard(
                                     else -> "${state.count} questions"
                                 },
                                 style = MaterialTheme.typography.labelSmall,
-                                color = if (state.mastery >= 1f) Pal.Screen.copy(alpha = 0.7f) else Pal.Locked,
+                                color = if (state.mastery >= 1f) Pal.OnAccent.copy(alpha = 0.7f) else Pal.Locked,
                             )
                         }
                     }

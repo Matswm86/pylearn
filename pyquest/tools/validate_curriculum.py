@@ -20,7 +20,7 @@ from pathlib import Path
 DEFAULT_DIR = Path("app/src/main/assets/curriculum")
 FILE_PATTERN = re.compile(r"^tier_(\d{2})\.json$")
 ID_PATTERN = re.compile(r"^t(\d+)\.l(\d+)\.q(\d+)$")
-VALID_TYPES = {"mcq", "multi", "blocks", "order", "fill", "pipeline"}
+VALID_TYPES = {"mcq", "multi", "blocks", "order", "fill", "pipeline", "match"}
 GAP = re.compile(r"\{(\d+)}")
 WHITESPACE = re.compile(r"\s+")
 MIN_EXPLAIN_CHARS = 40
@@ -159,6 +159,8 @@ def check_question(question: dict, tier_number: int, seen_ids: set[str]) -> list
             problems.append(f"{qid}: multi prompt must say how many to pick ({n})")
         if question.get("tray"):
             problems.append(f"{qid}: multi must not carry a tray")
+    elif qtype == "match":
+        problems.extend(check_match(qid, question, answer))
     elif qtype == "fill":
         problems.extend(check_fill(qid, question, answer))
     elif qtype == "pipeline":
@@ -205,6 +207,27 @@ def check_blocks_pool(qid: str, question: dict, answer: list[str], slots: int) -
         )
     if question.get("options") or question.get("tray"):
         problems.append(f"{qid}: typed questions carry blocks, not options or tray")
+    return problems
+
+
+def check_match(qid: str, question: dict, answer: list[str]) -> list[str]:
+    """One option per row; options may repeat across rows, as on the exam."""
+    rows = question.get("rows") or []
+    options = question.get("options") or []
+    problems: list[str] = []
+    if not 2 <= len(rows) <= 10:
+        problems.append(f"{qid}: match needs 2 to 10 rows, found {len(rows)}")
+    if len(answer) != len(rows):
+        problems.append(f"{qid}: match answer has {len(answer)} entries for {len(rows)} rows")
+    missing = [a for a in answer if a not in options]
+    if missing:
+        problems.append(f"{qid}: match answer {missing!r} not among the options")
+    if len(set(options)) != len(options):
+        problems.append(f"{qid}: match has duplicate options")
+    if len(set(options)) < 2:
+        problems.append(f"{qid}: match needs at least 2 options")
+    if question.get("tray") or question.get("blocks"):
+        problems.append(f"{qid}: match carries options and rows, not a tray or blocks")
     return problems
 
 

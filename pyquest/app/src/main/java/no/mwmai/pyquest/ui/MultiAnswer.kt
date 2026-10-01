@@ -55,17 +55,18 @@ fun MultiAnswer(
 
             val edge = when {
                 wrong -> Pal.Coral
-                right || picked -> Pal.Lime
+                right -> Pal.Good
+                picked -> Pal.Lime
                 else -> Pal.Hairline
             }
             val fill = when {
                 wrong -> Pal.CoralSoft
-                right && picked -> Pal.LimeSoft
+                right && picked -> Pal.GoodSoft
                 else -> Pal.Card
             }
             val ink = when {
                 wrong -> Pal.Coral
-                right -> Pal.Lime
+                right -> Pal.Good
                 else -> Pal.Text
             }
 
@@ -94,7 +95,7 @@ fun MultiAnswer(
                     Text(
                         text = if (picked) "✓" else "",
                         style = MaterialTheme.typography.labelSmall,
-                        color = Pal.Screen,
+                        color = Pal.OnAccent,
                         fontWeight = FontWeight.Bold,
                     )
                 }

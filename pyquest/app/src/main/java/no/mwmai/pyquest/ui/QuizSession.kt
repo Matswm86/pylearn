@@ -218,13 +218,14 @@ class QuizSession(
                 QuestionType.MCQ -> selection.size == 1
                 QuestionType.MULTI -> selection.size == question.answer.size
                 QuestionType.BLOCKS, QuestionType.ORDER -> selection.isNotEmpty()
-                QuestionType.FILL, QuestionType.PIPELINE -> slots.isNotEmpty() && slots.all { it != null }
+                QuestionType.FILL, QuestionType.PIPELINE, QuestionType.MATCH ->
+                    slots.isNotEmpty() && slots.all { it != null }
             }
         }
 
     /** What the player built, as the plain strings the curriculum grades against. */
     fun given(question: Question): List<String> = when (question.type) {
-        QuestionType.FILL, QuestionType.PIPELINE -> slots.map { it.orEmpty() }
+        QuestionType.FILL, QuestionType.PIPELINE, QuestionType.MATCH -> slots.map { it.orEmpty() }
         else -> selection.mapNotNull { question.choices.getOrNull(it) }
     }
 

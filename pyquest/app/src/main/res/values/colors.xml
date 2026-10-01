@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="pytor_lime">#B8F04A</color>
-    <color name="pytor_ink">#0C0F14</color>
+    <color name="pytor_navy">#17365C</color>
+    <color name="pytor_screen">#F3F5F8</color>
 </resources>

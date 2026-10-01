@@ -54,8 +54,9 @@ fun PytorAvatar(size: Dp = 40.dp, modifier: Modifier = Modifier) {
         contentScale = ContentScale.Crop,
         modifier = modifier
             .size(size)
+            .background(Color(0xFF17365C), CircleShape)
             .clip(CircleShape)
-            .border(1.dp, Pal.LimeEdge, CircleShape),
+            .border(1.dp, Pal.Edge, CircleShape),
     )
 }
 
@@ -104,7 +105,7 @@ fun PrimaryButton(
         shape = RoundedCornerShape(13.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = Pal.Lime,
-            contentColor = Pal.Screen,
+            contentColor = Pal.OnAccent,
             disabledContainerColor = Pal.Chip,
             disabledContentColor = Pal.Locked,
         ),
@@ -148,7 +149,7 @@ fun Chip(
     Text(
         text,
         style = MaterialTheme.typography.labelSmall,
-        color = if (selected) Pal.Screen else Pal.Lime,
+        color = if (selected) Pal.OnAccent else Pal.Lime,
         modifier = modifier
             .background(if (selected) Pal.Lime else Pal.LimeSoft, RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)
@@ -158,12 +159,11 @@ fun Chip(
 
 /** A monospace code panel that scrolls sideways rather than wrapping. */
 @Composable
-fun CodeBlock(code: String, modifier: Modifier = Modifier, color: Color = Pal.Text) {
+fun CodeBlock(code: String, modifier: Modifier = Modifier, color: Color = Pal.CodeFg) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(Pal.Ground, RoundedCornerShape(12.dp))
-            .border(1.dp, Pal.Edge, RoundedCornerShape(12.dp))
+            .background(Pal.CodeBg, RoundedCornerShape(12.dp))
             .horizontalScroll(rememberScrollState())
             .padding(14.dp),
     ) {
@@ -212,7 +212,7 @@ fun inlineCode(text: String): AnnotatedString = buildAnnotatedString {
     var cursor = 0
     for (match in INLINE_CODE.findAll(text)) {
         append(text.substring(cursor, match.range.first))
-        pushStyle(SpanStyle(fontFamily = JetBrainsMono, background = Pal.Chip, color = Pal.Lime))
+        pushStyle(SpanStyle(fontFamily = JetBrainsMono, background = Pal.Chip, color = Pal.PrimaryInk))
         append(match.groupValues[1])
         pop()
         cursor = match.range.last + 1

@@ -121,7 +121,7 @@ fun LevelClearedScreen(
                 Column(modifier = Modifier.fillMaxWidth()) {
                     SectionLabel("YOU WROTE THIS")
                     Spacer(Modifier.height(8.dp))
-                    CodeBlock(code, color = Pal.Lime)
+                    CodeBlock(code, color = Pal.CodeHi)
                 }
             }
 

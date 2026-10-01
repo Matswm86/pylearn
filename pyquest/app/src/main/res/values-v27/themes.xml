@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- windowLightNavigationBar needs API 27. -->
     <style name="Theme.PyQuest" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/pytor_screen</item>
         <item name="android:navigationBarColor">@color/pytor_screen</item>
         <item name="android:windowBackground">@color/pytor_screen</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>

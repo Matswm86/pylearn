@@ -63,18 +63,18 @@ fun McqAnswer(
             val wrong = checked && picked && index != correctIndex
 
             val edge = when {
-                right -> Pal.Lime
+                right -> Pal.Good
                 wrong -> Pal.Coral
                 picked -> Pal.Lime
                 else -> Pal.Hairline
             }
             val fill = when {
-                right -> Pal.LimeSoft
+                right -> Pal.GoodSoft
                 wrong -> Pal.CoralSoft
                 else -> Pal.Card
             }
             val ink = when {
-                right -> Pal.Lime
+                right -> Pal.Good
                 wrong -> Pal.Coral
                 else -> Pal.Text
             }
@@ -92,7 +92,7 @@ fun McqAnswer(
                     modifier = Modifier
                         .size(26.dp)
                         .background(
-                            if (right || (picked && !checked)) Pal.Lime else if (wrong) Pal.Coral else Pal.Chip,
+                            if (right) Pal.Good else if (picked && !checked) Pal.Lime else if (wrong) Pal.Coral else Pal.Chip,
                             RoundedCornerShape(8.dp),
                         ),
                     contentAlignment = Alignment.Center,
@@ -100,7 +100,7 @@ fun McqAnswer(
                     Text(
                         text = ('A' + index).toString(),
                         style = MaterialTheme.typography.labelSmall,
-                        color = if (right || wrong || (picked && !checked)) Pal.Screen else Pal.Faint,
+                        color = if (right || wrong || (picked && !checked)) Pal.OnAccent else Pal.Faint,
                         fontWeight = FontWeight.Bold,
                     )
                 }

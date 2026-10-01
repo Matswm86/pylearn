@@ -334,7 +334,7 @@ private fun SettingRow(title: String, subtitle: String, checked: Boolean, onTogg
             checked = checked,
             onCheckedChange = { onToggle() },
             colors = SwitchDefaults.colors(
-                checkedThumbColor = Pal.Screen,
+                checkedThumbColor = Pal.OnAccent,
                 checkedTrackColor = Pal.Lime,
                 uncheckedThumbColor = Pal.Faint,
                 uncheckedTrackColor = Pal.Chip,

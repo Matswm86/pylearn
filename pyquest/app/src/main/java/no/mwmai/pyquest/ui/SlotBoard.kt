@@ -184,7 +184,7 @@ fun DropSlot(
 ) {
     val hovered = state.draggingId != null && state.isOver(index, state.pointer)
     val edge = when {
-        verdict == SlotVerdict.RIGHT -> Pal.Lime
+        verdict == SlotVerdict.RIGHT -> Pal.Good
         verdict == SlotVerdict.WRONG -> Pal.Coral
         hovered -> Pal.Lime
         else -> Pal.Edge

@@ -36,6 +36,13 @@ data class Question(
      * lists the block ids in that same order.
      */
     val template: String? = null,
+    /**
+     * The left-hand items of a [QuestionType.MATCH] question. The player gives
+     * each row one of [options]; an option may serve more than one row.
+     */
+    val rows: List<String> = emptyList(),
+    /** Render [rows] in monospace because they are code. */
+    val mono: Boolean = false,
     /** The client scenario for [QuestionType.PIPELINE]. */
     val brief: Brief? = null,
     val answer: List<String> = emptyList(),
@@ -70,7 +77,7 @@ data class Question(
      */
     val choices: List<String>
         get() = when (type) {
-            QuestionType.MCQ, QuestionType.MULTI -> options
+            QuestionType.MCQ, QuestionType.MULTI, QuestionType.MATCH -> options
             QuestionType.BLOCKS, QuestionType.ORDER -> tray
             QuestionType.FILL, QuestionType.PIPELINE -> blocks.map { it.id }
         }
@@ -80,6 +87,7 @@ data class Question(
         get() = when (type) {
             QuestionType.FILL -> GAP.findAll(template.orEmpty()).count()
             QuestionType.PIPELINE -> brief?.stages ?: answer.size
+            QuestionType.MATCH -> rows.size
             else -> 0
         }
 
@@ -127,6 +135,13 @@ enum class QuestionType {
     /** Wire a client's inference pipeline against a latency and cost budget. */
     @SerialName("pipeline")
     PIPELINE,
+
+    /**
+     * Give every row one option, the way the exam's drag-into-box and dropdown
+     * matching items work. [Question.answer] lists the option text per row.
+     */
+    @SerialName("match")
+    MATCH,
 }
 
 /**
@@ -157,7 +172,7 @@ enum class BlockKind {
     @SerialName("expr")
     EXPR,
 
-    /** A call. Violet. */
+    /** A call. Teal. */
     @SerialName("call")
     CALL,
 

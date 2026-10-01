@@ -88,7 +88,7 @@ Five formats, all thumb-first, all gradeable without running Python:
 2. **blocks**: drag blocks from a tray into an ordered answer row, distractors allowed.
 3. **order**: same interaction, but every tray block must be used.
 4. **fill**: blocks drop into typed gaps inside real, rendered code. Blocks are
-   coloured by kind, blue for a name, amber for an expression, violet for a call,
+   coloured by kind, blue for a name, amber for an expression, teal for a call,
    so a player starts reading what a hole wants before they can explain why. The
    tray always holds more blocks than there are holes, which kills elimination.
 5. **pipeline**: the capstone. Wire a client's inference pipeline into numbered

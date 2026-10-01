@@ -149,6 +149,14 @@ fun QuestionScreen(
                     checked = session.checked,
                 )
 
+                QuestionType.MATCH -> MatchAnswer(
+                    question = question,
+                    placed = session.slots,
+                    onPlacedChange = session::placeInSlots,
+                    enabled = !session.checked,
+                    checked = session.checked,
+                )
+
                 QuestionType.PIPELINE -> PipelineAnswer(
                     question = question,
                     placed = session.slots,
@@ -262,11 +270,11 @@ private fun QuestionFooter(
             .padding(horizontal = 18.dp, vertical = 14.dp),
     ) {
         if (checked) {
-            val tint = if (correct) Pal.Lime else Pal.Coral
+            val tint = if (correct) Pal.Good else Pal.Coral
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(if (correct) Pal.LimeSoft else Pal.CoralSoft, RoundedCornerShape(12.dp))
+                    .background(if (correct) Pal.GoodSoft else Pal.CoralSoft, RoundedCornerShape(12.dp))
                     .border(1.dp, tint.copy(alpha = 0.5f), RoundedCornerShape(12.dp))
                     .padding(13.dp),
             ) {

@@ -318,7 +318,7 @@ private fun ChatPane(
                         Text(
                             message.text,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = Pal.Screen,
+                            color = Pal.OnAccent,
                             modifier = Modifier
                                 .padding(start = 48.dp)
                                 .background(Pal.Lime, RoundedCornerShape(14.dp, 4.dp, 14.dp, 14.dp))
@@ -378,7 +378,7 @@ private fun ChatPane(
                 Text(
                     "↑",
                     style = MaterialTheme.typography.titleLarge,
-                    color = if (canSend) Pal.Screen else Pal.Locked,
+                    color = if (canSend) Pal.OnAccent else Pal.Locked,
                     fontWeight = FontWeight.Bold,
                 )
             }

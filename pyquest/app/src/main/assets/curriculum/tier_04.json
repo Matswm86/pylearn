@@ -7,7 +7,8 @@
     "arguments",
     "scope",
     "imports",
-    "exceptions"
+    "exceptions",
+    "block bench"
   ],
   "pytor": "A function is the unit of thought in Python. Return values, keep scope small, raise early. The mutable-default trap in level 2 has bitten every professional at least once.",
   "questions": [
@@ -1040,6 +1041,681 @@
         "files"
       ],
       "reviewed": "2026-09-05"
+    },
+    {
+      "id": "t4.l6.q1",
+      "tier": 4,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Write a function that takes a name and returns a greeting, then call it. Expected output: Hi Ada",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "function",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "print",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "def",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "return",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "name",
+          "kind": "var"
+        },
+        {
+          "id": "b5",
+          "code": "\"Ada\"",
+          "kind": "expr"
+        }
+      ],
+      "template": "{0} greet(name):\n    {1} f\"Hi {name}\"\nprint(greet({2}))",
+      "answer": [
+        "b2",
+        "b3",
+        "b5"
+      ],
+      "explain": "name is the parameter. \"Ada\" is the argument. return hands the result to print.",
+      "teach": "A function is a named, reusable block of code. You run it by calling its name followed by brackets, and what you put inside the brackets is the argument: the real data you hand over, such as the text \"hello\" in len(\"hello\"). Text needs quotes, because a bare word is read as a variable name. To write your own, the first line starts with a special keyword, then the name, then parameters in brackets, which are placeholders for incoming values. A second special keyword in the body hands a result back to the caller, which is different from showing it on screen.\n\nExample:\nprint(len(\"hello\"))\nprints 5",
+      "hints": [
+        "The three lines do three jobs: the first line creates the function, the second line sends the answer back to whoever asked, and the last line calls it with a real value. Think about which job each blank belongs to before choosing words.",
+        "Python's word for starting a definition is short, and it is not the English word for the thing you are building. The word for handing a result back is different from the word that shows text on screen, because showing something does not give the caller a value. For the call, the function expects text, so think about how Python tells text apart from a variable.",
+        "The first blank is a three-letter abbreviation of the word 'define'. The second blank is the verb that means 'give this value back to the caller'. The third blank is a piece of text written inside quotation marks, not the bare placeholder name, which only exists inside the function."
+      ],
+      "deep": "def is an executable statement: it builds a function object and binds it to the name when that line runs. A function with no return hands back None, which is why printing the result of such a call shows None. Parameters are local names; arguments are the values bound to them.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "functions"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l6.q2",
+      "tier": 4,
+      "level": 6,
+      "type": "match",
+      "prompt": "Drag each label onto the matching part of the code.",
+      "code": "def risk(balance, pct=0.01):\n    return balance * pct\n\nloss = risk(50000, pct=0.02)",
+      "options": [
+        "function name",
+        "parameter",
+        "default argument",
+        "method",
+        "keyword argument",
+        "positional argument",
+        "function call",
+        "return statement",
+        "import"
+      ],
+      "rows": [
+        "line 1: risk",
+        "line 1: balance",
+        "line 1: pct=0.01",
+        "line 2: return balance * pct",
+        "line 4: risk",
+        "line 4: 50000",
+        "line 4: pct=0.02"
+      ],
+      "mono": true,
+      "answer": [
+        "function name",
+        "parameter",
+        "default argument",
+        "return statement",
+        "function call",
+        "positional argument",
+        "keyword argument"
+      ],
+      "explain": "balance and pct are parameters. 50000 is passed by position, pct=0.02 by keyword. The default is used only when the caller leaves pct out.",
+      "teach": "A function has two sides. The definition gives the function a name and lists parameters in brackets, which are placeholder names. A parameter can carry a default value, written with an equals sign, that is used when the caller leaves that value out. The call is the function name followed by arguments, the real values. An argument given by its place is matched to parameters in order, and one written as name=value is matched by name.\n\nExample:\ndef area(w, h=1):\n    return w * h\n\nprint(area(4, h=3))\nprints 12",
+      "hints": [
+        "Split the code into the definition on the first two lines and the call on the last line. Each row asks you to name the role of one piece, so ask yourself whether that piece is being created or being used, and whether it is a placeholder or a real value.",
+        "On the def line, one name is the function's own name, the names in the brackets are placeholders, and one of those placeholders has an equals sign giving it a fallback value. On the call line, the values you pass in are real data; compare how each one is written, with or without a name and an equals sign.",
+        "The word risk appears twice but plays two different roles, once while the function is being built and once while it is being used. Of the values passed in the call, the one written with a name and an equals sign is matched by name, and the plain one is matched by its place. Two labels, method and import, have no row to go to."
+      ],
+      "deep": "Defaults are evaluated once, when def runs, not on each call, so a mutable default like [] is shared between calls: the classic trap. Positional arguments must come before keyword arguments in a call. Parameters live in the definition, arguments in the call.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "functions"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l6.q3",
+      "tier": 4,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Give risk a default of 0.01, call once with the default and once overriding it. Expected output: 500.0\n1000.0",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "0.1",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": "1",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "0.01",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "risk",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "0.02",
+          "kind": "expr"
+        }
+      ],
+      "template": "def size(balance, risk={0}):\n    return balance * risk\nprint(size(50000))\nprint(size(50000, {1}))",
+      "answer": [
+        "b2",
+        "b4"
+      ],
+      "explain": "size(50000) uses the default, 50000 × 0.01 = 500.0. size(50000, 0.02) overrides it.",
+      "teach": "A parameter can be given a default value in the def line with an equals sign, as in price, tax=0.25. If the caller leaves that argument out, Python fills in the default. If the caller passes a value, it overrides the default for that one call only. Defaults keep the common case short. Rates are often written as decimals, where 25% is 0.25.\n\nExample:\ndef total(price, tax=0.25):\n    return price * (1 + tax)\n\nprint(total(100))\nprint(total(100, 0.0))\nprints 125.0\n100.0",
+      "hints": [
+        "Two numbers are missing, and you can get both by working backwards from the expected output. The first print uses the default, so ask what you multiply 50000 by to get the first printed value, then do the same for the second printed value.",
+        "Dividing each output by 50000 gives the multiplier. The first output is a small fraction of the balance, and the second output is exactly twice the first, so the second multiplier is twice the first multiplier. A default sits in the def line after an equals sign, while an override is a value passed in the call.",
+        "The default is the decimal form of one percent, which matches the prompt's wording, and the override is the decimal form of two percent. Beware similar-looking options: one is ten percent, and a whole 1 would give the full balance. The block named risk is a name, not a number, so it cannot fill either gap."
+      ],
+      "deep": "Default values are evaluated once, at def time, so never use a mutable default like [] or {}; use None and build the list inside. Parameters with defaults must come after those without. size(50000, risk=0.02) is the same call written with the keyword, which reads more clearly.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "functions"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l6.q4",
+      "tier": 4,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Make add give its result back so total can hold it. Expected output: 5",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "return",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "yield",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "give",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "print",
+          "kind": "var"
+        }
+      ],
+      "template": "def add(a, b):\n    {0} a + b\ntotal = add(2, 3)\nprint(total)",
+      "answer": [
+        "b0"
+      ],
+      "explain": "If the function only printed, total would be None. return makes a function usable as a value.",
+      "teach": "When a function finishes, it can show something on the screen or give a value back to the line that called it. Showing is only for people to read, and afterwards the value is gone. Handing a value back lets the caller store it in a variable or keep calculating with it. If a function never hands anything back, the caller receives the special value None.\n\nExample:\ndef shout(text):\n    print(text.upper())\n\nx = shout(\"hi\")\nprint(x)\nThis prints HI and then None.",
+      "hints": [
+        "Look at the third line of the program: total = add(2, 3). The variable total needs to receive a value from add. Think about the difference between a function that shows a result to a person and one that sends the result back to the code that called it.",
+        "If add only displayed the sum on the screen, nothing would travel back to the call, and total would end up holding the special empty value None. You need the Python word that ends a function and carries a value out to the caller.",
+        "Of the four words, one only writes text on the screen, one is used in special pausing functions called generators, and one is not a Python word at all. The word that is left is the plain keyword that sends a value back to the caller and finishes the function."
+      ],
+      "deep": "print writes text to the screen as a side effect, while a return statement supplies the value of the call itself. Keep them separate: tests and callers can use a returned value, and only the outermost code decides what to display. Falling off the end of a function silently returns None, a classic source of bugs.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "functions"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l6.q5",
+      "tier": 4,
+      "level": 6,
+      "type": "blocks",
+      "prompt": "Python must have seen the def before the call runs. Expected output: MNQ: 2 contracts",
+      "tray": [
+        "show(\"MNQ\", 2)",
+        "def show(symbol, qty):",
+        "    print(f\"{symbol}: {qty} contracts\")",
+        "print(f\"{symbol}: {qty} contracts\")",
+        "    def show(symbol, qty):"
+      ],
+      "answer": [
+        "def show(symbol, qty):",
+        "    print(f\"{symbol}: {qty} contracts\")",
+        "show(\"MNQ\", 2)"
+      ],
+      "explain": "The body is indented under def. The call at level 0 comes after.",
+      "teach": "Python reads a file from the top down. A def line creates a function name at the moment Python reaches it, and the indented lines under it are the body, which only runs later when the function is called. A call placed before the def fails with NameError, because the name does not exist yet. Values you pass in fill the parameters from left to right.\n\nExample:\ndef hello(who):\n    print(f\"hello {who}\")\n\nhello(\"world\")\nThis prints hello world.",
+      "hints": [
+        "Python reads from the top down, and a function name only exists once Python has passed the line that defines it. Think about which kind of line has to come first, and which kind has to wait until the name exists.",
+        "A function's body is indented underneath the line that defines it, while the call to the function sits at the left edge. Two of the five pieces in the tray break one of those layout rules, so they do not belong in the finished program.",
+        "Your finished program has exactly three lines. First comes the line that creates the function and names its two parameters. Next, one indented line uses those two names inside the body. Last, at the left edge, comes the line that calls the function with the actual values."
+      ],
+      "deep": "def is an executable statement, not a declaration. Reaching it builds a function object and binds the name, so calling earlier raises NameError. The body only runs on call, so a function may mention names defined below it, as long as they exist by the time it runs.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "functions"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l6.q6",
+      "tier": 4,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Load the math module, then use a function from it. Expected output: 4.0",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "require",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "import",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "sqrt",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "include",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "root",
+          "kind": "var"
+        }
+      ],
+      "template": "{0} math\nprint(math.{1}(16))",
+      "answer": [
+        "b1",
+        "b2"
+      ],
+      "explain": "After import math everything inside lives under the math. prefix.",
+      "teach": "A module is a file of ready-made code that comes with Python or is added later. Its tools are not available automatically: you must first load the module with a dedicated keyword before using it. Once it is loaded, you reach inside with a dot, as in modulename.tool. Forgetting the loading step gives an error:\n\nprint(random.randint(1, 6))\nNameError: name 'random' is not defined",
+      "hints": [
+        "This question has two blanks. The first one is the Python word that loads a module so you can use it, and the second is the name of a function inside the math module that finds square roots. Read the template line by line.",
+        "For the first blank, some options are words that other languages use for the same job, such as JavaScript with Node and C. Python has its own plain English verb for bringing something in from outside, so pick the one that Python understands.",
+        "For the second blank, calculators and programming languages shorten the phrase square root to just a few letters. One option is exactly that shortening, and another is only the last word of the phrase, which is not a name the math module has."
+      ],
+      "deep": "import runs the module once, caches it in sys.modules, and binds the name in your namespace, so later imports are cheap. math.sqrt always returns a float, which is why the output is 4.0 and not 4, and it raises ValueError on negatives where cmath would return a complex number.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "imports-packages"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l6.q7",
+      "tier": 4,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Pull sqrt directly into your file so you can call it without the prefix. Expected output: 4.0",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "sqrt",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "get",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "math.sqrt",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "import",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "load",
+          "kind": "var"
+        }
+      ],
+      "template": "from math {0} sqrt\nprint({1}(16))",
+      "answer": [
+        "b3",
+        "b0"
+      ],
+      "explain": "from math import sqrt copies one name. Now sqrt(16) works and math.sqrt would fail.",
+      "teach": "A module can be used in two styles. With the first, you load the whole module and write its name in front every time, like random.choice(items). With the second, you pull one chosen name out of the module into your own file, using a line shaped like a sentence: from this module, bring in that name. Afterwards you write the name alone, choice(items), with no prefix. The trade-off is that only the names you pulled in are available, and the module's own name is not.",
+      "hints": [
+        "The first line reads almost like an English sentence: from the math module, bring in one name. You need the verb that Python uses for bringing a name in from outside, rather than a word for fetching or loading that other languages might use.",
+        "The name that Python pulls in is already written at the end of the first line. Once it has been pulled in, the second line can call it by that exact name alone, with nothing in front of it.",
+        "Be careful with the option that has a prefix and a dot in front of the name. That form needs the whole math module to have been loaded under its own name, and this first line does not do that. Plain words like get and load are not part of Python's syntax here."
+      ],
+      "deep": "from m import n still loads the whole module into sys.modules; it only binds the single name locally. It shortens call sites but hides where a name came from, and from m import * floods the namespace, so linters flag it. Prefer explicit names, or the module prefix when using many.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "imports-packages"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l6.q8",
+      "tier": 4,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Give a long module a short nickname. Expected output: 2.3.0",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "as",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "alias",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "->",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "=",
+          "kind": "expr"
+        }
+      ],
+      "template": "import pandas {0} pd\nprint(pd.__version__)",
+      "answer": [
+        "b0"
+      ],
+      "explain": "as pd is convention for pandas. It only changes the name you type.",
+      "teach": "Some module names are long, and typing them dozens of times is tedious. Python lets you give a module a short nickname at the moment you load it. The nickname only changes what you type, and the module itself is exactly the same. Data scripts nearly always use the same nicknames, like np for numpy and pd for pandas, so other people can read them quickly. Suppose the datetime module was loaded with the nickname dt. Then:\n\nprint(dt.date(2026, 9, 7).year)\nprints 2026",
+      "hints": [
+        "Look at the shape of the first line: the module name, then a gap, then the nickname pd. You need a small connecting word that tells Python the nickname is just another name for that module.",
+        "Symbols like an arrow and an equals sign do exist in Python, but they have other jobs. The arrow marks the type a function gives back, and a single equals sign stores a value in a variable. Neither can connect a module to its nickname.",
+        "Two of the four options are words. One is a long English word that sounds sensible, but Python does not have it as a keyword. The other is a tiny two letter word that means something like under the name of, and Python reads the line almost like a sentence."
+      ],
+      "deep": "as just binds a second name to the same module object, and sys.modules still stores it under its real name. Aliases like np, pd and plt are community conventions, so inventing your own for them hurts readability. The same keyword works in from x import y as z.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "imports-packages"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l6.q9",
+      "tier": 4,
+      "level": 6,
+      "type": "fill",
+      "prompt": "This is a terminal command, not Python. Install the requests library. Expected output: Successfully installed requests-2.32.3",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "import",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "pip",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "apt",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "python",
+          "kind": "var"
+        }
+      ],
+      "template": "{0} install requests",
+      "answer": [
+        "b1"
+      ],
+      "explain": "pip downloads packages from PyPI. Install name and import name usually match but not always.",
+      "teach": "Some modules, like math, ship with Python. Others, such as requests, live on the internet in a public catalogue called PyPI and must be downloaded first. A small installer program that comes with Python does this, and you run it in the terminal, not inside a .py file. The command has the shape: the program name, then the action word install, then the package name, for example TOOL install numpy. It prints Successfully installed numpy-2.1.0 when done, and only then can your Python code load that package.",
+      "hints": [
+        "Notice that this is a terminal command, not a line of Python code. So the first word must be the name of a program you can run from the terminal, and that program has to be the one that downloads Python packages from the internet.",
+        "Rule out the options one by one. One is a keyword used inside Python files, one starts the Python interpreter itself to run a script, and one manages software for the operating system, such as Linux programs, rather than Python libraries.",
+        "The remaining option is a program with a three letter name. It comes with Python, talks to PyPI, the Python Package Index, and is the tool nearly every tutorial uses to add a library like requests to your computer."
+      ],
+      "deep": "Prefer python -m pip install requests, so the package lands in the interpreter you will actually run rather than whichever pip comes first on PATH. Use a virtual environment to keep system Python clean. The install name and import name can differ: pip install pillow gives import PIL.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "imports-packages"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l6.q10",
+      "tier": 4,
+      "level": 6,
+      "type": "order",
+      "prompt": "Imports go at the top. Nothing can use json before it is imported. Expected output: {\"qty\": 2}",
+      "tray": [
+        "print(text)",
+        "trade = {\"qty\": 2}",
+        "import json",
+        "text = json.dumps(trade)"
+      ],
+      "answer": [
+        "import json",
+        "trade = {\"qty\": 2}",
+        "text = json.dumps(trade)",
+        "print(text)"
+      ],
+      "explain": "json.dumps turns a dict into a JSON string. The import must run first.",
+      "teach": "Python reads a file from the top line to the bottom line, one line at a time. A name only exists once the line that creates it has run, so using a name too early crashes with a NameError. A module such as math is brought in with an import line, and by habit those lines sit at the very top so everything below can rely on them.\n\nExample:\nimport math\nside = 16\nroot = math.sqrt(side)\nprint(root)\nprints 4.0",
+      "hints": [
+        "Python runs these lines from top to bottom, so every line can only use things that were created by lines above it. Ask yourself which line brings in a tool, and which lines depend on that tool or on each other.",
+        "Two lines create things: one makes the dictionary, and another makes the text from it. The conversion line needs both the imported tool and the dictionary to exist already, so it cannot come before either of them. Only one line exists purely to show the result.",
+        "The display line goes last because it can only show something that already exists, and the line that loads the module goes first because the conversion needs it. That leaves two lines in the middle: decide which one makes the raw data and which one turns that data into text."
+      ],
+      "deep": "Imports are ordinary statements that run at runtime and bind the module to a name in the current namespace. Using json earlier raises NameError. PEP 8 puts imports at the top, grouped as standard library, then third party, then local.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "imports-packages"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l7.q1",
+      "tier": 4,
+      "level": 7,
+      "type": "fill",
+      "prompt": "Define a Bot class whose constructor stores the name on the object. Expected output: Drift",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "__init__",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "def",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "init",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "this",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "self",
+          "kind": "var"
+        },
+        {
+          "id": "b5",
+          "code": "class",
+          "kind": "var"
+        }
+      ],
+      "template": "{0} Bot:\n    def {1}(self, name):\n        {2}.name = name\n\nbot = Bot(\"Drift\")\nprint(bot.name)",
+      "answer": [
+        "b5",
+        "b0",
+        "b4"
+      ],
+      "explain": "Bot(\"Drift\") calls __init__ with self = the new object and name = \"Drift\".",
+      "teach": "A class is a blueprint for making objects. You write a keyword that starts the blueprint, then a name. Inside it, a special function with double underscores around its name runs automatically each time you build an object, and its first parameter stands for the object being built. Saving data onto that object lets you read it back later with a dot.\n\nExample:\nclass Dog:\n    def __init__(self, sound):\n        self.sound = sound\n\nrex = Dog(\"woof\")\nprint(rex.sound)\nprints woof",
+      "hints": [
+        "The code is a blueprint for building a Bot, and each blank is a small piece of that blueprint's grammar. Read the template line by line and ask what job each blank does: opening the blueprint, naming the setup function, and referring to the object itself.",
+        "The first blank opens the whole block, so it is the keyword Python uses to define a new kind of object, not the one used for functions (that one already appears on line 2). The second blank is a setup function name with two underscores on each side of a short word meaning start.",
+        "For the last blank, look at the first parameter inside the parentheses on line 2, because the word in front of .name must be exactly that same word. Python programmers always use one conventional word there, meaning the object itself, never a word like this or the class name."
+      ],
+      "deep": "__init__ is not the true constructor: the object already exists when it runs, built by __new__. Python passes that object in as self, an ordinary parameter name by convention, not a keyword. Skip self.name = name and the data is lost when the function ends.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "simple-classes"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l7.q2",
+      "tier": 4,
+      "level": 7,
+      "type": "fill",
+      "prompt": "Add a method that uses the stored name, then call it on the object. Expected output: I am Drift",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "name",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "this",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "self",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "hello",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "bot",
+          "kind": "var"
+        }
+      ],
+      "template": "class Bot:\n    def __init__(self, name):\n        self.name = name\n    def hello({0}):\n        return f\"I am {self.name}\"\n\nbot = Bot(\"Drift\")\nprint(bot.{1}())",
+      "answer": [
+        "b2",
+        "b3"
+      ],
+      "explain": "bot.hello() means \"call hello with self = bot\". That is why self.name knows which bot it is.",
+      "teach": "A method is a function defined inside a class. Its first parameter is always the object it was called on, which lets it reach that object's data. You call it with a dot on the object. You never pass that first argument yourself, because Python fills it in for you.\n\nExample:\nclass Dog:\n    def __init__(self, sound):\n        self.sound = sound\n    def speak(self):\n        return self.sound * 2\n\nrex = Dog(\"woof\")\nprint(rex.speak())\nprints woofwoof",
+      "hints": [
+        "A method is a function that lives inside a class, and it always needs a way to refer to the particular object it was called on. The first blank is the spot for that, and the second blank is what you type after the dot on the last line.",
+        "Compare with the constructor just above: its first parameter, the one before name, is the same word that belongs in the first blank. For the second blank, ask which name after the dot has actually been defined inside the class, since only a real method can be called.",
+        "The first blank repeats the first parameter of the constructor, which sits in the line right before this method. The second blank must be spelled exactly like the name that comes right after def in this very method, because bot.something() can only call a method that exists."
+      ],
+      "deep": "bot.hello() is shorthand for Bot.hello(bot): Python finds the function on the class and passes the instance as the first argument. That is why forgetting the first parameter in the def gives the error that hello takes 0 positional arguments but 1 was given.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "simple-classes"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l7.q3",
+      "tier": 4,
+      "level": 7,
+      "type": "match",
+      "prompt": "Drag each label onto the matching part.",
+      "code": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n\nacct = Account(50000)\nprint(acct.balance)",
+      "options": [
+        "object (instance)",
+        "class keyword",
+        "attribute",
+        "parameter",
+        "attribute access",
+        "constructor",
+        "self",
+        "import"
+      ],
+      "rows": [
+        "line 1: class",
+        "line 2: __init__",
+        "line 2: self",
+        "line 3: self.balance",
+        "line 5: acct",
+        "line 6: acct.balance"
+      ],
+      "mono": true,
+      "answer": [
+        "class keyword",
+        "constructor",
+        "self",
+        "attribute",
+        "object (instance)",
+        "attribute access"
+      ],
+      "explain": "Account is the class, acct is one object. In the OpenAI snippet, client = OpenAI() is exactly this.",
+      "teach": "Here is the vocabulary of classes. The class keyword starts a blueprint. The constructor is the special setup function that runs when you build something. The first parameter of a method stands for the object being built. An attribute is a piece of data stored on an object. An object, also called an instance, is one thing built from the class. Attribute access means reading that data with a dot.\n\nExample:\nclass Car:\n    def __init__(self, km):\n        self.km = km\n\nmine = Car(120000)\nprint(mine.km)\nprints 120000",
+      "hints": [
+        "Go through the six rows from top to bottom and match each one to the code on that line. Eight labels are offered but only six are used, so two are decoys. Start with the easy rows, where a keyword or a special function name practically names its own role.",
+        "Line 3, line 5 and line 6 are about data and values. Line 3 stores something on the object, line 5 builds one thing from the blueprint and gives it a name, and line 6 reads stored data back out using a dot. Think about the three different verbs: store, build, read.",
+        "Line 2 appears twice on purpose: once for the special setup function itself and once for its first parameter, which stands for the object being built and has its own dedicated label. The import label never matches anything because there is no import line, and the generic parameter label is a decoy too."
+      ],
+      "deep": "obj.attr looks in the instance's own __dict__ first, then in the class. self.balance = balance writes into that per-instance dict, so two accounts keep separate balances while sharing the same methods.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "simple-classes"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t4.l7.q4",
+      "tier": 4,
+      "level": 7,
+      "type": "blocks",
+      "prompt": "Order so the class exists before you build from it. Expected output: MNQ",
+      "tray": [
+        "    def __init__(self, symbol):",
+        "    class Trade:",
+        "class Trade:",
+        "        self.symbol = symbol",
+        "t = Trade(\"MNQ\")",
+        "print(t.symbol)",
+        "def __init__(self, symbol):"
+      ],
+      "answer": [
+        "class Trade:",
+        "    def __init__(self, symbol):",
+        "        self.symbol = symbol",
+        "t = Trade(\"MNQ\")",
+        "print(t.symbol)"
+      ],
+      "explain": "The class body is indented once, the method body twice. Only after the class is complete can Trade(\"MNQ\") build an object.",
+      "teach": "Python marks which lines belong inside which by how far they are pushed in from the left edge, using the same number of spaces for each level. A line ending with a colon opens a block, and the lines that belong to it are pushed in one level. A block inside a block is pushed in one more level. Returning to the left edge ends every open block at once.\n\nExample:\nclass Cat:\n    def __init__(self, n):\n        self.n = n\n\nc = Cat(9)\nprint(c.n)\nprints 9",
+      "hints": [
+        "Two kinds of lines are tricky here: lines that open a block with a colon, and lines that belong inside one. Python tells them apart only by how far each line is pushed in from the left edge. Look in the tray for lines that read the same but have different spacing.",
+        "Only one line may open the blueprint, and it must sit at the left edge. The setup function belongs inside the blueprint, so it is pushed in one step, while the line that saves data belongs inside the setup function, so it goes deeper. Look for the copy of each line with the right indentation.",
+        "Two tray lines are decoys: one has the wrong indent for opening the blueprint, and another has no indent although it should sit inside the class. After the class block is complete, the last two lines return to the left edge: first build the object, then print its attribute."
+      ],
+      "deep": "Indentation is syntax, not style: the tokenizer emits INDENT and DEDENT tokens, and mismatched levels raise IndentationError. A class body runs once at definition time to build the class, which is why Trade(\"MNQ\") must come after it.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "simple-classes"
+      ],
+      "reviewed": "2026-10-01"
     }
   ]
 }

@@ -7,7 +7,8 @@
     "strings",
     "comments",
     "variables",
-    "f-strings"
+    "f-strings",
+    "block bench"
   ],
   "pytor": "Every Python program is print(\"hello\") with more steps. Learn to read the shape of a call here and tier 8 will feel familiar.",
   "questions": [
@@ -1077,6 +1078,468 @@
         "variables"
       ],
       "reviewed": "2026-09-05"
+    },
+    {
+      "id": "t1.l6.q1",
+      "tier": 1,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Put text on the screen. Expected output: Hello, Ada!",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "'Hello, Ada!",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": "Hello, Ada!",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "'Hello, Ada!'",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "\"Hello, Ada!\"",
+          "kind": "expr"
+        }
+      ],
+      "template": "print({0})",
+      "answer": [
+        "b3"
+      ],
+      "accept": [
+        [
+          "b2"
+        ]
+      ],
+      "explain": "print is a function. The thing inside the parentheses is its argument. Quotes make it a string; without quotes Python looks for a variable named Hello and fails.",
+      "teach": "print() shows something on the screen: whatever you put between its parentheses gets displayed. Text must be wrapped in quotes, either \"double\" or 'single', and the quote at the start must be the same kind as the quote at the end. The quotes tell Python this is text, not code. Without them Python reads each word as the name of a variable and crashes.\n\nExample:\nprint(\"Good morning\")\nprints Good morning",
+      "hints": [
+        "Look at what the template does: the print call already has its parentheses, and the block you choose goes inside them. The text you want on screen is Hello, Ada!, and plain text needs to be marked as text. What marks something as text in Python?",
+        "Compare the four blocks by looking at their ends. One has no quote marks at all, so Python would go hunting for a variable. Another opens a quote but never closes it. Which of the blocks are wrapped in complete, matching pairs of quotes?",
+        "Python accepts either single or double quotes as long as the opening and closing marks match. When two blocks both qualify, either completes the line, but the one using the same quote style as the lesson's example is the safest choice."
+      ],
+      "deep": "A string literal is delimited by matching quotes, and single and double quotes are interchangeable, which lets you put one kind inside the other. Without quotes, Hello is read as an identifier and the ! cannot be parsed at all, so you get a SyntaxError before any NameError could happen.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "basic-syntax"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t1.l6.q2",
+      "tier": 1,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Make line 1 a note for humans so Python skips it. Expected output: Runs",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "/*",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": "//",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "#",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "--",
+          "kind": "expr"
+        }
+      ],
+      "template": "{0} This line is for humans only\nprint(\"Runs\")",
+      "answer": [
+        "b2"
+      ],
+      "explain": "Everything after # on a line is ignored. Other languages use //; Python does not.",
+      "teach": "A comment is a note written in the code for human readers. Python skips it completely, so it never changes what the program does. People use comments to explain why something is done, to leave a reminder, or to switch a line off for a moment while testing. Every language picks its own marker that starts a comment, and everything after the marker up to the end of that line is ignored. A marker that works in one language is just a mistake in another, so do not assume one you saw elsewhere carries over.",
+      "hints": [
+        "The line you are filling in is meant to be a note for people, while the next line is code that must still run. Each of the four options is the start marker of a comment in some programming language. Ask which of them Python itself uses.",
+        "Count the characters in each option. Three of the four are made of two characters and are borrowed from languages such as C, Java, JavaScript and SQL. Python reads those as ordinary code, which would either break line 1 or turn it into maths, so the line would not be skipped.",
+        "The marker you want is a single character. It is the symbol on the keyboard that people call the hash, pound or number sign, the same one that starts a hashtag, and it is also the comment marker in shell scripts."
+      ],
+      "deep": "The tokenizer throws away everything from # to the end of the line before the code is parsed, so comments cost nothing at runtime. Python has no block comment syntax: use one # per line. A bare triple-quoted string is an expression statement the compiler discards, which is why people misuse it as one.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "basic-syntax"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t1.l6.q3",
+      "tier": 1,
+      "level": 6,
+      "type": "blocks",
+      "prompt": "Order the lines so \"Expensive\" prints only when the condition is true, and \"Done\" always prints. Expected output: Expensive\nDone",
+      "tray": [
+        "    price = 120",
+        "if price > 100:",
+        "    if price > 100:",
+        "    print(\"Expensive\")",
+        "print(\"Done\")",
+        "price = 120"
+      ],
+      "answer": [
+        "price = 120",
+        "if price > 100:",
+        "    print(\"Expensive\")",
+        "print(\"Done\")"
+      ],
+      "explain": "The line indented under if belongs to it. The un-indented print(\"Done\") is outside the if, so it always runs.",
+      "teach": "A line ending in a colon opens a block, and the lines that belong to it are pushed in by 4 spaces. That push is called indentation, and in Python it is not optional: it is how Python knows which lines are inside. When the indentation returns to the left edge, the block is over. In this puzzle, the ▸ and ◂ buttons push a line in or pull it back.\n\nExample:\nage = 20\nif age >= 18:\n    print(\"adult\")\nprint(\"checked\")\nprints adult\nchecked",
+      "hints": [
+        "Work out what the program has to do in order: something must exist before it can be tested, then comes the test, then what happens when the test passes, then what always happens. Notice that the tray has more lines than you need, so some of them are decoys.",
+        "Two of the six lines are decoys. One is pushed in even though no colon line sits above it to open a block, which Python rejects. The other repeats the test while already pushed in, which would nest a second check where none is wanted.",
+        "With the decoys gone, four lines remain. The line that creates the value comes first and the test with its colon comes second. Of the two print lines, only one is pushed in under the test, and the one at the left edge sits outside it, so it must come last and always runs."
+      ],
+      "deep": "Python's tokenizer turns changes in leading whitespace into INDENT and DEDENT tokens, which play the role of braces. Mixing tabs and spaces raises TabError, and PEP 8 sets 4 spaces per level. A wrong dedent rarely crashes; it silently changes which lines run under the if.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "basic-syntax"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t1.l6.q4",
+      "tier": 1,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Pick the operator that gives each result. Expected output: 3\n1\n8",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "//",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": "*",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "**",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "+",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": "%",
+          "kind": "expr"
+        },
+        {
+          "id": "b5",
+          "code": "/",
+          "kind": "expr"
+        }
+      ],
+      "template": "print(7 {0} 2)   # 3\nprint(7 {1} 2)   # 1\nprint(2 {2} 3)   # 8",
+      "answer": [
+        "b0",
+        "b4",
+        "b2"
+      ],
+      "explain": "7 // 2 drops the decimal (3). 7 % 2 gives what is left over (1). 2 ** 3 is 2 to the power 3 (8). Plain / would give 3.5.",
+      "teach": "Python does maths with operators. The usual four are + - * and /, where / always gives a decimal result. Three less familiar ones matter too. // divides and throws away the decimal part. % gives the remainder, what is left over after taking out as many whole fits as possible. ** means to the power of, which is repeated multiplication.\n\nExample:\nprint(11 / 4)\nprint(11 // 4)\nprint(11 % 4)\nprint(3 ** 2)\nprints 2.75\n2\n3\n9",
+      "hints": [
+        "Work out each line by hand before touching the tray. Line 1 turns 7 and 2 into 3, so ask how many whole times 2 fits into 7. Line 2 gives 1, so ask what is left over afterwards. Line 3 turns 2 and 3 into 8, which is repeated multiplication.",
+        "Notice that the tray has six blocks for three gaps, so three are decoys. Plain multiplication would turn 7 and 2 into 14, plain addition would give 9, and a single slash would give 3.5 rather than a clean 3. Cross those off and think about what is left.",
+        "The remainder operator looks like a percent sign. The power operator is the multiplication star written twice. That leaves line 1, which needs the division flavour that discards the decimal part, not the one that keeps it."
+      ],
+      "deep": "Floor division rounds toward negative infinity, so -7 // 2 is -4, not -3. % pairs with it: a == (a // b) * b + a % b always holds, and the result takes the sign of the divisor. ** is right associative and binds tighter than a unary minus on its left, so -2 ** 2 is -4.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "basic-syntax"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t1.l6.q5",
+      "tier": 1,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Store a value under a name, then ask Python what type it is. Expected output: <class 'int'>",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "==",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": "=",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "str",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "type",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "print",
+          "kind": "var"
+        }
+      ],
+      "template": "points {0} 42\nprint({1}(points))",
+      "answer": [
+        "b1",
+        "b3"
+      ],
+      "explain": "One = assigns. Two == compares. type() returns the class of a value.",
+      "teach": "A variable is a name that holds a value, so you can reuse the value later just by writing the name. Python has one symbol that stores a value under a name, and a doubled version that does something else entirely: it asks whether two values are equal and answers True or False. Mixing the two up is a classic beginner slip.\nEvery value also has a type, such as whole number, text or decimal, and Python has a built in function that reports it when you hand it a value in parentheses.\n\nExample of the question symbol:\nprint(2 + 2 == 4)\nprints True",
+      "hints": [
+        "The code has two gaps. The first sits between a name and a value, where the name has to be given its value. The second is the name of a function that wraps points and reports what kind of value it holds, and the print around it shows that report.",
+        "For the first gap, one option stores a value and a similar looking option asks a yes or no question, which would leave points undefined. For the second gap, one option converts to text, one prints, and one reports the kind of a value. The expected output shows a class, not the number itself.",
+        "The first gap takes the shorter of the two equals based options, the one made of a single character. The second gap takes the function whose English name means the same as kind or category, since the output names a class instead of showing 42."
+      ],
+      "deep": "A name is a label bound to an object, and assignment rebinds the label; it never copies. The type lives on the object, not on the name, so points could later point at text. type(x) returns the class object itself, hence the <class 'int'> repr. In real code prefer isinstance(x, int) for checks.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "variables-data-types"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t1.l6.q6",
+      "tier": 1,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Give each variable a value of the type written in the comment after it. Expected output: MNQ 20 20.25 True None",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "None",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "null",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "true",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "\"MNQ\"",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": "20.25",
+          "kind": "expr"
+        },
+        {
+          "id": "b5",
+          "code": "True",
+          "kind": "var"
+        },
+        {
+          "id": "b6",
+          "code": "\"20\"",
+          "kind": "expr"
+        },
+        {
+          "id": "b7",
+          "code": "20",
+          "kind": "expr"
+        }
+      ],
+      "template": "symbol = {0}     # str\nqty = {1}        # int\nprice = {2}      # float\nlive = {3}       # bool\nfill = {4}       # None\nprint(symbol, qty, price, live, fill)",
+      "answer": [
+        "b3",
+        "b7",
+        "b4",
+        "b5",
+        "b0"
+      ],
+      "explain": "\"20\" in quotes is a string, not a number. Python spells booleans True/False with a capital, and nothing is None. JSON uses true/null; Python does not.",
+      "teach": "Python has a handful of basic value types, and each one looks different when written out. Text is wrapped in quotes, so \"7\" is text even though it contains a digit. A whole number has no quotes and no point. A number with a decimal point is a float. A bool has exactly two values, and both start with a capital letter. There is also a special value meaning nothing is here, again spelled with a capital first letter.\n\nExample:\na = \"Oslo\"   # text\nb = 7        # whole number\nc = 7.5      # decimal\nd = False    # bool\nprint(a, b, c, d)\nprints Oslo 7 7.5 False",
+      "hints": [
+        "Look at the comment after each blank and match it to what that type looks like when written. Text needs quotes around it, a whole number has no quotes and no decimal point, and a decimal number has a point. Settle those three before you worry about the other two.",
+        "Two of the options for the last two blanks are traps borrowed from other languages and from JSON, where those words are written entirely in lowercase. Python is stricter. Also notice that two options both print as 20, so the output cannot decide between them; the comment saying whole number does.",
+        "Go down the list in order: symbol takes the text, qty takes the whole number without quotes, and price takes the one with the point. Then live needs the capitalised two-valued word, and fill needs the capitalised word that means nothing. A quoted number is still text."
+      ],
+      "deep": "True, False and None are keywords, and None is a singleton, so test it with is None rather than ==. true and null are just unknown names to Python and raise NameError, a classic slip when pasting JSON. Also, bool is a subclass of int, so True + 1 is 2.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "variables-data-types"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t1.l6.q7",
+      "tier": 1,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Build one sentence from two variables. Expected output: MNQ trades at 20125.5",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "f",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "$",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "symbol",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "{price}",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": "\"price\"",
+          "kind": "expr"
+        },
+        {
+          "id": "b5",
+          "code": "{symbol}",
+          "kind": "expr"
+        }
+      ],
+      "template": "symbol = \"MNQ\"\nprice = 20125.5\nprint({0}\"{1} trades at {2}\")",
+      "answer": [
+        "b0",
+        "b5",
+        "b3"
+      ],
+      "explain": "f\"...\" is a formatted string. Anything inside { } is Python code evaluated and pasted in as text. Without the f, the braces print literally.",
+      "teach": "An f-string is a piece of text with variables pasted into it. You put a special letter right before the opening quote, then write a variable name inside curly braces. Python swaps the braces and the name for the variable's value. Without that letter, the braces are ordinary characters and print exactly as typed.\n\nExample:\ncity = \"Oslo\"\ntemp = 14\nprint(f\"{city} is {temp} degrees\")\nprints Oslo is 14 degrees",
+      "hints": [
+        "The line has three gaps. The first sits just before the opening quote and holds something that marks the string as special. The other two sit inside the quote marks, in the middle of the sentence, where Python needs to be told which values to paste in.",
+        "Think about what turns ordinary text into text where braces are replaced by values: a single letter placed directly in front of the quote. Inside the string, each variable you want pasted in must be wrapped in curly braces, and the name must match a variable defined above.",
+        "The last two gaps need whole braced names, because the braces are what tell Python to paste a value. Options without braces, or with quote marks around the name, would print as plain words, and a dollar sign is not how Python does this. The sentence reads symbol first, then price. The first gap is the first letter of the word formatted."
+      ],
+      "deep": "An f-string evaluates each {expression} at runtime and formats the result, so {price * 2} and {name.upper()} work too. Before Python 3.12 you could not reuse the outer quote type inside the braces. Never build SQL or shell commands with f-strings, because that invites injection.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "variables-data-types"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t1.l6.q8",
+      "tier": 1,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Show pnl with 2 decimals and wr as a percentage with 1 decimal. Expected output: PnL: 1234.50 | Win rate: 62.3%",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": ":.2f",
+          "kind": "expr"
+        },
+        {
+          "id": "b1",
+          "code": ":.1%",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": ":.1f",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": ":.2%",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": ":d",
+          "kind": "expr"
+        }
+      ],
+      "template": "pnl = 1234.5\nwr = 0.6234\nprint(f\"PnL: {pnl{0}} | Win rate: {wr{1}}\")",
+      "answer": [
+        "b0",
+        "b1"
+      ],
+      "explain": "{pnl:.2f} means fixed-point with 2 decimals. {wr:.1%} multiplies by 100, adds %, keeps 1 decimal. This is how you make reports readable.",
+      "teach": "Inside an f-string's braces you can add a colon and a format code that controls how a number is shown. The code has a dot followed by a digit saying how many decimals to keep, then a letter or symbol saying the style. The f style shows a plain fixed-decimal number. The percent style multiplies by 100 and appends the sign.\n\nExample:\nprice = 3.14159\nshare = 0.5\nprint(f\"{price:.1f} and {share:.0%}\")\nprints 3.1 and 50%",
+      "hints": [
+        "Compare the expected output with the raw values. The profit shows two digits after the decimal point and no percent sign, while the win rate shows one digit after the point and ends in a percent sign. The code after the colon says how many digits and which style.",
+        "In a format code the digit after the dot is the count of decimals, and the last character is the style. The raw win rate is 0.6234 but the output shows 62.3, so one blank must use a style that multiplies by 100 first. The other blank only needs plain fixed decimals.",
+        "The first blank wants two decimals in the plain fixed style, and the second wants one decimal in the percent style. Two options use the wrong digit count, and the d option is for whole numbers only, so it fails on a float. Match both the digit and the style for each blank."
+      ],
+      "deep": "The mini-language after the colon is [fill][align][sign][,][.precision][type]. Adding a comma gives thousands separators: {n:,.2f} shows 1,234.50. Rounding follows the binary float value, so 2.675 formats as 2.67, not 2.68. For money in real code use Decimal.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "variables-data-types"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t1.l6.q9",
+      "tier": 1,
+      "level": 6,
+      "type": "order",
+      "prompt": "Each line uses the one above it. Put them in an order that runs. Expected output: HI MATS",
+      "tray": [
+        "shout = greeting.upper()",
+        "print(shout)",
+        "name = \"Ada\"",
+        "greeting = f\"Hi {name}\""
+      ],
+      "answer": [
+        "name = \"Ada\"",
+        "greeting = f\"Hi {name}\"",
+        "shout = greeting.upper()",
+        "print(shout)"
+      ],
+      "explain": "A variable must exist before you use it. greeting needs name; shout needs greeting.",
+      "teach": "Python runs a program one line at a time from the top. A variable only exists after the line that creates it has run, so using a name too early fails with a NameError. A line can build on the lines above it, never on the ones below.\n\nExample:\nword = \"go\"\nloud = word.upper()\nprint(loud)\nprints GO\n\nThe .upper() part is a method that returns an uppercase copy of text.",
+      "hints": [
+        "Read each line and ask which names it needs that must already exist. One line needs nothing at all, because it just creates a value from a plain piece of text. Lines that use other variables have to wait until those variables have been created above them.",
+        "Look for a chain of dependencies. The pasted sentence uses the variable that holds the plain text, and the uppercase line uses that sentence. Following the chain from the line that needs nothing gives you the order for three of the four lines.",
+        "Only one line is left over, and it is the one that shows the result, which can only work once the final variable has been made. So it closes the program. None of the lines are indented, since none of them sits inside an if, a loop or a function."
+      ],
+      "deep": "A module runs statements in sequence, and a name is bound only when its assignment executes. Inside a function, using a local name before assignment raises UnboundLocalError, a subclass of NameError. Reading dependencies top to bottom is also how data pipelines are ordered.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "variables-data-types"
+      ],
+      "reviewed": "2026-10-01"
     }
   ]
 }

@@ -161,7 +161,7 @@ private fun DeepNote(question: Question, correct: Boolean) {
     Text(
         if (correct) "Right. Here is why it matters beyond this question." else "Not this time. Here is what was really being asked.",
         style = MaterialTheme.typography.titleSmall,
-        color = if (correct) Pal.Lime else Pal.Coral,
+        color = if (correct) Pal.Good else Pal.Coral,
         fontWeight = FontWeight.SemiBold,
     )
     Spacer(Modifier.height(10.dp))

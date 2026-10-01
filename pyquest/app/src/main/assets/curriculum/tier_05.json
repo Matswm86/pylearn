@@ -7,7 +7,8 @@
     "JSON & CSV",
     "DataFrames",
     "groupby",
-    "joins"
+    "joins",
+    "block bench"
   ],
   "pytor": "Real data is files, and files are messy. Learn the two checks around every join here and you will never ship doubled revenue.",
   "questions": [
@@ -1024,6 +1025,217 @@
         "joins"
       ],
       "reviewed": "2026-09-05"
+    },
+    {
+      "id": "t5.l6.q1",
+      "tier": 5,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Parse a JSON string into a dict, then read a field. Expected output: 2",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "loads",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "qty",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "load",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "\"qty\"",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": "parse",
+          "kind": "var"
+        }
+      ],
+      "template": "import json\nraw = '{\"symbol\": \"MNQ\", \"qty\": 2}'\ndata = json.{0}(raw)\nprint(data[{1}])",
+      "answer": [
+        "b0",
+        "b3"
+      ],
+      "explain": "loads = load string. json.load without the s reads from a file instead.",
+      "teach": "JSON is a text format for data. It looks like a Python dict, but until it is converted it is only a string of characters, so you cannot look values up in it. The json module converts in both directions, with separate functions for text held in a string and for text read from a file. Going from dict to text looks like this:\n\nimport json\nd = {\"a\": 1}\nprint(json.dumps(d))\nprints {\"a\": 1}\n\nOnce you have a real dict, a value is read with square brackets and a key written as a string, such as d[\"a\"]. Without quotes Python would look for a variable of that name.",
+      "hints": [
+        "The input is a JSON string sitting in a variable, not a file on disk. The json module has more than one reader function, so the first blank is about choosing the one that matches where the text comes from. The second blank is about how to name a key in a dict.",
+        "Two of the function options differ by a single letter, and that letter tells you whether the source is a string or a file. Think back to the writer function dumps, where the trailing letter meant string. Another option, parse, sounds plausible, but the json module has no function with that name.",
+        "For the second blank, a dict key that is text must be written as a string literal. Compare the two options that spell the same word: one is a plain name that Python would hunt for as a variable, and the other is wrapped so that Python treats it as text."
+      ],
+      "deep": "json.loads maps JSON objects to dict, arrays to list, strings to str, numbers to int or float, and true, false and null to True, False and None. Keys are always strings, so data[\"qty\"] works but data[qty] raises NameError. json.load(fp) is just loads(fp.read()).",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "working-with-json"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t5.l6.q2",
+      "tier": 5,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Turn a dict into a JSON string to send over the network. Expected output: {\"symbol\": \"MNQ\", \"qty\": 2}",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "encode",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "stringify",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "dumps",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "dump",
+          "kind": "var"
+        }
+      ],
+      "template": "import json\ntrade = {\"symbol\": \"MNQ\", \"qty\": 2}\ntext = json.{0}(trade)\nprint(text)",
+      "answer": [
+        "b2"
+      ],
+      "explain": "dumps = dump to string. The requests library can do this for you with json=.",
+      "teach": "JSON is plain text that looks like a Python dict. Networks and files carry text, not live Python objects, so a program has to convert in both directions, and turning an object into text is called serialising. The json module offers a pair of functions for each direction. A name ending in s works on a string held in memory, while the same name without the s works on an open file.\n\nExample of the reading direction:\nimport json\nd = json.loads('{\"a\": 1}')\nprint(d)\nprints {'a': 1}",
+      "hints": [
+        "You already have a Python dict and need the opposite of reading JSON: a Python object goes in and text comes out. Look at the four options and ask which of them are really functions in Python's json module, and which are names borrowed from other languages or ideas.",
+        "The json module has a reader pair and a writer pair, and the writer names mean to dump something out. Two of the options are those writers. They differ by a single letter at the end, and that letter tells you whether the function hands back a string or writes into a file.",
+        "The print line needs a string it can show on screen, and the variable is called text, so you want the writer that returns a string rather than one that needs an open file. Pick the version that carries the extra final letter standing for string."
+      ],
+      "deep": "The trailing s in loads and dumps means string; load and dump take a file object. Pass indent=2 or sort_keys=True for readable, stable output. Trap: datetime, Decimal and set are not serialisable, so you get TypeError unless you convert first or pass default=str.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "working-with-json"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t5.l6.q3",
+      "tier": 5,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Translate the JSON values into their Python equivalents. Expected output: {'ok': True, 'error': None}",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "TRUE",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "Null",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "None",
+          "kind": "var"
+        },
+        {
+          "id": "b3",
+          "code": "true",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "null",
+          "kind": "var"
+        },
+        {
+          "id": "b5",
+          "code": "True",
+          "kind": "var"
+        }
+      ],
+      "template": "# JSON:   {\"ok\": true, \"error\": null}\ndata = {\"ok\": {0}, \"error\": {1}}\nprint(data)",
+      "answer": [
+        "b5",
+        "b2"
+      ],
+      "explain": "JSON's true, false and null become Python's True, False and None, and json.loads does that translation for you. So ok is True and error is None. TRUE, true, Null and null are not Python names, so they raise NameError.",
+      "teach": "JSON was born in JavaScript, which writes its three special words in lowercase: true, false and null. Python is case sensitive, so a lowercase word it has never been told about is just an unknown name and raises NameError. Python has its own spellings: its yes and no values are capitalised words, such as False, and its way of saying there is no value here is a different word from null altogether. A tool like json.loads translates between the two styles for you.\n\nExample:\n# JSON: {\"done\": false}\nd = {\"done\": False}\nprint(d)\nprints {'done': False}",
+      "hints": [
+        "There are two blanks, one for each JSON special word, and the comment above shows the JSON version. Python is case sensitive, so the lowercase JSON spellings will not be recognised here. Think about how Python writes its yes value and what it uses where JSON says null.",
+        "For the first blank, Python wants a capital first letter and lowercase for the rest, so the all capitals version and the all lowercase version are both out. For the second blank, remember that Python has no word null in any capitalisation, so the capitalised Null is wrong just as the lowercase one is.",
+        "The first blank is Python's capitalised word for yes, written with one capital letter and the rest lowercase. The second blank is the ordinary English word Python uses for no value at all, the thing a function hands back when it has nothing to return."
+      ],
+      "deep": "json.loads maps true to True, false to False and null to None, and dumps maps them back. Test for null with is None, never with truthiness, because 0, empty strings and False are all falsy. Note too that data.get(\"error\") returns None for both a null value and a missing key.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "working-with-json"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t5.l6.q4",
+      "tier": 5,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Walk the path down to the text. Expected output: Buy the dip.",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "content",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "1",
+          "kind": "expr"
+        },
+        {
+          "id": "b2",
+          "code": "0",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "\"role\"",
+          "kind": "expr"
+        },
+        {
+          "id": "b4",
+          "code": "\"content\"",
+          "kind": "expr"
+        }
+      ],
+      "template": "resp = {\n  \"choices\": [\n    {\"message\": {\"role\": \"assistant\", \"content\": \"Buy the dip.\"}}\n  ]\n}\nprint(resp[\"choices\"][{0}][\"message\"][{1}])",
+      "answer": [
+        "b2",
+        "b4"
+      ],
+      "explain": "resp[\"choices\"] is a list, so the next step is an index. Then key by key down to \"content\".",
+      "teach": "Real API data nests: a dict holding a list holding more dicts. You read it one step at a time, left to right, and each step uses the tool that fits what you are standing on. A dict is searched by key, written as quoted text in square brackets. A list is searched by position, written as a number, and counting starts at zero for the first item. Steps chain: each pair of brackets works on whatever the previous pair returned.\n\nExample:\nd = {\"items\": [{\"id\": 7}, {\"id\": 9}]}\nprint(d[\"items\"][1][\"id\"])\nprints 9",
+      "hints": [
+        "Trace the path with your finger, starting at resp. The first step, choices, lands on a list, so the next square brackets need a position rather than a name. After that you enter a dict called message and must pick which of its keys holds the sentence.",
+        "The list holds only one item, so there is just one position to choose, and Python numbers positions starting from nothing rather than from one. The second blank is a dict key, so it needs the quotes that mark it as text, otherwise Python hunts for a variable of that name.",
+        "The message dict has two keys: one says who is speaking, the other holds what they actually said. You want the one with the words, and the expected output Buy the dip. is exactly that text. Write it as a quoted key, and use the first and only position in the list."
+      ],
+      "deep": "Chained brackets are just repeated lookups: each one works on whatever the previous one returned. Real responses can lack a key or return an empty list, so production code uses .get() with defaults or catches KeyError, IndexError and TypeError instead of trusting the shape.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "working-with-json"
+      ],
+      "reviewed": "2026-10-01"
     }
   ]
 }

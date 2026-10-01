@@ -7,7 +7,8 @@
     "embeddings",
     "RAG",
     "tools & agents",
-    "evals & cost"
+    "evals & cost",
+    "reading real code"
   ],
   "pytor": "This is my home turf. Everything here is measurable: recall, cost per request, p95, judge agreement. If you cannot put a number on it, you are not engineering yet.",
   "questions": [
@@ -1022,6 +1023,201 @@
         "api"
       ],
       "reviewed": "2026-09-05"
+    },
+    {
+      "id": "t7.l6.q1",
+      "tier": 7,
+      "level": 6,
+      "type": "match",
+      "prompt": "Label every part of the code you wanted to understand.",
+      "code": "from openai import OpenAI\n\nclient = OpenAI()\n\nresponse = client.responses.create(\n    model=\"some-model\",\n    input=\"Explain Azure AI in one sentence.\"\n)\n\nprint(response.output_text)",
+      "options": [
+        "build the object",
+        "parameter",
+        "method call",
+        "loop",
+        "attribute",
+        "variable (object)",
+        "class",
+        "return value",
+        "import statement",
+        "function call",
+        "keyword argument"
+      ],
+      "rows": [
+        "line 1: from openai import",
+        "line 1: OpenAI",
+        "line 3: client",
+        "line 3: OpenAI()",
+        "line 5: response",
+        "line 5: client.responses.create",
+        "line 6: model=\"some-model\"",
+        "line 7: input=\"Explain Azure AI in one sentence.\"",
+        "line 10: print",
+        "line 10: response.output_text"
+      ],
+      "mono": true,
+      "answer": [
+        "import statement",
+        "class",
+        "variable (object)",
+        "build the object",
+        "return value",
+        "method call",
+        "keyword argument",
+        "keyword argument",
+        "function call",
+        "attribute"
+      ],
+      "explain": "OpenAI() builds an object. client.responses.create(...) is a method on it with two keyword arguments. Its return lands in response, and .output_text is an attribute on that.",
+      "teach": "Real code is built from a small set of parts, and each one has a telltale look. A name followed by parentheses is being called. Inside those parentheses, name=value is a keyword argument. A dot links an object to something it owns: with parentheses it is a method call, without them it is an attribute. A name on the left of = is a variable that receives a value, and what a call hands back is its return value.\n\nfrom pathlib import Path\np = Path(\"a.txt\")\ntext = p.read_text(encoding=\"utf-8\")\nprint(text)",
+      "hints": [
+        "Go row by row and look at the shape of the code on that line before you think about the label. Is it a name followed by parentheses, a name=value pair, a dotted name, a name on the left of an equals sign, or a statement that starts the line? Each shape points to a small group of labels.",
+        "Some labels are tempting twins. A function call and a method call both have parentheses, so look at what sits before the dot. A method call and an attribute both use a dot, so look for parentheses. Also remember that one label can be used on more than one row, and that a parameter lives on a def line, which this snippet does not have.",
+        "Nearly there: the two rows on line 3 differ only by a pair of parentheses, and that difference is the whole trick. The same kind of contrast shows up on line 10, where one row is run and the other is merely read. On line 5, ask what is being stored on the left and what is being run on the right."
+      ],
+      "deep": "In client.responses.create(...) only the last dot before the parentheses is a method call; responses is an attribute lookup that returns another object. The parentheses are what run the code. Leave them off and you get the method object itself instead of a result, a classic source of confusing output.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "reading-real-code"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t7.l6.q2",
+      "tier": 7,
+      "level": 6,
+      "type": "fill",
+      "prompt": "Fill the gaps in the same snippet from memory. Expected output: Azure AI is a cloud platform for building AI apps.",
+      "blocks": [
+        {
+          "id": "b0",
+          "code": "import",
+          "kind": "var"
+        },
+        {
+          "id": "b1",
+          "code": "output_text",
+          "kind": "var"
+        },
+        {
+          "id": "b2",
+          "code": "some-model",
+          "kind": "expr"
+        },
+        {
+          "id": "b3",
+          "code": "openai",
+          "kind": "var"
+        },
+        {
+          "id": "b4",
+          "code": "output_text()",
+          "kind": "call"
+        },
+        {
+          "id": "b5",
+          "code": "from",
+          "kind": "var"
+        },
+        {
+          "id": "b6",
+          "code": "OpenAI",
+          "kind": "var"
+        },
+        {
+          "id": "b7",
+          "code": "call",
+          "kind": "var"
+        },
+        {
+          "id": "b8",
+          "code": "\"some-model\"",
+          "kind": "expr"
+        },
+        {
+          "id": "b9",
+          "code": "create",
+          "kind": "var"
+        }
+      ],
+      "template": "{0} openai import OpenAI\n\nclient = {1}()\n\nresponse = client.responses.{2}(\n    model={3},\n    input=\"Explain Azure AI in one sentence.\"\n)\n\nprint(response.{4})",
+      "answer": [
+        "b5",
+        "b6",
+        "b9",
+        "b8",
+        "b1"
+      ],
+      "explain": "Same pattern as requests.post, one level up: the SDK hides the URL, headers and JSON.",
+      "teach": "Writing code from memory goes faster when you know the job of each slot. A from-import pulls one named thing out of a module. A class name is called with parentheses to build an object. A method is picked by name after a dot and then called with parentheses. Text values keep their quotes, and an attribute is read with a dot and no parentheses.\n\nfrom pathlib import Path\nnote = Path(\"todo.txt\")\nnote.write_text(\"buy milk\")\nprint(note.name)\nprints todo.txt",
+      "hints": [
+        "Read the finished snippet like a sentence and look at what each gap sits next to. One gap opens a line that ends in a capitalised name, one sits right before empty parentheses, one follows a dot after responses, one follows model=, and one follows a dot after print(response. Decide first whether each gap holds a keyword, a name, text or an attribute.",
+        "Two traps are worth checking. Text must be wrapped in quotes, and the line below the model gap shows how text looks in this snippet. And a name that is only read, not run, takes no parentheses, so a candidate that ends in empty parentheses does not belong where nothing is being called.",
+        "Nearly there: the first gap is the single word that opens the import line, as in the lesson example, and the second gap repeats the capitalised class name that line 1 loads. The fourth gap is text, so its candidate carries quotes. The third and fifth gaps are plain names with no parentheses, and you met both of them while labelling the first snippet, so look back at its code."
+      ],
+      "deep": "Quotes mark data and bare words mark names. Written without quotes, model=some-model is read as the subtraction some minus model and raises NameError. Likewise output_text() would try to call a string and fail with TypeError: 'str' object is not callable.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "reading-real-code"
+      ],
+      "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t7.l6.q3",
+      "tier": 7,
+      "level": 6,
+      "type": "match",
+      "prompt": "Map the plain-requests version to the same concepts.",
+      "code": "import requests\n\nheaders = {\"Authorization\": f\"Bearer {api_key}\"}\n\nr = requests.post(\n    url,\n    json={\"model\": \"some-model\", \"input\": \"Hi\"},\n    headers=headers\n)\n\nprint(r.json()[\"output_text\"])",
+      "options": [
+        "positional argument",
+        "method call",
+        "variable (dict)",
+        "function call",
+        "import statement",
+        "keyword argument",
+        "default argument",
+        "return value",
+        "class"
+      ],
+      "rows": [
+        "line 1: import requests",
+        "line 3: headers",
+        "line 5: r",
+        "line 5: requests.post",
+        "line 6: url",
+        "line 7: json={\"model\": \"some-model\", \"input\": \"Hi\"}",
+        "line 8: headers=headers",
+        "line 11: r.json()"
+      ],
+      "mono": true,
+      "answer": [
+        "import statement",
+        "variable (dict)",
+        "return value",
+        "function call",
+        "positional argument",
+        "keyword argument",
+        "keyword argument",
+        "method call"
+      ],
+      "explain": "requests.post is a function in a module; r.json() is a method on the returned object. Every SDK you meet is a thin layer over this.",
+      "teach": "Arguments come in two flavours. A positional argument is a value placed in order, and Python matches it to a slot by its place. A keyword argument is written name=value, so the order no longer matters. A default argument is different: it is a value written into a function's own definition, which callers may skip. Notice who owns a call too: module.function(...) uses a function stored in a module, while thing.method() uses something that belongs to an object you already hold.\n\nimport random\nroll = random.randint(1, 6)\nshout = \"hi\".upper()\nprint(sorted([3, 1], reverse=True))\nprints [3, 1]",
+      "hints": [
+        "Start with the anchors, the rows whose shape you recognise at once. Then look inside the parentheses of the requests.post call: some items are a bare name and some are a name followed by an equals sign. That one difference separates two of the labels, and it tells you how Python matches each value to its slot.",
+        "For the last row, compare r.json() with requests.post(...). Both have parentheses, so look at what sits to the left of the dot: one is a module you imported, the other is a name that holds something you got earlier. Also ask what ends up inside r once line 5 finishes running.",
+        "Nearly there: default argument and class are not used in this snippet. A default argument is written on a def line when a function is created, and no def appears here. A class would be a capitalised name being called, and nothing like that appears. Remember that a label can be used on more than one row."
+      ],
+      "deep": "Python fills positional arguments first, then matches keywords by name. So headers=headers is normal: the left side is the parameter name the library expects, the right side is your own variable. Note that r.json() only works if the body is valid JSON, so check r.status_code or call r.raise_for_status() first.",
+      "xp": 10,
+      "tags": [
+        "block-bench",
+        "reading-real-code"
+      ],
+      "reviewed": "2026-10-01"
     }
   ]
 }
