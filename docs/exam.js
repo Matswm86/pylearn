@@ -851,15 +851,37 @@ const EXAM_SECTIONS = [
   },
 ];
 
+// ===== Banks =====
+// One page engine serves every drill. Each bank keeps its own storage key and
+// id prefix, so answers in one drill never touch another. The AI-901 bank keeps
+// the key and prefix it shipped with, so earlier answers still load.
+const EXAM_BANKS = {
+  "901": {
+    key: EXAM_STORAGE_KEY, prefix: "x", sections: EXAM_SECTIONS, refs: EXAM_REFS,
+    name: "AI-901", hero: renderExam901Hero,
+  },
+};
+let examActive = "901";
+
+function examBank() { return EXAM_BANKS[examActive] || EXAM_BANKS["901"]; }
+
+function examUseBank(id) {
+  const next = EXAM_BANKS[id] ? id : "901";
+  if (next === examActive) return;
+  examActive = next;
+  examProgress._data = null;
+  for (const k of Object.keys(examLive)) delete examLive[k];
+}
+
 // ===== Persistence =====
 const examProgress = {
   _data: null,
   load() {
-    try { this._data = JSON.parse(localStorage.getItem(EXAM_STORAGE_KEY)) || {}; }
+    try { this._data = JSON.parse(localStorage.getItem(examBank().key)) || {}; }
     catch { this._data = {}; }
   },
   save() {
-    try { localStorage.setItem(EXAM_STORAGE_KEY, JSON.stringify(this._data)); }
+    try { localStorage.setItem(examBank().key, JSON.stringify(this._data)); }
     catch { /* storage unavailable: results live for this page view only */ }
   },
   // A record is { r: "correct" | "wrong", p: [picked option indexes or ordered
@@ -874,13 +896,11 @@ const examProgress = {
   },
   reset() {
     this._data = {};
-    try { localStorage.removeItem(EXAM_STORAGE_KEY); } catch { /* ignore */ }
+    try { localStorage.removeItem(examBank().key); } catch { /* ignore */ }
   },
 };
-examProgress.load();
-
 // Ids are positional by question number, so rewording an item never orphans a result.
-function examId(n) { return `x_${n}`; }
+function examId(n) { return `${examBank().prefix}_${n}`; }
 
 // Live, unsaved state for the current page view: what the learner has picked
 // but not yet checked, plus the shuffled pool for ordering questions.
@@ -888,7 +908,7 @@ const examLive = {};
 
 function examQuestions() {
   const all = [];
-  for (const s of EXAM_SECTIONS) for (const q of s.questions) all.push(q);
+  for (const s of examBank().sections) for (const q of s.questions) all.push(q);
   return all;
 }
 
@@ -953,7 +973,7 @@ function examIsCorrect(q) {
     }
     case "yesno": return q.rows.every((r, i) => st.rows[i] === (r[1] ? "yes" : "no"));
     case "match": return q.rows.every((r, i) => st.rows[i] === r[1]);
-    case "order": return st.picks.join("|") === q.steps.join("|");
+    case "order": return [q.steps, ...(q.accept || [])].some(seq => st.picks.join("|") === seq.join("|"));
     default: return false;
   }
 }
@@ -1021,7 +1041,7 @@ function examRetry(n) {
 }
 
 function resetExamProgress() {
-  if (!confirm("Reset the AI-901 drill? This clears every answer on this page. Nothing else on the site is affected.")) return;
+  if (!confirm(`Reset the ${examBank().name} drill? This clears every answer on this page. Nothing else on the site is affected.`)) return;
   examProgress.reset();
   for (const k of Object.keys(examLive)) delete examLive[k];
   render();
@@ -1044,7 +1064,7 @@ function examRepaintScore() {
 
 // ===== Rendering =====
 function renderExamRef(q) {
-  const r = EXAM_REFS[q.ref - 1];
+  const r = examBank().refs[q.ref - 1];
   if (!r) return "";
   return `<p class="exam-ref">Related learning material: <a href="${r[1]}" target="_blank" rel="noopener">${escapeHtml(r[0])}</a></p>`;
 }
@@ -1179,6 +1199,7 @@ function renderExamQuestion(q) {
         <span class="exam-type">${tag}</span>
       </div>
       <p class="exam-q">${escapeHtml(q.q)}</p>
+      ${q.code ? `<pre class="exam-code">${escapeHtml(q.code)}</pre>` : ""}
       <div class="exam-body">${renderExamBody(q, locked)}</div>
       <div class="exam-actions">${action}</div>
       ${verdict}
@@ -1215,24 +1236,34 @@ function renderExamScoreStrip() {
     <div class="progress-bar"><div class="progress-fill" style="width:${c.total ? Math.round(c.answered / c.total * 100) : 0}%"></div></div>`;
 }
 
-function renderExam(app) {
+function renderExam(app, bankId) {
+  examUseBank(bankId || "901");
+  const bank = examBank();
+  const other = Object.entries(EXAM_BANKS).filter(([id]) => id !== examActive)
+    .map(([id, b]) => `<a class="hero-link" href="#/exam/${id}">Switch to the ${escapeHtml(b.name)} drill</a>`).join(" ");
   app.innerHTML = `
     <button class="back-btn" onclick="navigate('/path')">&larr; The Path</button>
+    ${bank.hero()}
+    <p class="path-note">${other}</p>
 
+    <div id="exam-score" class="path-progress">${renderExamScoreStrip()}</div>
+
+    ${bank.sections.map(renderExamSection).join("")}
+
+    <div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)">
+      <button class="action-btn" onclick="resetExamProgress()" style="color:var(--error)">&#128260; Reset answers</button>
+      <p style="font-size:0.75rem;color:var(--text-light);margin-top:6px">Answers are saved in this browser only.</p>
+    </div>
+  `;
+}
+
+function renderExam901Hero() {
+  return `
     <div class="path-hero">
       <h1>&#127891; AI-901 drill</h1>
       <p>Seventy-four questions in the shape of the real exam: single answer, select-N, yes/no grids, dropdown matching and ordering. Thirty-five cover the two AI-901 domains at their published weights, fifteen check the Python syntax Microsoft lists as a prerequisite, and a second set of twenty-four covers speech, vision, image generation, Azure Content Understanding and the settings you use when calling a model.</p>
       <p class="path-note">These questions are written for this site and are not a copy of any commercial question bank. Every explanation links the Microsoft Learn or Python documentation page it was checked against. Treat this as a drill, not a mock exam: the official Practice Assessment is still the bar before you book.</p>
       <div class="path-rule"><strong>How to use it:</strong> answer before you check, and read the explanation even when you were right. Getting the correct option for the wrong reason is what a real exam punishes.</div>
-    </div>
-
-    <div id="exam-score" class="path-progress">${renderExamScoreStrip()}</div>
-
-    ${EXAM_SECTIONS.map(renderExamSection).join("")}
-
-    <div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)">
-      <button class="action-btn" onclick="resetExamProgress()" style="color:var(--error)">&#128260; Reset answers</button>
-      <p style="font-size:0.75rem;color:var(--text-light);margin-top:6px">Answers are saved in this browser only.</p>
     </div>
   `;
 }

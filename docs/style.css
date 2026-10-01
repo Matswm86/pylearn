@@ -1008,6 +1008,7 @@ body:not(.eli5-mode) .eli5-box { display: none; }
   padding: 2px 9px; border-radius: 10px; white-space: nowrap;
 }
 .exam-q { font-weight: 600; line-height: 1.5; margin: 0 0 12px 0; }
+.exam-code { font-family: var(--font-mono); font-size: 0.84rem; line-height: 1.5; background: var(--code-bg, #13202E); color: var(--code-fg, #E6EDF5); border-radius: 8px; padding: 12px 14px; margin: 0 0 12px 0; overflow-x: auto; white-space: pre; }
 .exam-hint { font-size: 0.8rem; color: var(--text-dim); margin: 0 0 8px 0; }
 
 /* Option buttons: single and multiple choice, and the ordering pool */

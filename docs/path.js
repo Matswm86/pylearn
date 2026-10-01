@@ -234,6 +234,8 @@ const PATH_CERTS = {
       guide: "https://certiace.com/study-guides/ai-103",
       practice: "https://certiace.com/practice/AI-103",
       practiceNote: "306 questions; Modules, Randomizer, Case Studies, Practice Exam, AI Practice; free start, account for the full bank",
+      drill: "#/exam/103",
+      drillNote: "45 questions written for this site from the official skills list: Foundry planning and keyless security, agents and tools, a Trailhead Supply case study, vision and speech, and language and retrieval, with Python SDK code to read",
       domains: [
         ["c103_d1", "Plan and manage an Azure AI solution", "25-30%"],
         ["c103_d2", "Implement generative AI and agentic solutions", "30-35%"],
