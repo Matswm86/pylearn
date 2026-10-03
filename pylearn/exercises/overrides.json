@@ -1,0 +1,855 @@
+{
+  "var_07": {
+    "description": "Create three variables in snake_case: `first_name`, `last_name` and `email_address`, each holding a non-empty string."
+  },
+  "var_09": {
+    "test_code": "assert 'result' in dir(), \"Create a variable named result\"\nassert result is None, 'result should be None, got ' + repr(result)"
+  },
+  "var_10": {
+    "description": "Create a constant named `SPEED_OF_LIGHT` holding the speed of light, 299792458 (m/s). Constants use ALL_CAPS names."
+  },
+  "var_11": {
+    "description": "Using the variables `greeting` and `name`, join them with one space between and store the result in `full_greeting` (with the starter values this is 'Hello Alice').",
+    "test_code": "assert isinstance(full_greeting, str), 'full_greeting should be a string, got ' + type(full_greeting).__name__\nassert full_greeting == greeting + ' ' + name, \"full_greeting should be greeting + ' ' + name, got \" + repr(full_greeting)\nassert full_greeting == 'Hello Alice', \"With the starter values full_greeting should be 'Hello Alice', got \" + repr(full_greeting)"
+  },
+  "var_13": {
+    "description": "Using the variables `name` and `age`, build the text 'Name: [name], Age: [age]' with an f-string and store it in a variable named `message` (for the starter values: 'Name: Bob, Age: 30').",
+    "test_code": "assert isinstance(message, str), 'message should be a string, got ' + type(message).__name__\nassert message == f'Name: {name}, Age: {age}', \"message should be 'Name: Bob, Age: 30', got \" + repr(message)"
+  },
+  "var_14": {
+    "description": "The starter defines `text`, `num_int` and `num_float`. Use type() to store the type of each in `type_text`, `type_int` and `type_float`.",
+    "test_code": "assert type_text is str, 'type_text should be type(text), which is str, got ' + repr(type_text)\nassert type_int is int, 'type_int should be type(num_int), which is int, got ' + repr(type_int)\nassert type_float is float, 'type_float should be type(num_float), which is float, got ' + repr(type_float)"
+  },
+  "var_16": {
+    "test_code": "assert isinstance(poem, str), 'poem should be a string, got ' + type(poem).__name__\nassert poem.count('\\n') >= 2, 'poem should have at least 3 lines, it has ' + str(poem.count('\\n') + 1)"
+  },
+  "var_19": {
+    "description": "Given `subtotal = 50`, `tax_rate = 0.1` and `tip_pct = 0.15`, store the tax amount in `tax`, the tip amount in `tip` (both based on the subtotal) and subtotal + tax + tip in `total`."
+  },
+  "var_21": {
+    "test_code": "assert text == 'python', \"text should stay 'python', got \" + repr(text)\nassert upper_text == 'PYTHON', \"upper_text should be 'PYTHON', got \" + repr(upper_text)\nassert title_text == 'Python', \"title_text should be 'Python', got \" + repr(title_text)"
+  },
+  "var_22": {
+    "description": "Given `fruits = [\"apple\", \"banana\", \"cherry\"]`, store the first element in `first` and the last element in `last` using indexing."
+  },
+  "var_23": {
+    "description": "Given `person = {\"name\": \"Alice\", \"age\": 30, \"city\": \"NYC\"}`, store the value for \"name\" in `name` and the value for \"age\" in `age`."
+  },
+  "var_26": {
+    "test_code": "assert text == 'Hello World', \"text should be 'Hello World', got \" + repr(text)"
+  },
+  "var_27": {
+    "description": "Given `item_price = 25` and `quantity = 4`, store item_price * quantity in `subtotal`. Set `discount = 0.1` (10% off), store subtotal * discount in `discount_amount`, and store the final price after the discount in `price`."
+  },
+  "var_29": {
+    "test_code": "assert a == 10 and b == 5, 'Keep a = 10 and b = 5'\nassert is_greater is True, 'is_greater should be True because 10 > 5, got ' + repr(is_greater)"
+  },
+  "var_30": {
+    "description": "Given `width = 10` and `height = 20`, use an f-string with the calculation inside the braces to build 'Area: [calculated area]' and store it in `area_message` (here 'Area: 200').",
+    "test_code": "assert width == 10 and height == 20, 'Keep width = 10 and height = 20'\nassert area_message == 'Area: 200', \"area_message should be 'Area: 200', got \" + repr(area_message)"
+  },
+  "var_31": {
+    "test_code": "assert first == 1, 'first should be 1, got ' + repr(first)\nassert second == 2, 'second should be 2, got ' + repr(second)\nassert rest == [3, 4, 5], 'rest should be [3, 4, 5], got ' + repr(rest)"
+  },
+  "var_33": {
+    "description": "Create `first_name`, `last_name`, `email` (strings) and `age` (an int) with your own values, then build `profile` with an f-string in exactly this format: 'User: <first_name> <last_name>, Email: <email>, Age: <age>'.",
+    "test_code": "for _n in ('first_name', 'last_name', 'email'):\n    assert isinstance(globals()[_n], str) and globals()[_n], _n + ' should be a non-empty string'\nassert isinstance(age, int), 'age should be an int, got ' + type(age).__name__\nassert profile == f'User: {first_name} {last_name}, Email: {email}, Age: {age}', 'profile does not match the format, got ' + repr(profile)"
+  },
+  "var_36": {
+    "test_code": "assert squares == [1, 4, 9, 16, 25], 'squares should be [1, 4, 9, 16, 25], got ' + repr(squares)"
+  },
+  "var_37": {
+    "test_code": "assert my_dict == {'a': 1, 'b': 2, 'c': 3}, \"my_dict should be {'a': 1, 'b': 2, 'c': 3}, got \" + repr(my_dict)"
+  },
+  "var_38": {
+    "description": "Given `original = [1, 2, 3]` and `copy = original`, append 4 to `copy`, then store `original is copy` in `same_reference`. Both names point to the same list, so original also becomes [1, 2, 3, 4].",
+    "test_code": "assert original == [1, 2, 3, 4], 'original should now be [1, 2, 3, 4] because copy points to the same list, got ' + repr(original)\nassert same_reference is True, 'same_reference should be True (original is copy), got ' + repr(same_reference)"
+  },
+  "var_39": {
+    "description": "Given `original = \"hello\"` and `copy = original`, set `copy = copy + \" world\"`, then store `original is copy` in `same_reference`. Strings are immutable, so this makes a new string and original stays 'hello'.",
+    "test_code": "assert original == 'hello', \"original should still be 'hello', got \" + repr(original)\nassert copy == 'hello world', \"copy should be 'hello world', got \" + repr(copy)\nassert same_reference is False, 'same_reference should be False (copy is a new string now), got ' + repr(same_reference)"
+  },
+  "var_40": {
+    "description": "Given `student = {\"name\": \"Alice\", \"grades\": {\"math\": 95, \"english\": 88}}`, store the math grade in `math_grade` and the english grade in `english_grade`."
+  },
+  "var_42": {
+    "test_code": "import types as _types\nassert isinstance(even_numbers, _types.GeneratorType), 'even_numbers should be a generator (use parentheses), got ' + type(even_numbers).__name__\n_vals = list(even_numbers)\nassert _vals == [2, 4, 6, 8, 10], 'even_numbers should yield 2, 4, 6, 8, 10, got ' + repr(_vals)"
+  },
+  "var_46": {
+    "description": "Given a global `counter = 0`, write a function `increment()` that uses the `global` keyword to add 1 to counter and then returns the new value of counter.",
+    "test_code": "assert 'increment' in dir(), \"Function 'increment' not defined\"\n_r0 = increment()\nassert _r0 == 1, 'First call: increment() returned ' + repr(_r0) + ', expected 1'\nassert counter == 1, 'The global counter should be 1 after one call, got ' + repr(counter)\n_r1 = increment()\nassert _r1 == 2 and counter == 2, 'Second call should return 2 and leave counter at 2'"
+  },
+  "var_48": {
+    "description": "Given `name = \"Bob\"` and `age = 25`, use the .format() method on \"My name is {} and I am {} years old\" and store the result in `message`.",
+    "test_code": "assert name == 'Bob' and age == 25, 'Keep name = \"Bob\" and age = 25'\nassert message == 'My name is Bob and I am 25 years old', 'message is not right, got ' + repr(message)"
+  },
+  "var_49": {
+    "description": "Given `holdings = {\"AAPL\": (150, 30), \"MSFT\": (300, 20)}` (price, shares), store a dict mapping each symbol to price * shares in `values`, and the sum of those values in `portfolio_total`.",
+    "test_code": "assert values == {'AAPL': 4500, 'MSFT': 6000}, \"values should be {'AAPL': 4500, 'MSFT': 6000}, got \" + repr(values)\nassert portfolio_total == 10500, 'portfolio_total should be 10500, got ' + repr(portfolio_total)"
+  },
+  "var_50": {
+    "test_code": "assert result == {6: 36, 7: 49, 8: 64, 9: 81, 10: 100}, 'result should be {6: 36, 7: 49, 8: 64, 9: 81, 10: 100}, got ' + repr(result)"
+  },
+  "dt_01": {
+    "description": "Create a variable `x` that holds the integer value 42, then store the check `type(x) == int` in a variable named `result`.",
+    "test_code": "assert x == 42, 'x should be 42, got ' + repr(x)\nassert type(x) is int, 'x should be a int, got ' + type(x).__name__\nassert result is True, 'result should be True, got ' + repr(result)"
+  },
+  "dt_02": {
+    "description": "Create a variable `y` that holds the float value 3.14, then store the check `type(y) == float` in a variable named `result`.",
+    "test_code": "assert y == 3.14, 'y should be 3.14, got ' + repr(y)\nassert type(y) is float, 'y should be a float, got ' + type(y).__name__\nassert result is True, 'result should be True, got ' + repr(result)"
+  },
+  "dt_03": {
+    "description": "Create a variable `message` with the string 'Hello', then store the check `type(message) == str` in a variable named `result`.",
+    "test_code": "assert message == 'Hello', \"message should be 'Hello', got \" + repr(message)\nassert result is True, 'result should be True, got ' + repr(result)"
+  },
+  "dt_04": {
+    "description": "Create a variable `flag` with the boolean value True, then store the check `type(flag) == bool` in a variable named `result`.",
+    "test_code": "assert flag is True, 'flag should be True, got ' + repr(flag)\nassert result is True, 'result should be True, got ' + repr(result)"
+  },
+  "dt_05": {
+    "test_code": "assert num == 123, 'num should be 123, got ' + repr(num)\nassert type(num) is int, 'num should be a int, got ' + type(num).__name__"
+  },
+  "dt_06": {
+    "test_code": "assert text == '456', \"text should be '456', got \" + repr(text)"
+  },
+  "dt_07": {
+    "test_code": "assert pi_approx == 3.14, 'pi_approx should be 3.14, got ' + repr(pi_approx)\nassert type(pi_approx) is float, 'pi_approx should be a float, got ' + type(pi_approx).__name__"
+  },
+  "dt_08": {
+    "test_code": "assert b is True, 'b should be True (bool(1)), got ' + repr(b)"
+  },
+  "dt_09": {
+    "test_code": "assert length == 6, 'length should be 6, got ' + repr(length)"
+  },
+  "dt_10": {
+    "test_code": "assert x == 100, 'x should be 100, got ' + repr(x)\nassert check_result is True, 'check_result should be True, got ' + repr(check_result)"
+  },
+  "dt_11": {
+    "test_code": "assert upper_text == 'HELLO WORLD', \"upper_text should be 'HELLO WORLD', got \" + repr(upper_text)"
+  },
+  "dt_12": {
+    "test_code": "assert lower_text == 'python rocks', \"lower_text should be 'python rocks', got \" + repr(lower_text)"
+  },
+  "dt_13": {
+    "test_code": "assert stripped == 'hello', \"stripped should be 'hello', got \" + repr(stripped)"
+  },
+  "dt_14": {
+    "test_code": "assert replaced == 'the dog sat on the mat', \"replaced should be 'the dog sat on the mat', got \" + repr(replaced)"
+  },
+  "dt_15": {
+    "test_code": "assert index == 6, 'index should be 6, got ' + repr(index)"
+  },
+  "dt_16": {
+    "test_code": "assert first_char == 'P', \"first_char should be 'P', got \" + repr(first_char)"
+  },
+  "dt_17": {
+    "test_code": "assert slice_text == 'Pyt', \"slice_text should be 'Pyt', got \" + repr(slice_text)"
+  },
+  "dt_18": {
+    "test_code": "assert fruits == ['apple', 'banana', 'orange'], \"fruits should be ['apple', 'banana', 'orange'], got \" + repr(fruits)"
+  },
+  "dt_19": {
+    "test_code": "assert joined == 'one-two-three', \"joined should be 'one-two-three', got \" + repr(joined)"
+  },
+  "dt_20": {
+    "description": "Create `name = 'Alice'` and use an f-string to build 'Hello, Alice!' from it. Store the text in `greeting`.",
+    "test_code": "assert name == 'Alice', \"name should be 'Alice', got \" + repr(name)\nassert greeting == 'Hello, Alice!', \"greeting should be 'Hello, Alice!', got \" + repr(greeting)"
+  },
+  "dt_21": {
+    "test_code": "assert int_div == 3, 'int_div should be 3, got ' + repr(int_div)"
+  },
+  "dt_22": {
+    "test_code": "assert remainder == 2, 'remainder should be 2, got ' + repr(remainder)"
+  },
+  "dt_23": {
+    "test_code": "assert power == 256, 'power should be 256, got ' + repr(power)"
+  },
+  "dt_24": {
+    "test_code": "assert absolute == 42, 'absolute should be 42, got ' + repr(absolute)"
+  },
+  "dt_25": {
+    "test_code": "assert rounded == 4, 'rounded should be 4, got ' + repr(rounded)\nassert type(rounded) is int, 'rounded should be a int, got ' + type(rounded).__name__"
+  },
+  "dt_26": {
+    "test_code": "assert rounded_pi == 3.14, 'rounded_pi should be 3.14, got ' + repr(rounded_pi)"
+  },
+  "dt_27": {
+    "description": "Create `value = 99.5` and format it as a string with 1 decimal place using an f-string. Store the text in `formatted`.",
+    "test_code": "assert value == 99.5, 'value should be 99.5, got ' + repr(value)\nassert formatted == '99.5', \"formatted should be '99.5', got \" + repr(formatted)"
+  },
+  "dt_29": {
+    "test_code": "assert isinstance(multi_line, str), 'multi_line should be a string'\nassert '\\n' in multi_line, 'multi_line should contain a newline (\\\\n)'"
+  },
+  "dt_30": {
+    "test_code": "assert isinstance(tabbed, str), 'tabbed should be a string'\n_parts = tabbed.split('\\t')\nassert len(_parts) == 2 and all(_parts), 'tabbed should be two words with one tab (\\\\t) between them, got ' + repr(tabbed)"
+  },
+  "dt_31": {
+    "test_code": "assert isinstance(poem, str), 'poem should be a string'\nassert poem.count('\\n') >= 2, 'poem should span 3 lines, it has ' + str(poem.count('\\n') + 1)"
+  },
+  "dt_32": {
+    "test_code": "assert c == 3 + 4j, 'c should be 3 + 4j, got ' + repr(c)"
+  },
+  "dt_33": {
+    "description": "0, '', None and [] are all falsy. Check that 0 is falsy: store `not bool(0)` in `is_falsy` (it is True because bool(0) is False).",
+    "test_code": "assert is_falsy is True, 'is_falsy should be True because bool(0) is False, got ' + repr(is_falsy)"
+  },
+  "dt_34": {
+    "description": "Create a variable `x = None`, then store the check `type(x) == type(None)` in a variable named `result`.",
+    "test_code": "assert x is None, 'x should be None, got ' + repr(x)\nassert result is True, 'result should be True, got ' + repr(result)"
+  },
+  "dt_35": {
+    "test_code": "assert code == 65, 'code should be 65, got ' + repr(code)"
+  },
+  "dt_36": {
+    "test_code": "assert char == 'A', \"char should be 'A', got \" + repr(char)"
+  },
+  "dt_48": {
+    "description": "Create a function `describe_value(val)` that returns 'bool' for a bool, 'int' for an int, 'float' for a float, 'str' for a str, and 'other' for anything else. Check bool before int, because bool is a subclass of int."
+  },
+  "dt_50": {
+    "hints": [
+      "Use try/except to return None when a conversion fails",
+      "For bool: a bool stays as is, the strings 'true', '1' and 'yes' (any case) give True and other strings give False, and numbers use bool()",
+      "Return None if conversion fails"
+    ]
+  },
+  "cond_01": {
+    "description": "Write a function `is_positive(n)` that returns True if a number is positive, False otherwise."
+  },
+  "cond_02": {
+    "description": "Write a function `even_or_odd(n)` that returns 'even' if a number is even, 'odd' if odd."
+  },
+  "cond_03": {
+    "description": "Write a function `temperature_description(temp)` that returns 'hot' if temperature >= 30, 'cold' if < 10, 'mild' otherwise."
+  },
+  "cond_04": {
+    "description": "Write a function `is_not_admin(username)` that returns True if a string is not 'admin', False otherwise."
+  },
+  "cond_05": {
+    "description": "Write a function `size_category(value)` that returns a size category: 'small' (< 5), 'medium' (5-10), 'large' (> 10)."
+  },
+  "cond_06": {
+    "description": "Write a function `is_in_range(n)` that returns True if a number is between 1 and 100 inclusive, False otherwise."
+  },
+  "cond_07": {
+    "description": "Write a function `even_and_positive(n)` that returns True if a number is even AND positive, False otherwise."
+  },
+  "cond_08": {
+    "description": "Write a function `outside_range(n)` that returns True if a number is less than 0 OR greater than 100, False otherwise."
+  },
+  "cond_09": {
+    "description": "Write a function `is_empty(s)` that returns True if a string is empty (length 0), False otherwise."
+  },
+  "cond_10": {
+    "description": "Write a function `is_truthy(value)` that returns True if a value is truthy (0, empty string, None, False are falsy), False if falsy."
+  },
+  "cond_11": {
+    "description": "Write a function `check_adult(age, has_id)` that returns 'adult' if age >= 18 and has_id is True, 'minor' otherwise."
+  },
+  "cond_12": {
+    "description": "Write a function `pass_or_fail(score)` that returns 'pass' if score >= 50 else 'fail' using a ternary expression."
+  },
+  "cond_13": {
+    "description": "Write a function `is_between_10_and_20(n)` that returns True if a number is strictly between 10 and 20 (exclusive), False otherwise."
+  },
+  "cond_14": {
+    "description": "Write a function `day_name(day_num)` that returns the day name for a number 1-7 (1 = 'Monday', 2 = 'Tuesday', ..., 7 = 'Sunday') and returns 'Invalid' for any other number."
+  },
+  "cond_15": {
+    "description": "Write a function `can_drive(age, has_license, in_driving_school)` that returns True if (age >= 18 AND has_license) OR age >= 16 AND in_driving_school is True."
+  },
+  "cond_16": {
+    "description": "Write a function `validate_password(password)` that returns 'invalid' if password is empty or less than 6 chars, otherwise 'valid'."
+  },
+  "cond_17": {
+    "description": "Write a function `is_vowel(char)` that returns True if a character is a vowel (a, e, i, o, u), False otherwise."
+  },
+  "cond_18": {
+    "description": "Write a function `value_type(value)` that returns 'int' if the value is an integer, 'float' if it's a float, 'other' otherwise."
+  },
+  "cond_19": {
+    "description": "Write a function `is_working_age(age)` that returns 'valid' if a person's age is 18-65 inclusive, 'invalid' otherwise."
+  },
+  "cond_20": {
+    "description": "Write a function `first_is_positive(lst)` that checks if a list is non-empty AND its first element is positive, without IndexError.",
+    "test_code": "assert 'first_is_positive' in dir(), \"Function 'first_is_positive' not defined\"\nfor _args, _exp in [([5, -1], True), ([-3, 4], False), ([0], False), ([], False)]:\n    _r = first_is_positive(_args)\n    assert _r == _exp, 'first_is_positive(' + repr(_args) + ') returned ' + repr(_r) + ', expected ' + repr(_exp)"
+  },
+  "cond_21": {
+    "description": "Write a function `letter_grade(score)` that returns a letter grade for a score from 0 to 100: 'A' for 90 and up, 'B' for 80-89, 'C' for 70-79, 'D' for 60-69 and 'F' below 60."
+  },
+  "cond_22": {
+    "description": "Write a function `fizzbuzz(n)` that returns 'Fizz' if divisible by 3, 'Buzz' if divisible by 5, 'FizzBuzz' if both, otherwise the number as a string."
+  },
+  "cond_23": {
+    "description": "Write a function `is_leap_year(year)` that returns True if a year is a leap year, False otherwise."
+  },
+  "cond_24": {
+    "description": "Write a function `bmi_category(weight, height)` that calculates BMI as weight / height**2 (kg and metres) and returns 'underweight' (BMI < 18.5), 'normal' (18.5 to under 25), 'overweight' (25 to under 30) or 'obese' (30 and up)."
+  },
+  "cond_25": {
+    "description": "Write a function `traffic_light(color)` that takes a color and returns the action: 'go' (green), 'slow' (yellow), 'stop' (red), 'invalid' otherwise."
+  },
+  "cond_26": {
+    "description": "Write a function `password_strength(password)` that returns 'weak' if the password is shorter than 8 characters, 'strong' if it is at least 12 characters and has both an uppercase letter and a digit, 'medium' if it is at least 8 characters and has an uppercase letter or a digit, and 'weak' otherwise."
+  },
+  "cond_27": {
+    "description": "Write a function `apply_discount(price)` that applies a discount based on purchase amount: 5% off >= $100, 10% off >= $500, 15% off >= $1000."
+  },
+  "cond_28": {
+    "description": "Write a function `age_category(age)` that returns an age category: 'child' (< 13), 'teen' (13-19), 'adult' (20-64), 'senior' (65+)."
+  },
+  "cond_29": {
+    "description": "Write a function `shipping_cost(weight, destination)` that returns the shipping cost: a base of $5, plus $2 for each pound over 5 pounds, plus $3 if destination is 'international'."
+  },
+  "cond_30": {
+    "description": "Write a function `movie_rating(rating)` that returns 'G' if rating <= 5, 'PG' if 5 < rating <= 7, 'PG-13' if 7 < rating <= 10, and 'R' if rating > 10.",
+    "hints": [
+      "rating is a number from 0 upward",
+      "G: rating <= 5, PG: 5 < rating <= 7, PG-13: 7 < rating <= 10, R: rating > 10",
+      "Boundary: 5.0 is G, 7.0 is PG"
+    ]
+  },
+  "cond_31": {
+    "description": "Write a function `classify_char(char)` that returns 'vowel' if the character is a vowel, 'consonant' if a letter, 'other' if not a letter."
+  },
+  "cond_32": {
+    "description": "Write a function `triangle_type(a, b, c)` that returns 'equilateral' (all equal), 'isosceles' (2 equal), 'scalene' (none equal), or 'invalid' if not a valid triangle."
+  },
+  "cond_33": {
+    "description": "Write a function `classify_number(n)` that returns 'zero' for 0, 'small_pos' for 0 < n <= 10, 'large_pos' for n > 10, 'small_neg' for -10 <= n < 0, and 'large_neg' for n < -10."
+  },
+  "cond_34": {
+    "description": "Write a function `month_to_season(month)` that returns the season ('winter', 'spring', 'summer', 'fall') given a month number 1-12."
+  },
+  "cond_35": {
+    "description": "Write a function `digit_category(n)` that returns 'small' (< 10), 'two_digit' (10-99), 'three_digit' (100-999), 'large' (>= 1000)."
+  },
+  "cond_36": {
+    "description": "Write a function `calculate_tax(income)` that calculates tax on income using brackets: 10% (0-10k), 12% (10k-40k), 22% (40k-85k), 24% (85k+)."
+  },
+  "cond_37": {
+    "description": "Write a function `loan_eligible(age, income, has_collateral, credit_score)` that checks loan eligibility: age >= 21 AND (income >= 30k OR has_collateral) AND credit_score >= 650."
+  },
+  "cond_38": {
+    "description": "Write a function `rps_winner(p1, p2)` that takes player1 and player2 moves and returns 'player1', 'player2', or 'tie'."
+  },
+  "cond_39": {
+    "description": "Write a function `is_valid_email(email)` that validates an email: must have @ symbol, must have a dot after @, must have content before @, after @, and after dot."
+  },
+  "cond_40": {
+    "description": "Write a function `list_summary(lst)` that takes a list and returns 'empty', 'single', or 'multi', and additionally if any element is negative, append '_has_neg'.",
+    "test_code": "assert 'list_summary' in dir(), \"Function 'list_summary' not defined\"\nfor _args, _exp in [([], 'empty'), ([3], 'single'), ([-3], 'single_has_neg'), ([1, 2], 'multi'), ([1, -2, 3], 'multi_has_neg')]:\n    _r = list_summary(_args)\n    assert _r == _exp, 'list_summary(' + repr(_args) + ') returned ' + repr(_r) + ', expected ' + repr(_exp)"
+  },
+  "cond_41": {
+    "description": "Write a function `classify_number_detailed(n)` that classifies numbers: 'small_even', 'small_odd', 'large_even', 'large_odd', where small is < 100."
+  },
+  "cond_42": {
+    "description": "Write a function `string_case_type(s)` that returns 'non_alpha' if s has no letters at all, 'uppercase' if all its letters are uppercase, 'lowercase' if all its letters are lowercase, and 'mixed' otherwise."
+  },
+  "cond_43": {
+    "description": "Write a function `insurance_premium(age, high_risk, has_accidents)` that calculates insurance premium: base $100, +$10 per year for age > 30, +$50 if high_risk, +15% if has_accidents.",
+    "test_code": "assert 'insurance_premium' in dir(), \"Function 'insurance_premium' not defined. Did you write: def insurance_premium(...)?\"\n_r0 = insurance_premium(25, False, False)\nassert _r0 == 100, 'Test 1: insurance_premium(25, False, False) returned ' + str(repr(_r0)) + ', expected 100'\n_r1 = insurance_premium(35, False, False)\nassert _r1 == 150, 'Test 2: insurance_premium(35, False, False) returned ' + str(repr(_r1)) + ', expected 150'\n_r2 = insurance_premium(30, True, False)\nassert _r2 == 150, 'Test 3: insurance_premium(30, True, False) returned ' + str(repr(_r2)) + ', expected 150'\n_r3 = insurance_premium(35, True, True)\nassert abs(_r3 - 230) < 1e-9, 'Test 4: insurance_premium(35, True, True) returned ' + str(repr(_r3)) + ', expected 230'"
+  },
+  "cond_44": {
+    "description": "Write a function `score_message(score)` that returns a message about a score: 'Excellent!' if >= 90, 'Good' if >= 80, 'Okay' if >= 70, 'Needs improvement' otherwise."
+  },
+  "cond_45": {
+    "description": "Write a function `percentile_category(score)` that categorizes a test score into percentile: 'top_10' (90+), 'top_25' (80-89), 'top_50' (70-79), 'below_50' (<70)."
+  },
+  "cond_46": {
+    "description": "Write a function `determine_access(role, is_active, reputation)` that determines access level: 'admin' (role=='admin' AND is_active), 'moderator' (role=='moderator' AND is_active AND reputation>=50), 'user' (is_active), 'denied' otherwise."
+  },
+  "cond_47": {
+    "description": "Write a function `flight_ticket_price(advance_days, is_member, is_weekend)` that starts from a base price of $200, then multiplies by 0.8 if advance_days > 30, then by 0.9 if is_member, then by 1.5 if is_weekend, and returns the result."
+  },
+  "cond_48": {
+    "description": "Write a function `validate_registration(age, email, password, username)` that checks four rules in this order and collects an error name for each one that fails: age >= 18 ('age_error'), email contains '@' ('email_error'), password is at least 8 characters ('password_error'), username is 3 to 20 characters ('username_error'). Return the list of error names, or ['valid'] if there are none."
+  },
+  "cond_49": {
+    "description": "Write a function `http_status(code)` using match/case that maps HTTP status codes to descriptions: 200->'OK', 301->'Moved', 400->'Bad Request', 404->'Not Found', 500->'Server Error', default->'Unknown'."
+  },
+  "cond_50": {
+    "description": "Write a function `can_upgrade_tier(tier1, tier2, account_age, payment_verified, credit_balance)` that determines if a user can upgrade from tier1 to tier2: tier1 != tier2, account_age > 30 days, AND (payment_method_verified OR credit_balance > 100)."
+  },
+  "loop_02": {
+    "test_code": "assert 'total' in dir(), \"Function 'total' not defined. Did you write: def total(...)?\"\n_r0 = total([1, 2, 3])\nassert _r0 == 6, 'Test 1: total([1, 2, 3]) returned ' + str(repr(_r0)) + ', expected 6'\n_r1 = total([])\nassert _r1 == 0, 'Test 2: total([]) returned ' + str(repr(_r1)) + ', expected 0'\n_r2 = total([10, -4])\nassert _r2 == 6, 'Test 3: total([10, -4]) returned ' + str(repr(_r2)) + ', expected 6'\n_r3 = total([5])\nassert _r3 == 5, 'Test 4: total([5]) returned ' + str(repr(_r3)) + ', expected 5'\ndef _names(_c):\n    _s = set(_c.co_names)\n    for _k in _c.co_consts:\n        if hasattr(_k, 'co_names'):\n            _s |= _names(_k)\n    return _s\nassert not ({'sum'} & _names(total.__code__)), 'Do not use the built-in sum here; add the numbers with a loop'"
+  },
+  "loop_03": {
+    "test_code": "assert 'how_many' in dir(), \"Function 'how_many' not defined. Did you write: def how_many(...)?\"\n_r0 = how_many(['a', 'b'])\nassert _r0 == 2, \"Test 1: how_many(['a', 'b']) returned \" + str(repr(_r0)) + ', expected 2'\n_r1 = how_many([])\nassert _r1 == 0, 'Test 2: how_many([]) returned ' + str(repr(_r1)) + ', expected 0'\n_r2 = how_many([1, 2, 3, 4])\nassert _r2 == 4, 'Test 3: how_many([1, 2, 3, 4]) returned ' + str(repr(_r2)) + ', expected 4'\ndef _names(_c):\n    _s = set(_c.co_names)\n    for _k in _c.co_consts:\n        if hasattr(_k, 'co_names'):\n            _s |= _names(_k)\n    return _s\nassert not ({'len'} & _names(how_many.__code__)), 'Do not use len here; count the items with a loop'"
+  },
+  "loop_12": {
+    "test_code": "assert 'join_words' in dir(), \"Function 'join_words' not defined. Did you write: def join_words(...)?\"\n_r0 = join_words(['a', 'b'])\nassert _r0 == 'a b', \"Test 1: join_words(['a', 'b']) returned \" + str(repr(_r0)) + \", expected 'a b'\"\n_r1 = join_words([])\nassert _r1 == '', 'Test 2: join_words([]) returned ' + str(repr(_r1)) + \", expected ''\"\n_r2 = join_words(['solo'])\nassert _r2 == 'solo', \"Test 3: join_words(['solo']) returned \" + str(repr(_r2)) + \", expected 'solo'\"\n_r3 = join_words(['x', 'y', 'z'])\nassert _r3 == 'x y z', \"Test 4: join_words(['x', 'y', 'z']) returned \" + str(repr(_r3)) + \", expected 'x y z'\"\ndef _names(_c):\n    _s = set(_c.co_names)\n    for _k in _c.co_consts:\n        if hasattr(_k, 'co_names'):\n            _s |= _names(_k)\n    return _s\nassert not ({'join'} & _names(join_words.__code__)), 'Do not use str.join here; build the string with a loop'"
+  },
+  "loop_20": {
+    "test_code": "assert 'largest' in dir(), \"Function 'largest' not defined. Did you write: def largest(...)?\"\n_r0 = largest([3, 9, 2])\nassert _r0 == 9, 'Test 1: largest([3, 9, 2]) returned ' + str(repr(_r0)) + ', expected 9'\n_r1 = largest([])\nassert _r1 == None, 'Test 2: largest([]) returned ' + str(repr(_r1)) + ', expected None'\n_r2 = largest([-5, -2])\nassert _r2 == -2, 'Test 3: largest([-5, -2]) returned ' + str(repr(_r2)) + ', expected -2'\n_r3 = largest([7])\nassert _r3 == 7, 'Test 4: largest([7]) returned ' + str(repr(_r3)) + ', expected 7'\ndef _names(_c):\n    _s = set(_c.co_names)\n    for _k in _c.co_consts:\n        if hasattr(_k, 'co_names'):\n            _s |= _names(_k)\n    return _s\nassert not ({'max'} & _names(largest.__code__)), 'Do not use max here; track the biggest value with a loop'"
+  },
+  "loop_21": {
+    "test_code": "assert 'backwards' in dir(), \"Function 'backwards' not defined. Did you write: def backwards(...)?\"\n_r0 = backwards([1, 2, 3])\nassert _r0 == [3, 2, 1], 'Test 1: backwards([1, 2, 3]) returned ' + str(repr(_r0)) + ', expected [3, 2, 1]'\n_r1 = backwards([])\nassert _r1 == [], 'Test 2: backwards([]) returned ' + str(repr(_r1)) + ', expected []'\n_r2 = backwards(['a'])\nassert _r2 == ['a'], \"Test 3: backwards(['a']) returned \" + str(repr(_r2)) + \", expected ['a']\"\ndef _names(_c):\n    _s = set(_c.co_names)\n    for _k in _c.co_consts:\n        if hasattr(_k, 'co_names'):\n            _s |= _names(_k)\n    return _s\nassert not ({'reversed', 'reverse'} & _names(backwards.__code__)), 'Do not use reversed() or .reverse() here; walk the indexes with a loop'"
+  },
+  "loop_41": {
+    "test_code": "assert 'bubble_sort' in dir(), \"Function 'bubble_sort' not defined. Did you write: def bubble_sort(...)?\"\n_r0 = bubble_sort([3, 1, 2])\nassert _r0 == [1, 2, 3], 'Test 1: bubble_sort([3, 1, 2]) returned ' + str(repr(_r0)) + ', expected [1, 2, 3]'\n_r1 = bubble_sort([])\nassert _r1 == [], 'Test 2: bubble_sort([]) returned ' + str(repr(_r1)) + ', expected []'\n_r2 = bubble_sort([5])\nassert _r2 == [5], 'Test 3: bubble_sort([5]) returned ' + str(repr(_r2)) + ', expected [5]'\n_r3 = bubble_sort([2, 2, 1])\nassert _r3 == [1, 2, 2], 'Test 4: bubble_sort([2, 2, 1]) returned ' + str(repr(_r3)) + ', expected [1, 2, 2]'\ndef _names(_c):\n    _s = set(_c.co_names)\n    for _k in _c.co_consts:\n        if hasattr(_k, 'co_names'):\n            _s |= _names(_k)\n    return _s\nassert not ({'sorted', 'sort'} & _names(bubble_sort.__code__)), 'Do not use sorted() or .sort() here; swap neighbours in a loop'"
+  },
+  "func_03": {
+    "test_code": "assert 'print_twice' in dir(), \"Function 'print_twice' not defined. Did you write: def print_twice(...)?\"\nimport io as _io, contextlib as _ctx\n_buf = _io.StringIO()\nwith _ctx.redirect_stdout(_buf):\n    _r = print_twice('Hello')\nassert _r is None, \"print_twice should not return anything, it returned \" + repr(_r)\nassert _buf.getvalue() == 'Hello\\nHello\\n', \"print_twice('Hello') should print Hello on two lines, it printed \" + repr(_buf.getvalue())"
+  },
+  "func_11": {
+    "test_code": "assert 'describe_pet' in dir(), \"Function 'describe_pet' not defined. Did you write: def describe_pet(...)?\"\n_r0 = describe_pet(breed='dog', name='Buddy')\nassert _r0 == 'Buddy is a dog', \"describe_pet(breed='dog', name='Buddy') returned \" + repr(_r0) + \", expected 'Buddy is a dog'\"\n_r1 = describe_pet(name='Whiskers', breed='cat')\nassert _r1 == 'Whiskers is a cat', \"describe_pet(name='Whiskers', breed='cat') returned \" + repr(_r1) + \", expected 'Whiskers is a cat'\""
+  },
+  "func_12": {
+    "test_code": "assert 'multiply_all' in dir(), \"Function 'multiply_all' not defined. Did you write: def multiply_all(...)?\"\nfor _args, _exp in [((2, 3, 4), 24), ((5,), 5), ((1, 2, 3, 4, 5), 120)]:\n    _r = multiply_all(*_args)\n    assert _r == _exp, 'multiply_all' + repr(_args) + ' returned ' + repr(_r) + ', expected ' + repr(_exp)"
+  },
+  "func_13": {
+    "test_code": "assert 'build_query' in dir(), \"Function 'build_query' not defined. Did you write: def build_query(...)?\"\n_r0 = build_query(name='Alice', age=30)\nassert _r0 == 'name=Alice&age=30', \"build_query(name='Alice', age=30) returned \" + repr(_r0)\n_r1 = build_query(x=1)\nassert _r1 == 'x=1', \"build_query(x=1) returned \" + repr(_r1)\n_r2 = build_query()\nassert _r2 == '', \"build_query() with no arguments should return '', got \" + repr(_r2)"
+  },
+  "func_14": {
+    "description": "Define a function `print_all(*args, **kwargs)` that returns the string f'Args: {list(args)}\\nKwargs: {kwargs}'. Example: print_all(1, 2, a=3) returns \"Args: [1, 2]\\nKwargs: {'a': 3}\".",
+    "test_code": "assert 'print_all' in dir(), \"Function 'print_all' not defined. Did you write: def print_all(...)?\"\n_r0 = print_all(1, 2, a=3)\nassert _r0 == \"Args: [1, 2]\\nKwargs: {'a': 3}\", \"print_all(1, 2, a=3) returned \" + repr(_r0)\n_r1 = print_all()\nassert _r1 == 'Args: []\\nKwargs: {}', 'print_all() returned ' + repr(_r1)"
+  },
+  "func_18": {
+    "test_code": "assert 'call_twice' in dir(), \"Function 'call_twice' not defined. Did you write: def call_twice(...)?\"\n_r0 = call_twice(lambda x: x * 2, 3)\nassert _r0 == 12, 'call_twice(lambda x: x * 2, 3) returned ' + repr(_r0) + ', expected 12'\n_r1 = call_twice(lambda s: s + '!', 'hi')\nassert _r1 == 'hi!!', \"call_twice(lambda s: s + '!', 'hi') returned \" + repr(_r1) + \", expected 'hi!!'\""
+  },
+  "func_20": {
+    "test_code": "assert 'divide' in dir(), \"Function 'divide' not defined. Did you write: def divide(...)?\"\n_r0 = divide(10, 2)\nassert _r0 == 5.0, 'Test 1: divide(10, 2) returned ' + str(repr(_r0)) + ', expected 5.0'\n_r1 = divide(15, 3)\nassert _r1 == 5.0, 'Test 2: divide(15, 3) returned ' + str(repr(_r1)) + ', expected 5.0'\nassert divide.__doc__ is not None and divide.__doc__.strip() == 'Return a divided by b.', \"divide needs the docstring 'Return a divided by b.', found \" + repr(divide.__doc__)"
+  },
+  "func_24": {
+    "test_code": "assert 'make_adder' in dir(), \"Function 'make_adder' not defined. Did you write: def make_adder(...)?\"\n_add5 = make_adder(5)\nassert callable(_add5), 'make_adder(5) should return a function'\nassert _add5(3) == 8, 'make_adder(5)(3) should be 8, got ' + repr(_add5(3))\nassert make_adder(-1)(1) == 0, 'make_adder(-1)(1) should be 0'\nassert _add5(10) == 15, 'each adder keeps its own x: make_adder(5)(10) should be 15'"
+  },
+  "func_25": {
+    "test_code": "assert 'make_counter' in dir(), \"Function 'make_counter' not defined. Did you write: def make_counter(...)?\"\n_c = make_counter()\nassert _c() == 1 and _c() == 2 and _c() == 3, 'the counter should return 1, 2, 3 on successive calls'\n_d = make_counter()\nassert _d() == 1, 'a new counter should start again at 1'\nassert _c() == 4, 'the first counter should keep its own count'"
+  },
+  "func_26": {
+    "test_code": "assert 'add_exclamation' in dir(), \"Function 'add_exclamation' not defined. Did you write: def add_exclamation(...)?\"\n@add_exclamation\ndef _hello():\n    return 'hello'\nassert _hello() == 'hello!', \"A function returning 'hello' decorated with @add_exclamation should return 'hello!', got \" + repr(_hello())\n@add_exclamation\ndef _greet(name):\n    return 'hi ' + name\nassert _greet('Bo') == 'hi Bo!', 'the wrapper should pass arguments through, got ' + repr(_greet('Bo'))"
+  },
+  "func_27": {
+    "test_code": "assert 'repeat' in dir(), \"Function 'repeat' not defined. Did you write: def repeat(...)?\"\n@repeat(3)\ndef _hi():\n    return 'hi'\nassert _hi() == 'hihihi', \"@repeat(3) on a function returning 'hi' should give 'hihihi', got \" + repr(_hi())\nassert repeat(2)(lambda: 'ab')() == 'abab', \"repeat(2)(lambda: 'ab')() should be 'abab'\""
+  },
+  "func_31": {
+    "test_code": "assert 'count_up' in dir(), \"Function 'count_up' not defined. Did you write: def count_up(...)?\"\nimport inspect as _inspect\nassert _inspect.isgeneratorfunction(count_up), 'count_up should be a generator function (use yield)'\nassert list(count_up(3)) == [1, 2, 3], 'list(count_up(3)) should be [1, 2, 3], got ' + repr(list(count_up(3)))\nassert list(count_up(0)) == [], 'list(count_up(0)) should be []'"
+  },
+  "func_35": {
+    "description": "Define a function `make_multiplier(factor)` that returns an inner function taking x and returning x * factor. The inner function reads factor from the enclosing scope (a closure); nonlocal is only needed when the inner function assigns to that variable.",
+    "hints": [
+      "Define the inner function inside make_multiplier and return it without calling it",
+      "The inner function can read factor directly; you would need nonlocal only to change it"
+    ],
+    "test_code": "assert 'make_multiplier' in dir(), \"Function 'make_multiplier' not defined. Did you write: def make_multiplier(...)?\"\n_times3 = make_multiplier(3)\nassert _times3(4) == 12, 'make_multiplier(3)(4) should be 12, got ' + repr(_times3(4))\nassert make_multiplier(0.5)(10) == 5, 'make_multiplier(0.5)(10) should be 5'"
+  },
+  "func_36": {
+    "test_code": "assert 'retry' in dir(), \"Function 'retry' not defined. Did you write: def retry(...)?\"\n_calls = []\n@retry(3)\ndef _flaky():\n    _calls.append(1)\n    if len(_calls) < 3:\n        raise ValueError('boom')\n    return 'ok'\nassert _flaky() == 'ok', 'a function that fails twice should succeed on the 3rd try with retry(3)'\nassert len(_calls) == 3, 'expected 3 calls, got ' + str(len(_calls))\n_calls2 = []\n@retry(2)\ndef _always():\n    _calls2.append(1)\n    raise KeyError('x')\ntry:\n    _always()\n    _raised = False\nexcept KeyError:\n    _raised = True\nassert _raised, 'after the last failed try the original exception should be re-raised'\nassert len(_calls2) == 2, 'retry(2) should call the function exactly 2 times, got ' + str(len(_calls2))",
+    "solution": "def retry(n):\n    def decorator(func):\n        def wrapper(*args, **kwargs):\n            for i in range(n):\n                try:\n                    return func(*args, **kwargs)\n                except Exception:\n                    if i == n - 1:\n                        raise\n        return wrapper\n    return decorator"
+  },
+  "func_37": {
+    "test_code": "assert 'memoize' in dir(), \"Function 'memoize' not defined. Did you write: def memoize(...)?\"\n_seen = []\n@memoize\ndef _square(x):\n    _seen.append(x)\n    return x * x\nassert _square(4) == 16 and _square(4) == 16, 'the memoized function should still return the right value'\nassert _seen == [4], 'the second call with the same argument should come from the cache, the function ran ' + str(len(_seen)) + ' times'\nassert _square(5) == 25 and _seen == [4, 5], 'a new argument should call the function'"
+  },
+  "func_38": {
+    "description": "Write a function `pipeline(functions)` that takes a list of functions and returns a new function that applies them left to right. Example: pipeline([str.strip, str.upper])('  hi ') returns 'HI'.",
+    "test_code": "assert 'pipeline' in dir(), \"Function 'pipeline' not defined. Did you write: def pipeline(...)?\"\n_f = pipeline([str.strip, str.upper])\nassert _f('  hi ') == 'HI', \"pipeline([str.strip, str.upper])('  hi ') should be 'HI', got \" + repr(_f('  hi '))\n_g = pipeline([lambda x: x + 1, lambda x: x * 2])\nassert _g(3) == 8, 'functions must run left to right: (3 + 1) * 2 = 8, got ' + repr(_g(3))"
+  },
+  "func_43": {
+    "test_code": "assert 'apply_twice' in dir(), \"Function 'apply_twice' not defined. Did you write: def apply_twice(...)?\"\nassert apply_twice(lambda x: x * 2, 3) == 12, 'apply_twice(lambda x: x * 2, 3) should be 12'\nassert apply_twice(lambda s: s + 'a', 'b') == 'baa', \"apply_twice(lambda s: s + 'a', 'b') should be 'baa'\""
+  },
+  "func_44": {
+    "test_code": "assert 'partition' in dir(), \"Function 'partition' not defined. Did you write: def partition(...)?\"\n_yes, _no = partition(lambda n: n % 2 == 0, [1, 2, 3, 4, 5])\nassert list(_yes) == [2, 4] and list(_no) == [1, 3, 5], 'partition(is_even, [1, 2, 3, 4, 5]) should give ([2, 4], [1, 3, 5]), got ' + repr((_yes, _no))\n_yes, _no = partition(lambda s: len(s) > 2, iter(['ab', 'abc']))\nassert list(_yes) == ['abc'] and list(_no) == ['ab'], 'partition should work on any iterable'"
+  },
+  "func_45": {
+    "description": "Create a function `calculate(a, op, b)` that looks up op ('+', '-' or '*') in a dictionary of functions and returns the result of applying it to a and b. Example: calculate(6, '*', 3) returns 18.",
+    "test_code": "assert 'calculate' in dir(), \"Function 'calculate' not defined. Did you write: def calculate(...)?\"\nfor _a, _op, _b, _exp in [(6, '+', 3, 9), (6, '-', 3, 3), (6, '*', 3, 18)]:\n    _r = calculate(_a, _op, _b)\n    assert _r == _exp, 'calculate(' + repr(_a) + ', ' + repr(_op) + ', ' + repr(_b) + ') returned ' + repr(_r) + ', expected ' + repr(_exp)"
+  },
+  "func_46": {
+    "test_code": "assert 'curry' in dir(), \"Function 'curry' not defined. Did you write: def curry(...)?\"\nassert curry(lambda a, b: a + b)(5)(3) == 8, 'curry(add)(5)(3) should be 8'\nassert curry(lambda a, b: a - b)(10)(4) == 6, 'curry(sub)(10)(4) should be 6 (first argument first)'"
+  },
+  "func_48": {
+    "test_code": "assert 'measure_time' in dir(), \"Function 'measure_time' not defined. Did you write: def measure_time(...)?\"\nimport io as _io, contextlib as _ctx\n@measure_time\ndef _work(n):\n    return n * 2\n_buf = _io.StringIO()\nwith _ctx.redirect_stdout(_buf):\n    _r = _work(5)\nassert _r == 10, 'the decorated function should still return its result, got ' + repr(_r)\nassert _buf.getvalue().strip() != '', 'measure_time should print how long the call took'",
+    "title": "Timing Decorator",
+    "solution": "import time\ndef measure_time(func):\n    def wrapper(*args, **kwargs):\n        start = time.perf_counter()\n        result = func(*args, **kwargs)\n        end = time.perf_counter()\n        print(f'{func.__name__} took {end - start:.4f} seconds')\n        return result\n    return wrapper"
+  },
+  "func_49": {
+    "description": "Write two decorators: `to_upper` (uppercases the wrapped function's return value) and `add_exclamation` (adds '!' to it). Stack them on a function that returns 'hello' so the result is 'HELLO!'.",
+    "test_code": "assert 'to_upper' in dir() and 'add_exclamation' in dir(), 'Define both decorators: to_upper and add_exclamation'\n@add_exclamation\n@to_upper\ndef _hello():\n    return 'hello'\nassert _hello() == 'HELLO!', \"hello() decorated with @add_exclamation and @to_upper should return 'HELLO!', got \" + repr(_hello())\nassert to_upper(lambda: 'abc')() == 'ABC', 'to_upper alone should uppercase the result'\nassert add_exclamation(lambda: 'abc')() == 'abc!', \"add_exclamation alone should add '!'\""
+  },
+  "func_50": {
+    "test_code": "assert 'flexible_sum' in dir(), \"Function 'flexible_sum' not defined. Did you write: def flexible_sum(...)?\"\nassert flexible_sum(1, 2, a=3, b=4) == 10, 'flexible_sum(1, 2, a=3, b=4) should be 10'\nassert flexible_sum() == 0, 'flexible_sum() should be 0'\nassert flexible_sum(5) == 5, 'flexible_sum(5) should be 5'\nassert flexible_sum(x=2, y=3) == 5, 'flexible_sum(x=2, y=3) should be 5'"
+  },
+  "func_15": {
+    "solution": "y = 5\n\ndef modify_outer(x):\n    return x + y"
+  },
+  "func_21": {
+    "description": "Write a function `square_with_map(numbers)` that uses map() with a lambda to square every number and returns the result as a list. Example: square_with_map([1, 2, 3, 4]) returns [1, 4, 9, 16]."
+  },
+  "func_22": {
+    "description": "Write a function `filter_long_words(words)` that uses filter() with a lambda to keep only the words longer than 3 characters and returns them as a list."
+  },
+  "func_23": {
+    "description": "Write a function `multiply_list(numbers)` that uses functools.reduce() with a lambda to multiply all the numbers together. Example: multiply_list([2, 3, 4]) returns 24."
+  },
+  "func_32": {
+    "description": "Write a function `squares_generator()` that uses a generator expression (like a list comprehension but with parentheses) to make the squares of 1 to 5, and returns them as a list: [1, 4, 9, 16, 25]."
+  },
+  "func_42": {
+    "solution": "HEADERS = ('name', 'age', 'city')\n\ndef parse_csv_line(line, headers=HEADERS):\n    values = line.split(',')\n    return dict(zip(headers, values))"
+  },
+  "ls_01": {
+    "test_code": "assert my_list == [1, 2, 3, 4, 5], 'my_list should be [1, 2, 3, 4, 5], got ' + repr(my_list)"
+  },
+  "ls_20": {
+    "test_code": "assert 'copy_list' in dir(), \"Function 'copy_list' not defined. Did you write: def copy_list(...)?\"\n_r0 = copy_list([1, 2, 3])\nassert _r0 == [1, 2, 3], 'Test 1: copy_list([1, 2, 3]) returned ' + str(repr(_r0)) + ', expected [1, 2, 3]'\n_r1 = copy_list([])\nassert _r1 == [], 'Test 2: copy_list([]) returned ' + str(repr(_r1)) + ', expected []'\n_r2 = copy_list(['a', 'b'])\nassert _r2 == ['a', 'b'], \"Test 3: copy_list(['a', 'b']) returned \" + str(repr(_r2)) + \", expected ['a', 'b']\"\n_src = [1, 2, 3]\n_cp = copy_list(_src)\nassert _cp is not _src, 'copy_list must return a new list, not the same list object'\n_cp.append(4)\nassert _src == [1, 2, 3], 'changing the copy must not change the original'"
+  },
+  "ls_34": {
+    "test_code": "assert 'Stack' in dir(), \"Define a class named Stack\"\nassert isinstance(Stack, type), 'Stack should be a class'\n_s = Stack()\n_s.push(1)\n_s.push(2)\n_s.push(3)\n_r = _s.pop()\nassert _r == 3, 'pop() should return the last pushed item (3), got ' + repr(_r)\nassert _s.pop() == 2, 'the next pop() should return 2'\n_s.push(9)\nassert _s.pop() == 9, 'pop() should return 9 right after push(9)'\nassert _s.pop() == 1, 'the last pop() should return 1'"
+  },
+  "ls_35": {
+    "test_code": "assert 'Queue' in dir(), \"Define a class named Queue\"\nassert isinstance(Queue, type), 'Queue should be a class'\n_q = Queue()\n_q.enqueue('a')\n_q.enqueue('b')\n_q.enqueue('c')\n_r = _q.dequeue()\nassert _r == 'a', \"dequeue() should return the first item added ('a'), got \" + repr(_r)\n_q.enqueue('d')\nassert _q.dequeue() == 'b', \"the next dequeue() should return 'b'\"\nassert _q.dequeue() == 'c' and _q.dequeue() == 'd', 'items should come out in the order they went in'",
+    "hints": [
+      "Use append() for enqueue (add to end).",
+      "Use pop(0) for dequeue (remove from the front). In real code collections.deque with popleft() is faster."
+    ]
+  },
+  "ls_45": {
+    "description": "Write a function `group_by_grade(students)` that takes a list of (name, grade) tuples and returns a dict where each key is a grade and each value is the list of names with that grade, in input order. Example: [('Alice', 'A'), ('Bob', 'B'), ('Charlie', 'A')] gives {'A': ['Alice', 'Charlie'], 'B': ['Bob']}."
+  },
+  "dict_01": {
+    "test_code": "assert person == {'name': 'Alice', 'age': 30}, \"person should be {'name': 'Alice', 'age': 30}, got \" + repr(person)"
+  },
+  "dict_03": {
+    "test_code": "assert scores == {'math': 95}, \"scores should be {'math': 95}, got \" + repr(scores)"
+  },
+  "dict_04": {
+    "test_code": "assert config == {'debug': True}, \"config should be {'debug': True}, got \" + repr(config)"
+  },
+  "dict_05": {
+    "test_code": "assert inventory == {'apples': 10}, \"inventory should be {'apples': 10}, got \" + repr(inventory)"
+  },
+  "dict_02": {
+    "description": "Create a dictionary `fruit_colors = {'apple': 'red', 'banana': 'yellow'}` and store the value for 'apple' in a variable named `color`."
+  },
+  "dict_06": {
+    "description": "Create a dict `user = {'username': 'john', 'email': 'john@example.com'}` and store the check `'email' in user` in a variable named `result`.",
+    "test_code": "assert user == {'username': 'john', 'email': 'john@example.com'}, 'Keep user as given'\nassert result is True, \"result should be True ('email' is a key of user), got \" + repr(result)"
+  },
+  "dict_08": {
+    "description": "Create a dict `book = {'title': 'Python', 'author': 'Guido', 'year': 1991}` and store all its keys as a list in `keys_list`.",
+    "test_code": "assert keys_list == ['title', 'author', 'year'], \"keys_list should be ['title', 'author', 'year'], got \" + repr(keys_list)"
+  },
+  "dict_09": {
+    "description": "Create a dict `grades = {'Alice': 90, 'Bob': 85}` and store all its values as a list in `values_list`.",
+    "test_code": "assert values_list == [90, 85], 'values_list should be [90, 85], got ' + repr(values_list)"
+  },
+  "dict_10": {
+    "description": "Create a dict `product = {'name': 'Laptop', 'price': 999}` and store all its key-value pairs as a list in `pairs`.",
+    "test_code": "assert pairs == [('name', 'Laptop'), ('price', 999)], \"pairs should be [('name', 'Laptop'), ('price', 999)], got \" + repr(pairs)"
+  },
+  "dict_21": {
+    "description": "Write a function `get_nested(d)` that returns d['user']['name'] using .get() so it never raises: return 'Unknown' if 'user' or 'name' is missing."
+  },
+  "dict_22": {
+    "description": "Write a function `set_nested(d, email)` that sets d['user']['email'] = email, creating the 'user' dict if it does not exist yet, and returns d."
+  },
+  "dict_24": {
+    "test_code": "assert 'copy_dict' in dir(), \"Function 'copy_dict' not defined. Did you write: def copy_dict(...)?\"\n_r0 = copy_dict({'a': {'b': 1}})\nassert _r0 == {'a': {'b': 1}}, \"Test 1: copy_dict({'a': {'b': 1}}) returned \" + str(repr(_r0)) + \", expected {'a': {'b': 1}}\"\n_src = {'a': {'b': 1}}\n_cp = copy_dict(_src)\n_cp['a']['b'] = 99\nassert _src['a']['b'] == 1, 'copy_dict must make a deep copy: changing the copy changed the original'"
+  },
+  "dict_37": {
+    "description": "Write a function `top_words(text)` that lowercases and splits the text, uses Counter to find the 3 most common words, and returns them as a dict {word: count}. For ties, keep the word seen first (Counter.most_common already does this)."
+  },
+  "dict_40": {
+    "description": "Write a decorator `memoize(func)` that caches results in a dict keyed by the call's arguments, so a repeated call returns the cached value without running func again.",
+    "test_code": "assert 'memoize' in dir(), \"Define a decorator named memoize\"\n_seen = []\n@memoize\ndef _double(x):\n    _seen.append(x)\n    return x * 2\nassert _double(3) == 6 and _double(3) == 6, 'the memoized function should still return the right value'\nassert _seen == [3], 'the second call with the same argument should use the cache'"
+  },
+  "dict_42": {
+    "description": "Write a function `calculate(op, args)` where op is '+', '-', '*' or '/' and args is a pair (a, b). Use a dict that maps each symbol to a function and return the result. Example: calculate('*', (6, 7)) returns 42.",
+    "test_code": "assert 'calculate' in dir(), \"Function 'calculate' not defined\"\nfor _op, _args, _exp in [('+', (5, 3), 8), ('-', (10, 4), 6), ('*', (6, 7), 42), ('/', (9, 2), 4.5)]:\n    _r = calculate(_op, _args)\n    assert _r == _exp, 'calculate(' + repr(_op) + ', ' + repr(_args) + ') returned ' + repr(_r) + ', expected ' + repr(_exp)"
+  },
+  "dict_47": {
+    "description": "Write a function `cross_join(d1, d2)` that returns a dict with one entry for every pair of keys: the key is the tuple (k1, k2) and the value is the tuple (v1, v2).",
+    "hints": [
+      "Use nested loops (or a nested dict comprehension) over d1.items() and d2.items()",
+      "Key: (k1, k2), value: (v1, v2), both tuples"
+    ]
+  },
+  "dict_48": {
+    "description": "Write a class `PhoneBook` with methods `add_contact(name, phone)` (name is a full name like 'Ann Lee') and `find_by_name(first_name)`, which returns a dict {full_name: phone} of every contact whose first name matches, so duplicate first names are all found.",
+    "test_code": "assert 'PhoneBook' in dir(), \"Define a class named PhoneBook\"\n_pb = PhoneBook()\n_pb.add_contact('Ann Lee', '111')\n_pb.add_contact('Ann Smith', '222')\n_pb.add_contact('Bob Ray', '333')\n_r = _pb.find_by_name('Ann')\nassert _r == {'Ann Lee': '111', 'Ann Smith': '222'}, \"find_by_name('Ann') should return both Anns, got \" + repr(_r)\nassert _pb.find_by_name('Zed') == {}, 'an unknown first name should give {}'"
+  },
+  "dict_49": {
+    "description": "Write a function `cart_total(cart, tax_rate=0.08)` that takes cart {item: (price, qty)} and returns {'items': {item: price * qty}, 'subtotal': sum of item totals, 'tax': subtotal * tax_rate, 'total': subtotal + tax}."
+  },
+  "dict_50": {
+    "description": "Write a class `APICache(ttl=60)` with `set(endpoint, params, response)` and `get(endpoint, params)`. get returns the stored response only if it was set less than ttl seconds ago, otherwise None. Use time.time() for timestamps.",
+    "hints": [
+      "Store {endpoint: {str(params): (response, timestamp)}}",
+      "An entry is expired when time.time() - timestamp >= ttl",
+      "get returns the response if it exists and is not expired, else None"
+    ],
+    "test_code": "assert 'APICache' in dir(), \"Define a class named APICache\"\n_c = APICache(ttl=60)\nassert _c.get('/users', {'page': 1}) is None, 'an empty cache should return None'\n_c.set('/users', {'page': 1}, {'data': [1]})\nassert _c.get('/users', {'page': 1}) == {'data': [1]}, 'get should return what set stored'\nassert _c.get('/users', {'page': 2}) is None, 'different params are a different cache entry'\n_c0 = APICache(ttl=0)\n_c0.set('/x', {}, 'r')\nassert _c0.get('/x', {}) is None, 'with ttl=0 an entry should already be expired'"
+  },
+  "fapi_02": {
+    "test_code": "assert isinstance(get_request, dict), 'get_request should be a dict'\nassert get_request.get('method') == 'GET', \"get_request['method'] should be 'GET'\"\nassert isinstance(get_request.get('purpose'), str) and get_request['purpose'], \"get_request needs a non-empty 'purpose' string\""
+  },
+  "fapi_03": {
+    "test_code": "assert isinstance(post_request, dict), 'post_request should be a dict'\nassert post_request.get('method') == 'POST', \"post_request['method'] should be 'POST'\"\nassert isinstance(post_request.get('purpose'), str) and post_request['purpose'], \"post_request needs a non-empty 'purpose' string\"\nassert post_request.get('has_body') is True, \"post_request['has_body'] should be True: POST sends a request body\""
+  },
+  "fapi_04": {
+    "test_code": "assert isinstance(put_request, dict), 'put_request should be a dict'\nassert put_request.get('method') == 'PUT', \"put_request['method'] should be 'PUT'\"\nassert isinstance(put_request.get('action'), str) and put_request['action'], \"put_request needs a non-empty 'action' string\""
+  },
+  "fapi_05": {
+    "test_code": "assert isinstance(delete_request, dict), 'delete_request should be a dict'\nassert delete_request.get('method') == 'DELETE', \"delete_request['method'] should be 'DELETE'\"\nassert isinstance(delete_request.get('action'), str) and delete_request['action'], \"delete_request needs a non-empty 'action' string\""
+  },
+  "fapi_06": {
+    "test_code": "assert isinstance(rest_endpoints, dict), 'rest_endpoints should be a dict'\nfor _m in ('GET', 'POST', 'PUT', 'DELETE'):\n    assert _m in rest_endpoints, 'rest_endpoints is missing the ' + _m + ' method'\n    assert str(rest_endpoints[_m]).startswith('/todos'), _m + ' should map to a /todos path'"
+  },
+  "fapi_07": {
+    "test_code": "assert isinstance(status_codes, dict), 'status_codes should be a dict'\nassert len(status_codes) >= 5, 'Include at least 5 status codes, you have ' + str(len(status_codes))\nassert all(isinstance(_k, int) and 100 <= _k <= 599 for _k in status_codes), 'Keys should be status codes as ints, like 200'\nassert status_codes.get(404, '').lower().startswith('not found'), \"404 should mean 'Not Found'\""
+  },
+  "fapi_44": {
+    "test_code": "assert isinstance(status_code_map, dict), 'status_code_map should be a dict'\nassert status_code_map.get('created') == 201, \"'created' should map to 201\"\nassert status_code_map.get('updated') == 200, \"'updated' should map to 200\"\nassert status_code_map.get('deleted') == 204, \"'deleted' should map to 204\""
+  },
+  "fapi_01": {
+    "test_code": "assert isinstance(api_explanation, str), 'api_explanation should be a string'\nassert len(api_explanation.split()) >= 8, 'Write at least one full sentence (8+ words) explaining what an API is'"
+  },
+  "fapi_08": {
+    "test_code": "assert 'Item' in dir(), 'Define a model class named Item'\nassert set(Item.model_fields) == {'name', 'price', 'description'}, 'Item should have exactly the fields name, price, description, got ' + repr(list(Item.model_fields))\n_i = Item(name='Pen', price=1.5, description='Blue')\nassert (_i.name, _i.price, _i.description) == ('Pen', 1.5, 'Blue'), 'Item(...) should store the values you pass'"
+  },
+  "fapi_09": {
+    "test_code": "assert 'item' in dir(), 'Create a variable named item'\nassert isinstance(item, Item), 'item should be an Item instance, got ' + type(item).__name__\nassert item.name == 'Widget' and item.price == 19.99 and item.description == 'A useful widget', 'item has the wrong values: ' + repr((item.name, item.price, item.description))"
+  },
+  "fapi_10": {
+    "starter_code": "from pydantic import BaseModel\n\nclass Item(BaseModel):\n    name: str\n    price: float\n    description: str\n\nitem = Item(name='Gadget', price=29.99, description='A cool gadget')\n\n# Convert item to a dict\nitem_dict = ...",
+    "test_code": "assert isinstance(item_dict, dict), 'item_dict should be a dict, got ' + type(item_dict).__name__\nassert item_dict == item.model_dump(), 'item_dict should be item.model_dump()'\nassert set(item_dict) == {'name', 'price', 'description'}, 'item_dict should have keys name, price, description'"
+  },
+  "fapi_13": {
+    "test_code": "assert set(Article.model_fields) == {'title', 'content', 'tags'}, 'Article needs title, content and tags'\n_a = Article(title='T', content='C')\nassert _a.tags is None, 'tags should default to None when not given'\n_b = Article(title='T', content='C', tags=['py'])\nassert _b.tags == ['py'], 'tags should store the list you pass'"
+  },
+  "fapi_14": {
+    "test_code": "assert set(Address.model_fields) == {'street', 'city', 'zip'}, 'Address needs street, city, zip'\nassert set(Person.model_fields) == {'name', 'age', 'address'}, 'Person needs name, age, address'\n_p = Person(name='Al', age=30, address=Address(street='1 Main', city='Oslo', zip='0150'))\nassert _p.address.city == 'Oslo', 'person.address should be the nested Address'"
+  },
+  "fapi_15": {
+    "test_code": "_c = Config()\nassert _c.host == 'localhost', \"host should default to 'localhost', got \" + repr(_c.host)\nassert _c.port == 8000, 'port should default to 8000, got ' + repr(_c.port)\n_d = Config(host='example.com', port=9000)\nassert (_d.host, _d.port) == ('example.com', 9000), 'passing values should override the defaults'"
+  },
+  "fapi_18": {
+    "description": "Create a `TaskStatus` enum (subclass str and Enum) with the values 'pending', 'in_progress' and 'completed', and a Pydantic model `Task` with fields title (str) and status (TaskStatus).",
+    "test_code": "assert {_m.value for _m in TaskStatus} == {'pending', 'in_progress', 'completed'}, 'TaskStatus should have the values pending, in_progress, completed'\nassert 'status' in Task.model_fields, 'Task needs a status field'\n_t = Task(title='Write', status=TaskStatus('pending'))\nassert _t.status == TaskStatus('pending'), 'status should store a TaskStatus'"
+  },
+  "fapi_19": {
+    "description": "Create a Pydantic `User` model with fields username, email and password (all str). Write `get_user_public(user)` that returns the user's data as a dict without the password (use model_dump with exclude).",
+    "test_code": "_u = User(username='ann', email='ann@example.com', password='hunter22')\n_d = get_user_public(_u)\nassert isinstance(_d, dict), 'get_user_public should return a dict'\nassert 'password' not in _d, 'the password must not be in the public data'\nassert _d.get('username') == 'ann' and _d.get('email') == 'ann@example.com', 'the other fields should be kept, got ' + repr(_d)"
+  },
+  "fapi_28": {
+    "test_code": "assert 'id' not in ItemRequest.model_fields, 'ItemRequest is client input, so it should not have an id'\nassert 'id' in ItemResponse.model_fields, 'ItemResponse should include id'\nassert set(ItemResponse.model_fields) - {'id'} == set(ItemRequest.model_fields), 'ItemResponse should have the same fields as ItemRequest plus id'\nassert len(ItemRequest.model_fields) >= 1, 'ItemRequest needs at least one field'"
+  },
+  "fapi_34": {
+    "description": "Create a Pydantic model `Post` with fields title (str), content (str), created_at (datetime) and updated_at (datetime).",
+    "test_code": "from datetime import datetime as _dt\nassert {'created_at', 'updated_at'} <= set(Post.model_fields), 'Post needs created_at and updated_at fields'\n_now = _dt(2024, 1, 1, 12, 0)\n_p = Post(title='T', content='C', created_at=_now, updated_at=_now)\nassert _p.created_at == _now and _p.updated_at == _now, 'the timestamps should be stored'"
+  },
+  "fapi_12": {
+    "description": "Create a Pydantic `User` model with fields name (str) and email (EmailStr), so that an invalid email address is rejected."
+  },
+  "fapi_16": {
+    "solution": "from pydantic import BaseModel, field_validator\n\nclass Password(BaseModel):\n    password: str\n\n    @field_validator('password')\n    @classmethod\n    def validate_password(cls, v: str) -> str:\n        if len(v) < 8:\n            raise ValueError('Password must be at least 8 characters')\n        return v"
+  },
+  "fapi_17": {
+    "solution": "from typing import Annotated\nfrom pydantic import BaseModel, Field\n\nclass TagList(BaseModel):\n    tags: list[Annotated[str, Field(min_length=1)]] = Field(min_length=1)"
+  },
+  "fapi_27": {
+    "description": "Create a Pydantic model `CreateItem` for a POST request body with name (str, at least 1 character), price (float, greater than 0) and description (str)."
+  },
+  "fapi_26": {
+    "test_code": "_a = create('Pen', 1.5)\nassert _a.get('name') == 'Pen' and _a.get('price') == 1.5 and 'id' in _a, 'create should return the new item with id, name, price, got ' + repr(_a)\n_b = create('Cup', 3)\nassert _b['id'] != _a['id'], 'each created item needs a new id'\nassert read(_a['id']) == _a, 'read(id) should return the stored item'\n_u = update(_b['id'], 'Mug', 4)\nassert _u == {'id': _b['id'], 'name': 'Mug', 'price': 4}, 'update should change name and price, got ' + repr(_u)\nassert update(999, 'x', 1) is None, 'update of a missing id should return None'\nassert delete(_a['id']) is True, 'delete should return True when the item existed'\nassert read(_a['id']) is None, 'a deleted item should be gone'\nassert delete(_a['id']) is False, 'deleting it again should return False'",
+    "hints": [
+      "The functions use the global db dict and next_id (use `global next_id` in create)",
+      "create returns the new item, read returns the item or None, update returns the updated item or None, delete returns True or False"
+    ]
+  },
+  "fapi_31": {
+    "description": "Write a function verify_api_key(api_key: str) that returns True if api_key is 'secret-key-123' and otherwise raises HTTPException(status_code=401, detail='Invalid API key')."
+  },
+  "fapi_30": {
+    "test_code": "assert 'get_db' in dir(), \"Function 'get_db' not defined\"\n_db = get_db()\nassert isinstance(_db, dict) and len(_db) >= 1, 'get_db() should return a non-empty dict'\nassert all(isinstance(_v, dict) and _v.get('id') == _k for _k, _v in _db.items()), 'each entry should be an item dict whose id matches its key'"
+  },
+  "fapi_37": {
+    "test_code": "request_counts.clear()\nfor _i in range(3):\n    assert check_rate_limit(7, 3) is True, 'request ' + str(_i + 1) + ' of 3 should be allowed'\nassert check_rate_limit(7, 3) is False, 'the 4th request with limit 3 should be blocked'\nassert check_rate_limit(8, 3) is True, 'another user has their own count'"
+  },
+  "fapi_40": {
+    "description": "Write a function log_request(method: str, path: str) that returns a log entry in the form '<timestamp> <method> <path>', where timestamp is datetime.now().isoformat(). Example: '2024-05-01T12:00:00.123456 GET /items'.",
+    "test_code": "from datetime import datetime as _dt\n_r0 = log_request('GET', '/items')\nassert isinstance(_r0, str), 'log_request should return a string'\n_ts, _rest = _r0.split(' ', 1)\nassert _rest == 'GET /items', \"after the timestamp the entry should be 'GET /items', got \" + repr(_rest)\n_dt.fromisoformat(_ts)"
+  },
+  "fapi_41": {
+    "description": "Write a function check_permission(user_role: str, resource: str) that returns True if user_role is 'admin' (any resource) or if user_role is 'user' and resource is 'public', and False otherwise."
+  },
+  "fapi_45": {
+    "description": "Write a function aggregate_stats(items: list) that returns {'count': number of items, 'total_price': sum of the 'price' fields, 'avg_price': total_price / count (0 for an empty list)}."
+  },
+  "fapi_46": {
+    "test_code": "_api = TodoAPI()\n_a = _api.create('Buy milk')\nassert _a == {'id': 1, 'title': 'Buy milk', 'description': '', 'completed': False}, 'create should return the new todo, got ' + repr(_a)\n_b = _api.create('Walk', 'the dog')\nassert _b['id'] == 2, 'ids should increase automatically'\nassert _api.get(1) == _a and _api.get(99) is None, 'get should return the todo or None'\nassert len(_api.list_all()) == 2, 'list_all should return both todos'\nassert _api.update(2, 'Run', 'fast')['title'] == 'Run', 'update should change the title'\nassert _api.complete(1)['completed'] is True, 'complete should set completed to True'\nassert _api.complete(99) is None and _api.update(99, 'x', 'y') is None, 'missing ids should give None'\nassert _api.delete(1) is True and _api.delete(1) is False, 'delete returns True once, then False'\nassert [_t['id'] for _t in _api.list_all()] == [2], 'only todo 2 should remain'",
+    "description": "Implement a TodoAPI class with create(title, description=''), get(todo_id), list_all(), update(todo_id, title, description), complete(todo_id) and delete(todo_id). Each todo is a dict {'id', 'title', 'description', 'completed'}; ids start at 1 and increase. get/update/complete return None for a missing id; delete returns True or False."
+  },
+  "fapi_47": {
+    "test_code": "_m = UserManager()\n_u = _m.register('ann', 'ann@example.com', 'pw123456')\nassert isinstance(_u, dict) and _u.get('email') == 'ann@example.com', 'register should return the new user dict, got ' + repr(_u)\nassert _m.register('ann2', 'ann@example.com', 'x') is None, 'registering the same email twice should return None'\nassert _m.authenticate('ann@example.com', 'pw123456') == _u, 'authenticate with the right password should return the user'\nassert _m.authenticate('ann@example.com', 'wrong') is None, 'a wrong password should return None'\nassert set(User.model_fields) >= {'username', 'email', 'password'}, 'User needs username, email and password fields'"
+  },
+  "fapi_48": {
+    "test_code": "_b = BlogAPI()\n_p1 = _b.create_post('Hello Python', 'Intro post', 'python')\n_p2 = _b.create_post('Cooking', 'Pasta tips', 'food')\nassert _p1['id'] == 1 and _p2['id'] == 2, 'ids should start at 1 and increase'\nassert _b.get_by_category('python') == [_p1], 'get_by_category should return only posts in that category'\nassert _b.search_posts('PASTA') == [_p2], 'search should be case-insensitive and look in the content too'\nassert _b.search_posts('hello') == [_p1], 'search should look in the title'\nassert len(_b.list_all()) == 2, 'list_all should return every post'",
+    "description": "Implement a BlogAPI class with create_post(title, content, category) (returns the post dict with an auto-incrementing id from 1), get_by_category(category), search_posts(query) (case-insensitive match in title or content) and list_all()."
+  },
+  "fapi_49": {
+    "test_code": "_c = CartAPI()\n_c.set_price(1, 10.0)\n_c.set_price(2, 2.5)\n_c.add_item(1)\n_c.add_item(2, 4)\n_c.add_item(1)\nassert _c.get_items_count() == 6, 'item count should be 6, got ' + repr(_c.get_items_count())\nassert _c.get_total() == 30.0, 'total should be 2*10 + 4*2.5 = 30, got ' + repr(_c.get_total())\nassert abs(_c.get_total(10) - 27.0) < 1e-9, 'a 10 percent discount should give 27, got ' + repr(_c.get_total(10))\n_c.remove_item(2)\nassert _c.get_total() == 20.0 and _c.get_items_count() == 2, 'remove_item should drop the item completely'",
+    "description": "Build a CartAPI class with set_price(item_id, price), add_item(item_id, quantity=1), remove_item(item_id), get_items_count() and get_total(discount_percent=0), where get_total returns the sum of price * quantity, reduced by discount_percent percent."
+  },
+  "fapi_50": {
+    "test_code": "_inv = InventoryAPI()\n_inv.add_item(1, 'Bolt', 50, reorder_level=20)\n_inv.add_item(2, 'Nut', 5)\nassert _inv.restock(2, 10)['quantity'] == 15, 'restock should add to the quantity'\nassert _inv.consume(1, 40)['quantity'] == 10, 'consume should subtract from the quantity'\nassert _inv.consume(1, 999) is None, 'consuming more than is in stock should return None'\nassert _inv.restock(99, 1) is None, 'a missing item should return None'\n_low = _inv.get_low_stock()\nassert [_x['item_id'] for _x in _low] == [1], 'only Bolt (10 < 20) is low; Nut has 15, which is not below its reorder level of 10'\nassert len(_inv.get_inventory()) == 2, 'get_inventory should list both items'",
+    "description": "Implement an InventoryAPI class with add_item(item_id, name, quantity, reorder_level=10), restock(item_id, quantity), consume(item_id, quantity), get_low_stock() and get_inventory(). restock/consume return the updated item dict, or None if the item is missing (consume also returns None if there is not enough stock). get_low_stock returns items whose quantity is below their reorder_level; list entries include 'item_id'."
+  },
+  "api_01": {
+    "description": "REST APIs use HTTP methods (GET, POST, PUT, DELETE) to work with resources. Write a function `identify_http_method(action)` that returns the right method for these five actions: 'fetch a user profile' -> 'GET', 'create a new post' -> 'POST', 'update user settings' -> 'PUT', 'remove a comment' -> 'DELETE', 'retrieve a list of items' -> 'GET'. Return 'UNKNOWN' for anything else."
+  },
+  "api_02": {
+    "description": "APIs return data as JSON. Write a function `parse_json_response(json_string)` that uses json.loads() to turn a JSON string into a Python dict and returns it."
+  },
+  "api_03": {
+    "description": "When sending data to an API you convert Python objects to JSON. Write a function `dict_to_json(data)` that returns json.dumps(data) (default separators, so {'a': 1} becomes '{\"a\": 1}')."
+  },
+  "api_04": {
+    "description": "API responses often nest data. Write a function `extract_user_email(response)` that returns response['user']['email']."
+  },
+  "api_05": {
+    "description": "Write a function `build_url(base, params)` that returns base + '?' + the params joined as key=value pairs with '&', in dict order. Example: build_url('https://api.example.com/data', {'x': '1', 'y': '2'}) returns 'https://api.example.com/data?x=1&y=2'."
+  },
+  "api_06": {
+    "description": "Write a function `extract_user_names(response)` that takes a response like {'users': [{'name': 'Alice'}, {'name': 'Bob'}]} and returns the list of names: ['Alice', 'Bob']."
+  },
+  "api_07": {
+    "description": "Write a function `check_status(code)` that returns 'OK' for 200, 'Not Found' for 404, 'Server Error' for 500, 'Unauthorized' for 401 and 'Unknown' for any other code."
+  },
+  "api_08": {
+    "description": "Write a function `build_headers(content_type='application/json')` that returns a headers dict with one entry, 'Content-Type', set to content_type."
+  },
+  "api_09": {
+    "description": "Write a function `count_items(response)` that returns how many items are in the list under the response's 'data' key."
+  },
+  "api_10": {
+    "description": "Basic Authentication sends 'username:password' encoded in base64. Write a function `build_basic_auth(username, password)` that returns the header value 'Basic <base64 of username:password>'. Example: build_basic_auth('user', 'pass') returns 'Basic dXNlcjpwYXNz'."
+  },
+  "api_11": {
+    "description": "Special characters in query parameters must be URL-encoded. Write a function `encode_params(params)` that returns urllib.parse.urlencode(params). Note that urlencode turns a space into '+'.",
+    "hints": [
+      "Use urlencode() from urllib.parse",
+      "urlencode turns spaces into + and special characters like & into %XX codes"
+    ]
+  },
+  "api_12": {
+    "description": "Write a function `build_api_url(base_url, endpoint, params)` that returns base_url + '/' + endpoint + '?' + urlencode(params). Example: build_api_url('https://api.github.com', 'users', {'per_page': '10'}) returns 'https://api.github.com/users?per_page=10'."
+  },
+  "api_13": {
+    "description": "OAuth2 APIs use Bearer tokens. Write a function `build_bearer_auth(token)` that returns the Authorization header value 'Bearer <token>'."
+  },
+  "api_14": {
+    "description": "Write a function `extract_error(response)` that takes an error response like {'status': 400, 'message': 'Invalid request'} and returns the tuple (status, message)."
+  },
+  "api_15": {
+    "description": "Write a function `build_request_headers(auth_token, content_type='application/json')` that returns {'Content-Type': content_type, 'Authorization': 'Bearer <auth_token>', 'Accept': 'application/json'}."
+  },
+  "api_16": {
+    "description": "Write a function `get_pagination_info(response)` that reads response['pagination'] and returns the tuple (page, per_page, total, next_url). Use None for any value that is missing."
+  },
+  "api_17": {
+    "description": "Write a function `build_request_body(user_data)` that returns a JSON string (json.dumps) of a dict with the keys 'name', 'email' and 'age', in that order, taken from user_data."
+  },
+  "api_18": {
+    "description": "Write a function `filter_users_by_age(response, min_age)` that returns the users in response['users'] whose 'age' is greater than min_age."
+  },
+  "api_19": {
+    "description": "Write a function `build_query_string(params)` that joins the params as key=value pairs with '&', without using urlencode(). Example: {'name': 'test', 'page': '2'} gives 'name=test&page=2'."
+  },
+  "api_20": {
+    "description": "Write a function `build_user_agent(app_name, version, language='Python', platform='Linux')` that returns a User-Agent string in the format 'AppName/Version (Language; Platform)', for example 'MyApp/1.0 (Python; Linux)'."
+  },
+  "api_21": {
+    "description": "Write a function `collect_all_pages(responses)` that takes a list of page responses (already fetched, in order), each with an 'items' list, and returns one list with all items from all pages in order."
+  },
+  "api_22": {
+    "description": "Write a function `transform_users(api_response)` that converts each user in api_response['users'] from {'user_id', 'name', 'email'} to your internal format {'id': user_id, 'full_name': name, 'contact': email}, and returns the list."
+  },
+  "api_23": {
+    "description": "Write a function `validate_response(response, required_fields)` that returns True if every key in required_fields is present in response, and False otherwise."
+  },
+  "api_24": {
+    "description": "Webhook senders sign the payload so you can check it is genuine. Write a function `compute_webhook_signature(secret, payload)` that returns the HMAC-SHA256 hex digest of payload (a str) using secret (a str) as the key: hmac.new(secret.encode(), payload.encode(), hashlib.sha256).hexdigest()."
+  },
+  "api_25": {
+    "description": "Write a function `extract_field_errors(response)` that returns the dict of field errors under response['errors'] (an empty dict if there is no 'errors' key)."
+  },
+  "api_26": {
+    "description": "Write a function `build_batch_request(operations)` that takes a list of dicts with 'method', 'endpoint' and optional 'data', and returns {'requests': [{'method': ..., 'endpoint': ..., 'data': ...}, ...]} (data is None when missing)."
+  },
+  "api_27": {
+    "description": "When rate limited, wait longer between retries. Write a function `calculate_backoff(attempt, base=1, multiplier=2)` that returns base * multiplier ** attempt."
+  },
+  "api_28": {
+    "description": "Write a function `build_cache_key(endpoint, params)` that returns endpoint + '?' + the params as key=value pairs joined with '&', sorted by key so the same params always give the same key. Example: build_cache_key('/search', {'q': 'test', 'page': '1'}) returns '/search?page=1&q=test'."
+  },
+  "api_29": {
+    "description": "Write a function `get_response_timestamp(response)` that returns response['timestamp'] if it is present, otherwise response['created_at'] (or None if neither exists)."
+  },
+  "api_30": {
+    "description": "Write a function `count_status(response, status)` that counts the items in response['items'] whose 'status' equals status."
+  },
+  "api_31": {
+    "description": "Write a function `build_conditional_headers(has_auth=False, token=None, is_json=True)` that starts with an empty dict, adds 'Content-Type': 'application/json' if is_json, adds 'Authorization': 'Bearer <token>' only if has_auth is True and a token is given, and returns the dict."
+  },
+  "api_32": {
+    "description": "HATEOAS APIs include links to related resources. Write a function `extract_links(response)` that takes response['_links'] (a dict like {'self': {'href': '/users/1'}}) and returns {rel: href}, for example {'self': '/users/1'}."
+  },
+  "api_33": {
+    "description": "Write a function `aggregate_totals(responses)` that takes a list of responses, each with an 'items' list of dicts that have a 'value', and returns the sum of all values across all responses."
+  },
+  "api_34": {
+    "description": "APIs send rate limit info in headers. Write a function `get_rate_limit_info(headers)` that returns {'limit': ..., 'remaining': ..., 'reset': ...} from the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers, converted to int (0 if a header is missing)."
+  },
+  "api_35": {
+    "description": "Write a function `build_oauth_url(base_url, client_id, redirect_uri, scope)` that returns base_url + '?' + urlencode of these params in this order: client_id, redirect_uri, scope, response_type='code'."
+  },
+  "api_36": {
+    "description": "Write a function `should_retry(status_code, attempt, max_attempts=3)` that returns True if status_code is 429, 500, 502, 503 or 504 and attempt < max_attempts, and False otherwise."
+  },
+  "api_37": {
+    "description": "Write a function `get_user_email(response)` that returns response['user']['profile']['contact']['email'] using safe lookups, returning None if any level is missing or if 'user' is not a dict."
+  },
+  "api_38": {
+    "description": "Write a function `normalize_phone(phone)` that keeps only the digits of phone and returns them as a string if there are at least 10 digits; otherwise (or for an empty value) return None. Example: '+1 (555) 123-4567' gives '15551234567'."
+  },
+  "api_39": {
+    "description": "Cursor-based pagination passes an opaque cursor instead of a page number. Write a function `build_cursor_request(base_url, cursor=None)` that returns base_url + '?' + urlencode of {'limit': 10}, plus 'cursor' after limit when a cursor is given. Example: build_cursor_request('https://api.example.com/items', 'abc123') returns 'https://api.example.com/items?limit=10&cursor=abc123'."
+  },
+  "api_40": {
+    "description": "Write a function `get_data_with_fallback(api_response, cached_data, default_data=None)` that returns api_response['data'] if api_response['status'] is 'success' and data is non-empty; otherwise returns cached_data if it is truthy; otherwise returns default_data (or {} if default_data is falsy)."
+  },
+  "api_41": {
+    "description": "Write a function `group_by_category(items)` that groups a flat list of item dicts by their 'category' field and returns {category: [items in input order]}."
+  },
+  "api_42": {
+    "description": "Request signing starts by putting the request parts in a fixed (canonical) order. Write a function `build_aws_signature_parts(method, path, params)` that returns {'method': method, 'path': path, 'params': the params as a list of (key, value) tuples sorted by key}."
+  },
+  "api_43": {
+    "description": "Write a function `validate_webhook_attempt(headers)` that reads the attempt number from the 'X-Webhook-Attempt' header (default 1) and the maximum from 'X-Webhook-Retry-Count' (default 3), converts both to int, and returns True if attempt <= maximum."
+  },
+  "api_44": {
+    "description": "Write a function `build_search_query(base_url, keyword, filters)` that returns base_url + '?' + urlencode of {'q': keyword} followed by every key in filters, in order."
+  },
+  "api_45": {
+    "description": "Write a function `merge_paginated_results(responses)` that collects the items from each response's 'items' list and returns one list without duplicate 'id's, keeping the order in which each id first appeared."
+  },
+  "api_46": {
+    "description": "Write a function `sliding_window_ratelimit(requests, limit, window_seconds)` where requests is a sorted list of request timestamps. Count the timestamps that are inside the window ending at the latest timestamp (greater than latest - window_seconds) and return True if that count exceeds limit (the request should be rejected), else False. An empty list returns False.",
+    "solution": "\ndef sliding_window_ratelimit(requests, limit, window_seconds):\n    # requests is list of timestamps\n    # Remove old timestamps - keep only those within the window\n    if not requests:\n        return False\n    cutoff = requests[-1] - window_seconds\n    recent = [r for r in requests if r > cutoff]\n    # Return True if count exceeds limit\n    return len(recent) > limit\n"
+  },
+  "api_47": {
+    "description": "Write a function `build_graphql_query(fields, filters)` that returns a GraphQL query string for users in exactly this format: 'query { users(<k>: <v>, ...) { <field> <field> ... } }'. Example: build_graphql_query(['id', 'name'], {'limit': '10'}) returns 'query { users(limit: 10) { id name } }'."
+  },
+  "api_48": {
+    "description": "Write a function `is_duplicate_request(request_id, seen_requests)` that returns True if request_id is already in the set seen_requests; otherwise it adds request_id to the set and returns False.",
+    "test_code": "assert 'is_duplicate_request' in dir(), \"Function 'is_duplicate_request' not defined. Did you write: def is_duplicate_request(...)?\"\n_r0 = is_duplicate_request('req_1', {'req_1'})\nassert _r0 == True, \"Test 1: is_duplicate_request('req_1', {'req_1'}) returned \" + str(repr(_r0)) + ', expected True'\n_r1 = is_duplicate_request('req_2', {'req_1'})\nassert _r1 == False, \"Test 2: is_duplicate_request('req_2', {'req_1'}) returned \" + str(repr(_r1)) + ', expected False'\n_seen = set()\nassert is_duplicate_request('a', _seen) is False, 'a new id is not a duplicate'\nassert 'a' in _seen, 'a new id should be added to seen_requests'\nassert is_duplicate_request('a', _seen) is True, 'the same id again is a duplicate'"
+  },
+  "api_49": {
+    "description": "Streaming APIs send data in chunks. Write a function `process_stream(*chunks)` that takes any number of JSON strings, parses each with json.loads, and returns the list of parsed objects in order."
+  },
+  "api_50": {
+    "description": "Write a function `simulated_api_request(method, endpoint, data, token)` that builds the request headers {'Content-Type': 'application/json', 'Authorization': 'Bearer <token>'} and returns a mock response {'status': 200, 'data': {'success': True, 'id': 123}, 'headers': <those headers>}."
+  }
+}

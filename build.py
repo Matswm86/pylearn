@@ -326,8 +326,22 @@ def _generate_from_solution(ex: Exercise) -> str:
     return "\n".join(lines)
 
 
+# Reviewed per-exercise corrections (description, hints, solution, test_code...),
+# keyed by exercise id. Each value replaces the generated field of the same name.
+OVERRIDES_PATH = Path(__file__).parent / "pylearn" / "exercises" / "overrides.json"
+OVERRIDES: dict[str, dict] = (
+    json.loads(OVERRIDES_PATH.read_text()) if OVERRIDES_PATH.exists() else {}
+)
+
+
 def exercise_to_dict(ex: Exercise) -> dict:
-    """Convert an Exercise dataclass to a web-friendly dict."""
+    """Convert an Exercise dataclass to a web-friendly dict, then apply overrides."""
+    data = _base_dict(ex)
+    data.update(OVERRIDES.get(ex.id, {}))
+    return data
+
+
+def _base_dict(ex: Exercise) -> dict:
     return {
         "id": ex.id,
         "title": ex.title,
