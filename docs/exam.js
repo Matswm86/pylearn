@@ -143,7 +143,7 @@ const EXAM_SECTIONS = [
           ["Clustering needs a labelled target column", false],
           ["A classification model outputs a category rather than a number", true],
         ],
-        explain: "Supervised learning learns from labelled examples, and splits into regression, which predicts a number, and classification, which predicts a category. Clustering is unsupervised: it groups similar records without any labels, which is exactly why teams reach for it when nothing is labelled yet.",
+        explain: "Supervised learning learns from labelled examples, and splits into regression, which predicts a number, and classification, which predicts a category. Clustering is unsupervised: it groups similar records without any labels, which is exactly why teams reach for it when nothing is labelled yet. These terms are background knowledge: the AI-901 skills list does not name machine learning types as an objective.",
         ref: 22,
       },
       {
@@ -209,10 +209,10 @@ const EXAM_SECTIONS = [
       {
         n: 15, type: "single",
         q: "A finance team scans supplier PDFs and needs each invoice number, total and due date returned as named fields, not as a wall of text. Which capability fits best?",
-        options: ["Optical character recognition on its own", "Document Intelligence field extraction", "Image classification", "Key phrase extraction"],
+        options: ["Optical character recognition on its own", "A Content Understanding analyzer such as prebuilt-invoice", "Image classification", "Key phrase extraction"],
         correct: 1,
-        explain: "Document Intelligence reads the document and returns structured key-value pairs and tables, so a total arrives labelled as a total. Plain OCR gives you the characters but leaves you to work out which number is the invoice total, and the other two options answer different questions entirely.",
-        ref: 9,
+        explain: "A Content Understanding analyzer reads the document and returns named fields, so a total arrives labelled as a total. The prebuilt invoice analyzer already knows invoice numbers, totals and due dates. Plain OCR gives you the characters but leaves you to work out which number is the total, and the other two options answer different questions entirely.",
+        ref: 37,
       },
     ],
   },

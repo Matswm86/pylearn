@@ -78,7 +78,7 @@ const EXAM103_SECTIONS = [
       },
       {
         "n": 3,
-        "q": "This app runs on Azure App Service with two user-assigned managed identities attached. Only the identity named id-chat holds the Foundry User role, and calls fail with an authorization error. Which change fixes it with the least effort while staying keyless?",
+        "q": "This app runs on Azure App Service with two user-assigned managed identities attached and no system-assigned identity. Only the identity named id-chat holds the Foundry User role, and every call to the project fails. Which change fixes it with the least effort while staying keyless?",
         "explain": "With more than one user-assigned identity, DefaultAzureCredential must be told which client ID to use; managed_identity_client_id picks id-chat, which holds the role. Keys break the keyless rule, logging and retries send the same unauthorised token.",
         "ref": 1,
         "code": "import os\nfrom azure.identity import DefaultAzureCredential\nfrom azure.ai.projects import AIProjectClient\n\ncredential = DefaultAzureCredential()\nclient = AIProjectClient(\n    endpoint=os.environ[\"FOUNDRY_PROJECT_ENDPOINT\"],\n    credential=credential,\n)",
@@ -158,7 +158,7 @@ const EXAM103_SECTIONS = [
       },
       {
         "n": 7,
-        "q": "An agent uses a web search tool. A page it retrieves contains hidden text telling the agent to email the customer list to an outside address. Which guardrail control addresses this most directly?",
+        "q": "An agent uses the Grounding with Bing Search tool. A page it retrieves contains hidden text telling the agent to email the customer list to an outside address. Which guardrail control addresses this most directly?",
         "explain": "Instructions hidden in fetched content are an indirect (document) attack, and that content enters at the tool response point. User prompt shields only inspect what the user typed, and harm or copyright filters do not detect injected instructions.",
         "ref": 1,
         "type": "single",
@@ -358,7 +358,7 @@ const EXAM103_SECTIONS = [
       {
         "n": 17,
         "q": "A partner company runs its own logistics agent on its own platform and exposes it through the Agent-to-Agent protocol. Your Foundry agent must hand shipping questions to it. Which tool fits?",
-        "explain": "The A2A tool lets a Foundry agent delegate to a remote agent that implements the Agent-to-Agent protocol. OpenAPI needs an API spec, File Search reads static files and Code Interpreter runs code locally.",
+        "explain": "The A2A tool lets a Foundry agent delegate to a remote agent that implements the Agent-to-Agent protocol. OpenAPI needs an API description of real endpoints, File Search reads static files, and Code Interpreter runs Python in an isolated sandbox that cannot reach the partner's agent.",
         "ref": 1,
         "type": "single",
         "options": [
@@ -636,7 +636,7 @@ const EXAM103_SECTIONS = [
       {
         "n": 33,
         "q": "Your moderation rule blocks images at severity 4 or higher. Which severity values can Content Safety image analysis return?",
-        "explain": "Image analysis returns the trimmed scale 0, 2, 4 and 6 for each category. The full 0 to 7 scale is available only for text when you request eight severity levels.",
+        "explain": "Image analysis returns the trimmed scale 0, 2, 4 and 6 for each category. The finer 0 to 7 scale comes back only from text analysis (and the image-with-text multimodal model) when you request eight severity levels.",
         "ref": 1,
         "type": "single",
         "options": [
@@ -847,7 +847,7 @@ const EXAM103_SECTIONS = [
       },
       {
         "n": 44,
-        "q": "A team ingests mixed PDFs, slide decks and scanned forms into a RAG index. They want clean Markdown with tables preserved, descriptions of charts and diagrams, and chunks ready for embedding, with no custom model training. What should they use?",
+        "q": "A team ingests mixed PDFs, slide decks exported to PDF, and scanned forms into a RAG index. They want clean Markdown with tables preserved, descriptions of charts and diagrams, and chunks ready for embedding, with no custom model training. What should they use?",
         "explain": "prebuilt-documentSearch outputs layout-aware Markdown, figure descriptions and embedding-ready chunks with no training. A custom extraction model needs labelled data, and the other options produce no usable content.",
         "ref": 1,
         "type": "single",

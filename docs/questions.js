@@ -35,6 +35,7 @@ const QUESTION_REFS = [
   ["Muennighoff et al. (2022). MTEB: Massive Text Embedding Benchmark", "https://arxiv.org/abs/2210.07316"],
   ["Lee et al. (2024). NV-Embed: Improved Techniques for Training LLMs as Generalist Embedding Models", "https://arxiv.org/abs/2405.17428"],
   ["Enevoldsen et al. (2025). MMTEB: Massive Multilingual Text Embedding Benchmark", "https://arxiv.org/abs/2502.13595"],
+  ["Faiss documentation: MetricType and distances", "https://github.com/facebookresearch/faiss/wiki/MetricType-and-distances"],
 ];
 
 // Each question: n, level, q, a (array of paragraphs), refs (1-indexed into QUESTION_REFS)
@@ -62,14 +63,14 @@ const QUESTION_GROUPS = [
         q: "How do cosine similarity, dot product, and Euclidean distance differ, and under what conditions do they produce the same ranking?",
         a: ["For vectors x and y the dot product is xᵀy. Cosine similarity divides that by the product of the norms. Euclidean distance measures the straight-line distance between the points.",
             "If both vectors are L2-normalized their norms are 1, so cosine equals dot product, and squared Euclidean distance becomes ‖x − y‖² = 2 − 2xᵀy. Under those assumptions, ranking by larger cosine or dot product is the same ordering as ranking by smaller Euclidean distance. Without normalization the rankings can differ, because magnitude affects dot product and Euclidean distance."],
-        refs: [15],
+        refs: [23],
       },
       {
         n: 4, level: "Intermediate",
         q: "What changes when embeddings are L2-normalized, and when might removing vector magnitude discard useful information?",
         a: ["L2 normalization rescales each vector to unit norm, so similarity depends on direction rather than magnitude and cosine becomes equivalent to dot product. The trade-off is that every piece of information carried by the original norm is discarded.",
             "That is harmless or desirable for a model trained around cosine similarity, but it is not universally safe. If a model was trained so magnitude contributes to its scoring behaviour, normalizing at serving time changes the intended geometry. Use the convention the specific model recommends."],
-        refs: [15],
+        refs: [23],
       },
       {
         n: 5, level: "Intermediate",
@@ -286,7 +287,7 @@ const QUESTION_GROUPS = [
         n: 30, level: "Advanced, system design",
         q: "Design retrieval for millions of documents containing exact identifiers and natural-language content, with permission filters, frequent updates, and a strict latency SLO. Where would you use lexical search, dense retrieval, ANN, fusion, filtering, and reranking, and how would you prove it works?",
         a: ["Do not force one retrieval primitive to solve every query. Exact identifiers and error codes get a lexical path; natural-language discovery gets dense retrieval; hybrid fusion combines them where evaluation shows the recall is genuinely complementary.",
-            "Apply authorization as an eligibility constraint before anything can be exposed, using pre-filtering or a filter-aware ANN rather than unsafe post-hoc masking. Use ANN only where scale and latency justify approximation, and rerank a bounded candidate set when richer query-document interaction actually improves quality. Design a freshness path for updates and version embeddings together with the index.",
+            "Apply authorization as an eligibility constraint before anything can be exposed. Pre-filtering or a filter-aware ANN keeps recall up when only a small slice of documents is eligible; post-filtering is safe only if it runs server-side before results leave the service, and it needs a larger candidate pool to avoid returning too few results. Use ANN only where scale and latency justify approximation, and rerank a bounded candidate set when richer query-document interaction actually improves quality. Design a freshness path for updates and version embeddings together with the index.",
             "Prove it with exact-search baselines, lexical and dense ablations, Recall@k and nDCG, ANN recall, latency percentiles, filter-specific slices, update-lag metrics, and end-to-end permission tests."],
         refs: [],
       },
