@@ -640,16 +640,20 @@
     "test_code": "from datetime import datetime as _dt\nassert {'created_at', 'updated_at'} <= set(Post.model_fields), 'Post needs created_at and updated_at fields'\n_now = _dt(2024, 1, 1, 12, 0)\n_p = Post(title='T', content='C', created_at=_now, updated_at=_now)\nassert _p.created_at == _now and _p.updated_at == _now, 'the timestamps should be stored'"
   },
   "fapi_12": {
-    "description": "Create a Pydantic `User` model with fields name (str) and email (EmailStr), so that an invalid email address is rejected."
+    "description": "Create a Pydantic `User` model with fields name (str) and email (EmailStr), so that an invalid email address is rejected.",
+    "test_code": "_u = User(name='Ann', email='ann@example.com')\nassert _u.email == 'ann@example.com', 'a valid email should be accepted'\ntry:\n    User(name='Ann', email='not-an-email')\n    _rejected = False\nexcept Exception:\n    _rejected = True\nassert _rejected, \"User(email='not-an-email') should fail validation\"\n"
   },
   "fapi_16": {
-    "solution": "from pydantic import BaseModel, field_validator\n\nclass Password(BaseModel):\n    password: str\n\n    @field_validator('password')\n    @classmethod\n    def validate_password(cls, v: str) -> str:\n        if len(v) < 8:\n            raise ValueError('Password must be at least 8 characters')\n        return v"
+    "solution": "from pydantic import BaseModel, field_validator\n\nclass Password(BaseModel):\n    password: str\n\n    @field_validator('password')\n    @classmethod\n    def validate_password(cls, v: str) -> str:\n        if len(v) < 8:\n            raise ValueError('Password must be at least 8 characters')\n        return v",
+    "test_code": "_p = Password(password='longenough')\nassert _p.password == 'longenough', 'an 8+ character password should be accepted'\ntry:\n    Password(password='short')\n    _rejected = False\nexcept Exception:\n    _rejected = True\nassert _rejected, \"Password(password='short') should fail: fewer than 8 characters\"\n"
   },
   "fapi_17": {
-    "solution": "from typing import Annotated\nfrom pydantic import BaseModel, Field\n\nclass TagList(BaseModel):\n    tags: list[Annotated[str, Field(min_length=1)]] = Field(min_length=1)"
+    "solution": "from typing import Annotated\nfrom pydantic import BaseModel, Field\n\nclass TagList(BaseModel):\n    tags: list[Annotated[str, Field(min_length=1)]] = Field(min_length=1)",
+    "test_code": "_t = TagList(tags=['python'])\nassert _t.tags == ['python'], 'a list with one non-empty tag should be accepted'\ntry:\n    TagList(tags=[])\n    _rejected = False\nexcept Exception:\n    _rejected = True\nassert _rejected, 'TagList(tags=[]) should fail: at least 1 tag is required'\ntry:\n    TagList(tags=[''])\n    _rejected = False\nexcept Exception:\n    _rejected = True\nassert _rejected, \"TagList(tags=['']) should fail: each tag needs at least 1 character\"\n"
   },
   "fapi_27": {
-    "description": "Create a Pydantic model `CreateItem` for a POST request body with name (str, at least 1 character), price (float, greater than 0) and description (str)."
+    "description": "Create a Pydantic model `CreateItem` for a POST request body with name (str, at least 1 character), price (float, greater than 0) and description (str).",
+    "test_code": "_c = CreateItem(name='Pen', price=2.5, description='Blue pen')\nassert (_c.name, _c.price, _c.description) == ('Pen', 2.5, 'Blue pen'), 'a valid CreateItem should keep its values'\ntry:\n    CreateItem(name='', price=2.5, description='d')\n    _rejected = False\nexcept Exception:\n    _rejected = True\nassert _rejected, 'an empty name should fail validation'\ntry:\n    CreateItem(name='Pen', price=-1, description='d')\n    _rejected = False\nexcept Exception:\n    _rejected = True\nassert _rejected, 'a price of 0 or less should fail validation'\n"
   },
   "fapi_26": {
     "test_code": "_a = create('Pen', 1.5)\nassert _a.get('name') == 'Pen' and _a.get('price') == 1.5 and 'id' in _a, 'create should return the new item with id, name, price, got ' + repr(_a)\n_b = create('Cup', 3)\nassert _b['id'] != _a['id'], 'each created item needs a new id'\nassert read(_a['id']) == _a, 'read(id) should return the stored item'\n_u = update(_b['id'], 'Mug', 4)\nassert _u == {'id': _b['id'], 'name': 'Mug', 'price': 4}, 'update should change name and price, got ' + repr(_u)\nassert update(999, 'x', 1) is None, 'update of a missing id should return None'\nassert delete(_a['id']) is True, 'delete should return True when the item existed'\nassert read(_a['id']) is None, 'a deleted item should be gone'\nassert delete(_a['id']) is False, 'deleting it again should return False'",
@@ -659,7 +663,8 @@
     ]
   },
   "fapi_31": {
-    "description": "Write a function verify_api_key(api_key: str) that returns True if api_key is 'secret-key-123' and otherwise raises HTTPException(status_code=401, detail='Invalid API key')."
+    "description": "Write a function verify_api_key(api_key: str) that returns True if api_key is 'secret-key-123' and otherwise raises HTTPException(status_code=401, detail='Invalid API key').",
+    "test_code": "assert 'verify_api_key' in dir(), \"Function 'verify_api_key' not defined. Did you write: def verify_api_key(...)?\"\n_r0 = verify_api_key('secret-key-123')\nassert _r0 == True, \"Test 1: verify_api_key('secret-key-123') returned \" + str(repr(_r0)) + ', expected True'\ntry:\n    verify_api_key('wrong')\n    _err = None\nexcept Exception as _e:\n    _err = _e\nassert _err is not None, 'an invalid key should raise HTTPException'\nassert getattr(_err, 'status_code', None) == 401, 'the exception should have status_code 401, got ' + repr(getattr(_err, 'status_code', None))"
   },
   "fapi_30": {
     "test_code": "assert 'get_db' in dir(), \"Function 'get_db' not defined\"\n_db = get_db()\nassert isinstance(_db, dict) and len(_db) >= 1, 'get_db() should return a non-empty dict'\nassert all(isinstance(_v, dict) and _v.get('id') == _k for _k, _v in _db.items()), 'each entry should be an item dict whose id matches its key'"
@@ -851,5 +856,11 @@
   },
   "api_50": {
     "description": "Write a function `simulated_api_request(method, endpoint, data, token)` that builds the request headers {'Content-Type': 'application/json', 'Authorization': 'Bearer <token>'} and returns a mock response {'status': 200, 'data': {'success': True, 'id': 123}, 'headers': <those headers>}."
+  },
+  "fapi_11": {
+    "test_code": "_p = Product(name='Pen', price=1.5)\nassert (_p.name, _p.price) == ('Pen', 1.5), 'a valid Product should keep its values'\ntry:\n    Product(name='', price=1.5)\n    _rejected = False\nexcept Exception:\n    _rejected = True\nassert _rejected, \"name must have at least 1 character: Product(name='', ...) should fail validation\"\ntry:\n    Product(name='Pen', price=0)\n    _rejected = False\nexcept Exception:\n    _rejected = True\nassert _rejected, 'price must be greater than 0: Product(price=0) should fail validation'\n"
+  },
+  "fapi_29": {
+    "test_code": "assert 'get_item_or_404' in dir(), \"Function 'get_item_or_404' not defined. Did you write: def get_item_or_404(...)?\"\n_r0 = get_item_or_404(1, {1: {'id': 1, 'name': 'A'}})\nassert _r0 == {'id': 1, 'name': 'A'}, \"Test 1: get_item_or_404(1, {1: {'id': 1, 'name': 'A'}}) returned \" + str(repr(_r0)) + \", expected {'id': 1, 'name': 'A'}\"\ntry:\n    get_item_or_404(2, {})\n    _err = None\nexcept Exception as _e:\n    _err = _e\nassert _err is not None, 'a missing item should raise HTTPException'\nassert getattr(_err, 'status_code', None) == 404, 'the exception should have status_code 404, got ' + repr(getattr(_err, 'status_code', None))"
   }
 }

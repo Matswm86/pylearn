@@ -144,8 +144,26 @@ async function ensurePyodide() {
     throw err;
   }
 
-  // Install pydantic shim for FastAPI exercises
-  await pyodide.runPythonAsync(`
+  // FastAPI exercises: real pydantic (bundled with Pyodide) so Field limits,
+  // EmailStr and validators actually run. The stand-in loads only if the
+  // package download fails.
+  try {
+    await pyodide.loadPackage("pydantic");
+  } catch (err) {
+    console.warn("pydantic failed to load, using the stand-in", err);
+    await pyodide.runPythonAsync(PYDANTIC_STANDIN);
+  }
+  // fastapi itself cannot run in the browser; the exercises only need HTTPException.
+  await pyodide.runPythonAsync(FASTAPI_STUB);
+
+  pyodideReady = true;
+  document.getElementById("pyodide-loading").classList.add("hidden");
+  return pyodide;
+}
+
+// Fallback when the real pydantic package cannot be downloaded: accepts the
+// same model syntax but does not validate.
+const PYDANTIC_STANDIN = `
 class _FieldInfo:
     def __init__(self, **kw): self.__dict__.update(kw)
 
@@ -198,11 +216,36 @@ pydantic.EmailStr = EmailStr
 pydantic.field_validator = field_validator
 import sys
 sys.modules['pydantic'] = pydantic
-  `);
+`;
 
-  pyodideReady = true;
-  document.getElementById("pyodide-loading").classList.add("hidden");
-  return pyodide;
+// Minimal fastapi module: HTTPException with the same signature as FastAPI's.
+const FASTAPI_STUB = `
+import sys, types
+fastapi = types.ModuleType('fastapi')
+class HTTPException(Exception):
+    def __init__(self, status_code, detail=None, headers=None):
+        super().__init__(detail)
+        self.status_code = status_code
+        self.detail = detail
+        self.headers = headers
+    def __repr__(self):
+        return f"HTTPException(status_code={self.status_code!r}, detail={self.detail!r})"
+fastapi.HTTPException = HTTPException
+sys.modules['fastapi'] = fastapi
+`;
+
+// pydantic's EmailStr needs the email-validator package, which Pyodide does not
+// bundle; install it from PyPI the first time code uses EmailStr.
+let emailValidatorReady = false;
+async function ensureEmailValidator(py, src) {
+  if (emailValidatorReady || !/EmailStr/.test(src)) return;
+  try {
+    await py.loadPackage("micropip");
+    await py.runPythonAsync("import micropip\nawait micropip.install('email-validator')");
+    emailValidatorReady = true;
+  } catch (err) {
+    console.warn("email-validator install failed", err);
+  }
 }
 
 async function runPython(code, testCode) {
@@ -215,6 +258,7 @@ async function runPython(code, testCode) {
   py.setStderr({ batched: (msg) => { stdout += msg + "\n"; } });
 
   try {
+    await ensureEmailValidator(py, code + "\n" + (testCode || ""));
     // Run user code
     await py.runPythonAsync(code);
 
