@@ -204,7 +204,7 @@
         "Picture someone handing you a note with the number three written in words, versus actually handing you three coins. Before adding that note to a pile of real coins, you need to convert what is written into an actual countable amount. In code, that conversion happens through a function built to turn number-shaped text into a real whole number. Look among the blocks for a call that does exactly that to the text variable.",
         "Leaving the text variable untouched would still be text, so adding it would fail or behave wrong, not give 7. Converting the variable that is already a number, or converting to a decimal type, does not solve the real problem, which is the text variable. The right block is a single function call wrapped around the text variable, whose whole purpose is turning number-looking text into a real integer."
       ],
-      "deep": "int() parses a string in base 10 and raises ValueError on anything else, including \"3.0\" and \" 3 \" with a stray letter. For user input, parse once at the boundary, then work with numbers. Never let strings and numbers mix deep in the code.",
+      "deep": "int() parses a whole number written in base 10. It ignores spaces around the digits, so int(\" 3 \") is 3, but it raises ValueError on \"3.0\" or \"3a\". For user input, parse once at the boundary, then work with numbers. Never let strings and numbers mix deep in the code.",
       "xp": 20,
       "tags": [
         "types",
@@ -371,7 +371,7 @@
       "tier": 2,
       "level": 2,
       "type": "fill",
-      "prompt": "Fill the gaps so the program prints HELLO WORLD.",
+      "prompt": "Fill the gap so the program prints HELLO WORLD.",
       "blocks": [
         {
           "id": "lower",
@@ -437,7 +437,7 @@
         "Picture the list as a row of three boxes holding 1, 2, 3, numbered 0, 1, 2 from the left, or -1, -2, -3 from the right. nums[-1] means stepping one back from the end, so it grabs the value in the last box, not the whole row. Once you have that single number, multiplying by 2 just doubles it, so look for the option showing one number, doubled, not a list.",
         "An answer shown as [3] is wrong because indexing with a single number gives the value inside the box, not a list containing it. An answer of -2 confuses the index itself with the value stored there, and plain 3 forgets the multiplication by 2. The right answer is a single plain number, double the value sitting in the last box of nums."
       ],
-      "deep": "Index, then operate. Subscription binds tighter than *, so nums[-1] * 2 reads as (nums[-1]) * 2. Negative indexes are resolved at runtime by adding len(nums). This is the exact question from the game's design canvas.",
+      "deep": "Index, then operate. Subscription binds tighter than *, so nums[-1] * 2 reads as (nums[-1]) * 2. Negative indexes are resolved at runtime by adding len(nums).",
       "xp": 10,
       "tags": [
         "lists",
@@ -587,7 +587,7 @@
       "tier": 2,
       "level": 3,
       "type": "fill",
-      "prompt": "Fill the gap so the program prints True.",
+      "prompt": "Fill the gap so the program checks whether the fruit pear is in the list, and prints True.",
       "blocks": [
         {
           "id": "pear",
@@ -696,7 +696,7 @@
       "tier": 2,
       "level": 4,
       "type": "fill",
-      "prompt": "Fill the gap so a missing key prints 0 instead of crashing.",
+      "prompt": "Fill the gap with the read-only lookup method, so a missing key prints 0 instead of crashing.",
       "blocks": [
         {
           "id": "items",

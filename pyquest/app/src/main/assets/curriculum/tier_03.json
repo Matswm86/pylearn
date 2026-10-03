@@ -189,7 +189,7 @@
         },
         {
           "id": "amp",
-          "code": "&",
+          "code": "&&",
           "kind": "expr"
         }
       ],
@@ -313,7 +313,7 @@
       "hints": [
         "This question is about matching the name introduced in the for line to the name already used in the loop body. Look at the print statement below the blank, what word does it use to refer to the current fruit?",
         "Think of the for line as introducing a nickname for whatever item is being visited right now, and the body can only use that exact nickname. If a recipe says for each egg in the carton, crack egg into the bowl, the word after for each and the word in the instruction must match. Check the print line and find the nickname it already relies on.",
-        "A block repeating the collection's own name would loop over the whole list again and again instead of one item at a time, and a made-up index letter would leave the print line pointing at nothing. A call built around range does not fit since fruits is already a list, not a count. The right piece is simply the same single word that print already uses."
+        "A block repeating the collection's own name would rebind fruits to each item and leave the print line pointing at a name, fruit, that was never created, and a made-up index letter would do the same. A call built around range does not fit since fruits is already a list, not a count. The right piece is simply the same single word that print already uses."
       ],
       "deep": "for x in iterable calls iter() once and next() until StopIteration. Iterating over the collection itself is the Pythonic form; indexes are only for when you need the position. The loop variable keeps its last value after the loop, a scoping quirk worth knowing.",
       "xp": 20,
@@ -327,7 +327,7 @@
       "tier": 3,
       "level": 2,
       "type": "mcq",
-      "prompt": "What does this print?",
+      "prompt": "What does this print? Each / in the options marks a new line.",
       "code": "for i, ch in enumerate(\"ab\"):\n    print(i, ch)",
       "options": [
         "a 0 / b 1",
@@ -574,7 +574,7 @@
         "break"
       ],
       "accept": [],
-      "explain": "break is the only way out of a while True loop from inside it.",
+      "explain": "break leaves the nearest loop at once. return only works inside a function, and this code is not in one, so break is the right word here.",
       "teach": "When a loop is written as while True, the condition is always true, so the only way out is a command inside the body that forcibly exits. That command leaves the loop immediately and lets the program continue with whatever comes right after it. This pattern is common for things like a menu or a chat prompt that should keep asking for input until the user signals they are done. Without such a command, a while True loop would run forever.",
       "hints": [
         "The question wants the one word that can actually stop a loop from inside its own body when the condition itself is always true. Look at the four choices and ask yourself, which of these is a real Python keyword that exits a loop right away?",
@@ -945,7 +945,7 @@
         "Think of sorting mail into a new empty bin: you walk through the original stack one letter at a time and drop a new version of each letter into the bin. When done, you hand over the new bin, not the original stack, and not just the last letter touched. The loop should visit the parameter itself, the addition should raise a single item to a power, and the return should hand back the bin being filled.",
         "Counting the items or doubling them would give the wrong numbers, since neither one actually squares anything. Returning the loop variable alone would give back only the last item processed, not a full list. The first blank needs the parameter that holds the input list, the middle blank needs the item raised to the second power, and the last blank needs the name of the list that was being filled."
       ],
-      "deep": "This is the design canvas question, and the comprehension version is return [n ** 2 for n in nums]. Both allocate one list; the comprehension avoids the repeated method lookup of out.append, which is why it benchmarks faster. Returning out, not n, is the mistake this question catches.",
+      "deep": "The comprehension version is return [n ** 2 for n in nums]. Both allocate one list; the comprehension avoids the repeated method lookup of out.append, which is why it benchmarks faster. Returning out, not n, is the mistake this question catches.",
       "xp": 25,
       "tags": [
         "comprehensions",

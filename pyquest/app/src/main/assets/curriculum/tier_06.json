@@ -136,7 +136,7 @@
       "answer": [
         "headers={\"Authorization\": \"Bearer <token>\"}"
       ],
-      "explain": "Bearer tokens go in the Authorization header, which stays out of logs and URLs.",
+      "explain": "Bearer tokens go in the Authorization header, which keeps them out of the URL, so they do not land in access logs and browser history by default.",
       "teach": "Every HTTP request carries two kinds of information: the main content you're sending, called the body, and small pieces of metadata about the request itself, called headers. Headers tell the server things like what format your data is in or who is making the request. Where you place a piece of information matters for security, because some parts of a request, like the URL, get saved in server logs and browser history, while others do not.",
       "hints": [
         "This question asks where a secret key should live when your code makes a request, and which part of a request stays private. Think about what happens to different pieces of a request: some get written into logs and history, others don't. Look at the four options and ask which one keeps the key out of places that get saved.",
@@ -328,7 +328,8 @@
         "validation",
         "status-codes"
       ],
-      "reviewed": "2026-09-05"
+      "reviewed": "2026-09-05",
+      "code": "class Item(BaseModel):\n    name: str\n    price: float\n\n@app.post(\"/items\")\ndef create(item: Item):\n    return item"
     },
     {
       "id": "t6.l2.q4",
@@ -601,7 +602,7 @@
       "tier": 6,
       "level": 3,
       "type": "order",
-      "prompt": "Order the lines to fetch a page with an async client.",
+      "prompt": "These lines are the body of async def fetch(url):. Order them to fetch a page with an async client.",
       "tray": [
         "    r.raise_for_status()",
         "async with httpx.AsyncClient() as client:",
@@ -795,7 +796,7 @@
         "Picture testing a fire alarm with a test signal that mimics smoke, instead of lighting an actual fire every time you want to check the alarm works. Testing code should replace the risky external call with something that behaves the same way from the test's point of view but never leaves your machine. Look for the option focused on substituting the real call with a safe stand-in.",
         "Skipping the test leaves that part of the code completely unchecked, which is worse than testing it safely, and running it only at night or using a smaller amount still leaves the real risk, cost and flakiness in place. The right answer is about replacing the real external call with something fake purely for testing."
       ],
-      "deep": "Prefer dependency injection (pass the client in) over monkeypatching, and pytest's monkeypatch fixture over unittest.mock when you must patch. Record real responses once with a library like respx or vcrpy and replay them. Keep a separate, clearly marked integration suite for the real thing.",
+      "deep": "Prefer dependency injection (pass the client in) over monkeypatching, and pytest's monkeypatch fixture over unittest.mock when you must patch. Mock httpx calls with respx, or record real responses once with vcrpy and replay them. Keep a separate, clearly marked integration suite for the real thing.",
       "xp": 10,
       "tags": [
         "testing",
@@ -979,7 +980,7 @@
       "tier": 6,
       "level": 5,
       "type": "mcq",
-      "prompt": "Which call is right?",
+      "prompt": "Which call follows the recommended logging style?",
       "options": [
         "logger.info(\"user \" + user_id + \" logged in\")",
         "logger.info(f\"user {user_id} logged in\")",
@@ -1021,13 +1022,20 @@
         "logger = logging.getLogger(__name__)",
         "logger.info(\"starting\")"
       ],
-      "accept": [],
+      "accept": [
+        [
+          "import logging",
+          "logger = logging.getLogger(__name__)",
+          "logging.basicConfig(level=logging.INFO)",
+          "logger.info(\"starting\")"
+        ]
+      ],
       "explain": "Import, configure once, get a named logger, use it.",
       "teach": "Setting up logging in a script follows a simple order, much like getting a phone ready before making a call. You first bring in the tool, then set it up one time with your chosen settings, then get your own personal handle to use it, and only after that do you actually use the handle to send a message. Trying to use the handle before it exists will not work. Every well-behaved script that uses logging follows this same basic order, even though the exact settings can vary.",
       "hints": [
         "This question asks you to put four steps into the order a script naturally needs them. Look at the four lines and ask which one has to exist before any of the others could even be written, and which one is clearly the last thing that happens once everything else is ready. What absolutely has to come first, before anything can be configured or used?",
         "Think about setting up a brand new phone. You cannot choose your ringtone settings before the phone is even turned on, and you cannot make a call before opening the contacts app to get a specific number to dial. There is a natural chain here: bring the tool in, choose the overall settings once, get your own named handle to use it, then finally use that handle to say something.",
-        "Trying to get a named handle or send a message before the tool is even brought in would fail, since nothing would exist yet to ask for. The one-time settings step naturally happens early, right after bringing the tool in and before anything is fetched or used, since it shapes how every later message gets shown. Order the lines so bringing the tool in comes first and sending a message comes last."
+        "Trying to get a named handle or send a message before the tool is even brought in would fail, since nothing would exist yet to ask for. The one-time settings step must run before the first message is sent, since it decides whether that message is shown at all. Order the lines so bringing the tool in comes first and sending a message comes last."
       ],
       "deep": "basicConfig only acts the first time it is called, which is why it belongs in the entry point and not in modules. __name__ gives hierarchical loggers (app.db.pool), so you can set app.db to DEBUG alone. Add a formatter with timestamps; the default format has none.",
       "xp": 15,
@@ -1180,7 +1188,7 @@
           "kind": "var"
         }
       ],
-      "template": "payload = {\"model\": \"some-model\", \"input\": \"Explain Azure AI in one sentence.\"}\nr = requests.{0}(url, json=payload, headers=headers)\ndata = r.{1}()\nprint(data[\"output_text\"])",
+      "template": "payload = {\"model\": \"some-model\", \"input\": \"Explain Azure AI in one sentence.\"}\nr = requests.{0}(url, json=payload, headers=headers)\ndata = r.{1}()\nprint(data[\"answer\"])",
       "answer": [
         "b0",
         "b3"
@@ -1235,7 +1243,17 @@
         "block-bench",
         "calling-apis"
       ],
-      "reviewed": "2026-10-01"
+      "reviewed": "2026-10-01",
+      "accept": [
+        [
+          "import requests",
+          "headers = {\"Authorization\": \"Bearer sk-...\"}",
+          "url = \"https://api.example.com/quote/MNQ\"",
+          "r = requests.get(url, headers=headers)",
+          "data = r.json()",
+          "print(data[\"last\"])"
+        ]
+      ]
     }
   ]
 }

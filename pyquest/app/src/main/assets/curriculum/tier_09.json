@@ -313,7 +313,7 @@
         "One option is a model setting that changes how varied the wording is. Ask yourself whether changing variety tells a reviewer anything about harm or limits. It does not, so treat it with suspicion.",
         "Another option promises something no generative model can promise. A review produces evidence and documentation, never guarantees of perfection. Keep the two options that produce documents or test evidence."
       ],
-      "deep": "Red-teaming is Microsoft's term for structured adversarial testing of generative systems, and it feeds the map, measure and manage cycle. Transparency notes are the published form of documented limitations. Both appear in the Foundry responsible AI guidance.",
+      "deep": "Red-teaming is Microsoft's term for structured adversarial testing of generative systems, and it belongs to the Discover stage of Microsoft's Discover, Protect and Govern guidance. Transparency notes are the published form of documented limitations. Both appear in the Foundry responsible AI guidance.",
       "xp": 15,
       "tags": [
         "responsible-ai",
@@ -1217,18 +1217,18 @@
       "prompt": "Which kind of model should you deploy in Foundry to summarize the text of a long document?",
       "options": [
         "A Whisper speech-to-text model",
-        "A DALL-E image-generation model",
+        "A gpt-image image-generation model",
         "A GPT-family chat model",
         "A text-embedding model"
       ],
       "answer": [
         "A GPT-family chat model"
       ],
-      "explain": "Summarizing means reading text and writing new, shorter text, which is what a GPT-family language model does. Whisper turns audio into text, DALL-E makes images, and an embedding model turns text into vectors for search without writing anything.",
-      "teach": "The Foundry model catalog groups models by what goes in and what comes out. Chat or completion models take text and write text. Speech models such as Whisper take audio and return text. Image models such as DALL-E take text and return pictures. Embedding models take text and return a list of numbers used for similarity search.",
+      "explain": "Summarizing means reading text and writing new, shorter text, which is what a GPT-family language model does. Whisper turns audio into text, gpt-image makes images, and an embedding model turns text into vectors for search without writing anything.",
+      "teach": "The Foundry model catalog groups models by what goes in and what comes out. Chat or completion models take text and write text. Speech models such as Whisper take audio and return text. Image models such as gpt-image-1 take text and return pictures. Embedding models take text and return a list of numbers used for similarity search.",
       "hints": [
         "Name the input and output of the task first. Summarizing takes text in and must write new text out. Now ask which model family has exactly that shape.",
-        "Whisper takes audio in, and DALL-E puts images out. Neither has text-in, text-out as its main job, so they cannot write a summary of a document.",
+        "Whisper takes audio in, and gpt-image puts images out. Neither has text-in, text-out as its main job, so they cannot write a summary of a document.",
         "An embedding model does take text in, but what comes out is a vector of numbers used for search. It never writes a sentence, so it cannot produce a summary."
       ],
       "deep": "Identify an appropriate model based on capabilities is an explicit AI-901 skill. Match on modality first, then on task. Embedding models are the quiet distractor because they do read text; they just never write any.",
@@ -1246,7 +1246,7 @@
       "type": "mcq",
       "prompt": "Which of these models is suited to generating program code from a description?",
       "options": [
-        "DALL-E",
+        "A gpt-image image-generation model",
         "A Swin image-classification model",
         "Whisper",
         "A GPT-4-class language model"
@@ -1254,11 +1254,11 @@
       "answer": [
         "A GPT-4-class language model"
       ],
-      "explain": "Code is text, and GPT-4-class language models are trained on large amounts of code as well as prose, so they write and explain code. Whisper transcribes audio, DALL-E generates images, and Swin is a vision model that labels images.",
+      "explain": "Code is text, and GPT-4-class language models are trained on large amounts of code as well as prose, so they write and explain code. Whisper transcribes audio, gpt-image generates images, and Swin is a vision model that labels images.",
       "teach": "Large language models learn from huge amounts of text, and much of that text is source code. That is why a general chat model can write, explain and fix code. Models built for other modalities, such as audio transcription or image classification, have no ability to produce code.",
       "hints": [
         "Program code is a kind of text, written in a programming language instead of English. Ask which of the four models reads and writes text as its main job.",
-        "Whisper's input is audio and its output is a transcript. DALL-E's output is a picture. Neither writes code, whatever prompt you give it.",
+        "Whisper's input is audio and its output is a transcript. gpt-image's output is a picture. Neither writes code, whatever prompt you give it.",
         "Swin is a vision model: it takes an image and returns a label such as cat or car. That leaves the one general-purpose language model."
       ],
       "deep": "One popular practice video marks the Swin image model as the answer here, which is wrong. Swin (Shifted Window Transformer) is an image classifier in the Foundry catalog and has no code generation. Trust modality: text out needs a language model.",
@@ -1453,7 +1453,7 @@
         "Ask which options read rather than describe. Labelling a picture or boxing objects tells you what is in the image, such as an invoice or a logo, but it does not give you the words and figures printed on it.",
         "Sentiment analysis needs text that already exists, so it would have nothing to work on here. Image classification and object detection describe the picture. Only one option reads printed and handwritten characters."
       ],
-      "deep": "OCR gives characters, not meaning: it cannot tell which number is the invoice total. When a question needs named fields such as total or due date, the answer moves up to Document Intelligence or a Content Understanding analyzer with a field schema.",
+      "deep": "OCR gives characters, not meaning: it cannot tell which number is the invoice total. When a question needs named fields such as total or due date, the answer moves up to an Azure Content Understanding analyzer with a field schema, which is the tool the AI-901 outline names for documents and forms.",
       "xp": 10,
       "tags": [
         "vision",
@@ -1692,7 +1692,7 @@
         "Play the audio back to the customer"
       ],
       "accept": [],
-      "explain": "Speech to text feeds the model, and text to speech carries the answer back, so the pipeline runs audio, text, model, text, audio. OCR reads text in images and has no role with sound. The skills outline also covers a deployed multimodal model answering a spoken prompt directly, which merges the first three steps into one call.",
+      "explain": "Speech to text feeds the model, and text to speech carries the answer back, so the pipeline runs audio, text, model, text, audio. The skills outline also covers a deployed multimodal model answering a spoken prompt directly, which merges the first three steps into one call.",
       "teach": "A voice assistant chains several capabilities together, and each one changes the form of the data. Speech recognition turns sound into words. A language model reads words and writes words. Speech synthesis turns words back into sound. Because each step can only accept the form the previous step produced, the order is forced by the data types, not by preference.",
       "hints": [
         "Follow the form of the data. It starts as sound from the customer and has to end as sound played back to them. Work out where it must be text in between, since the model reads and writes text.",
@@ -1760,7 +1760,7 @@
         "Key phrase extraction runs on text that is already machine-readable, so it belongs to the Language service, not to a vision service.",
         "The two video options need either video processing or a custom-trained model. Reading handwriting from a scanned page is the built-in OCR capability."
       ],
-      "deep": "OCR in Azure AI Vision handles both printed and handwritten text across many languages. For structured fields from forms, such as invoice totals, the exam prefers Document Intelligence or Content Understanding over plain OCR.",
+      "deep": "OCR in Azure AI Vision handles both printed and handwritten text across many languages. For structured fields from forms, such as invoice totals, AI-901 expects Azure Content Understanding in Foundry Tools rather than plain OCR.",
       "xp": 10,
       "tags": [
         "vision"
@@ -1851,7 +1851,7 @@
         "Tagging returns a list of labels such as dog and beach. That is useful for search, but it is a list of words, not a sentence.",
         "Categorization and type detection each return one broad label about the whole image. Only one feature writes a description in natural language."
       ],
-      "deep": "Azure AI Vision 4.0 offers captions and dense captions, which caption individual regions. For open-ended questions about an image, AI-901 also expects you to know that a vision-enabled chat model can describe images in whatever detail the prompt asks for.",
+      "deep": "Image Analysis 4.0 in Azure Vision offers captions and dense captions, which caption individual regions, but it is deprecated and retires in 2028. For open-ended questions about an image, AI-901 expects you to use a vision-enabled chat model, which can describe images in whatever detail the prompt asks for.",
       "xp": 10,
       "tags": [
         "vision"
@@ -2024,7 +2024,7 @@
         "The Responses API can take an image either as a URL or as base64-encoded data",
         "In the Foundry playground you can attach a local image and type a question in the same message"
       ],
-      "explain": "The playground supports attaching an image alongside text for multimodal models, and the API accepts a public URL or a data URL with base64 bytes. The word only makes the third statement false, and a text-only model cannot read images, so the model itself must be multimodal.",
+      "explain": "The playground supports attaching an image alongside text for multimodal models, and the API accepts a public URL or a data URL with base64 bytes. The word only makes the base64-only statement false, and a text-only model cannot read images, so the model itself must be multimodal.",
       "teach": "A vision-enabled, or multimodal, model reads images and text together in one prompt. You can try it in the Foundry playground by attaching a picture, and in code you pass the image in the request either as a link the service can fetch or as the raw bytes encoded in base64. The model does the seeing; your app only sends the picture.",
       "hints": [
         "Two statements describe ways to get an image to the model, one in the portal and one in code. Two others restrict what is possible. Test the restrictions first.",
@@ -2047,21 +2047,21 @@
       "prompt": "A finance team scans supplier PDFs and needs each invoice number, total and due date returned as named fields, not as a wall of text. Which capability fits best?",
       "options": [
         "Optical character recognition on its own",
-        "Document Intelligence field extraction",
+        "A Content Understanding document analyzer with invoice number, total and due date fields",
         "Image classification",
         "Key phrase extraction"
       ],
       "answer": [
-        "Document Intelligence field extraction"
+        "A Content Understanding document analyzer with invoice number, total and due date fields"
       ],
-      "explain": "Document Intelligence reads the document and returns structured key-value pairs and tables, so a total arrives labelled as a total. Plain OCR gives you the characters but leaves you to work out which number is the invoice total, and the other two options answer different questions entirely.",
+      "explain": "A Content Understanding document analyzer reads the PDF and fills the fields you defined, so the total arrives labelled as a total. Plain OCR gives you the characters but leaves you to work out which number is the total, image classification labels the whole picture, and key phrase extraction returns phrases with no field names.",
       "teach": "Reading a document and understanding it are different jobs. Character recognition turns a scan into raw text, but leaves you with a wall of words and numbers where a total looks the same as a phone number. Document processing services go further: they return named fields and tables, so each value arrives labelled with what it is. Other capabilities classify whole images or pull out key phrases, which are different outputs again.",
       "hints": [
         "The team says it does not want a wall of text. It wants each invoice number, total and due date returned as a named field. Keep that output shape in mind while you look at the options.",
-        "Plain character reading gets every figure off the page but does not know which figure is the total. Ask which option returns values already paired with their meaning, so a total arrives labelled as a total.",
-        "Image classification labels the whole picture, for example as an invoice, and key phrase extraction returns important phrases with no field names. One option is built to return structured key-value pairs and tables."
+        "Plain character reading gets every figure off the page but does not know which figure is the total. Ask which option returns values already paired with their meaning.",
+        "Image classification labels the whole picture, for example as an invoice, and key phrase extraction returns important phrases with no field names. One option lets you define the fields you want and returns them filled in."
       ],
-      "deep": "The exam trap here is always OCR on its own, which gives characters without meaning. A Content Understanding analyzer with a field schema solves the same kind of problem and appears elsewhere in this level, including nested fields such as line items.",
+      "deep": "The exam trap here is OCR on its own, which gives characters without meaning. On AI-901 the named tool for documents and forms is Azure Content Understanding in Foundry Tools: a document analyzer plus a field schema, including nested fields such as line items. Older material names Document Intelligence for the same job.",
       "xp": 10,
       "tags": [
         "documents",
@@ -2254,25 +2254,25 @@
       "tier": 9,
       "level": 4,
       "type": "multi",
-      "prompt": "In which two scenarios would you use a document-extraction service such as Azure Document Intelligence or a Content Understanding document analyzer? Choose two.",
+      "prompt": "In which two scenarios would you use a Content Understanding document analyzer? Choose two.",
       "options": [
         "Extract the invoice number from a supplier invoice",
-        "Identify the retailer from a photographed receipt",
+        "Identify the merchant name on a scanned receipt",
         "Translate a letter from French to English",
         "Find images of a product in an online catalog"
       ],
       "answer": [
         "Extract the invoice number from a supplier invoice",
-        "Identify the retailer from a photographed receipt"
+        "Identify the merchant name on a scanned receipt"
       ],
-      "explain": "Receipts and invoices are documents with known fields such as merchant name, totals and invoice numbers, which document extraction returns as structured data. Translation belongs to Translator, and searching a catalog for images is visual search.",
-      "teach": "Document extraction goes beyond OCR. OCR returns all the text on a page, while document extraction returns named fields, such as MerchantName, InvoiceId and Total, together with their values. Prebuilt models cover common documents like receipts, invoices and ID cards, and custom schemas cover your own forms.",
+      "explain": "Receipts and invoices are documents with known fields such as merchant name, totals and invoice numbers, which a document analyzer returns as structured data. Translation belongs to Translator, and searching a catalog for images is visual search.",
+      "teach": "Document extraction goes beyond OCR. OCR returns all the text on a page, while a Content Understanding document analyzer returns named fields, such as MerchantName, InvoiceId and Total, together with their values. Prebuilt analyzers cover common documents like receipts and invoices, and your own field schema covers your own forms.",
       "hints": [
         "Ask whether each scenario starts with a business document and wants specific named values out of it. That pattern is exactly what document extraction is for.",
         "Translating a letter changes its language but pulls out no fields. That is a job for a translation service, even though the input is a document.",
         "Finding product images is a search over pictures. The two remaining scenarios both read a receipt or an invoice and return one named value."
       ],
-      "deep": "On AI-901, Content Understanding is the named Foundry tool for document, image, audio and video extraction, and Document Intelligence still appears in older-style items. Both beat plain OCR whenever the question asks for named or nested fields.",
+      "deep": "On AI-901, Content Understanding in Foundry Tools is the named tool for document, image, audio and video extraction. It beats plain OCR whenever the question asks for named or nested fields. Older study material uses Document Intelligence for the same scenarios.",
       "xp": 15,
       "tags": [
         "content-understanding"
@@ -2738,13 +2738,13 @@
         "An agent can be given tools it may call to fetch data or take actions"
       ],
       "explain": "Tools extend what an agent can do and widen the damage it can cause at the same time, so its credentials should be scoped to exactly what it needs. Nothing about tool use removes the need for evaluation and monitoring; tools raise the stakes of skipping them.",
-      "teach": "An agent is a model plus instructions plus tools plus memory of the conversation. Tools let it call functions, search data or act in other systems. Conversation state, called a thread, lets it remember earlier turns. Because an agent can act, security rules such as least privilege matter more than they do for a plain chat model.",
+      "teach": "An agent is a model plus instructions plus tools plus memory of the conversation. Tools let it call functions, search data or act in other systems. Conversation state, which Foundry stores as a conversation, lets it remember earlier turns. Because an agent can act, security rules such as least privilege matter more than they do for a plain chat model.",
       "hints": [
         "Two statements describe what agents are made of. Two others make claims about safety shortcuts. Test each shortcut by asking what would happen if the agent made a mistake.",
         "If an agent's tool runs as administrator and the model misreads an instruction, what is the worst it could do? That tells you how to judge the permissions statement.",
         "Tools let an agent do more, which means a wrong output can now cause a real action. Ask whether that makes checking its output more or less important."
       ],
-      "deep": "Least privilege, managed identity, human approval for risky actions and continuous evaluation are the standard agent controls. Foundry Agent Service stores conversation state in threads and lets you attach tools such as file search, code interpreter and your own functions.",
+      "deep": "Least privilege, managed identity, human approval for risky actions and continuous evaluation are the standard agent controls. Foundry Agent Service keeps conversation state in conversations (older material calls them threads) and lets you attach tools such as file search, code interpreter and your own functions.",
       "xp": 15,
       "tags": [
         "foundry",
@@ -3114,7 +3114,7 @@
       "answer": [
         "{\"a\": 1}"
       ],
-      "explain": "Curly braces with colon-separated pairs create a dict. Square brackets make a list and parentheses make a tuple. The trap is the last one: curly braces without colons create a set, so {\"a\", 1} is a two-element set, not a mapping.",
+      "explain": "Curly braces with colon-separated pairs create a dict. Square brackets make a list and parentheses make a tuple. The trap is curly braces without colons: they create a set, so {\"a\", 1} is a two-element set, not a mapping.",
       "teach": "A dictionary stores pairs, where each key is a label and each value is the thing filed under that label. You look things up by key instead of by position, like finding a phone number by searching for a name. Python has several collection types, such as lists, tuples and sets, and each one has its own written form so that Python can tell which one you mean. Once a dictionary exists, you read from it like this:\nphone[\"Sam\"]\nwhich hands back whatever is filed under the key \"Sam\".",
       "hints": [
         "This question is about how Python tells collections apart by the brackets and symbols you write. Think about what makes a dictionary special: every entry is a pair made of a key and a value, so the written form needs some mark that links the two halves of each entry.",
@@ -3143,7 +3143,7 @@
       "answer": [
         "<class 'list'>"
       ],
-      "explain": "type() returns the type object, and printing it shows the  form. Python has no built-in type called array; the built-in sequence type is list.",
+      "explain": "type() returns the type object, and printing it shows the <class 'list'> form. Python has no built-in type called array; the built-in sequence type is list.",
       "teach": "Every value in Python has a type, and the built in function type() tells you which one. The answer is itself an object, so print shows it in a fixed text format rather than as a bare word. Try it on a piece of text:\nprint(type(\"hi\"))\nThis prints <class 'str'>, which reads as: the class named str. The name inside the quotes is the name of the type. Note that type() reports what a value is, not what it looks like when you write it.",
       "hints": [
         "Two separate ideas meet in this question. First, what kind of thing does type() give back, and how does print display it? Second, what is the name Python uses for the value written with square brackets and nothing inside? Work out each idea on its own, then combine them.",
@@ -3453,7 +3453,7 @@
         "for k, v in d.items():",
         "for k in d: v = d[k]"
       ],
-      "explain": "items() yields (key, value) pairs, so it unpacks into two names. Iterating the dict directly yields keys, which you can then look up. Unpacking d itself fails because iterating a dict gives you one key at a time, not a pair, and the last option looks up a value as if it were a key.",
+      "explain": "items() yields (key, value) pairs, so it unpacks into two names. Iterating the dict directly yields keys, which you can then look up. Unpacking d itself fails because iterating a dict gives you one key at a time, not a pair, and the d.values() loop looks up a value as if it were a key.",
       "teach": "A for loop takes whatever it is walking through and hands you one item per step. If each item is a pair, you can unpack it into two names right in the loop line:\nfor name, score in [('Ann', 3), ('Bo', 5)]:\n    print(name, score)\nA dictionary stores pairs of key and value, and it can be walked through in a few different ways, each handing your loop a different kind of item. Before you pick a loop, ask what one step of it actually gives you, and test it by printing.",
       "hints": [
         "Two of the four lines are correct, so check each one on its own rather than comparing them against each other. For each line, ask what one step of the loop hands over, and whether the names on the left can actually receive it.",
@@ -3504,13 +3504,13 @@
       "prompt": "Which three statements are true? Choose three.",
       "options": [
         "from math import sqrt puts sqrt directly in the current namespace",
-        "A name assigned inside a function is local unless declared global",
+        "A name assigned inside a function is local unless declared global or nonlocal",
         "After import math as m, the name math is still usable",
         "Indentation, not braces, defines block structure in Python"
       ],
       "answer": [
         "from math import sqrt puts sqrt directly in the current namespace",
-        "A name assigned inside a function is local unless declared global",
+        "A name assigned inside a function is local unless declared global or nonlocal",
         "Indentation, not braces, defines block structure in Python"
       ],
       "explain": "from X import Y binds Y itself, so you call sqrt() rather than math.sqrt(). Assignment inside a function creates a local name, which is why reassigning a module-level variable without global silently makes a second one. import math as m binds only m, so math is not defined. Blocks are defined by indentation, which makes consistent indenting part of the syntax rather than a style choice.",

@@ -56,7 +56,7 @@
       "answer": [
         "max_tokens was reached"
       ],
-      "explain": "max_tokens caps the output length; hitting it truncates the reply and the API reports the finish reason as length.",
+      "explain": "max_tokens caps the output length; hitting it truncates the reply and the API says so in the stop reason (length in OpenAI, max_tokens in Anthropic).",
       "teach": "When you ask a model for a reply, you can set a limit on how many tokens it is allowed to produce, often called a max output setting. If the model still has more to say when it reaches that limit, the API cuts it off right there, mid word or mid sentence, and reports why it stopped in a small status field alongside the reply. A program that ignores that status field will treat a cut off answer as finished and try to use it anyway, causing broken results.",
       "hints": [
         "The question is really asking you to notice a clue in the text itself: an answer that stops abruptly, not because the model finished its thought, but because something told it to stop. What is different about a sentence that trails off partway through compared to one that reaches a natural full stop?",
@@ -399,7 +399,15 @@
         "upsert vectors and metadata into the index",
         "run a recall check against a set of known queries"
       ],
-      "accept": [],
+      "accept": [
+        [
+          "clean and split the documents into chunks",
+          "embed each chunk with the chosen model",
+          "attach metadata to each chunk",
+          "upsert vectors and metadata into the index",
+          "run a recall check against a set of known queries"
+        ]
+      ],
       "explain": "Chunk, tag, embed, store, then prove it works before anyone queries it.",
       "teach": "Building a search system out of documents is not one step, it is a pipeline, where each stage depends on the one before it. Before turning text into vectors, you first break long documents into smaller pieces, since embedding an entire book as one vector would blur its meaning, much like summarizing a whole movie in a single word. Once pieces exist, extra details about where each came from become useful, and only then can numeric vectors be created and stored for search. Finally, any pipeline like this needs a way to check it actually works before real users rely on it.",
       "hints": [
@@ -866,11 +874,11 @@
       "options": [
         "There is no bias, models are objective",
         "Judges cannot read code",
-        "Judges favour longer answers and the first of two options, so shuffle order and score length separately",
+        "Judges favour longer answers and a fixed position (often the first), so shuffle order and score length separately",
         "Judges are always harsher than humans"
       ],
       "answer": [
-        "Judges favour longer answers and the first of two options, so shuffle order and score length separately"
+        "Judges favour longer answers and a fixed position (often the first), so shuffle order and score length separately"
       ],
       "explain": "LLM-as-judge is useful but biased toward verbosity and position. Randomise order, use a rubric, and calibrate against human labels.",
       "teach": "Imagine asking a friend to judge a baking contest, but they always pick the biggest cake, and when two cakes are similar they always remember the one they tasted first best. That is a bias: a habit that skews scoring away from real quality. When you use one AI model to grade another model's answers, it turns out judge models have habits too. They tend to prefer longer answers even when longer is not better, and when comparing two answers side by side, they lean toward whichever one they see first, so you need to correct for that before trusting the scores.",
@@ -1082,14 +1090,28 @@
         "block-bench",
         "reading-real-code"
       ],
-      "reviewed": "2026-10-01"
+      "reviewed": "2026-10-01",
+      "accept": [
+        [
+          "import statement",
+          "class",
+          "variable (object)",
+          "build the object",
+          "variable (object)",
+          "method call",
+          "keyword argument",
+          "keyword argument",
+          "function call",
+          "attribute"
+        ]
+      ]
     },
     {
       "id": "t7.l6.q2",
       "tier": 7,
       "level": 6,
       "type": "fill",
-      "prompt": "Fill the gaps in the same snippet from memory. Expected output: Azure AI is a cloud platform for building AI apps.",
+      "prompt": "Fill the gaps in the same snippet from memory. It prints one sentence from the model, for example: Azure AI is a cloud platform for building AI apps.",
       "blocks": [
         {
           "id": "b0",
@@ -1171,7 +1193,7 @@
       "level": 6,
       "type": "match",
       "prompt": "Map the plain-requests version to the same concepts.",
-      "code": "import requests\n\nheaders = {\"Authorization\": f\"Bearer {api_key}\"}\n\nr = requests.post(\n    url,\n    json={\"model\": \"some-model\", \"input\": \"Hi\"},\n    headers=headers\n)\n\nprint(r.json()[\"output_text\"])",
+      "code": "import requests\n\nheaders = {\"Authorization\": f\"Bearer {api_key}\"}\n\nr = requests.post(\n    url,\n    json={\"model\": \"some-model\", \"input\": \"Hi\"},\n    headers=headers\n)\n\nprint(r.json()[\"output\"][0][\"content\"][0][\"text\"])",
       "options": [
         "positional argument",
         "method call",

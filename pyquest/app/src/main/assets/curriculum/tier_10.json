@@ -104,7 +104,7 @@
       "tier": 10,
       "level": 1,
       "type": "mcq",
-      "prompt": "This app runs on Azure App Service with two user-assigned managed identities attached. Only the identity named id-chat holds the Foundry User role, and calls fail with an authorization error. Which change fixes it with the least effort while staying keyless?",
+      "prompt": "This app runs on Azure App Service with two user-assigned managed identities attached and no system-assigned identity. Only the identity named id-chat holds the Foundry User role, and every call to the project fails. Which change fixes it with the least effort while staying keyless?",
       "code": "import os\nfrom azure.identity import DefaultAzureCredential\nfrom azure.ai.projects import AIProjectClient\n\ncredential = DefaultAzureCredential()\nclient = AIProjectClient(\n    endpoint=os.environ[\"FOUNDRY_PROJECT_ENDPOINT\"],\n    credential=credential,\n)",
       "mono": true,
       "options": [
@@ -249,7 +249,7 @@
       "tier": 10,
       "level": 1,
       "type": "mcq",
-      "prompt": "An agent uses a web search tool. A page it retrieves contains hidden text telling the agent to email the customer list to an outside address. Which guardrail control addresses this most directly?",
+      "prompt": "An agent uses the Grounding with Bing Search tool. A page it retrieves contains hidden text telling the agent to email the customer list to an outside address. Which guardrail control addresses this most directly?",
       "options": [
         "Protected material detection for text at the output intervention point",
         "Indirect attack detection at the tool response intervention point",
@@ -614,7 +614,7 @@
       "answer": [
         "The Agent-to-Agent (A2A) tool"
       ],
-      "explain": "The A2A tool lets a Foundry agent delegate to a remote agent that implements the Agent-to-Agent protocol. OpenAPI needs an API spec, File Search reads static files and Code Interpreter runs code locally.",
+      "explain": "The A2A tool lets a Foundry agent delegate to a remote agent that implements the Agent-to-Agent protocol. OpenAPI needs an API description of real endpoints, File Search reads static files, and Code Interpreter runs Python in an isolated sandbox that cannot reach the partner's agent.",
       "teach": "Multi-agent solutions split work across specialised agents. When the other agent is remote and speaks a standard agent protocol, the A2A tool lets your agent delegate a task to it and receive the result, without you writing glue code for its internals. Other orchestration patterns include an orchestrator agent calling specialists, and workflows that run agents in a defined sequence with checkpoints.",
       "hints": [
         "Note how the partner exposes its capability: not as a REST API description or a document, but as an agent speaking a specific inter-agent protocol. The right tool speaks that same protocol.",
@@ -1099,7 +1099,7 @@
         "Detection is never perfect, so also ask what limits the harm if an attack slips through. The dangerous outcome here is an approval action, which is something you can gate.",
         "Image resolution, deployment capacity and sampling randomness do not change whether the model obeys an instruction it reads. Rule out any option that does not detect the attack or contain its effect."
       ],
-      "deep": "In Foundry, document-attack controls scan user input and tool responses, so image text returned by an OCR tool is covered at the tool response point. The exam outline names 'indirect prompt injection by using embedded text in images' explicitly.",
+      "deep": "In Foundry, document-attack controls scan user input and tool responses, so image text returned by an OCR tool is covered at the tool response point when that tool supports moderation (for example an Azure Functions or OpenAPI tool). The exam outline names 'indirect prompt injection by using embedded text in images' explicitly.",
       "xp": 15,
       "tags": [
         "d3-computer-vision",
@@ -1167,7 +1167,7 @@
       "answer": [
         "0, 2, 4 and 6"
       ],
-      "explain": "Image analysis returns the trimmed scale 0, 2, 4 and 6 for each category. The full 0 to 7 scale is available only for text when you request eight severity levels.",
+      "explain": "Image analysis returns the trimmed scale 0, 2, 4 and 6 for each category. The finer 0 to 7 scale comes back only from text analysis (and the image-with-text multimodal model) when you request eight severity levels.",
       "teach": "Content Safety scores each harm category (hate, sexual, violence, self-harm) with a severity. The text model supports the full 0 to 7 scale but returns 0, 2, 4 and 6 by default, and can return all eight levels on request. The image model supports only the trimmed scale: each pair of adjacent levels maps to one value.",
       "hints": [
         "Severity in Content Safety is a number, not a word label and not a probability, so two of the options describe a different kind of output altogether.",
@@ -1541,7 +1541,7 @@
       "tier": 10,
       "level": 5,
       "type": "mcq",
-      "prompt": "A team ingests mixed PDFs, slide decks and scanned forms into a RAG index. They want clean Markdown with tables preserved, descriptions of charts and diagrams, and chunks ready for embedding, with no custom model training. What should they use?",
+      "prompt": "A team ingests mixed PDFs, slide decks exported to PDF, and scanned forms into a RAG index. They want clean Markdown with tables preserved, descriptions of charts and diagrams, and chunks ready for embedding, with no custom model training. What should they use?",
       "options": [
         "A Document Intelligence custom extraction model trained on labelled samples",
         "Content Safety text analysis on each page",

@@ -459,7 +459,7 @@
         "Picture two boxes labeled count, one on your desk and one inside a closed room. When bump runs, it writes on the room's own box, not the one on your desk, because assigning a name inside a function creates a local copy unless you tell Python otherwise. So after the function finishes, check which box the final print statement is reading from, the desk or the room.",
         "The idea that the outside count becomes 2, or that this crashes, both misread how local variables work: nothing in this code raises an error, and the inside assignment never escapes the function. The right answer keeps the very first value that count held before bump was ever called, since the function only ever touched its own private copy."
       ],
-      "deep": "Python decides at compile time that count is local to bump because it is assigned there. Reading the global would need the global keyword, which is almost always a design smell: return the new value instead and let the caller assign it.",
+      "deep": "Python decides at compile time that count is local to bump because it is assigned there. Changing the global from inside the function would need the global keyword, which is almost always a design smell: return the new value instead and let the caller assign it.",
       "xp": 10,
       "tags": [
         "scope"
@@ -613,7 +613,7 @@
       "tier": 4,
       "level": 3,
       "type": "mcq",
-      "prompt": "Which name does Python look up last when resolving print?",
+      "prompt": "Which scope does Python check last when resolving print?",
       "options": [
         "Enclosing",
         "Built-in",
@@ -630,7 +630,7 @@
         "Picture asking four people for something: the person next to you, then someone in the next room, then someone in the main hall, and only then the storage room that came with the building. Python checks the current function first, then any wrapping function, then the whole file, and only after all that fails does it check the names built into the language. Look for the option matching the last stop.",
         "The options naming the current function or the file itself are checked early, not late, so they do not fit a question about what happens last. The enclosing function scope also comes before the final stop, since it only applies when one function is nested inside another. The right answer is the stop holding names Python already knows before your code runs, checked only when nothing closer was found."
       ],
-      "deep": "Because built-ins come last, defining a global called list or id shadows the built-in for the whole module, a bug that only surfaces when something later calls list(). Linters flag it (ruff A001). The lookup order is fixed at compile time per name, not searched at runtime.",
+      "deep": "Because built-ins come last, defining a global called list or id shadows the built-in for the whole module, a bug that only surfaces when something later calls list(). Linters flag it (ruff A001). The compiler decides once whether a name is local; for names that are not, the global then built-in search happens each time the code runs.",
       "xp": 10,
       "tags": [
         "scope"
@@ -732,7 +732,7 @@
         "Run the code below only when the file is executed directly, not when imported"
       ],
       "explain": "Python sets __name__ to \"__main__\" for the file it runs directly and to the module name when imported.",
-      "teach": "Every Python file secretly carries a variable called __name__. When you run a file directly, Python sets that variable to the text main. When another file imports that same file instead, Python sets it to the file's own name. Checking __name__ before running code lets a file behave differently depending on whether it was run directly or borrowed by another file, which matters because tests often import files without wanting them to run automatically.",
+      "teach": "Every Python file secretly carries a variable called __name__. When you run a file directly, Python sets that variable to the text \"__main__\". When another file imports that same file instead, Python sets it to the file's own module name. Checking __name__ before running code lets a file behave differently depending on whether it was run directly or borrowed by another file, which matters because tests often import files without wanting them to run automatically.",
       "hints": [
         "This is really about the difference between running a file yourself and having another file quietly borrow code from it. Ask yourself, what should happen to the code inside this block when someone else imports your file instead of running it directly? Look at the condition on screen and think about what value it compares __name__ against.",
         "Picture a chef who only starts cooking the final dish when they personally walk into the kitchen, but happily lets others borrow individual recipes from their cookbook without cooking anything. The check on screen works like that chef, telling Python to run the code inside only under one specific circumstance. Find the option describing that one specific circumstance, not always and not never.",
@@ -1124,7 +1124,7 @@
         "line 1: balance",
         "line 1: pct=0.01",
         "line 2: return balance * pct",
-        "line 4: risk",
+        "line 4: risk(50000, pct=0.02)",
         "line 4: 50000",
         "line 4: pct=0.02"
       ],
@@ -1258,7 +1258,7 @@
       "tier": 4,
       "level": 6,
       "type": "blocks",
-      "prompt": "Python must have seen the def before the call runs. Expected output: MNQ: 2 contracts",
+      "prompt": "Build the program from the tray (two lines are decoys). Python must have seen the def before the call runs. Expected output: MNQ: 2 contracts",
       "tray": [
         "show(\"MNQ\", 2)",
         "def show(symbol, qty):",
@@ -1642,7 +1642,7 @@
         "object (instance)",
         "class keyword",
         "attribute",
-        "parameter",
+        "return statement",
         "attribute access",
         "constructor",
         "self",
@@ -1665,12 +1665,12 @@
         "object (instance)",
         "attribute access"
       ],
-      "explain": "Account is the class, acct is one object. In the OpenAI snippet, client = OpenAI() is exactly this.",
+      "explain": "Account is the class, acct is one object built from it. A line like client = OpenAI() in an SDK works exactly the same way.",
       "teach": "Here is the vocabulary of classes. The class keyword starts a blueprint. The constructor is the special setup function that runs when you build something. The first parameter of a method stands for the object being built. An attribute is a piece of data stored on an object. An object, also called an instance, is one thing built from the class. Attribute access means reading that data with a dot.\n\nExample:\nclass Car:\n    def __init__(self, km):\n        self.km = km\n\nmine = Car(120000)\nprint(mine.km)\nprints 120000",
       "hints": [
         "Go through the six rows from top to bottom and match each one to the code on that line. Eight labels are offered but only six are used, so two are decoys. Start with the easy rows, where a keyword or a special function name practically names its own role.",
         "Line 3, line 5 and line 6 are about data and values. Line 3 stores something on the object, line 5 builds one thing from the blueprint and gives it a name, and line 6 reads stored data back out using a dot. Think about the three different verbs: store, build, read.",
-        "Line 2 appears twice on purpose: once for the special setup function itself and once for its first parameter, which stands for the object being built and has its own dedicated label. The import label never matches anything because there is no import line, and the generic parameter label is a decoy too."
+        "Line 2 appears twice on purpose: once for the special setup function itself and once for its first parameter, which stands for the object being built and has its own dedicated label. The import and return statement labels never match anything, because there is no import line and no return line."
       ],
       "deep": "obj.attr looks in the instance's own __dict__ first, then in the class. self.balance = balance writes into that per-instance dict, so two accounts keep separate balances while sharing the same methods.",
       "xp": 10,

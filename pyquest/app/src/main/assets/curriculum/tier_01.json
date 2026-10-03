@@ -377,7 +377,7 @@
       "hints": [
         "This question asks you to spot exactly what is broken in a line meant to print some text. The idea to focus on is whether every quote mark that opens a string actually gets closed again. Look carefully at the quote marks in the code and count how many you can find.",
         "Think of a quote mark like the opening half of a pair of parentheses in math: open one without closing it, and everything after just hangs there unfinished. Here, a string opens with a quote mark, so scan to the end of the line and check whether a second matching quote mark ever shows up. Compare what you find against each answer choice.",
-        "The line is not a capitalization problem, and Python does not need a semicolon here, so those explanations do not fit, and nothing about the print keyword itself is broken either. The real issue is that only one quote mark appears where two are needed, one to open the text and one to close it. Choose the option naming that missing closing quote as the mistake."
+        "The line is not a capitalization problem, and Python does not need a semicolon here, so those explanations do not fit, and nothing about the print function itself is broken either. The real issue is that only one quote mark appears where two are needed, one to open the text and one to close it. Choose the option naming that missing closing quote as the mistake."
       ],
       "deep": "An unterminated string is caught by the tokenizer before any code runs, so the whole file fails, even the lines that were fine. Python 3.10 and later say exactly that: unterminated string literal, with the line number.",
       "xp": 10,
@@ -1116,12 +1116,12 @@
           "b2"
         ]
       ],
-      "explain": "print is a function. The thing inside the parentheses is its argument. Quotes make it a string; without quotes Python looks for a variable named Hello and fails.",
+      "explain": "print is a function. The thing inside the parentheses is its argument. Quotes make it a string; without quotes Python tries to read Hello, Ada! as code, and the ! makes it a SyntaxError.",
       "teach": "print() shows something on the screen: whatever you put between its parentheses gets displayed. Text must be wrapped in quotes, either \"double\" or 'single', and the quote at the start must be the same kind as the quote at the end. The quotes tell Python this is text, not code. Without them Python reads each word as the name of a variable and crashes.\n\nExample:\nprint(\"Good morning\")\nprints Good morning",
       "hints": [
         "Look at what the template does: the print call already has its parentheses, and the block you choose goes inside them. The text you want on screen is Hello, Ada!, and plain text needs to be marked as text. What marks something as text in Python?",
         "Compare the four blocks by looking at their ends. One has no quote marks at all, so Python would go hunting for a variable. Another opens a quote but never closes it. Which of the blocks are wrapped in complete, matching pairs of quotes?",
-        "Python accepts either single or double quotes as long as the opening and closing marks match. When two blocks both qualify, either completes the line, but the one using the same quote style as the lesson's example is the safest choice."
+        "Python accepts either single or double quotes as long as the opening and closing marks match. Either of the two fully wrapped blocks completes the line, and both are marked correct."
       ],
       "deep": "A string literal is delimited by matching quotes, and single and double quotes are interchangeable, which lets you put one kind inside the other. Without quotes, Hello is read as an identifier and the ! cannot be parsed at all, so you get a SyntaxError before any NameError could happen.",
       "xp": 10,
@@ -1199,7 +1199,7 @@
         "print(\"Done\")"
       ],
       "explain": "The line indented under if belongs to it. The un-indented print(\"Done\") is outside the if, so it always runs.",
-      "teach": "A line ending in a colon opens a block, and the lines that belong to it are pushed in by 4 spaces. That push is called indentation, and in Python it is not optional: it is how Python knows which lines are inside. When the indentation returns to the left edge, the block is over. In this puzzle, the ▸ and ◂ buttons push a line in or pull it back.\n\nExample:\nage = 20\nif age >= 18:\n    print(\"adult\")\nprint(\"checked\")\nprints adult\nchecked",
+      "teach": "A line ending in a colon opens a block, and the lines that belong to it are pushed in by 4 spaces. That push is called indentation, and in Python it is not optional: it is how Python knows which lines are inside. When the indentation returns to the left edge, the block is over. In this puzzle, some lines come in two copies, one pushed in and one at the left edge, so pick the copy with the right amount of space.\n\nExample:\nage = 20\nif age >= 18:\n    print(\"adult\")\nprint(\"checked\")\nprints adult\nchecked",
       "hints": [
         "Work out what the program has to do in order: something must exist before it can be tested, then comes the test, then what happens when the test passes, then what always happens. Notice that the tray has more lines than you need, so some of them are decoys.",
         "Two of the six lines are decoys. One is pushed in even though no colon line sits above it to open a block, which Python rejects. The other repeats the test while already pushed in, which would nest a second check where none is wanted.",

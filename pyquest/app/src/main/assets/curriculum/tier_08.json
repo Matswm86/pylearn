@@ -93,7 +93,36 @@
         "regression run on every deploy",
         "cost and latency logging"
       ],
-      "accept": [],
+      "accept": [
+        [
+          "cost and latency logging",
+          "golden question set",
+          "human rubric",
+          "automated judge",
+          "regression run on every deploy"
+        ],
+        [
+          "golden question set",
+          "cost and latency logging",
+          "human rubric",
+          "automated judge",
+          "regression run on every deploy"
+        ],
+        [
+          "golden question set",
+          "human rubric",
+          "cost and latency logging",
+          "automated judge",
+          "regression run on every deploy"
+        ],
+        [
+          "golden question set",
+          "human rubric",
+          "automated judge",
+          "cost and latency logging",
+          "regression run on every deploy"
+        ]
+      ],
       "explain": "A fixed question set comes first because nothing else is measurable without it. The rubric defines what good means, the automated judge applies it at scale, the regression run makes it a gate rather than a one-off, and cost plus latency logging is what procurement actually signs against. A vibe check is not evidence.",
       "teach": "When you want to prove an AI system actually works well, a single chat where it happens to answer nicely is not proof, because you cannot repeat it or compare it later. Real evidence starts with a fixed, unchanging set of test questions, then a clear written standard for what a good answer looks like, then a fast way to check answers against that standard, and finally a habit of re-checking this every time something changes plus tracking speed and price. Think of it like a driving test: the same route, the same scoring checklist, applied the same way to every driver, every time.",
       "hints": [
@@ -394,16 +423,8 @@
       "id": "t8.l2.q4",
       "tier": 8,
       "level": 2,
-      "type": "blocks",
-      "prompt": "Assemble the security controls for a customer-facing assistant. One block is not a control.",
-      "tray": [
-        "prompt-injection cases in the eval suite",
-        "PII redaction at ingest",
-        "rate limiting per user",
-        "trust the system prompt to block leaks",
-        "tenant filter enforced inside the index query",
-        "citation check on every answer"
-      ],
+      "type": "multi",
+      "prompt": "Pick the 5 real security controls for a customer-facing assistant. One item is not a control.",
       "answer": [
         "PII redaction at ingest",
         "tenant filter enforced inside the index query",
@@ -416,8 +437,8 @@
       "teach": "Defense in depth means using several small, independent safeguards instead of trusting one big one, like a building that has a locked gate, a guard, and a camera rather than relying only on a sign that says no entry. In software, a real control is something enforced by code, a filter, a test, or infrastructure, something that happens whether or not anyone remembers to ask nicely. Telling a system's instructions to please don't leak data is words, not enforcement, because a clever or malformed input can talk right past plain instructions.",
       "hints": [
         "This question asks you to spot the one item in the list that sounds like a safeguard but has nothing actually enforcing it. For each item, ask yourself: is there a real mechanism, some code, filter, test, or limit, making this happen, or is it just an instruction someone hopes gets followed?",
-        "Telling a houseguest please don't go into the back room is not the same as locking that door, since a confused or determined guest can still wander in anyway. Real controls work more like locks, badges, and cameras, they act on their own regardless of whether anyone remembers the rule. Go through each tray item and ask which ones describe an actual mechanism versus a polite request aimed at the model itself.",
-        "Most tray items describe genuine mechanisms at different points, cleaning data early, restricting what a search can see at database level, testing adversarial inputs on purpose, checking answers against sources, and capping how often someone can call the system. The one to leave out just asks the model's own instructions to keep it safe, since instructions can be argued with or bypassed and are not real enforcement."
+        "Telling a houseguest please don't go into the back room is not the same as locking that door, since a confused or determined guest can still wander in anyway. Real controls work more like locks, badges, and cameras, they act on their own regardless of whether anyone remembers the rule. Go through each option and ask which ones describe an actual mechanism versus a polite request aimed at the model itself.",
+        "Most options describe genuine mechanisms at different points, cleaning data early, restricting what a search can see at database level, testing adversarial inputs on purpose, checking answers against sources, and capping how often someone can call the system. The one to leave out just asks the model's own instructions to keep it safe, since instructions can be argued with or bypassed and are not real enforcement."
       ],
       "deep": "Defence in depth for LLM systems mirrors web security: validate at the boundary, enforce authorisation in the data layer, test adversarial inputs, verify outputs, limit blast radius. The tenant filter belongs in the index query itself; filtering after retrieval leaves the wrong tenant's chunks in the top-k list and one bug away from the prompt.",
       "xp": 45,
@@ -426,7 +447,15 @@
         "architecture",
         "multi-tenant"
       ],
-      "reviewed": "2026-09-05"
+      "reviewed": "2026-09-05",
+      "options": [
+        "prompt-injection cases in the eval suite",
+        "PII redaction at ingest",
+        "rate limiting per user",
+        "trust the system prompt to block leaks",
+        "tenant filter enforced inside the index query",
+        "citation check on every answer"
+      ]
     },
     {
       "id": "t8.l2.q5",
@@ -554,7 +583,7 @@
       "brief": {
         "client": "Vestkyst Forsikring",
         "initials": "VF",
-        "quote": "Our advisers search 12,000 policy documents by hand. Answers must show the source page, nothing leaves the EU, and the console has to feel instant.",
+        "quote": "Our advisers search 12,000 policy documents by hand, often by exact policy number. Answers must show the source page, nothing leaves the EU, and the console has to feel instant.",
         "constraints": [
           "p95 < 2.5 s",
           "at most EUR 0.02 per question",
@@ -574,7 +603,7 @@
         "cite"
       ],
       "accept": [],
-      "explain": "Redact, retrieve wide with hybrid search, re-rank narrow, generate on an EU-hosted model with streaming, then verify every citation against the chunks. That is 1,830 ms and EUR 0.0144. The frontier model breaks residency, latency and cost at once; the self-hosted 70B fits the cost ceiling but pushes p95 to 2,530 ms; fifty un-ranked chunks make generation slower and answers worse.",
+      "explain": "Redact, retrieve wide with hybrid search, re-rank narrow, generate on an EU-hosted model with streaming, then verify every citation against the chunks. That is 1,830 ms and EUR 0.0144. The frontier model breaks residency, latency and cost at once; the self-hosted 70B pushes p95 to 2,530 ms and cost to EUR 0.0214, over both ceilings; fifty un-ranked chunks make generation slower and answers worse.",
       "teach": "When a system answers questions from documents, the work happens in stages, like an assembly line. First you clean the question, then you search for relevant text, then you narrow to the best pieces, then a model writes the answer using only those pieces, and finally you check that answer against the source. Order matters because each stage feeds the next, and skipping a step can leak private data or invent facts. Getting the order and the tools right is how a strict time, cost, and privacy budget gets met at once.",
       "hints": [
         "This question asks you to arrange stages so every answer stays fast, cheap, kept inside the EU, and backed by a real page number. Look at the stage list on your screen: which ones touch the raw question, which ones search, which one writes text, and which one double-checks it. Think about which order lets each stage use what the one before it produced.",
@@ -664,17 +693,17 @@
         "disable the feature behind the kill switch",
         "fix the filter at the index query and add a test that reproduces the leak",
         "pull the request logs and confirm how the tenant filter was bypassed",
-        "write the post-mortem and notify the client with the timeline"
+        "write the blameless post-mortem with the full timeline for the client"
       ],
       "answer": [
         "disable the feature behind the kill switch",
         "pull the request logs and confirm how the tenant filter was bypassed",
         "fix the filter at the index query and add a test that reproduces the leak",
         "verify on the golden set and the new test, then re-enable",
-        "write the post-mortem and notify the client with the timeline"
+        "write the blameless post-mortem with the full timeline for the client"
       ],
       "accept": [],
-      "explain": "Contain, understand, fix with a regression test, verify, then communicate with a written record.",
+      "explain": "Contain, understand, fix with a regression test, verify, then write the full record. The client is told about the leak as soon as it is contained, not at the end: under GDPR a processor must tell the controller without undue delay. The post-mortem is the written follow-up.",
       "teach": "When something goes wrong in a live system, like private data shown to the wrong person, panic makes people want to fix and explain at once, but a calm response follows a fixed order. First you stop the damage from continuing, then you find out exactly what happened, then you fix the real cause and prove the fix works, and only then do you tell people what occurred. This order matters because explaining an incident before it is stopped or understood usually means explaining it again later, and worse.",
       "hints": [
         "The question asks you to put an incident response in the order that stops harm first and explains it last. Look at the five actions on your screen and think about which one has to happen before anyone can even investigate safely. Ask what would go wrong if you wrote the explanation before you had stopped the leak.",
@@ -694,16 +723,8 @@
       "id": "t8.l3.q4",
       "tier": 8,
       "level": 3,
-      "type": "blocks",
-      "prompt": "Assemble the handover package. One block does not belong.",
-      "tray": [
-        "eval harness and golden set in the client's repo",
-        "cost and latency dashboard",
-        "on-call escalation path",
-        "the chat history from the build",
-        "architecture diagram with every data flow and region",
-        "runbook with restart, rollback and kill switch"
-      ],
+      "type": "multi",
+      "prompt": "Pick the 5 items that belong in the handover package. One item does not belong.",
       "answer": [
         "runbook with restart, rollback and kill switch",
         "eval harness and golden set in the client's repo",
@@ -726,7 +747,15 @@
         "operations",
         "documentation"
       ],
-      "reviewed": "2026-09-05"
+      "reviewed": "2026-09-05",
+      "options": [
+        "eval harness and golden set in the client's repo",
+        "cost and latency dashboard",
+        "on-call escalation path",
+        "the chat history from the build",
+        "architecture diagram with every data flow and region",
+        "runbook with restart, rollback and kill switch"
+      ]
     },
     {
       "id": "t8.l3.q5",

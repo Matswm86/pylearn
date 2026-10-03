@@ -35,7 +35,7 @@
         "Think of writing directions for a friend: first go into the data folder, then find sales.csv inside it. A Path object lets code express that same step by step direction using the slash instead of you typing a separator character by hand. Look for the option that talks about combining pieces of a path rather than doing math or touching the disk.",
         "It is not real division, so any option describing math is wrong, and it is not creating a folder either, since nothing here writes to disk. It is also not a syntax error, because Path defines this behavior on purpose. The right option describes building one path out of smaller pieces using whatever separator character the current operating system expects."
       ],
-      "deep": "Path objects (PEP 428) replace os.path string juggling. Path / \"sub\" / \"file.csv\" builds a PurePath lazily; nothing touches the disk until you call exists(), read_text() or similar. Path.home() and Path.cwd() are the two anchors you will use most.",
+      "deep": "Path objects (PEP 428) replace os.path string juggling. Path / \"sub\" / \"file.csv\" just builds a new Path object; nothing touches the disk until you call exists(), read_text() or similar. Path.home() and Path.cwd() are the two anchors you will use most.",
       "xp": 10,
       "tags": [
         "files",
@@ -341,7 +341,7 @@
       "hints": [
         "The question asks what real advantage comes from using the csv module's row-to-dict reader over calling something like line.split on a comma yourself. Think about what could go wrong if a field's actual text contains a comma or a line break inside it. Look at the options and ask which one names a genuine parsing problem, not just a small convenience.",
         "Imagine an address field written with a comma inside quote marks. A naive split on every comma would cut that single field into two pieces, misaligning the whole row after it. The csv module notices those quote marks and treats the quoted chunk as one field, and it also reads the header line so you can refer to each column by name instead of a position. Look for the option describing both of these together.",
-        "Speed is not really the reason this tool exists, it is not chosen for being faster than a manual split. It also does not convert numbers for you, values come out as plain text strings you convert yourself afterward, and it still needs a header row rather than skipping that requirement. The real reason combines correctly parsing quoted, comma-containing fields with letting you look up values by column name."
+        "Speed is not really the reason this tool exists, it is not chosen for being faster than a manual split. It also does not convert numbers for you, values come out as plain text strings you convert yourself afterward, and working without a header row is not its selling point either. The real reason combines correctly parsing quoted, comma-containing fields with letting you look up values by column name."
       ],
       "deep": "DictReader yields one dict per row with header names as keys, all values as strings. Convert types yourself at the boundary. Open the file with newline=\"\" as the docs say, or embedded newlines break. For anything analytical, pandas.read_csv does the same with type inference.",
       "xp": 10,
@@ -659,8 +659,8 @@
           "kind": "expr"
         },
         {
-          "id": "zero",
-          "code": "0",
+          "id": "down",
+          "code": "\"down\"",
           "kind": "expr"
         },
         {
@@ -680,11 +680,11 @@
       ],
       "accept": [],
       "explain": "ascending=False sorts from largest to smallest.",
-      "teach": "sort_values arranges rows by the values in one column, from smallest to largest by default. A parameter named ascending controls the direction: it expects a boolean, either True or False, not a word or a number. Think of it like a light switch, only two positions, on or off. Getting this right matters because if you want the biggest values first, like top sellers, you need the switch flipped the right way.",
+      "teach": "sort_values arranges rows by the values in one column, from smallest to largest by default. A parameter named ascending controls the direction: it expects a boolean, True or False, not a word in quotes. Think of it like a light switch, only two positions, on or off. Getting this right matters because if you want the biggest values first, like top sellers, you need the switch flipped the right way.",
       "hints": [
         "The question is about arranging rows so the biggest revenue numbers come first, instead of the smallest. Sorting has a direction, either from low to high or from high to low. Look at the blank, what kind of value does the ascending setting expect there, and which value flips it away from the default order?",
-        "Think about arranging a stack of exam scores from best to worst instead of worst to best. By default, sorting climbs upward, from low to high, so to reverse that climb you need to tell it explicitly to stop climbing. Look among the blocks for the plain boolean value that means no, do not sort upward, rather than a word, a quoted string, or a number.",
-        "A number like a plain digit or a quoted word like a string will not work here, because this setting only understands the two boolean values Python has built in. Choosing the boolean that means yes would keep the smallest values first, which is the opposite of what you want. The right block is the short, capitalized boolean word that means no, keep the biggest values at the top."
+        "Think about arranging a stack of exam scores from best to worst instead of worst to best. By default, sorting climbs upward, from low to high, so to reverse that climb you need to tell it explicitly to stop climbing. Look among the blocks for the plain boolean value that means no, do not sort upward, rather than a quoted word.",
+        "A quoted word like a string will not work here, because this setting expects one of the two boolean values Python has built in. Choosing the boolean that means yes would keep the smallest values first, which is the opposite of what you want. The right block is the short, capitalized boolean word that means no, keep the biggest values at the top."
       ],
       "deep": "sort_values returns a new frame by default; pass inplace=True only if you mean it, and most style guides say never. For top-n, df.nlargest(10, \"revenue\") is faster and clearer. Sorting by several columns takes a list with a matching list of ascending flags.",
       "xp": 20,
@@ -778,7 +778,7 @@
         "Imagine writing a date on a sticky note versus entering it into a calendar app. The sticky note is just words, you cannot ask it to sort your appointments by month or tell you the weekday. The calendar app understands the date itself, so it can answer real questions about it. Look for the option describing new date-aware abilities gained, not something about size, duplicates, or storage limits.",
         "The column does not shrink or lose duplicates from this conversion, and pandas can store plain strings just fine, so that is not the reason. What changes is that the values become genuine dates instead of text that merely looks like dates, unlocking real comparisons. The right answer describes gaining the ability to pull out date parts and filter using true chronological order."
       ],
-      "deep": "After conversion, df[\"date\"].dt.month, .dt.day_name() and resampling (df.set_index(\"date\").resample(\"M\").sum()) all work. Pass format= when you know it: parsing millions of dates by inference is slow. Store timezone-aware UTC in the frame, localise for display.",
+      "deep": "After conversion, df[\"date\"].dt.month, .dt.day_name() and resampling (df.set_index(\"date\").resample(\"ME\").sum(), ME meaning month end) all work. Pass format= when you know it: parsing millions of dates by inference is slow. Store timezone-aware UTC in the frame, localise for display.",
       "xp": 10,
       "tags": [
         "pandas",
@@ -854,7 +854,7 @@
       "tier": 5,
       "level": 5,
       "type": "mcq",
-      "prompt": "orders has 100 rows and 8 of them have a customer_id missing from customers. How many rows does an inner join return?",
+      "prompt": "orders has 100 rows and 8 of them have a customer_id missing from customers. Each customer_id appears once in customers. How many rows does an inner join return?",
       "options": [
         "92",
         "8",
