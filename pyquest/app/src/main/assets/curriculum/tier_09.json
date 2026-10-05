@@ -627,6 +627,167 @@
       "reviewed": "2026-10-01"
     },
     {
+      "id": "t9.l1.q21",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "A ticket-summary app writes the full prompt and the full model answer to its log for every request. Tickets contain customer names and account numbers. What is the best improvement?",
+      "options": [
+        "Rely on the deployment's content filter to remove personal data from the logs",
+        "Log the full text only in production, where logs are most useful",
+        "Mask or leave out sensitive content and keep only the diagnostic data needed",
+        "Keep the first 500 characters of each prompt"
+      ],
+      "answer": [
+        "Mask or leave out sensitive content and keep only the diagnostic data needed"
+      ],
+      "explain": "Prompts and answers carry whatever the customer wrote, so full logging copies personal data into a second place with weaker controls. Masking and logging the minimum serves privacy and security. Production is exactly where the real data is, a character cut-off can still hold an account number, and a content filter screens harmful content, not your log files.",
+      "teach": "Privacy and security, one of the six Responsible AI principles, covers every place personal data ends up, not only the main database. Logs, traces and analytics are copies that are often kept longer and read by more people. Good practice is to log what you need to diagnose a fault, such as timing, status codes and token counts, and to mask or drop the content itself.",
+      "hints": [
+        "Ask where the customer data travels. It goes to the model and back, and then this app copies all of it into a log. Who can read that log, and how long is it kept?",
+        "Look at what each option actually removes. A time window, a character limit or a filter aimed at harmful content each leaves the names and account numbers in place in some cases.",
+        "The safe pattern is to decide what the log must contain to fix a problem, and keep only that. The customer's words themselves are rarely needed."
+      ],
+      "deep": "The same reasoning applies to API keys and tokens, which also leak through logs. Microsoft's guidance is to prefer keyless Entra ID sign-in so there is no secret to leak, and to treat prompts as user data with the same retention rules as the rest of the app.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "responsible-ai",
+        "privacy"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l1.q22",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "A developer commits a Foundry API key inside the source code of a public GitHub repository. Which principle is at risk, and what is the fix?",
+      "options": [
+        "Inclusiveness: publish the key so every developer can use the service",
+        "Transparency: add a notice that the app uses AI",
+        "Fairness: rotate the key so all users get equal access",
+        "Privacy and security: move the key to Azure Key Vault or, better, sign in with Microsoft Entra ID"
+      ],
+      "answer": [
+        "Privacy and security: move the key to Azure Key Vault or, better, sign in with Microsoft Entra ID"
+      ],
+      "explain": "A leaked key lets anyone call the service as you, which is a security failure. Keys belong in a secret store such as Key Vault, and keyless Entra ID authentication removes the secret entirely. Nothing here is about unequal outcomes, disclosure of AI use, or accessibility.",
+      "teach": "An API key is a password for a service. Anyone who has it can call the service and run up cost under your name. Two fixes exist: store the key outside the code in a secret store and read it at run time, or stop using keys and authenticate with Microsoft Entra ID, where the identity of the person or app is checked and permissions are granted by role.",
+      "hints": [
+        "Ask what someone could do with this key once it is on the public internet. That tells you which kind of harm this is.",
+        "Of the six Responsible AI principles, only one covers protecting secrets and data from people who should not have them. The other three options name principles about outcomes, disclosure and access for everyone.",
+        "The fix has to remove the secret from the code. One option keeps a key but stores it safely; a stronger option uses sign-in with Entra ID so no key exists at all."
+      ],
+      "deep": "Deleting the commit is not enough: the key stays in the repository history and in any clone, so it must be rotated as soon as it leaks. Microsoft's Foundry samples use DefaultAzureCredential precisely so there is no key to commit in the first place.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "responsible-ai",
+        "security"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l1.q23",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "A warehouse robot's vision model sometimes misidentifies boxes, and a wrong move could hurt someone. Which practice best supports reliability and safety?",
+      "options": [
+        "Act only above a confidence threshold and hand off to a person otherwise",
+        "Encrypt the camera images at rest",
+        "Publish a document explaining how the model was trained",
+        "Add voice control for workers who cannot use the touchscreen"
+      ],
+      "answer": [
+        "Act only above a confidence threshold and hand off to a person otherwise"
+      ],
+      "explain": "A confidence threshold with a human fallback keeps uncertain decisions away from the machine, which is what reliability and safety asks for. Documentation is transparency, voice control is inclusiveness, and encryption is privacy and security.",
+      "teach": "Reliability and safety means a system behaves as intended, including when it is unsure or meets something new. Models attach a confidence score to their predictions. A common safety pattern is to act automatically only when confidence is high, and to route everything else to a person, so the cost of a wrong guess stays low.",
+      "hints": [
+        "The risk here is physical harm from a wrong prediction. Which option changes what happens when the model might be wrong?",
+        "Three options are good practice but serve other principles: explaining the system, making it usable by more people, and protecting data.",
+        "The remaining option uses the model's own confidence to decide when a person takes over. Below the threshold the robot stops and a worker decides."
+      ],
+      "deep": "Choosing the threshold is a trade-off: set it high and more work goes to people, set it low and more errors slip through. Teams usually set it from measured error rates on real data and revisit it after launch.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "responsible-ai",
+        "reliability"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l1.q24",
+      "tier": 9,
+      "level": 1,
+      "type": "mcq",
+      "prompt": "A news site publishes illustrations made with an Azure OpenAI image model. How can readers check that an image was generated by AI?",
+      "options": [
+        "Through the Content Credentials attached to the image",
+        "Through the content filter's severity score",
+        "By the image's quality setting",
+        "By running semantic segmentation on it"
+      ],
+      "answer": [
+        "Through the Content Credentials attached to the image"
+      ],
+      "explain": "Images from Azure OpenAI image models carry Content Credentials, based on the open C2PA specification, which record that the image was AI-generated. Quality changes rendering, segmentation labels pixels, and the content filter blocks harmful content rather than labelling images.",
+      "teach": "Content Credentials are signed metadata attached to a file that describe where it came from and how it was made. Microsoft adds them to images generated by its Azure OpenAI image models, so tools that read the C2PA standard can show that an image was made by AI. This supports transparency: people can tell generated content apart from photographs.",
+      "hints": [
+        "The goal is proof of origin that travels with the image. Which option is information attached to the file itself?",
+        "A quality setting, a segmentation model and a content filter all do something to or with an image, but none of them records where it came from.",
+        "The answer is a provenance feature built on an open industry standard for signed media metadata. That standard is called C2PA."
+      ],
+      "deep": "Microsoft's page on Content Credentials sits under the classic Foundry portal documentation. Credentials can be stripped by re-encoding or screenshots, so they prove origin when present but their absence proves nothing.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "responsible-ai",
+        "image-generation"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l1.q25",
+      "tier": 9,
+      "level": 1,
+      "type": "match",
+      "prompt": "Match each need to the Foundry practice that meets it.",
+      "options": [
+        "Guardrails with Prompt Shields",
+        "Evaluation",
+        "Red teaming"
+      ],
+      "rows": [
+        "Block jailbreak attempts in user messages while the chatbot is live",
+        "Simulate attacks before launch to find weaknesses",
+        "Measure whether answers stay faithful to the source documents"
+      ],
+      "answer": [
+        "Guardrails with Prompt Shields",
+        "Red teaming",
+        "Evaluation"
+      ],
+      "explain": "Prompt Shields, part of Foundry guardrails, detect jailbreak attempts in user input at runtime and can block them. Red teaming attacks your own system before release to find weaknesses. Evaluation scores quality, including groundedness against sources, but blocks nothing.",
+      "teach": "Three practices cover different moments in an app's life. Before launch, red teaming plays the attacker and evaluation measures quality and safety on test sets. While the app runs, guardrails inspect every input and output and can block harmful content or attacks. A team needs all three, because tests find problems and guardrails stop the ones tests missed.",
+      "hints": [
+        "Look for the timing word in each row: \"while live\", \"before launch\", or a measurement that could happen at any time.",
+        "Only one practice sits in the request path and can stop a message. The other two produce findings and scores for people to act on.",
+        "Attacking your own system on purpose is one practice; scoring how faithful answers are to their sources is another."
+      ],
+      "deep": "Prompt Shields has two parts: one for attacks typed by the user, and one for attacks hidden inside documents the model reads, such as a web page saying \"ignore your instructions\". The second kind is the harder one, because the user never typed it.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "responsible-ai",
+        "content-safety"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
       "id": "t9.l2.q1",
       "tier": 9,
       "level": 2,
@@ -1401,6 +1562,161 @@
       "reviewed": "2026-10-01"
     },
     {
+      "id": "t9.l2.q26",
+      "tier": 9,
+      "level": 2,
+      "type": "mcq",
+      "prompt": "A support bot invents answers when its documentation does not cover a question. Which prompt change helps most?",
+      "options": [
+        "Remove the system message",
+        "Raise the temperature",
+        "Raise the tokens-per-minute quota",
+        "Tell it to answer \"not found\" when the documentation lacks the answer"
+      ],
+      "answer": [
+        "Tell it to answer \"not found\" when the documentation lacks the answer"
+      ],
+      "explain": "Giving the model an explicit way out stops it filling gaps with plausible text. Higher temperature makes answers more random, removing the system message drops the rules that keep it on track, and quota only changes throughput.",
+      "teach": "A language model is built to produce a likely continuation, so when it has no answer it will still produce something that sounds like one. Two fixes work together: ground it in your own content, and tell it what to do when that content does not cover the question. An explicit fallback answer gives the model a likely continuation that happens to be honest.",
+      "hints": [
+        "Ask why the bot invents things. Nothing in its instructions tells it what to do when it does not know, so it does what a language model does by default.",
+        "Temperature raises randomness, and removing the system message removes rules. Both push in the wrong direction. Quota is about traffic volume.",
+        "The fix is an instruction that names an acceptable answer for the case where the documents have nothing."
+      ],
+      "deep": "This pairs with grounding: retrieval supplies the facts and the fallback rule covers the gaps. Evaluators for groundedness can then check that answers stay inside the supplied content.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "prompting",
+        "grounding"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l2.q27",
+      "tier": 9,
+      "level": 2,
+      "type": "mcq",
+      "prompt": "A legal team wants contract summaries that reuse only sentences from the original contract, word for word. Which summary type fits?",
+      "options": [
+        "Abstractive summarization",
+        "Speech translation",
+        "Sentiment analysis",
+        "Extractive summarization"
+      ],
+      "answer": [
+        "Extractive summarization"
+      ],
+      "explain": "Extractive summarization picks the most important sentences from the source and returns them unchanged, with their positions. Abstractive summarization writes new sentences, sentiment analysis judges tone, and speech translation works on audio.",
+      "teach": "Azure Language offers two kinds of summary. Extractive picks the most important sentences from the source and returns them as they are, along with where they appear. Abstractive writes new sentences that capture the main ideas, like a person paraphrasing. When exact wording matters, as in legal or regulatory text, extractive is the safe choice because nothing is rephrased.",
+      "hints": [
+        "The key requirement is \"word for word\". Which kind of summary never changes the original wording? Keep that in mind as you read the options.",
+        "Sentiment and translation are different workloads, so the choice is between the two kinds of summary.",
+        "One kind writes new sentences; the other selects existing ones. The legal team wants the second. Its name comes from pulling sentences out."
+      ],
+      "deep": "Extractive results also return each sentence's position in the source, which makes it easy to link back to the clause. That traceability is often worth more to a legal team than a smoother paraphrase.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "nlp",
+        "summarization"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l2.q28",
+      "tier": 9,
+      "level": 2,
+      "type": "mcq",
+      "prompt": "An app calls recognize_pii_entities on customer messages through the Azure AI Language SDK. What does it get back for each document?",
+      "options": [
+        "A spoken audio version of the message",
+        "The text with personal data redacted, plus each entity found with its category",
+        "The detected language with a confidence score",
+        "A positive, negative or neutral label"
+      ],
+      "answer": [
+        "The text with personal data redacted, plus each entity found with its category"
+      ],
+      "explain": "PII recognition returns redacted_text, where personal data is masked, plus a list of entities, each with its category such as phone number or person. Language with confidence comes from language detection, audio would need Azure Speech, and the tone label comes from sentiment analysis.",
+      "teach": "Personally identifiable information, PII, is data that identifies a person, such as a name, phone number or account number. The Language service's PII feature finds these in text and returns two things: a copy of the text with them masked, ready to store or log, and a list of what it found and of which type, ready to review.",
+      "hints": [
+        "The method name contains \"PII\", which is personal data. Which option has anything to do with personal data?",
+        "Three options are outputs of other features: language detection, text to speech and sentiment analysis.",
+        "The PII feature returns a safe version of the text and a list of what it hid, each labelled with a type."
+      ],
+      "deep": "Because the output is structured and repeatable, PII redaction through the Language service suits audited pipelines better than asking a chat model to mask data, whose output wording can vary between calls.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "nlp",
+        "pii"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l2.q29",
+      "tier": 9,
+      "level": 2,
+      "type": "mcq",
+      "prompt": "A pipeline runs language detection on incoming messages. What does it return for each message?",
+      "options": [
+        "A translation into English",
+        "The language name, its ISO 639-1 code and a confidence score",
+        "The main key phrases",
+        "A short summary of the message"
+      ],
+      "answer": [
+        "The language name, its ISO 639-1 code and a confidence score"
+      ],
+      "explain": "Language detection returns the main language with its readable name, ISO 639-1 code and a confidence score. Summaries, key phrases and translations come from other features.",
+      "teach": "Language detection is often the first step in a text pipeline: once you know the language, you can route the message to the right translator, model or team. For each document it reports the main language as a name and a standard two-letter code, plus a confidence score between 0 and 1 that tells you how sure it is.",
+      "hints": [
+        "Language detection answers one question: which language is this? Which option is an answer to that question?",
+        "A summary, key phrases and a translation all need to know the language first, but none of them is what detection itself returns.",
+        "The answer includes a standard code and a measure of how sure the service is. The code is two letters long, such as en or nb, and the measure runs from 0 to 1."
+      ],
+      "deep": "Very short or mixed-language messages give low confidence. Learn also lists script detection for languages written in more than one script; a low score is a good reason to fall back to a default route rather than trust the guess.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "nlp",
+        "language-detection"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l2.q30",
+      "tier": 9,
+      "level": 2,
+      "type": "mcq",
+      "prompt": "A developer creates a TextAnalyticsClient for Azure AI Language with key-based authentication. What does the constructor need?",
+      "options": [
+        "A SpeechConfig with a region",
+        "A project endpoint and an agent name",
+        "A deployment name and an input string",
+        "The resource endpoint and an AzureKeyCredential holding the key"
+      ],
+      "answer": [
+        "The resource endpoint and an AzureKeyCredential holding the key"
+      ],
+      "explain": "TextAnalyticsClient takes the Language resource endpoint and a credential, here AzureKeyCredential(key); you then pass it a list of documents. An agent name is for agents, a deployment name and input are for a model call, and SpeechConfig configures Azure Speech.",
+      "teach": "Each Azure AI service has its own client class. A client needs to know where the service is, its endpoint, and how to authenticate, a credential. With keys, you wrap the key in an AzureKeyCredential object. Methods on the client such as analyze_sentiment or recognize_pii_entities then take a list of documents to process in one call.",
+      "hints": [
+        "Every client needs two things at creation: an address and a way to sign in. Which option gives the Language service both?",
+        "An agent name and a deployment name belong to Foundry model and agent calls, not to the Language service. SpeechConfig belongs to Azure Speech.",
+        "The key-based credential for Azure SDKs is a small wrapper object around the key string. It is passed next to the resource endpoint."
+      ],
+      "deep": "The same client also accepts DefaultAzureCredential for keyless sign-in, which is the better choice outside a quick test. The documents argument is always a list, even for one message.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "nlp",
+        "sdk"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
       "id": "t9.l3.q1",
       "tier": 9,
       "level": 3,
@@ -2040,6 +2356,262 @@
       "reviewed": "2026-09-29"
     },
     {
+      "id": "t9.l3.q22",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "An app must turn recorded customer calls into text. The developer's code creates a SpeechSynthesizer and calls speak_text_async(transcript). Why does this code not meet the requirement?",
+      "options": [
+        "Speech synthesis turns text into audio; the app needs speech recognition, which turns audio into text",
+        "Every call must go through sentiment analysis before it can be transcribed",
+        "speak_text_async must receive the audio file instead of a string",
+        "Synthesis and recognition return the same result, so only the variable name is wrong"
+      ],
+      "answer": [
+        "Speech synthesis turns text into audio; the app needs speech recognition, which turns audio into text"
+      ],
+      "explain": "Follow the direction of the data. Synthesis goes from text to audio; the requirement goes from audio to text, which is recognition with a SpeechRecognizer. Passing audio to a synthesizer does not reverse it, and sentiment is a separate text workload.",
+      "teach": "Azure Speech offers two opposite operations. Speech to text, also called recognition or transcription, listens to audio and returns words. Text to speech, also called synthesis, takes words and produces audio in a chosen voice. In the Python SDK they are separate classes: SpeechRecognizer for the first, SpeechSynthesizer for the second. Exam items often hide the mistake in which class the code builds.",
+      "hints": [
+        "Write down what goes in and what must come out. The input is a recording; the output must be text. That is a direction, from one form to another.",
+        "Now look at the class the code creates. A synthesizer creates something. What does a speech synthesizer create, and what does it need as input to do so?",
+        "The code goes text to audio, the requirement is audio to text. The fix is the class built for the opposite direction, not a different argument."
+      ],
+      "deep": "For thousands of stored recordings the better choice is batch transcription, which processes files in storage asynchronously; recognize_once is for a single short utterance and continuous recognition for a live stream. Direction first, then volume and timing.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "speech",
+        "code-reading"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l3.q23",
+      "tier": 9,
+      "level": 3,
+      "type": "match",
+      "prompt": "Match each requirement to the computer vision technique that fits.",
+      "options": [
+        "Object detection",
+        "Image classification",
+        "Optical character recognition",
+        "Semantic segmentation"
+      ],
+      "rows": [
+        "A recycling sorter needs one label per photo: plastic, glass or metal",
+        "A farm drone must mark exactly which pixels show weeds",
+        "A self-checkout camera must draw a box around every product on the counter",
+        "A menu-photo app needs every dish name and price as text"
+      ],
+      "answer": [
+        "Image classification",
+        "Semantic segmentation",
+        "Object detection",
+        "Optical character recognition"
+      ],
+      "explain": "Classification gives one label for the whole image. Detection finds each object with a bounding box. Segmentation labels every pixel, so it gives exact outlines. OCR reads the text in the image.",
+      "teach": "Vision techniques differ by what they return. Classification returns a label for the whole image. Detection returns a list of objects, each with a label and a rectangle. Segmentation returns a mask that assigns every pixel to a class, which is the most precise and the most expensive. OCR returns the text it reads, with positions. Picking the technique means picking the output you need.",
+      "hints": [
+        "For each row, describe the output in a few words: one word, a set of boxes, a pixel map, or text. Then match each description to a technique.",
+        "Boxes are rectangles, so they cannot follow the shape of a weed exactly. Only a pixel-level answer can.",
+        "Reading printed words is its own technique, separate from recognising objects. Its output is text with positions, which is what a price list needs."
+      ],
+      "deep": "Exam distractors often offer the more powerful technique, for example segmentation when one label would do. More detail costs more to label and run, so the right answer is the least detailed output that meets the need.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "vision"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l3.q24",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "Product photos are already published on a public website. What is the simplest way to send one to a vision-enabled model?",
+      "options": [
+        "Generate a new copy of the photo with an image model",
+        "Put the photo's public URL in an image input part",
+        "Send it in an input_audio part",
+        "Analyze it with the call-center analyzer"
+      ],
+      "answer": [
+        "Put the photo's public URL in an image input part"
+      ],
+      "explain": "An image input part accepts a public URL, so the service fetches the photo and there is nothing to encode. Generating a copy creates a different image, input_audio is for sound, and the call-center analyzer processes recordings.",
+      "teach": "A vision-enabled model takes images alongside text in the same request. You can hand it an image in two ways: a URL the service can reach, or the image bytes encoded as a base64 data URL inside the request. A URL is simplest when the image is already public; base64 is the way for private or local files that the service cannot fetch.",
+      "hints": [
+        "The photos are already reachable on the public web. Which option uses that fact directly? The service can fetch anything public by itself.",
+        "Generating an image makes something new rather than sending the real photo. Audio parts and call analysis handle sound.",
+        "An image part can carry a link instead of the picture itself. When the link is public, the service downloads the picture, and your code does not have to encode anything."
+      ],
+      "deep": "For private photos, encode them as base64 data URLs so nothing has to be published. One message can also carry several image parts plus a text part, which is how you ask a model to compare two photos.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "vision",
+        "multimodal"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l3.q25",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "A developer wants a vision model to compare two product photos and list the differences. How should the request be built?",
+      "options": [
+        "One user message with a text part and two image parts",
+        "One call to images.edit with the first photo",
+        "Two separate requests, one photo each",
+        "One call to images.generate with both photos"
+      ],
+      "answer": [
+        "One user message with a text part and two image parts"
+      ],
+      "explain": "One message can carry a text part and several image parts, so the model sees both photos together and can compare them. Separate requests never show the model both photos at once, and images.generate and images.edit create or change images instead of analysing them.",
+      "teach": "A multimodal message is a list of parts. Each part is text or an image, and the model reads all parts of the message together. That is what makes comparison possible: the question and both images arrive in the same context, so the model can refer from one to the other.",
+      "hints": [
+        "To compare two things, the model must see both at the same time. Which option gives it that? Think about what one request can carry.",
+        "Two separate requests would each contain one photo, and the model has no memory between them. So it could never compare them.",
+        "The image generation calls create or edit pictures; the task is to describe differences, which is analysis."
+      ],
+      "deep": "Each image costs input tokens, and the detail setting controls how many. For a rough comparison low detail may do; for fine differences such as a misprinted label, use high.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "vision",
+        "multimodal"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l3.q26",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "A marketing app needs four variations of a poster from a single images.generate call. Which parameter sets that?",
+      "options": [
+        "output_format",
+        "n",
+        "quality",
+        "size"
+      ],
+      "answer": [
+        "n"
+      ],
+      "explain": "n sets how many images one call generates. quality sets rendering quality, size sets the dimensions of each image, and output_format sets the file type.",
+      "teach": "An image generation request has a handful of settings. The prompt describes the picture. n sets the number of images to return. size sets the width and height of each one, quality trades detail against speed and cost, and output_format chooses the file type. Each of the n images is a separate variation of the same prompt.",
+      "hints": [
+        "The requirement is about how many images come back, not how they look. Look for the parameter that sets a count, and ignore the ones that change each picture's appearance or file type.",
+        "Quality and size change each image, and output_format changes the file type. None of them changes the count.",
+        "The count parameter has the shortest name of the four, a single letter used for \"number\" across many APIs."
+      ],
+      "deep": "Every image is billed, so n multiplies cost. The Learn sample sets n to 1 together with size, quality and output_format, which is the full set of knobs this item draws its distractors from.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "image-generation"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l3.q27",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "A meeting app must transcribe speakers live for an hour. Which approach fits?",
+      "options": [
+        "Batch transcription",
+        "Continuous recognition",
+        "Speech synthesis",
+        "recognize_once"
+      ],
+      "answer": [
+        "Continuous recognition"
+      ],
+      "explain": "Continuous recognition keeps transcribing a long audio stream in real time until you stop it. recognize_once stops after a single utterance, at most 15 seconds of audio. Batch transcription processes recorded files afterwards, and synthesis turns text into speech.",
+      "teach": "The Speech SDK offers two live modes. Single-shot recognition listens for one utterance and stops at the first silence or after 15 seconds of audio, which suits a voice command. Continuous recognition keeps going and raises an event for each recognised phrase until you stop it, which suits meetings and dictation. For files already recorded, batch transcription is the third option.",
+      "hints": [
+        "Two words decide this: \"live\" and \"an hour\". Which option handles a long stream as it happens? Keep both words in mind.",
+        "One mode stops after a single short utterance, so it would capture a few seconds of the meeting at most.",
+        "Batch transcription works on stored files after the fact, and synthesis goes the wrong direction. Neither fits a live meeting."
+      ],
+      "deep": "A common bug is a voicemail app that keeps only the first sentence of every message: it uses recognize_once on long recordings. Learn sets the single-shot limit at 15 seconds of audio.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "speech",
+        "transcription"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l3.q28",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "A conference wants live French subtitles for an English-speaking presenter. Which capability fits?",
+      "options": [
+        "Text to speech",
+        "Key phrase extraction",
+        "Image captioning",
+        "Speech translation in Azure Speech"
+      ],
+      "answer": [
+        "Speech translation in Azure Speech"
+      ],
+      "explain": "Speech translation turns speech in one language into text, or speech, in another, in real time. Text to speech produces audio from text, key phrase extraction lists topics, and image captioning describes pictures.",
+      "teach": "Azure Speech can translate as it listens. Speech translation takes an audio stream, recognises the words, and returns them in one or more target languages as text or synthesised speech, all in one service call. That is simpler and faster than chaining separate transcription and text translation steps for live use.",
+      "hints": [
+        "Name the input and output: English audio in, French text out, as the presenter speaks. The output is in a different language from the input, and it must keep up.",
+        "Text to speech goes from text to audio, the wrong direction. Key phrases and image captions are unrelated workloads.",
+        "One Speech capability handles recognition and translation together in real time. Its name combines the two words in the requirement."
+      ],
+      "deep": "For recorded videos where speed does not matter, transcribing first and then translating the text with the Translator service is also valid and lets you edit the transcript in between.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "speech",
+        "translation"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l3.q29",
+      "tier": 9,
+      "level": 3,
+      "type": "mcq",
+      "prompt": "An app sends a customer's recorded question to a GPT audio model deployment. How is the audio included in the request?",
+      "options": [
+        "As a public URL in an image part",
+        "As base64 data in an input_audio part, with its format such as wav",
+        "Through a SpeechConfig object",
+        "As a file path on the customer's phone"
+      ],
+      "answer": [
+        "As base64 data in an input_audio part, with its format such as wav"
+      ],
+      "explain": "Audio goes inside the request as base64 in an input_audio part, together with its format. Image parts are for pictures, SpeechConfig configures Azure Speech rather than a model request, and the service cannot read a path on someone else's device.",
+      "teach": "Audio-capable models accept sound as part of a message, much as vision models accept images. Because the audio is binary, it is encoded as base64 text and placed in an input_audio content part, and the request names its format so the model can decode it. Only models built for audio input accept these parts.",
+      "hints": [
+        "The model must receive the sound itself. Which option puts the audio data inside the request? Data, not a pointer to it.",
+        "A file path points at someone's device, which the service cannot reach. Image parts carry pictures. Both options fail.",
+        "SpeechConfig belongs to the Speech SDK. This request goes to a model deployment, and binary data in a JSON request is encoded as base64."
+      ],
+      "deep": "Not every chat model accepts audio input; sending an input_audio part to a text-and-image model fails. Check the model card for supported input types before choosing between an audio model and a Speech-then-model chain.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "speech",
+        "audio",
+        "multimodal"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
       "id": "t9.l4.q1",
       "tier": 9,
       "level": 4,
@@ -2316,6 +2888,99 @@
         "ai-901"
       ],
       "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l4.q10",
+      "tier": 9,
+      "level": 4,
+      "type": "mcq",
+      "prompt": "A script must analyse an invoice PDF stored on the local disk, not on the web. Which Content Understanding SDK method should it call?",
+      "options": [
+        "images.generate",
+        "begin_analyze_binary",
+        "recognize_once",
+        "begin_analyze with a URL input"
+      ],
+      "answer": [
+        "begin_analyze_binary"
+      ],
+      "explain": "begin_analyze_binary sends the file's bytes directly. begin_analyze takes inputs such as a URL the service can reach, which a local file is not. images.generate creates images, and recognize_once recognises one spoken utterance.",
+      "teach": "Analysis services need to get at your file. If it is on the web, you pass a URL and the service fetches it. If it is local, you read the bytes and send them in the request. The Content Understanding SDK has a method for each case, and both are long-running operations that return a poller you wait on for the result.",
+      "hints": [
+        "The key detail is \"local disk\". Can a cloud service fetch a file from your machine by itself? If not, your code must send it.",
+        "Two options belong to other services entirely: one makes images and one recognises speech. Neither analyses a PDF.",
+        "The method you want sends the raw bytes, and its name says so. Raw bytes are called binary data, and the method name ends with exactly that word."
+      ],
+      "deep": "Both methods return a poller rather than the result. Calling .result() on it waits until the analysis finishes; the fields only exist in that final result.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "content-understanding",
+        "sdk"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l4.q11",
+      "tier": 9,
+      "level": 4,
+      "type": "mcq",
+      "prompt": "A script calls begin_analyze on the prebuilt invoice analyzer. What does it get back right away?",
+      "options": [
+        "An HTTP 429 error",
+        "A poller, whose result() waits for the analysis to finish",
+        "The extracted invoice fields",
+        "The invoice as markdown"
+      ],
+      "answer": [
+        "A poller, whose result() waits for the analysis to finish"
+      ],
+      "explain": "Analysis is asynchronous: begin_analyze returns a poller, and calling .result() on it waits for and returns the finished analysis. The fields and markdown only arrive in that result, and a 429 would mean a quota problem, not normal behaviour.",
+      "teach": "Analysing a long document or video takes time, so the SDK uses a long-running operation. The begin_ prefix in Azure SDK method names marks this: the call starts the job and returns a poller object straight away. Your code then calls result() on the poller, which checks with the service until the job is done and hands back the output.",
+      "hints": [
+        "Look at the method name. In Azure Python SDKs, what does the prefix begin_ tell you about how the call behaves?",
+        "If the call returned the fields straight away, it would have to wait for the whole analysis first. The prefix says it does not.",
+        "The object returned is something you wait on, and one of its methods returns the finished result. Its name says so."
+      ],
+      "deep": "The same begin_/poller pattern appears across Azure SDKs, from Document Intelligence to batch jobs, so recognising it once covers many exam items. The poller also exposes an operation ID you can use to fetch the result later.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "content-understanding",
+        "sdk"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l4.q12",
+      "tier": 9,
+      "level": 4,
+      "type": "mcq",
+      "prompt": "Invoice totals the analyzer is unsure about must go to a person for review. What should the app check on each field?",
+      "options": [
+        "The file format of the invoice",
+        "Its confidence score",
+        "The analyzer's name",
+        "Whether the poller has finished"
+      ],
+      "answer": [
+        "Its confidence score"
+      ],
+      "explain": "Extracted fields can carry a confidence score between 0 and 1, so the app can send low scores to review and let the rest through. The analyzer name and file format are the same for every invoice, and the poller only tells you whether analysis has finished.",
+      "teach": "Straight-through processing means letting the machine handle the easy cases without a person. Content Understanding supports this with confidence scores on extracted values: a high score means the value can flow on automatically, a low one is a signal to ask a human. The threshold is a business choice based on the cost of a wrong value.",
+      "hints": [
+        "The app needs a per-field measure of how sure the analyzer is. Which option varies from field to field?",
+        "The analyzer name and the file type do not change between a clear invoice and a smudged one. They cannot tell you which value to doubt.",
+        "A finished poller means the analysis completed, not that it was right. The app needs a measure attached to each field, so it can treat a sure value and a doubtful value differently."
+      ],
+      "deep": "Microsoft describes this as straight-through processing with confidence scores, which minimises manual review. The threshold is yours to set: a wrong invoice total costs more than a wrong delivery note, so it deserves a higher bar.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "content-understanding",
+        "confidence"
+      ],
+      "reviewed": "2026-10-05"
     },
     {
       "id": "t9.l5.q1",
@@ -3071,6 +3736,690 @@
       "reviewed": "2026-10-01"
     },
     {
+      "id": "t9.l5.q25",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "An app sends two messages: {\"role\": \"user\", \"content\": \"Always reply in valid JSON.\"} and {\"role\": \"user\", \"content\": \"List three open tickets.\"}. The model ignores the JSON rule half the time. Which change follows the usual chat message pattern?",
+      "options": [
+        "Delete the second message so only the rule is sent",
+        "Change the role of the first message to \"system\"",
+        "Change the role of the second message to \"assistant\"",
+        "Merge both messages into one \"tool\" message"
+      ],
+      "answer": [
+        "Change the role of the first message to \"system\""
+      ],
+      "explain": "A rule that should hold for the whole conversation belongs in the system message, and the actual request stays a user message. \"assistant\" marks the model's own earlier replies, \"tool\" carries results back from a tool call, and deleting the request leaves the model nothing to do.",
+      "teach": "Chat requests label every message with a role. The system message sets standing behaviour: tone, format, scope and rules. User messages carry what the person asks for. Assistant messages are the model's earlier replies, sent back so it can see the conversation so far. Models are trained to give the system message more weight as a set of rules, which is why a rule written as one more user message is followed less reliably.",
+      "hints": [
+        "Sort the two messages by job. One describes how every answer should look; the other asks for a specific piece of work. Which one is a standing rule and which one is a request?",
+        "Each role has one job. A user message is something the person asks for, and an assistant message is something the model already said. Neither of those is the place for a rule that governs every reply.",
+        "The standing rule needs the role whose job is to set behaviour for the whole conversation. The request can stay exactly as it is, so only one message changes."
+      ],
+      "deep": "In the Responses API the same job is done by the instructions parameter, which sits beside input rather than inside a message list. The idea is identical: rules go in a separate channel from the user's words, which is also the first line of defence against a user typing \"ignore your rules\".",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "prompting",
+        "code-reading"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q26",
+      "tier": 9,
+      "level": 5,
+      "type": "match",
+      "prompt": "A script contains: project = AIProjectClient(endpoint=PROJECT_ENDPOINT, credential=DefaultAzureCredential()), then client = project.get_openai_client(), then client.responses.create(model=\"helpdesk-chat\", input=ticket_text). Match each value to the job it does.",
+      "options": [
+        "Which deployment processes the request",
+        "Who is calling",
+        "Where the project lives",
+        "What the model should work on"
+      ],
+      "rows": [
+        "PROJECT_ENDPOINT",
+        "DefaultAzureCredential()",
+        "model=\"helpdesk-chat\"",
+        "input=ticket_text"
+      ],
+      "answer": [
+        "Where the project lives",
+        "Who is calling",
+        "Which deployment processes the request",
+        "What the model should work on"
+      ],
+      "explain": "The endpoint is the address of the Foundry project. The credential proves who the caller is, here with Microsoft Entra ID. The model value names the deployment that answers, and input is the text to process. Mixing these up is what most code-reading items test.",
+      "teach": "Almost every Foundry snippet has the same four parts. A setup value says where the service is, a credential says who is calling, a model value says which deployed model does the work, and an input carries the actual content. The first two are passed once when the client is created. The last two go with every request, because one client can call several deployments with different inputs.",
+      "hints": [
+        "Split the code in two: the line that builds the client, and the line that sends a request. Values given when the client is built are setup that stays the same for every call.",
+        "Of the two setup values, one is an address you could paste into a browser and the other is an object that signs you in. An address answers \"where\", a sign-in answers \"who\".",
+        "Of the two request values, one is a name you chose when you deployed a model and the other is the customer's text. A deployment name answers \"which model\", the text answers \"what to work on\"."
+      ],
+      "deep": "A useful memory line: endpoint is where, credential is who, model is which, input is what. When an item shows a request that fails or is \"missing something\", check those four in order; exam distractors usually swap two of them or put a secret where content belongs.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "code-reading"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q27",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "A developer writes client.responses.create(input=\"Summarize this ticket: the printer on floor 3 jams daily.\"). The app must send the text to a specific deployed model. What is missing?",
+      "options": [
+        "The model value naming the deployment",
+        "The sentiment label of the ticket",
+        "A system message containing the API key",
+        "The generated output text"
+      ],
+      "answer": [
+        "The model value naming the deployment"
+      ],
+      "explain": "The call has input but no model value, so the service does not know which deployment should answer. Output text is what comes back, not what you send; an API key never goes inside a message; and sentiment is a different workload altogether.",
+      "teach": "A request to a generative model needs two things at minimum: which model should run, and what it should work on. In Foundry the model value is the name of your deployment. Everything else, such as instructions, temperature or a token limit, is optional and has a default. When an item asks what is missing, look for one of the two required parts first.",
+      "hints": [
+        "List what the call already has. There is one argument, and it contains the ticket text. Now ask what else the service needs to know before it can produce an answer.",
+        "A Foundry project can hold several deployed models at once, for example a small fast one and a larger reasoning one. Nothing in this call says which of them should answer.",
+        "The output is produced by the call, so it cannot be an input, and a key belongs in the credential, never in content. The missing piece is the value that picks the deployment."
+      ],
+      "deep": "Exam code uses both \"model\" and \"deployment\" for this value. In Foundry the model parameter takes the deployment name you chose, which defaults to the model's catalog name but can differ, and a mismatch is the classic cause of a \"deployment not found\" error.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "code-reading"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q28",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "Priya deploys gpt-5-mini in Foundry and names the deployment helpdesk-chat. Her code sends model=\"gpt-5-mini\" and gets a \"deployment not found\" error. What should she change?",
+      "options": [
+        "Regenerate the resource key",
+        "Move the deployment to another region",
+        "Send model=\"helpdesk-chat\"",
+        "Raise the tokens-per-minute quota"
+      ],
+      "answer": [
+        "Send model=\"helpdesk-chat\""
+      ],
+      "explain": "The model parameter takes the deployment name, which here is helpdesk-chat, not the catalog name gpt-5-mini. A key problem returns an authentication error, a region move changes nothing about the name, and a quota problem returns a throttling error rather than \"not found\".",
+      "teach": "Deploying a model in Foundry gives it a name of your choice inside your resource. Your code calls that deployment by its name. The name defaults to the model's catalog name, so many tutorials can use them interchangeably, but once someone renames a deployment the two differ, and only the deployment name works.",
+      "hints": [
+        "Read the error itself. \"Not found\" means the service looked for something by name and found nothing with that name. Which value in the request is a name the service looks up?",
+        "The service looks up the value in the model parameter among the deployments in the project. Compare what Priya sent with what she called her deployment.",
+        "An authentication fault, a region or a quota would produce a different error. The fix is to send the name the deployment actually has."
+      ],
+      "deep": "Read the error text before changing anything. \"Not found\" points at a name, a refused sign-in points at the credential or role, and a 429 \"Too Many Requests\" means the quota is used up. Each fault lives in a different part of the setup.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "deployments"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q29",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "A developer sends an HTTP POST to a model endpoint. It has an Authorization header with a token, a Content-Type: application/json header, and a JSON body with the model name and the text \"Summarize this ticket.\" Where is the prompt?",
+      "options": [
+        "In the domain name of the URL",
+        "In the POST method",
+        "In the Authorization header",
+        "In the JSON request body"
+      ],
+      "answer": [
+        "In the JSON request body"
+      ],
+      "explain": "A REST request has four parts: method, URL, headers and body. The prompt and the model name travel in the JSON body. The Authorization header proves who you are, POST says you are sending data, and the URL says where it goes.",
+      "teach": "Every SDK call is an HTTP request underneath. The method, usually POST for model calls, says what kind of action this is. The URL is the address of the resource. Headers carry metadata about the request, such as who is calling and what format the body is in. The body carries the data itself, which for a model call means the input text and the settings for this request.",
+      "hints": [
+        "Name the four parts of an HTTP request and say what each one is for. Only one of them is meant to carry a block of data you made up for this request.",
+        "Headers describe the request: who sent it and what format it is in. They are short key-value pairs, not the place for your content.",
+        "The question already says the body contains the model name and the text. The text is the prompt, so the prompt lives where the body is."
+      ],
+      "deep": "Knowing this split is what lets you debug without an SDK. A sign-in error points at the header, a \"not found\" at the URL or the deployment name, and a malformed-request error at the body. The same four parts appear in every Azure AI REST example on the exam.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "code-reading",
+        "rest"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q30",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "A developer starts a Python chat app with the Microsoft Foundry SDK and signs in with Microsoft Entra ID. Which three packages does the app use? Choose three.",
+      "options": [
+        "azure-identity",
+        "azure-cognitiveservices-speech",
+        "azure-ai-contentunderstanding",
+        "azure-ai-projects",
+        "azure-ai-textanalytics",
+        "openai"
+      ],
+      "answer": [
+        "azure-identity",
+        "azure-ai-projects",
+        "openai"
+      ],
+      "explain": "azure-ai-projects is the Foundry SDK and gives you AIProjectClient; azure-identity provides DefaultAzureCredential for Entra ID sign-in; openai supplies the client that get_openai_client() returns for responses.create. The other three are the Language, Speech and Content Understanding libraries, used for those services rather than for chatting with a deployed model.",
+      "teach": "The Foundry SDK splits the work across three packages. One knows about your Foundry project and its deployments, one handles signing in, and one makes the actual model calls in the OpenAI request format. Each Azure AI service, such as Speech or Language, has its own separate package, so the package list tells you which service a script talks to.",
+      "hints": [
+        "A chat app needs to do three jobs: connect to the project, prove who is calling, and send requests to a model. Look for one package per job.",
+        "Package names follow the service. Text analytics, cognitive services speech and content understanding each name a different Azure service, and none of them is a chat model.",
+        "The project package holds AIProjectClient, the identity package holds DefaultAzureCredential, and the third package provides the client that has responses.create on it."
+      ],
+      "deep": "The SDK readme asks for azure-ai-projects 2.3.0 or later, and installing it pulls in azure-identity and openai as dependencies. Tutorials written for the 1.x SDK use a different agents pattern, which is one reason to check the version on any sample you copy.",
+      "xp": 15,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "sdk"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q31",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "An app has created project = AIProjectClient(endpoint=..., credential=DefaultAzureCredential()). How does it get a client that can call responses.create?",
+      "options": [
+        "project.get_openai_client()",
+        "client.images.generate(...)",
+        "project.agents.create_thread()",
+        "speechsdk.SpeechConfig(endpoint=...)"
+      ],
+      "answer": [
+        "project.get_openai_client()"
+      ],
+      "explain": "get_openai_client() returns an OpenAI client already pointed at the project and signed in, and that client has responses.create. SpeechConfig configures Azure Speech, threads belong to the older classic agents pattern, and images.generate makes a picture instead of returning a client.",
+      "teach": "AIProjectClient is the entry point to a Foundry project, but model calls themselves use the OpenAI request format. Rather than making you build a second client and configure it by hand, the project client hands you one that is already authenticated against the project. From there you call responses.create with your deployment name and input.",
+      "hints": [
+        "The question asks for a client, so the answer must be a call that returns one. Look at which options return an object you can call methods on.",
+        "Two options belong to other areas: one sets up the Speech service and one generates an image. Neither has anything to do with the project client you already built.",
+        "The project client offers a method whose name says what it returns: a client in the OpenAI format, ready for responses.create."
+      ],
+      "deep": "The same OpenAI client also runs Conversations, Files, Evaluations and fine-tuning operations, so one sign-in through the project covers all of them. Code that builds a bare OpenAI client with an API key works too, but skips the keyless sign-in the exam favours.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "sdk"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q32",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "A chat app chains turns by passing previous_response_id instead of resending the full history. What must it still send on every turn?",
+      "options": [
+        "The instructions",
+        "Every earlier message in full",
+        "The API key inside the prompt",
+        "The model's catalog name instead of the deployment name"
+      ],
+      "answer": [
+        "The instructions"
+      ],
+      "explain": "With previous_response_id the service keeps the conversation, but instructions from a previous response are not carried over, so the app sends them again each turn. Keys never go in a prompt, resending the whole history is what chaining avoids, and calls use the deployment name.",
+      "teach": "A model has no memory between requests. There are two ways to give it context: resend the whole conversation yourself each turn, or let the service keep it and point to the last response with previous_response_id. In the second case the earlier messages come along automatically, but the instructions parameter does not; it applies only to the request it is sent with.",
+      "hints": [
+        "Chaining exists to save you from resending something. Which option would undo that saving? That one cannot be the answer.",
+        "Two options are wrong on principle: a key never travels inside a prompt, and the model value is always the deployment name. That leaves one option.",
+        "Instructions are a parameter of each request, like temperature. The service carries the conversation forward, but each request's own parameters must be sent with that request."
+      ],
+      "deep": "This rule is stated in the OpenAI SDK's description of the instructions parameter, which the Foundry Responses API uses. It is easy to miss in testing because the first turn behaves; the second turn quietly loses its rules.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "responses-api"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q33",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "A chat app answers \"Which is the largest country in Africa?\" correctly. The follow-up \"What is its capital?\" gets the reply \"Which country do you mean?\". What is the fix?",
+      "options": [
+        "Raise max output tokens",
+        "Move to a provisioned deployment",
+        "Send the earlier turns as context, or chain them with previous_response_id",
+        "Lower the temperature"
+      ],
+      "answer": [
+        "Send the earlier turns as context, or chain them with previous_response_id"
+      ],
+      "explain": "Each request is independent, so the model never saw the first question. Sending the earlier turns, or chaining with previous_response_id, gives it that context. Output length, randomness and capacity do not add memory.",
+      "teach": "A deployed model does not remember anything between calls. Everything it knows about a conversation is what arrives in the current request. Chat apps feel continuous because they send the history along each time, or let the service keep it. That also means long conversations cost more, because the history is counted as input tokens on every turn.",
+      "hints": [
+        "Read the reply. The model is not wrong about Africa; it does not know which country \"its\" refers to. What information is missing from the second request?",
+        "Three options change how the model answers: its length, its randomness and its capacity. None of them puts the first question into the second request.",
+        "The fix must carry the first turn into the second request, either by resending it or by pointing at the earlier response so the service adds it."
+      ],
+      "deep": "The cost side is worth knowing: resending history means every turn pays for all earlier turns again as input tokens, so a long session costs more per message as it grows. Summarising old turns or capping history length are the usual counters.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "context"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q34",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "A new developer must call models in an existing Foundry project and signs in with Microsoft Entra ID. Following least privilege, which role should they get?",
+      "options": [
+        "Foundry User",
+        "Global Administrator in Entra ID",
+        "Owner on the subscription",
+        "Billing Reader"
+      ],
+      "answer": [
+        "Foundry User"
+      ],
+      "explain": "Microsoft documents Foundry User as the minimum role for building and calling models in a project; it was previously named Azure AI User. Owner and Global Administrator grant far more than the job needs, and Billing Reader cannot call a model.",
+      "teach": "Least privilege means giving each person the smallest set of permissions that still lets them do their job. Foundry has built-in roles at different levels: users who build and call, project managers who manage a project, and owners who control the resource. Keyless Entra ID sign-in only works when the signed-in account has the right role, so the role is part of the setup, not an afterthought.",
+      "hints": [
+        "Start from the job: call models in a project that already exists. The person does not create resources, assign roles or manage billing.",
+        "Two options give control over a whole subscription or a whole tenant. They would work, but they break least privilege by a wide margin. One option cannot call a model at all.",
+        "The remaining role is the Foundry role meant for people who build with and call models. Exam material may still use its old name, Azure AI User."
+      ],
+      "deep": "A permission-denied error after a successful sign-in is the symptom of a missing role: the account is known, but it is not allowed. Microsoft renamed the Foundry roles recently, so older material shows Azure AI User, Azure AI Owner and Azure AI Project Manager for the same roles.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "security",
+        "rbac"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q35",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "You save a new agent in the Foundry portal. Which property cannot be changed afterwards?",
+      "options": [
+        "Its model deployment",
+        "Its instructions",
+        "The agent's name",
+        "Its tools"
+      ],
+      "answer": [
+        "The agent's name"
+      ],
+      "explain": "Microsoft states that after you name an agent you cannot change the name; code refers to the agent as name:version. Instructions, model and tools can all be edited and saved as a new version.",
+      "teach": "A Foundry agent is a model plus instructions plus tools, saved under a name. The name is its permanent identity, which is how apps refer to it. What the agent does can evolve: you edit and save versions, and each version is addressed by the name and a version number. Pick names with that in mind, because a typo stays.",
+      "hints": [
+        "Think about what an app uses to find the agent. If that value could change, every app that calls the agent would break.",
+        "Instructions, model and tools describe how the agent behaves, and behaviour is what you iterate on during development. Those are the parts versions exist for.",
+        "The value that stays fixed is the one code uses to address the agent, written as name:version. Everything after the colon can move on; the part before it cannot."
+      ],
+      "deep": "Because code addresses agents by name and version, and each version is immutable, an app can call one specific version. Saving a new version in the portal then does not change what that app runs until it is pointed at the new version, which is the usual cause of \"I edited it but users still see the old behaviour\".",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "agents"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q36",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "A production app calls version 3 of a support agent. A developer edits the instructions in the playground and saves. Users still see the old behaviour. Why?",
+      "options": [
+        "Instructions apply only inside the playground",
+        "The agent's name changed when the instructions were saved",
+        "Saving created a new version, and the app still calls version 3",
+        "Saving overwrote version 3, but caches take a day to clear"
+      ],
+      "answer": [
+        "Saving created a new version, and the app still calls version 3"
+      ],
+      "explain": "Changes are saved as versions, and code refers to an agent by name:version. The app is pinned to version 3, so it keeps running version 3 until someone points it at the new one. Versions are not overwritten, instructions apply to every caller, and an agent's name cannot change.",
+      "teach": "Versioning lets a team change an agent without breaking what is already live. Each save produces a new version; older versions are immutable and stay as they were. An app that names a specific version keeps getting exactly that behaviour. Moving production to the new version is a separate, deliberate step, which is also how you roll back.",
+      "hints": [
+        "Ask what saving in the portal actually produced. Did it change the version the app is calling, or add something alongside it?",
+        "The app names a version number in its calls. If a save added a new version, which version is the app still using?",
+        "The fix is not a cache or a name change. The app has to be pointed at the new version. Until someone does that, version 3 keeps answering exactly as before."
+      ],
+      "deep": "Learn states that each agent version is immutable. That gives stability by default and upgrades on purpose, much like a pinned package version in Python, and it means a rollback is just pointing back at the older version.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "agents"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q37",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "A team wants to see how two deployed models answer the same prompt, side by side, in the Foundry portal. What should they use?",
+      "options": [
+        "The model playground's compare feature",
+        "A Global Batch deployment",
+        "The quota page",
+        "The AI Red Teaming Agent"
+      ],
+      "answer": [
+        "The model playground's compare feature"
+      ],
+      "explain": "The model playground can compare up to three models in parallel with synced input and output. Batch processes large jobs offline, red teaming simulates attacks, and the quota page shows tokens-per-minute limits.",
+      "teach": "The playground is where you try a deployed model before writing code. Beyond plain chat, it lets you set a system prompt, tune parameters, add tools and guardrails, and compare models on the same input. Side-by-side comparison is the quickest way to judge which model suits your prompts, rather than relying on public benchmark tables.",
+      "hints": [
+        "The team wants to watch answers appear, not process files or run an audit. That points to an interactive part of the portal.",
+        "Batch is for large offline jobs, red teaming is for security testing, and quota shows limits. None of them puts two answers next to each other.",
+        "The interactive place for trying models supports comparing several of them on the same prompt at once."
+      ],
+      "deep": "Learn caps the comparison at three models. The same playground has a Code tab that exports sample code for the exact setup you tested, so a comparison can go straight into an app.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "playground"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q38",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "After testing a prompt, parameters and tools in the model playground, a developer wants sample code for the exact same setup. Where is it?",
+      "options": [
+        "The Code tab in the playground",
+        "The model card",
+        "The agent's publish settings",
+        "The quota page"
+      ],
+      "answer": [
+        "The Code tab in the playground"
+      ],
+      "explain": "The playground's Code tab shows ready-to-run sample code for the current setup in the language you choose. Quota shows limits, the model card describes the model itself, and publishing distributes an agent.",
+      "teach": "Foundry is built so that what you test by hand can move into code without retyping. The playground keeps your system prompt, parameters and tools as you set them, and the Code tab renders them as a sample in a programming language of your choice. That sample is a correct starting point that already uses your deployment name and settings.",
+      "hints": [
+        "The developer already has a working setup in the playground. They want that same setup turned into code. Look for the option that lives inside the playground.",
+        "A model card is documentation about a model in general, not about your setup. Quota and publishing do other jobs entirely.",
+        "The playground has a tab named after exactly what the developer wants to copy. It sits in the chat pane and lets you pick a programming language."
+      ],
+      "deep": "Treat exported code as a draft: check that it uses DefaultAzureCredential rather than a pasted key before it goes into a repository.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "playground"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q39",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "Two candidate models have near-identical scores on public benchmarks. What should the team do before choosing one?",
+      "options": [
+        "Pick the larger model",
+        "Pick the one with the higher benchmark score, however small the gap",
+        "Test both with the team's own prompts, for example side by side in the playground",
+        "Pick the one released most recently"
+      ],
+      "answer": [
+        "Test both with the team's own prompts, for example side by side in the playground"
+      ],
+      "explain": "Benchmarks run on public data sets, not on your task. Trying both models with your own prompts shows which one handles your use case. Release date, size and a tiny benchmark gap say little about that, and the larger model also costs more.",
+      "teach": "The model catalog and leaderboard rank models on standard benchmarks, which is a fair way to shortlist. But your app has its own prompts, tone, length and domain. Two models with the same score can behave very differently on those, so the final choice should come from a test on your own inputs, ideally a set of real examples you reuse each time you compare.",
+      "hints": [
+        "Ask what a public benchmark measures. It scores models on a fixed public test, not on the questions your users will ask.",
+        "Newer and larger sound safer but are guesses. Larger also costs more per token. A tiny benchmark gap is within noise.",
+        "The reliable signal is how each model handles the team's real prompts. The playground can show that side by side."
+      ],
+      "deep": "Turning those prompts into a small evaluation set is the step that scales: Foundry evaluators can score each model on the same set for quality and safety, so the comparison is repeatable when the next model comes out.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "models"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q40",
+      "tier": 9,
+      "level": 5,
+      "type": "match",
+      "prompt": "Match each agent requirement to the tool that fits it.",
+      "options": [
+        "Code interpreter",
+        "File search",
+        "Web search",
+        "Function calling"
+      ],
+      "rows": [
+        "Check live stock levels through an internal API only your app can reach",
+        "Answer questions about today's public news with citations",
+        "Answer from a private visitor-policy PDF and cite it",
+        "Compute statistics from an uploaded CSV file and draw a chart"
+      ],
+      "answer": [
+        "Function calling",
+        "Web search",
+        "File search",
+        "Code interpreter"
+      ],
+      "explain": "Code interpreter writes and runs Python in a sandbox, so it can calculate and plot. Web search grounds answers in the public web with citations. File search retrieves from documents you uploaded. Function calling runs your own code in your app, which is the only way to reach a private internal API.",
+      "teach": "An agent is a model with instructions and tools, and the tool decides what it can reach. Some tools run inside Foundry: a Python sandbox, a public web search, a search over files you uploaded. Function calling is different: the model asks your app to run one of your functions and send the result back, so it reaches anything your app can reach.",
+      "hints": [
+        "Sort by where the data lives. One row has data in a file the user hands over for calculation, one is on the public internet, one is a private document, and one sits behind an internal API.",
+        "Calculating and drawing a chart means running code. Public news means searching the web. A private PDF means searching your own uploaded files.",
+        "Foundry cannot see an API that only your app can reach. The tool that fits makes the model hand the call back to your code."
+      ],
+      "deep": "Learn lists function calling as client-side execution: the service never runs your function, it only returns the arguments the model chose. That is also the safety boundary, since your code decides whether to act on them.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "agents",
+        "tools"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q41",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "An agent works well in the agent playground and the team wants employees to use it in Microsoft Teams. What does publishing do?",
+      "options": [
+        "Distributes the agent to channels such as Microsoft Teams and Microsoft Copilot",
+        "Creates the agent's endpoint for the first time",
+        "Converts it to the classic threads-and-runs agent pattern",
+        "Deletes the older versions of the agent"
+      ],
+      "answer": [
+        "Distributes the agent to channels such as Microsoft Teams and Microsoft Copilot"
+      ],
+      "explain": "Publishing makes the agent available to people through channels such as Microsoft Teams and Microsoft Copilot. The agent can already be called from code before it is published, versions are kept, and the classic threads pattern is the older API, not a publishing target.",
+      "teach": "Building and distributing an agent are separate steps. While you build, you test in the playground and call the agent from code by name and version. Publishing is the step that puts it in front of users in the tools they already work in, such as Teams, with the permissions and settings that come with that channel.",
+      "hints": [
+        "The team's goal is that employees can find and use the agent in Teams. Which option describes reaching people, rather than changing the agent itself?",
+        "The agent already answered in the playground and can be called from code, so it already has a way to be reached. Publishing is not about creating that.",
+        "Deleting versions and switching to an older API pattern are not what publishing means. Publishing means distributing."
+      ],
+      "deep": "Microsoft's page on this covers publishing to Microsoft Copilot and Teams. Keep in mind that a published agent acts with the permissions it is given, so the accountability question of who owns it and who approves its actions applies before publishing, not after.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "agents",
+        "foundry"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q42",
+      "tier": 9,
+      "level": 5,
+      "type": "match",
+      "prompt": "Match each workload to the deployment type that fits it.",
+      "options": [
+        "Provisioned",
+        "Data Zone Standard",
+        "Global Batch",
+        "Global Standard"
+      ],
+      "rows": [
+        "A new prototype pays per token and has no data-residency requirement",
+        "A retailer has steady, very high traffic all year and needs predictable throughput",
+        "Two million archived tickets must be classified; results can take a day and cost matters most",
+        "A bank's traffic is unpredictable, it pays per token, and prompts must be processed inside the EU"
+      ],
+      "answer": [
+        "Global Standard",
+        "Provisioned",
+        "Global Batch",
+        "Data Zone Standard"
+      ],
+      "explain": "Provisioned reserves throughput units billed per hour, which suits steady high volume. Data Zone Standard keeps processing inside a data zone such as the EU and bills per token. Global Batch runs large asynchronous jobs with a 24-hour target at a 50% discount. Global Standard is pay-per-token with processing in any Azure region.",
+      "teach": "A deployment type decides two things: where your prompts may be processed, and how you pay. Standard types bill per token with no reserved capacity; Global may process anywhere, Data Zone only inside a zone such as the EU or US. Provisioned types reserve capacity you pay for by the hour whether you use it or not. Batch accepts a file of requests and works through them asynchronously for a lower price.",
+      "hints": [
+        "Sort the rows by their strongest requirement: predictability, location, cost with time to spare, or none at all.",
+        "Paying by the hour for reserved capacity only makes sense with steady traffic. Processing location matters only for the bank. Waiting a day is acceptable only for the archive job.",
+        "The prototype has no special need, so it takes the default pay-per-token type that may run in any region."
+      ],
+      "deep": "Data zones currently cover the EU, the US and Asia Pacific. Batch aims for 24 hours but Learn notes it does not expire jobs that take longer, so it is no fit for anything with a deadline.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "deployments"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q43",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "A team switches its deployment to a reasoning model. Requests that set temperature now fail. What should they tune instead?",
+      "options": [
+        "Reasoning effort and the output token limit",
+        "Frequency penalty",
+        "The deployment type",
+        "Top-p"
+      ],
+      "answer": [
+        "Reasoning effort and the output token limit"
+      ],
+      "explain": "Reasoning models such as the o-series and the GPT-5 family do not accept sampling settings such as temperature and top-p. They are tuned with reasoning effort, which trades thinking time for depth, and a cap on output tokens. Top-p is rejected for the same reason, and a deployment type changes where prompts run, not how the model answers.",
+      "teach": "Reasoning models spend extra computation thinking before they answer, which helps with maths, code and planning at the cost of speed. Because their output comes from that reasoning process, the usual randomness settings do not apply. Instead you choose how much effort the model spends and how many tokens it may produce, which covers both its hidden reasoning and the visible answer.",
+      "hints": [
+        "The failure started when the model type changed, and it involves a randomness setting. Ask whether the other options are also randomness settings.",
+        "Top-p controls randomness in the same way temperature does, so it fails for the same reason. A deployment type is about where and how you pay, not about the answer.",
+        "Reasoning models have their own control for how hard they think, plus a limit on how much they write."
+      ],
+      "deep": "Reasoning models generate reasoning tokens in addition to input and output tokens, and you pay for them. Learn notes that the newest GPT-6 Astra model accepts temperature again, so read the model's own page before assuming either way.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "reasoning-models"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q44",
+      "tier": 9,
+      "level": 5,
+      "type": "multi",
+      "prompt": "A developer reviews what drives the cost of a chat app. Which two statements are true? Choose two.",
+      "options": [
+        "A deployed model learns from the chats, so later answers need fewer tokens",
+        "Resending the whole chat history makes each later turn cost more",
+        "System messages are free because they are not user content",
+        "Doubling the system message adds input tokens to every request"
+      ],
+      "answer": [
+        "Resending the whole chat history makes each later turn cost more",
+        "Doubling the system message adds input tokens to every request"
+      ],
+      "explain": "Everything sent in a request counts as input tokens, including the system message and any history, so both grow cost on every call. System messages are billed like any other input, and a deployed model does not learn from your conversations.",
+      "teach": "Generative AI is billed by tokens, the chunks of text a model reads and writes. Input tokens are everything in the request: instructions, history, retrieved documents and the user's message. Output tokens are what the model writes. Anything sent on every request, such as a long system message, multiplies by the number of requests, and history grows with every turn.",
+      "hints": [
+        "Ask one question of each statement: does this text travel in the request? If it does, it counts as input tokens.",
+        "The system message and the history both travel in every request, so making either longer raises the cost of every call that carries it.",
+        "A deployed model is fixed: it does not update its weights from your chats. And no part of the request is exempt from counting."
+      ],
+      "deep": "The multiplication is what bites: a system message 500 tokens longer, sent with 100,000 requests a month, adds 50 million input tokens (my calc). Trimming instructions that never change behaviour is the cheapest cost cut available.",
+      "xp": 15,
+      "tags": [
+        "ai-901",
+        "tokens",
+        "cost"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
+      "id": "t9.l5.q45",
+      "tier": 9,
+      "level": 5,
+      "type": "mcq",
+      "prompt": "On a new laptop, a chat app fails with \"DefaultAzureCredential failed to retrieve a token\". The code worked on the developer's old machine. What should the developer do first?",
+      "options": [
+        "Raise the tokens-per-minute quota",
+        "Sign in with the Azure CLI (az login) on the new laptop",
+        "Paste the API key into the system message",
+        "Downgrade the openai package"
+      ],
+      "answer": [
+        "Sign in with the Azure CLI (az login) on the new laptop"
+      ],
+      "explain": "DefaultAzureCredential tries a chain of credential sources, including the Azure CLI sign-in on a developer machine. A fresh laptop has no sign-in, so the chain finds nothing. A key never belongs in a prompt, quota has nothing to do with signing in, and the package version is not the problem.",
+      "teach": "DefaultAzureCredential is a convenience: it tries several ways of signing in, in order, and uses the first that works. On a server that is often a managed identity; on a developer laptop it is usually the account you signed in with through the Azure CLI or an editor. The same code therefore works everywhere, as long as the machine it runs on has one of those sign-ins available.",
+      "hints": [
+        "The code did not change; the machine did. Ask what the old laptop had that a brand-new one does not.",
+        "The error says no token could be obtained. A token comes from a sign-in. Quota and package versions do not produce tokens.",
+        "The quickest sign-in source on a developer machine is the Azure command-line tool. Once it holds a sign-in, DefaultAzureCredential finds it without any code change."
+      ],
+      "deep": "Once signed in, a second error type is common: the token is valid but the request is refused because the account lacks a role such as Foundry User on the project. Sign-in answers \"who are you\", the role answers \"what may you do\".",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "foundry",
+        "security"
+      ],
+      "reviewed": "2026-10-05"
+    },
+    {
       "id": "t9.l6.q1",
       "tier": 9,
       "level": 6,
@@ -3526,6 +4875,37 @@
         "ai-901"
       ],
       "reviewed": "2026-10-01"
+    },
+    {
+      "id": "t9.l6.q16",
+      "tier": 9,
+      "level": 6,
+      "type": "mcq",
+      "prompt": "A model call returns this dictionary: response = {\"choices\": [{\"message\": {\"role\": \"assistant\", \"content\": \"Your parcel left the depot today.\"}}]}. What does answer = response[\"choices\"][0][\"message\"][\"content\"] store?",
+      "options": [
+        "\"Your parcel left the depot today.\"",
+        "\"assistant\"",
+        "Nothing: the line raises a KeyError",
+        "The whole list stored under \"choices\""
+      ],
+      "answer": [
+        "\"Your parcel left the depot today.\""
+      ],
+      "explain": "Read the path left to right: \"choices\" gives a list, [0] takes its first item, \"message\" opens the dictionary inside it, and \"content\" reads the text. \"assistant\" sits under \"role\", the list is only the first step of the path, and every key in the path exists, so there is no KeyError.",
+      "teach": "Exam code is short and built from plain Python containers. A dictionary maps keys to values and is read with d[\"key\"]; a list holds items in order and is read with lst[0] for the first one. A model response nests the two: a list of possible answers, each holding a message, each message holding a role and the text. Chained brackets walk that structure one level at a time, and each bracket works on whatever the previous one returned.",
+      "hints": [
+        "Start at the outside. response[\"choices\"] reads the value stored under the key \"choices\". Look at the dictionary: what kind of value is stored there, a string, a list or another dictionary?",
+        "The value under \"choices\" is a list with one item, so [0] takes that item. That item is itself a dictionary with one key, \"message\", and the next bracket opens it.",
+        "The message dictionary holds two keys, \"role\" and \"content\". The last bracket asks for \"content\", so the result is the value stored under that key and nothing else."
+      ],
+      "deep": "The older Chat Completions API returns this choices[0].message.content shape. The Responses API used in Foundry samples gives you response.output_text instead, so expect both shapes in exam code and read the path rather than memorising one.",
+      "xp": 10,
+      "tags": [
+        "ai-901",
+        "python",
+        "code-reading"
+      ],
+      "reviewed": "2026-10-05"
     }
   ]
 }

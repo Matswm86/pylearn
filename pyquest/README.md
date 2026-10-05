@@ -60,7 +60,7 @@ half off in the You tab.
 | Local play log with share sheet export (You tab) | shipped |
 | Tiers 1 to 7 | 30 to 32 questions each, 5 levels each |
 | Tier 8 "AI consultancy sims" | 19 questions, 3 levels, two pipeline sims |
-| Tier 9 "AI-901 exam prep" | 94 questions, 5 levels: multiple-choice, choose-N and ordering cards |
+| Tier 9 "AI-901 exam prep" | 157 questions, 6 levels: multiple-choice, choose-N, matching and ordering cards |
 | Pytor's Codex | 95 entries: 32 Python, 30 engineering, 33 AI/LLM |
 
 325 questions in total. Every one carries hints and an expert note, and every

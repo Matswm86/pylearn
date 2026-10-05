@@ -212,7 +212,13 @@ const PATH_CERTS = {
       practice: "https://certiace.com/practice/AI-901",
       practiceNote: "249 questions; Modules, Randomizer, Practice Exam, AI Practice; free start, account for the full bank",
       drill: "#/exam",
-      drillNote: "74 questions written for this site in the five exam item types: 35 weighted to the two domains, 15 prerequisite Python syntax items and a 24-question second set on speech, vision and Content Understanding; every explanation links the Microsoft Learn page it was checked against",
+      videos: [
+        ["AI-901 Practice Exam: Code Reading Essentials", "WebLizardLabs", "https://www.youtube.com/watch?v=MJx7he7QpcQ"],
+        ["AI-901 Full Course 2026 (10 lessons, quick checks)", "Cert Espresso", "https://www.youtube.com/watch?v=1Xs0dpS_1V8"],
+        ["AI-901 Full Mock Exam 2026: 40 questions explained", "Cert Espresso", "https://www.youtube.com/watch?v=OlSMolr_Hh4"],
+      ],
+      videosNote: "pause at each question and answer before the reveal; set 3 of the drill covers the same ground in new wording",
+      drillNote: "117 questions written for this site in the five exam item types: 35 weighted to the two domains, 15 prerequisite Python syntax items, a 24-question second set on speech, vision and Content Understanding, and a 43-question third set on reading SDK code, agents and deployment types; every explanation links the Microsoft Learn page it was checked against",
       domains: [
         ["c901_d1", "Identify AI concepts and capabilities", "40-45%"],
         ["c901_d2", "Implement AI solutions by using Microsoft Foundry", "55-60%"],
@@ -549,6 +555,7 @@ function renderPathCertExam(ex) {
       <p class="path-sources cert-sources">
         <strong>Official first:</strong> <a href="${ex.official}" target="_blank" rel="noopener">Microsoft study guide, skills measured ↗</a><br>
         <strong>Then CertiAce:</strong> <a href="${ex.guide}" target="_blank" rel="noopener">study guide ↗</a> · <a href="${ex.practice}" target="_blank" rel="noopener">practice ↗</a> <span class="cert-note">(${escapeHtml(ex.practiceNote)})</span>
+        ${ex.videos ? `<br><strong>Videos:</strong> ${ex.videos.map(([t, ch, u]) => `<a href="${u}" target="_blank" rel="noopener">${escapeHtml(t)} ↗</a> <span class="cert-note">(${escapeHtml(ch)})</span>`).join(" · ")} <span class="cert-note">(${escapeHtml(ex.videosNote)})</span>` : ""}
         ${ex.drill ? `<br><strong>Drill here:</strong> <a href="${ex.drill}">${escapeHtml(ex.code)} drill on this site →</a> <span class="cert-note">(${escapeHtml(ex.drillNote)})</span>` : ""}
       </p>
       <h4 class="cert-sub">Domains (tick when you can teach it)</h4>

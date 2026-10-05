@@ -54,7 +54,7 @@ Challenge.
 | `#/playground` | A full browser Python IDE. No exercise, no grading, just run code |
 | `#/path` | The AI Engineer Path: a study route through the topics, each paired with a video worth watching, plus the AI-901 to AI-103 certification track |
 | `#/checklist` | A 100-item AI engineering skills checklist you tick off as you go |
-| `#/exam` | A 74-question AI-901 drill in real exam format |
+| `#/exam` | A 117-question AI-901 drill in real exam format |
 | `#/questions` | 30 questions on embeddings and retrieval, the part of AI engineering that is hardest to learn from a tutorial |
 | `/blocks/` | Python Block Bench: 44 drag-and-drop syntax puzzles, no keyboard needed |
 
