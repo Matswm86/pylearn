@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="Python Block Bench: 44 drag-and-drop puzzles covering syntax, types, f-strings, collections, control flow, functions, imports, classes, JSON and API calls.">
+<meta name="description" content="Python Block Bench: 84 drag-and-drop puzzles covering syntax, types, f-strings, collections, control flow, functions, imports, classes, inheritance, files, string methods, lambda, error handling, JSON and API calls. Step through any solution line by line.">
 <title>Python Block Bench · PyLearn</title>
 <link rel="icon" href="/pytor.webp">
 </head>
@@ -59,7 +59,7 @@ button{font:inherit;cursor:pointer}
 .nav button:hover{background:var(--panel2)}
 .nav button.active{background:var(--accent);color:var(--accent-ink)}
 .nav .n{font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:12px;opacity:.7}
-.nav .dots{display:flex;gap:3px}
+.nav .dots{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;max-width:63px}
 .nav .dots i{width:6px;height:6px;border-radius:50%;background:var(--line);display:block}
 .nav .dots i.done{background:var(--ok)}
 .nav button.active .dots i{background:rgba(255,255,255,.35)}
@@ -180,6 +180,43 @@ button{font:inherit;cursor:pointer}
 .touchnote{display:none;font-size:12px;color:var(--ink2);width:100%}
 @media (pointer:coarse){ .touchnote{display:block} }
 .pline .code{overflow-x:auto;max-width:100%}
+
+/* ---------- Step-through ---------- */
+.stepbtn{border:1px solid var(--accent);background:transparent;color:var(--accent);padding:6px 12px;border-radius:8px;font-size:13px;font-weight:700;margin-top:10px}
+.stepbtn:hover{background:var(--accent);color:var(--accent-ink)}
+.trace{border-top:1px solid var(--line);padding:16px 22px 20px;background:var(--panel2)}
+.trace h4{margin:0 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.trace .tstatus{font-size:14px;color:var(--ink2);margin:0 0 10px}
+.trace .tsay{font-size:15px;margin:0 0 12px;min-height:1.5em}
+.trace .tsay b{color:var(--accent)}
+.trace .tsay.err{color:var(--bad);font-weight:700}
+.tgrid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px}
+@media (max-width:760px){.tgrid{grid-template-columns:1fr}}
+.tcode{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 0;overflow-x:auto}
+.tline{font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:14px;white-space:pre;line-height:1.7;padding:0 10px 0 0;display:flex;border-left:4px solid transparent}
+.tline .tn{width:40px;text-align:right;padding-right:10px;color:var(--cmt);font-size:12px;flex:none;user-select:none}
+.tline.prev{background:var(--slot)}
+.tline.now{background:var(--slot-hover);border-left-color:var(--accent)}
+.tline.now .tn::before{content:"▶ ";color:var(--accent)}
+.tline.errl{background:var(--bad-bg);border-left-color:var(--bad)}
+.tframes{display:flex;flex-direction:column;gap:10px}
+.tframe{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tframe.top{border-color:var(--accent)}
+.tframe .ft{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);padding:6px 10px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.tframe.top .ft{color:var(--accent)}
+.tvar{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:8px 10px;align-items:center}
+.tvar .vn{font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:13px;font-weight:700;color:var(--name)}
+.tvar .vv{font-family:ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;font-size:13px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;word-break:break-word;transition:background .4s}
+.tvar .vv.chg{background:var(--ok-bg);border-color:var(--ok)}
+.tvar .vv i{font-style:normal;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:11px;color:var(--ink2);margin-left:6px}
+.tvar .none{grid-column:1/-1;font-size:13px;color:var(--ink2)}
+.tout{margin-top:12px}
+.tout .term{min-height:44px}
+.tctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.tctl button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 12px;font-weight:700;min-width:44px}
+.tctl button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tctl input[type=range]{flex:1;min-width:120px;accent-color:var(--accent)}
+.tctl .tc{font-size:13px;color:var(--ink2);min-width:90px;text-align:right}
 </style>
 
 <div class="app">
@@ -278,7 +315,7 @@ const SECTIONS = [
    code:['trade = {"symbol": "MNQ", "qty": 2}','print(trade[___])'], ans:[['"symbol"']], extra:['symbol','0','"MNQ"'],
    hints:['You want the value MNQ. Which key is it stored under? Write the key exactly as it appears in the dict, quotes included.','"symbol", with quotes.'],
    why:'A dict has no positions, only keys. <code>trade["symbol"]</code> asks for the value stored under the string key.' },
- { t:'fill', title:'Tuple and set', goal:'Make point a tuple and tags a set.', out:'2',
+ { t:'fill', title:'Tuple and set', goal:'Make point a tuple and tags a set.', out:'(1, 2) 2',
    teach:'<p>A tuple is like a list but frozen: once made it cannot change. Round brackets: <code>(1, 2)</code>. Use it for fixed pairs like coordinates.</p><p>A set is a bag of unique items: duplicates vanish. Curly braces with no colons: <code>{"a", "b"}</code>. <code>len()</code> counts items in any collection.</p>',
    ex:['pair = (3, 4)\nletters = {"x", "y", "x"}\nprint(len(letters))', '2'],
    code:['point = ___1, 2___','tags = ___"a", "b", "a"___','print(point, len(tags))'], ans:[['('],[')'],['{'],['}']], extra:['[',']'],
@@ -421,6 +458,253 @@ const SECTIONS = [
    hints:['class at the edge, def pushed in once, self.symbol pushed in twice, then the two using lines at the edge.','Indents 0, 1, 2, 0, 0.'],
    why:'The class body is indented once, the method body twice. Only after the class is complete can <code>Trade("MNQ")</code> build an object.' },
 ]},
+{ id:'oop', title:'Classes, deeper', intro:'Inheritance lets one class reuse another: <code>class Dog(Animal):</code> gets everything Animal has. <code>super()</code> reaches the parent. A child can replace a parent method with its own (override), so one call gives different behaviour per class: that is polymorphism. Magic methods like <code>__str__</code> and <code>__len__</code> plug your class into <code>print()</code> and <code>len()</code>.', ex:[
+ { t:'fill', title:'Inherit from a parent', goal:'Make Dog a child of Animal, then call a method Dog never defined itself.', out:'Rex is an animal',
+   teach:'<p>Inheritance means "this class is a kind of that class". Write the parent in brackets after the class name: <code>class Dog(Animal):</code>. Dog now has every method Animal has, without writing them again.</p><p><code>pass</code> means "nothing more to add here". It keeps an empty block legal.</p>',
+   ex:['class Vehicle:\n    def wheels(self):\n        return 4\n\nclass Car(Vehicle):\n    pass\n\nprint(Car().wheels())', '4'],
+   code:['class Animal:','    def __init__(self, name):','        self.name = name','    def describe(self):','        return f"{self.name} is an animal"','','class Dog(___):','    pass','','rex = Dog("Rex")','print(rex.___())'], ans:[['Animal'],['describe']], extra:['Dog','self','name'],
+   hints:['The brackets after class Dog name the parent class. The last line calls the one method Animal defines besides __init__.','Animal, then describe.'],
+   why:'<code>Dog</code> has no methods of its own, so Python looks one step up, in <code>Animal</code>, and finds both <code>__init__</code> and <code>describe</code>.' },
+ { t:'fill', title:'Override: same call, different answer', goal:'Give Cat its own sound, then call sound on every pet in the loop.', out:'Meow\nMoo\n...',
+   teach:'<p>A child class can define a method with the same name as the parent. The child version wins for objects of that class. This is called overriding.</p><p>The payoff is polymorphism: one line, <code>pet.sound()</code>, works on many classes and each one answers in its own way. The loop does not need to know which class each pet is.</p>',
+   ex:['class Shape:\n    def name(self):\n        return "shape"\n\nclass Circle(Shape):\n    def name(self):\n        return "circle"\n\nfor s in [Circle(), Shape()]:\n    print(s.name())', 'circle\nshape'],
+   code:['class Animal:','    def sound(self):','        return "..."','class Cat(Animal):','    def ___(self):','        return "Meow"','class Cow(Animal):','    def sound(self):','        return "Moo"','','for pet in [Cat(), Cow(), Animal()]:','    print(pet.___())'], ans:[['sound'],['sound']], extra:['meow','speak','Animal'],
+   hints:['To override, the child method must have exactly the same name as the parent method. The loop calls that same name.','sound in both gaps.'],
+   why:'<code>Cat.sound</code> replaces <code>Animal.sound</code> for cats. A plain <code>Animal()</code> still uses the parent version, so it prints <code>...</code>.' },
+ { t:'fill', title:'super() runs the parent first', goal:'Let the parent store owner, then the child adds rate.', out:'Kari 0.03',
+   teach:'<p>When a child writes its own <code>__init__</code>, the parent <code>__init__</code> no longer runs by itself. <code>super().__init__(owner)</code> calls it on purpose, so the parent can do its part (store owner) before the child adds its own data.</p><p><code>super()</code> means "my parent class". You do not pass <code>self</code> to it; Python fills that in.</p>',
+   ex:['class Person:\n    def __init__(self, name):\n        self.name = name\n\nclass Student(Person):\n    def __init__(self, name, school):\n        super().__init__(name)\n        self.school = school\n\ns = Student("Ola", "UiO")\nprint(s.name, s.school)', 'Ola UiO'],
+   code:['class Account:','    def __init__(self, owner):','        self.owner = owner','','class Savings(Account):','    def __init__(self, owner, rate):','        ___().__init__(owner)','        self.rate = rate','','s = Savings("Kari", 0.03)','print(s.owner, s.___)'], ans:[['super'],['rate']], extra:['parent','this','owner'],
+   hints:['The built-in that means "my parent class" has five letters. The last gap reads the attribute the child stored itself.','super, then rate.'],
+   why:'Without <code>super().__init__(owner)</code> the line <code>self.owner = owner</code> never runs and <code>s.owner</code> raises AttributeError.' },
+ { t:'fill', title:'isinstance checks the family', goal:'Ask whether rex is a Dog, and whether it also counts as an Animal.', out:'True\nTrue\nFalse',
+   teach:'<p><code>isinstance(obj, SomeClass)</code> answers True or False: is this object built from that class, or from a child of it?</p><p>A Dog is also an Animal, because Dog inherits from Animal. A plain string is neither.</p>',
+   ex:['class Vehicle: pass\nclass Car(Vehicle): pass\n\nprint(isinstance(Car(), Vehicle))\nprint(isinstance(5, Car))', 'True\nFalse'],
+   code:['class Animal: pass','class Dog(Animal): pass','','rex = Dog()','print(___(rex, Dog))','print(isinstance(rex, ___))','print(isinstance("Rex", Animal))'], ans:[['isinstance'],['Animal']], extra:['type','Cat','is'],
+   hints:['The function name is in the lesson. The second line must print True for a class that is not Dog itself.','isinstance, then Animal.'],
+   why:'<code>isinstance</code> follows inheritance upward, so a Dog passes the Animal test. <code>type(rex) == Animal</code> would say False.' },
+ { t:'fill', title:'__str__ decides what print shows', goal:'Make print(p) show (3, 4) instead of an ugly memory address.', out:'(3, 4)',
+   teach:'<p>Print an object of your own class and you get something like <code>&lt;Point object at 0x7f...&gt;</code>. Add a method called <code>__str__</code> that returns text, and <code>print()</code> uses that text instead.</p><p>Names with two underscores on each side are magic methods: Python calls them for you at the right moment.</p>',
+   ex:['class Song:\n    def __init__(self, title):\n        self.title = title\n    def __str__(self):\n        return f"Song: {self.title}"\n\nprint(Song("Take On Me"))', 'Song: Take On Me'],
+   code:['class Point:','    def __init__(self, x, y):','        self.x = x','        self.y = y','    def ___(self):','        return f"({self.x}, {self.y})"','','p = Point(3, 4)','print(p)'], ans:[['__str__']], extra:['__init__','str','__print__'],
+   hints:['The method is a magic method, so it has two underscores on both sides, and its name is the short name of the string type.','__str__'],
+   why:'<code>print(p)</code> calls <code>str(p)</code>, which calls <code>p.__str__()</code>. There is no <code>__print__</code>.' },
+ { t:'fill', title:'__len__ makes len() work', goal:'Let len() count the songs in a Playlist.', out:'3',
+   teach:'<p><code>len(x)</code> works on lists and strings because they have a <code>__len__</code> method. Give your own class one, return a whole number, and <code>len()</code> works on your objects too.</p>',
+   ex:['class Team:\n    def __init__(self, members):\n        self.members = members\n    def __len__(self):\n        return len(self.members)\n\nprint(len(Team(["a", "b"])))', '2'],
+   code:['class Playlist:','    def __init__(self, songs):','        self.songs = songs','    def __len__(self):','        return ___(self.songs)','','mix = Playlist(["a", "b", "c"])','print(___(mix))'], ans:[['len'],['len']], extra:['count','size','.length'],
+   hints:['Inside, count the list stored on the object. Outside, call the same built-in on the playlist itself.','len in both gaps.'],
+   why:'<code>len(mix)</code> calls <code>mix.__len__()</code>, which returns <code>len(self.songs)</code>. Python has no <code>.length</code>.' },
+ { t:'fill', title:'Class variable versus instance variable', goal:'Count how many Counter objects were made, using one number shared by all of them.', out:'3',
+   teach:'<p>A variable written directly inside the class body, like <code>count = 0</code>, is a class variable: one value shared by every object. A variable set with <code>self.x = ...</code> is an instance variable: each object has its own.</p><p>Trap: <code>self.count += 1</code> makes a new private count on that one object and leaves the shared one at 0. To change the shared value, go through the class name.</p>',
+   ex:['class Player:\n    team = "Vikings"\n    def __init__(self, name):\n        self.name = name\n\na = Player("Ola")\nb = Player("Kari")\nprint(a.name, b.name, a.team, b.team)', 'Ola Kari Vikings Vikings'],
+   code:['class Counter:','    count = 0','    def __init__(self):','        ___.count += 1','','Counter()','Counter()','Counter()','print(Counter.count)'], ans:[['Counter']], extra:['self','count','0'],
+   hints:['The number must be shared, so it is changed through the class, not through one object.','Counter'],
+   why:'<code>Counter.count += 1</code> updates the one shared number. With <code>self.count</code> each object would get its own copy and <code>Counter.count</code> would stay 0.' },
+ { t:'fill', title:'Encapsulation: guard the inside', goal:'Keep the balance inside the object and only change it through deposit, which refuses negative amounts.', out:'50',
+   teach:'<p>Encapsulation means an object guards its own data. Outside code should use the methods, which can check the input, instead of changing the data directly.</p><p>Python marks "inside use only" with a leading underscore: <code>self._balance</code>. Python does not block access; the underscore is a strong hint to other programmers.</p>',
+   ex:['class Thermostat:\n    def __init__(self):\n        self._temp = 20\n    def set(self, t):\n        if 5 <= t <= 30:\n            self._temp = t\n    def temp(self):\n        return self._temp\n\nh = Thermostat()\nh.set(99)\nprint(h.temp())', '20'],
+   code:['class Wallet:','    def __init__(self):','        self.___ = 0','    def deposit(self, amount):','        if amount > 0:','            self._balance += amount','    def balance(self):','        return self._balance','','w = Wallet()','w.deposit(50)','w.deposit(-999)','print(w.___())'], ans:[['_balance'],['balance']], extra:['amount','__init__','deposit'],
+   hints:['Gap 1 must be the same underscore name the other methods use. Gap 2 is the method that reads it.','_balance, then balance.'],
+   why:'The -999 deposit is refused by the check inside <code>deposit</code>, so the balance stays 50. Outside code never touched <code>_balance</code>.' },
+ { t:'order', title:'Parent before child', goal:'The parent class must exist before a child can inherit from it.', out:'Rex says woof',
+   teach:'<p>Python reads the file top to bottom. <code>class Dog(Animal):</code> needs Animal to exist already, so the whole Animal block comes first. Each method is indented once inside its class, and each method body twice.</p>',
+   ex:['class A:\n    def hi(self):\n        return "hi"\n\nclass B(A):\n    pass\n\nprint(B().hi())', 'hi'],
+   lines:[['class Animal:',0],['def __init__(self, name):',1],['self.name = name',2],['class Dog(Animal):',0],['def speak(self):',1],['return f"{self.name} says woof"',2],['print(Dog("Rex").speak())',0]],
+   hints:['Animal block (3 lines) first, then the Dog block (3 lines), then the print at the edge.','Indents: 0, 1, 2, 0, 1, 2, 0.'],
+   why:'<code>Dog</code> did not define <code>__init__</code>, so <code>Dog("Rex")</code> uses the one from Animal, which stores name.' },
+ { t:'label', title:'Name the parts', goal:'Drag each label onto the matching part of the inheritance code.',
+   teach:'<p>Vocabulary for this topic. <b>parent class</b>: the class in the brackets. <b>call the parent</b>: <code>super().__init__(...)</code>. <b>overridden method</b>: a method the child redefines. <b>method call</b>: a dot and brackets on an object.</p>',
+   ex:['class Cat(Animal):\n    def sound(self):\n        return "Meow"', ''],
+   code:'[[cls|class]] Dog([[parent|Animal]]):\n    def [[init|__init__]](self, name):\n        [[sup|super().__init__(name)]]\n    def [[over|speak]](self):\n        return "Woof"\n\n[[obj|rex]] = Dog("Rex")\nprint([[call|rex.speak()]])',
+   labels:[{k:'cls',t:'class keyword'},{k:'parent',t:'parent class'},{k:'init',t:'constructor'},{k:'sup',t:'call the parent'},{k:'over',t:'overridden method'},{k:'obj',t:'object (instance)'},{k:'call',t:'method call'}], extra:['attribute','import'],
+   hints:['The name inside the brackets on line 1 is the parent. The line with super() calls the parent. speak replaces a method Animal also has.','class keyword, parent class, constructor, call the parent, overridden method, object, method call.'],
+   why:'Every class you meet in a library (Django views, PyTorch models) uses exactly these parts: a parent in brackets, <code>super().__init__</code>, and overridden methods.' },
+ { t:'fill', title:'A method calls another method', goal:'Make report use total() through self.', out:'Total: 15',
+   teach:'<p>Inside a class, one method can call another method of the same object. Go through <code>self</code>: <code>self.total()</code>. Writing just <code>total()</code> fails, because there is no plain function called total.</p>',
+   ex:['class Timer:\n    def __init__(self, s):\n        self.s = s\n    def minutes(self):\n        return self.s // 60\n    def label(self):\n        return f"{self.minutes()} min"\n\nprint(Timer(300).label())', '5 min'],
+   code:['class Cart:','    def __init__(self):','        self.items = []','    def add(self, price):','        self.items.append(price)','    def total(self):','        return sum(self.items)','    def report(self):','        return f"Total: {___.total()}"','','c = Cart()','c.add(10)','c.add(5)','print(c.___())'], ans:[['self'],['report']], extra:['Cart','c','total()'],
+   hints:['Inside the class, the object is always reached through one name. The last line calls the method that builds the text.','self, then report.'],
+   why:'<code>self.total()</code> runs total on the same cart. <code>sum([10, 5])</code> is 15.' },
+ { t:'order', title:'Build, change, read', goal:'Make a lamp, print it, switch it on, print again.', out:'before: False\nafter: True',
+   teach:'<p>An object keeps its data between lines. Build it, read an attribute, change the attribute, read it again: the second read sees the change.</p>',
+   ex:['class Box:\n    def __init__(self):\n        self.full = False\n\nb = Box()\nb.full = True\nprint(b.full)', 'True'],
+   lines:[['class Lamp:',0],['def __init__(self):',1],['self.on = False',2],['lamp = Lamp()',0],['print(f"before: {lamp.on}")',0],['lamp.on = True',0],['print(f"after: {lamp.on}")',0]],
+   hints:['Class block first. The object must exist before anything reads it. "before" must print before the change.','class, def, self.on, lamp =, before, lamp.on = True, after.'],
+   why:'<code>lamp.on = True</code> changes the attribute stored on that one object, and the next read sees it.' },
+]},
+{ id:'files', title:'Files', intro:'<code>open(name, mode)</code> opens a file. Modes: <code>"r"</code> read (the default), <code>"w"</code> write (wipes the file first), <code>"a"</code> append (adds to the end). <code>with open(...) as f:</code> closes the file for you when the block ends. Everything read from a text file is a string.', ex:[
+ { t:'fill', title:'Open and read a whole file', goal:'Open notes.txt for reading and print everything in it.', out:'buy milk\ncall Ola', files:{'notes.txt':'buy milk\ncall Ola\n'},
+   teach:'<p><code>open("notes.txt", "r")</code> opens a file for reading and gives you a file object. <code>f.read()</code> returns the whole content as one string.</p><p><code>with ... as f:</code> gives the file object the name f, and closes the file automatically when the indented block ends.</p>',
+   ex:['with open("hi.txt", "w") as f:\n    f.write("hello")\n\nwith open("hi.txt", "r") as f:\n    print(f.read())', 'hello'],
+   code:['with ___("notes.txt", ___) as f:','    text = f.___()','print(text)'], ans:[['open'],['"r"'],['read']], extra:['file','"w"','write'],
+   hints:['The built-in that opens files is named after what it does. Reading mode is one letter in quotes. The method that returns everything is the mirror of write.','open, "r", read.'],
+   why:'<code>"r"</code> opens for reading. <code>"w"</code> here would wipe notes.txt before you read it.' },
+ { t:'fill', title:'Write a file', goal:'Create log.txt with one line, then read it back.', out:'first line',
+   teach:'<p>Mode <code>"w"</code> creates the file, or wipes it if it already exists, and opens it for writing. <code>f.write(text)</code> puts text in. It does not add a line break for you: end a line with <code>\\n</code> yourself.</p><p><code>open("log.txt")</code> without a mode reads, because <code>"r"</code> is the default.</p>',
+   ex:['with open("a.txt", "w") as f:\n    f.write("one")\n\nwith open("a.txt") as f:\n    print(f.read())', 'one'],
+   code:['with open("log.txt", ___) as f:','    f.___("first line\\n")','','with open("log.txt") as f:','    print(f.read().strip())'], ans:[['"w"'],['write']], extra:['"r"','read','print'],
+   hints:['Writing mode is one letter. The method that puts text into the file is named after the mode.','"w", then write.'],
+   why:'<code>"w"</code> + <code>f.write</code> saves the text. <code>.strip()</code> removes the trailing line break before printing.' },
+ { t:'fill', title:'Append, do not wipe', goal:'Add a second line to log.txt without losing the first.', out:'one\ntwo',
+   teach:'<p>Opening with <code>"w"</code> wipes the file every time. Mode <code>"a"</code> (append) keeps what is there and adds new text at the end. Use it for logs and diaries.</p>',
+   ex:['with open("d.txt", "w") as f:\n    f.write("Mon\\n")\nwith open("d.txt", "a") as f:\n    f.write("Tue\\n")\nwith open("d.txt") as f:\n    print(f.read().strip())', 'Mon\nTue'],
+   code:['with open("log.txt", "w") as f:','    f.write("one\\n")','with open("log.txt", ___) as f:','    f.write("two\\n")','with open("log.txt") as f:','    print(f.read().strip())'], ans:[['"a"']], extra:['"w"','"r"','"+"'],
+   hints:['The output keeps "one". Which mode adds to the end instead of starting over?','"a"'],
+   why:'<code>"a"</code> appends. With a second <code>"w"</code> the file would contain only <code>two</code>.' },
+ { t:'fill', title:'Loop over the lines', goal:'Add up the numbers in scores.txt, one per line.', out:'42', files:{'scores.txt':'10\n25\n7\n'},
+   teach:'<p>A file object can be looped over directly: <code>for line in f:</code> gives one line per round, as a string, including its line break.</p><p>Text that looks like a number is still text. <code>int(line)</code> converts it to a whole number so you can add it. <code>int()</code> ignores the line break at the end.</p>',
+   ex:['with open("p.txt", "w") as f:\n    f.write("3\\n4\\n")\ntotal = 0\nwith open("p.txt") as f:\n    for line in f:\n        total += int(line)\nprint(total)', '7'],
+   code:['total = 0','with open("scores.txt") as f:','    for line in ___:','        total += ___(line)','print(total)'], ans:[['f'],['int']], extra:['line','str','"scores.txt"'],
+   hints:['Loop over the file object, which was given a one-letter name. Then turn each text line into a whole number.','f, then int.'],
+   why:'"10" + "25" would glue text together. <code>int()</code> turns each line into a number first: 10 + 25 + 7 = 42.' },
+ { t:'fill', title:'strip the line break', goal:'Greet each name without the line break ruining the output.', out:'Hi Ada!\nHi Ola!', files:{'names.txt':'Ada\nOla\n'},
+   teach:'<p>Each line from a file ends with <code>\\n</code>. Print <code>f"Hi {line}!"</code> and the ! lands on the next line. <code>line.strip()</code> removes spaces and line breaks from both ends of a string.</p>',
+   ex:['word = "  cat\\n"\nprint(f"[{word.strip()}]")', '[cat]'],
+   code:['with open("names.txt") as f:','    for line in f:','        print(f"Hi {line.___()}!")'], ans:[['strip']], extra:['split','upper','read'],
+   hints:['You want to remove the invisible line break at the end of each line.','strip'],
+   why:'<code>"Ada\\n".strip()</code> is <code>"Ada"</code>, so the ! stays on the same line.' },
+ { t:'fill', title:'readlines gives a list', goal:'Read all lines into a list, count them, show the first.', out:'3\nAda', files:{'names.txt':'Ada\nOla\nKari\n'},
+   teach:'<p><code>f.read()</code> gives one big string. <code>f.readlines()</code> gives a list with one string per line, so you can count them with <code>len()</code> or pick one by position.</p>',
+   ex:['with open("t.txt", "w") as f:\n    f.write("x\\ny\\n")\nwith open("t.txt") as f:\n    rows = f.readlines()\nprint(rows)', "['x\\n', 'y\\n']"],
+   code:['with open("names.txt") as f:','    lines = f.___()','print(___(lines))','print(lines[0].strip())'], ans:[['readlines'],['len']], extra:['read','count','readline'],
+   hints:['You need a list of every line, and the method name says so. Counting the items in a list uses a built-in.','readlines, then len.'],
+   why:'<code>readline()</code> without the s reads only one line. <code>read()</code> gives one string, and <code>len</code> would count characters instead of lines.' },
+ { t:'fill', title:'Close the file (or let with do it)', goal:'Open without with, close the file yourself, then check that it is closed.', out:'True',
+   teach:'<p>An open file holds a lock on it until you close it, and text you wrote may not be saved until then. Without <code>with</code>, you must call <code>f.close()</code> yourself. <code>f.closed</code> (no brackets, an attribute) tells you True or False.</p><p>That is why <code>with</code> is the normal way: it closes for you, even if an error happens.</p>',
+   ex:['with open("x.txt", "w") as f:\n    f.write("hi")\nprint(f.closed)', 'True'],
+   code:['f = open("todo.txt", "w")','f.write("water plants")','f.___()','print(f.___)'], ans:[['close'],['closed']], extra:['end','exit','open'],
+   hints:['Line 3 calls the method that finishes with the file. Line 4 reads the True/False attribute, the same word in past tense.','close, then closed.'],
+   why:'After <code>f.close()</code> the text is saved and <code>f.closed</code> is True. The <code>with</code> block does exactly this at its end.' },
+ { t:'fill', title:'encoding for æ, ø, å', goal:'Write and read a Norwegian word safely on any computer.', out:'Tønsberg',
+   teach:'<p>Text in a file is stored as bytes. The encoding decides how letters like ø become bytes. <code>encoding="utf-8"</code> works for every language. Without it, Windows may pick an older encoding and ø comes back as garbage.</p><p>Pass it as a keyword argument to <code>open</code>, when writing and when reading.</p>',
+   ex:['with open("hei.txt", "w", encoding="utf-8") as f:\n    f.write("blåbær")\nwith open("hei.txt", encoding="utf-8") as f:\n    print(f.read())', 'blåbær'],
+   code:['with open("by.txt", "w", ___="utf-8") as f:','    f.write("Tønsberg")','with open("by.txt", encoding="utf-8") as f:','    print(f.read())'], ans:[['encoding']], extra:['charset','utf8','format'],
+   hints:['The keyword is written out in full on line 3.','encoding'],
+   why:'Always pass <code>encoding="utf-8"</code> for text files. It is the one encoding every system reads the same way.' },
+ { t:'fill', title:'Save a dict as JSON, load it back', goal:'Store settings in a file and read them back next time the program runs.', out:'7',
+   teach:'<p><code>json.dump(data, f)</code> writes a dict into an open file. <code>json.load(f)</code> reads it back into a dict.</p><p>Spot the s: <code>dumps</code> and <code>loads</code> (with s) work with strings. <code>dump</code> and <code>load</code> (no s) work with files.</p>',
+   ex:['import json\nwith open("s.json", "w") as f:\n    json.dump([1, 2], f)\nwith open("s.json") as f:\n    print(json.load(f))', '[1, 2]'],
+   code:['import json','settings = {"theme": "dark", "volume": 7}','with open("settings.json", "w") as f:','    json.___(settings, f)','with open("settings.json") as f:','    back = json.___(f)','print(back["volume"])'], ans:[['dump'],['load']], extra:['dumps','loads','write'],
+   hints:['These calls take a file, not a string, so the names have no s at the end.','dump, then load.'],
+   why:'<code>dump</code>/<code>load</code> talk to files. <code>dumps</code>/<code>loads</code> talk to strings. One letter, different job.' },
+ { t:'fill', title:'File missing? Catch it', goal:'Print a friendly message when the file does not exist yet.', out:'No file yet',
+   teach:'<p>Opening a file that does not exist raises <code>FileNotFoundError</code> and stops the program. Wrap the risky code in <code>try:</code>, then catch that one error with <code>except FileNotFoundError:</code> and handle it.</p>',
+   ex:['try:\n    open("nope.txt")\nexcept FileNotFoundError:\n    print("missing")', 'missing'],
+   code:['try:','    with open("missing.txt") as f:','        print(f.read())','___ FileNotFoundError:','    print("No file yet")'], ans:[['except']], extra:['catch','else','finally'],
+   hints:['Python does not use the word catch. The keyword is in the lesson.','except'],
+   why:'<code>except FileNotFoundError</code> catches only that error. Other languages say catch; Python says except.' },
+ { t:'order', title:'Write, then read back', goal:'Write two lines to a file, then print them one by one.', out:'eggs\nbread',
+   teach:'<p>Two separate <code>with</code> blocks: the first writes and closes, the second opens again for reading. The lines inside each block are indented once; the print inside the for loop twice.</p>',
+   ex:['with open("a.txt", "w") as f:\n    f.write("x\\n")\nwith open("a.txt") as f:\n    for line in f:\n        print(line.strip())', 'x'],
+   lines:[['with open("list.txt", "w") as f:',0],['f.write("eggs\\n")',1],['f.write("bread\\n")',1],['with open("list.txt") as f:',0],['for line in f:',1],['print(line.strip())',2]],
+   hints:['Writing must finish before reading starts. eggs is written before bread.','Indents: 0, 1, 1, 0, 1, 2.'],
+   why:'The file is closed at the end of the first block, so everything written is saved before the second block reads it.' },
+ { t:'fill', title:'CSV: rows of a spreadsheet', goal:'Read back the rows you wrote to a CSV file.', out:"['name', 'age']\n['Ada', '36']",
+   teach:'<p>CSV is a spreadsheet as plain text: one row per line, cells split by commas. The <code>csv</code> module handles quotes and commas for you. <code>csv.writer(f)</code> writes rows; <code>csv.reader(f)</code> gives each row back as a list.</p><p>Everything comes back as text: 36 returns as <code>\'36\'</code>. Pass <code>newline=""</code> to open when working with CSV.</p>',
+   ex:['import csv\nwith open("c.csv", "w", newline="") as f:\n    csv.writer(f).writerow(["a", 1])\nwith open("c.csv", newline="") as f:\n    print(list(csv.reader(f)))', "[['a', '1']]"],
+   code:['import csv','with open("people.csv", "w", newline="") as f:','    w = csv.writer(f)','    w.writerow(["name", "age"])','    w.writerow(["Ada", 36])','with open("people.csv", newline="") as f:','    for row in csv.___(f):','        print(row)'], ans:[['reader']], extra:['writer','read','load'],
+   hints:['Writing used csv.writer. Reading uses its mirror.','reader'],
+   why:'<code>csv.reader</code> gives one list per row. The age comes back as the text <code>\'36\'</code>, so use <code>int()</code> before doing maths with it.' },
+ { t:'fill', title:'pathlib: the short way', goal:'Write and read a file in one line each.', out:'Hei verden',
+   teach:'<p><code>pathlib.Path</code> is the modern way to handle files. <code>Path("x.txt").write_text(text)</code> opens, writes and closes in one call. <code>.read_text()</code> opens, reads and closes.</p>',
+   ex:['from pathlib import Path\np = Path("n.txt")\np.write_text("hi")\nprint(p.exists())', 'True'],
+   code:['from pathlib import Path','p = Path("hello.txt")','p.___("Hei verden")','print(p.___())'], ans:[['write_text'],['read_text']], extra:['write','read','open'],
+   hints:['Both method names end in _text. One writes, one reads.','write_text, then read_text.'],
+   why:'Path methods hide the open/with/close steps. Use them for small files; use <code>with open</code> when you loop line by line.' },
+]},
+{ id:'toolkit', title:'Print, strings & lambda', intro:'<code>print</code> takes <code>sep=</code> (what goes between values) and <code>end=</code> (what goes at the end). Strings carry methods such as <code>.strip() .split() .replace() .find()</code>. <code>int() str() float() list()</code> convert between types. <code>lambda</code> is a one-line function. <code>try / except</code> catches errors so the program keeps going.', ex:[
+ { t:'fill', title:'print with sep', goal:'Print a date with dashes between the parts.', out:'2026-10-07',
+   teach:'<p><code>print("a", "b")</code> puts a space between values. The keyword argument <code>sep</code> (separator) replaces that space with anything you choose.</p>',
+   ex:['print("a", "b", "c", sep=" | ")', 'a | b | c'],
+   code:['print("2026", "10", "07", ___="-")'], ans:[['sep']], extra:['end','join','split'],
+   hints:['The keyword is short for separator.','sep'],
+   why:'<code>sep="-"</code> goes between every pair of values. <code>end</code> would only change the very end of the line.' },
+ { t:'fill', title:'print with end', goal:'Print the numbers on one line, then "go!" on the same line.', out:'1 2 3 go!',
+   teach:'<p>Every <code>print</code> ends with a line break by default. <code>end=" "</code> ends with a space instead, so the next print continues on the same line.</p>',
+   ex:['print("Loading", end="...")\nprint("done")', 'Loading...done'],
+   code:['for n in [1, 2, 3]:','    print(n, ___=" ")','print("go!")'], ans:[['end']], extra:['sep','next','"\\n"'],
+   hints:['You want to change what print puts after the value, at the end of the line.','end'],
+   why:'<code>end=" "</code> swaps the line break for a space, so 1, 2, 3 and go! all land on one line.' },
+ { t:'fill', title:'Escape characters', goal:'Put a line break inside one string, and an apostrophe inside single quotes.', out:'line one\nline two\nIt\'s fine',
+   teach:'<p>A backslash gives the next character a special meaning. <code>\\n</code> is a line break, <code>\\t</code> a tab. <code>\\\'</code> puts a quote mark inside a string that uses the same quotes around it.</p>',
+   ex:['print("A\\tB")\nprint("x\\ny")', 'A\tB\nx\ny'],
+   code:['print("line one___line two")',"print('It___s fine')"], ans:[['\\n'],["\\'"]], extra:['/n','\\t',"'"],
+   hints:['Line breaks use a backslash, not a forward slash. The apostrophe needs a backslash in front so it does not end the string.','\\n, then \\\'.'],
+   why:'<code>\\n</code> becomes a line break when printed. A bare <code>\'</code> would close the string early and cause a SyntaxError.' },
+ { t:'fill', title:'Convert between types', goal:'Turn text into numbers to do maths, and a number into text to join it.', out:'42\n39.8\n7 days',
+   teach:'<p>Changing a value from one type to another is called casting. <code>int("41")</code> gives the whole number 41. <code>float("19.90")</code> gives the decimal 19.9. <code>str(7)</code> gives the text "7".</p><p>You need this because <code>"41" + 1</code> crashes: Python will not add text and a number.</p>',
+   ex:['n = int("5")\nprint(n * 2)\nprint("Score: " + str(n))', '10\nScore: 5'],
+   code:['age_text = "41"','age = ___(age_text)','print(age + 1)','price = ___("19.90")','print(price * 2)','print(___(7) + " days")'], ans:[['int'],['float'],['str']], extra:['bool','list','len'],
+   hints:['41 is a whole number. 19.90 has decimals. The last line glues a number onto text, so the number must become text.','int, float, str.'],
+   why:'<code>int</code> for whole numbers, <code>float</code> for decimals, <code>str</code> for text. Input from users and files is always text until you convert it.' },
+ { t:'fill', title:'list() and set() from a string', goal:'Split a word into letters, then into unique letters.', out:"['b', 'a', 'n', 'a', 'n', 'a']\n['a', 'b', 'n']",
+   teach:'<p><code>list("abc")</code> breaks a string into a list of single characters. <code>set("abc")</code> does the same but drops duplicates. A set has no fixed order, so wrap it in <code>sorted()</code> to print it in a predictable order.</p>',
+   ex:['print(list("hey"))\nprint(sorted(set("moon")))', "['h', 'e', 'y']\n['m', 'n', 'o']"],
+   code:['letters = ___("banana")','print(letters)','print(sorted(___("banana")))'], ans:[['list'],['set']], extra:['str','dict','len'],
+   hints:['The first output keeps every letter in order, with repeats. The second keeps each letter once.','list, then set.'],
+   why:'<code>list</code> keeps all 6 letters in order. <code>set</code> keeps only b, a, n, and <code>sorted</code> puts them in a-b-n order.' },
+ { t:'fill', title:'Clean up text', goal:'Remove the outer spaces, then swap one word for another.', out:'Hello Python',
+   teach:'<p><code>.strip()</code> removes spaces and line breaks from both ends. <code>.replace(old, new)</code> swaps every copy of old for new.</p><p>Strings never change in place: both methods return a new string, so you store or print the result.</p>',
+   ex:['s = "  hi there  "\nprint(s.strip().replace("hi", "bye"))', 'bye there'],
+   code:['raw = "  Hello World  "','clean = raw.___()','print(clean.___("World", "Python"))'], ans:[['strip'],['replace']], extra:['trim','swap','split'],
+   hints:['Python calls trimming spaces strip. Swapping one piece of text for another is replace.','strip, then replace.'],
+   why:'<code>trim</code> is JavaScript. In Python it is <code>strip</code>, and <code>replace</code> swaps text.' },
+ { t:'fill', title:'split and join', goal:'Cut a comma line into a list, then glue it back with " + ".', out:"['apple', 'pear', 'plum']\napple + pear + plum",
+   teach:'<p><code>"a,b".split(",")</code> cuts a string at every comma and gives a list: <code>[\'a\', \'b\']</code>.</p><p><code>" + ".join(items)</code> does the opposite: it glues a list of strings together, with the string before the dot between each pair. The glue comes first, which surprises most beginners.</p>',
+   ex:['words = "a b c".split(" ")\nprint("-".join(words))', 'a-b-c'],
+   code:['line = "apple,pear,plum"','parts = line.___(",")','print(parts)','print(" + ".___(parts))'], ans:[['split'],['join']], extra:['strip','concat','cut'],
+   hints:['Cutting a string into a list is split. Gluing a list into one string is join, called on the glue.','split, then join.'],
+   why:'<code>split</code> turns text into a list; <code>join</code> turns a list back into text.' },
+ { t:'fill', title:'Search inside text', goal:'Find where @ sits, check how the address starts, check if a string is all digits.', out:'3\nTrue\nTrue',
+   teach:'<p><code>s.find("x")</code> returns the position of the first x (counting from 0), or -1 if missing.<br><code>s.startswith("ab")</code> and <code>s.endswith("yz")</code> answer True or False.<br><code>s.isdigit()</code> is True when every character is a digit; <code>s.isalpha()</code> when every character is a letter.</p>',
+   ex:['s = "hello"\nprint(s.find("l"))\nprint(s.endswith("lo"))\nprint(s.isalpha())', '2\nTrue\nTrue'],
+   code:['email = "ada@example.com"','print(email.___("@"))','print(email.___("ada"))','print("2026".___())'], ans:[['find'],['startswith'],['isdigit']], extra:['index_of','begins','isnumber'],
+   hints:['Position of a character: find. Checking the start: startswith. All digits: isdigit.','find, startswith, isdigit.'],
+   why:'a-d-a are positions 0, 1, 2, so @ is at 3. The other two return True or False.' },
+ { t:'fill', title:'Slicing text', goal:'Take the first three letters, then reverse the whole word.', out:'Pyt\nnohtyP\nn',
+   teach:'<p><code>word[start:stop]</code> cuts out a piece. Stop is not included. Leave start out and it begins at 0: <code>word[:3]</code> is the first three characters.</p><p>A third number is the step. <code>word[::-1]</code> walks backwards with step -1, which reverses the string. <code>word[-1]</code> is the last character.</p>',
+   ex:['s = "Bergen"\nprint(s[1:4])\nprint(s[-2:])', 'erg\nen'],
+   code:['word = "Python"','print(word[___])','print(word[___])','print(word[-1])'], ans:[[':3'],['::-1']], extra:['0:2','3:','-1:'],
+   hints:['First three: from the start up to (not including) 3. Reversed: step backwards through everything.',':3, then ::-1.'],
+   why:'<code>[:3]</code> gives positions 0, 1, 2. <code>[::-1]</code> walks the whole string backwards.' },
+ { t:'fill', title:'lambda: a function in one line', goal:'Write two tiny functions without def.', out:'42\n81',
+   teach:'<p><code>lambda x: x * 2</code> is a function with no name: parameters before the colon, the result after it. No <code>return</code> needed, the expression is returned.</p><p>It is the same as <code>def double(x): return x * 2</code>, just shorter. Use it for small one-off functions.</p>',
+   ex:['add = lambda a, b: a + b\nprint(add(2, 3))', '5'],
+   code:['double = ___ x: x * 2','square = lambda n: n ___ 2','print(double(21))','print(square(9))'], ans:[['lambda'],['**']], extra:['def','return','^'],
+   hints:['The keyword for a one-line function is in the lesson title. Power in Python is two stars, not ^.','lambda, then **.'],
+   why:'A lambda returns its expression. <code>^</code> in Python is not power (it is bitwise XOR), so 9 ^ 2 would give 11.' },
+ { t:'fill', title:'sorted with key=lambda', goal:'Sort people by age, youngest first.', out:"[('Kari', 29), ('Ada', 36), ('Ola', 41)]",
+   teach:'<p><code>sorted(items)</code> returns a new sorted list. <code>key=</code> tells it what to sort by: a function that gets one item and returns the value to compare.</p><p>Each person here is a tuple <code>(name, age)</code>. <code>lambda p: p[1]</code> picks the age, position 1.</p>',
+   ex:['words = ["kiwi", "fig", "banana"]\nprint(sorted(words, key=lambda w: len(w)))', "['fig', 'kiwi', 'banana']"],
+   code:['people = [("Ola", 41), ("Kari", 29), ("Ada", 36)]','by_age = sorted(people, ___=lambda p: p[___])','print(by_age)'], ans:[['key'],['1']], extra:['by','0','sort'],
+   hints:['The keyword argument that says "sort by this" is key. The age is the second item in each tuple, which is position 1.','key, then 1.'],
+   why:'<code>p[0]</code> would sort by name (Ada, Kari, Ola). <code>p[1]</code> sorts by age.' },
+ { t:'fill', title:'filter and map', goal:'Keep the even numbers, then square them.', out:'[2, 4, 6] [4, 16, 36]',
+   teach:'<p><code>filter(test, items)</code> keeps the items where test returns True. <code>map(change, items)</code> applies change to every item. Both give a lazy result, so wrap them in <code>list()</code> to see it.</p><p>A list comprehension does the same: <code>[n * n for n in nums if n % 2 == 0]</code>.</p>',
+   ex:['print(list(map(lambda s: s.upper(), ["a", "b"])))', "['A', 'B']"],
+   code:['nums = [1, 2, 3, 4, 5, 6]','evens = list(___(lambda n: n % 2 == 0, nums))','squares = list(___(lambda n: n * n, evens))','print(evens, squares)'], ans:[['filter'],['map']], extra:['sorted','zip','reduce'],
+   hints:['The first lambda returns True or False, so it is a test: which function keeps only items that pass? The second changes every item.','filter, then map.'],
+   why:'<code>filter</code> keeps 2, 4, 6. <code>map</code> squares each one: 4, 16, 36.' },
+ { t:'fill', title:'try, except, else, finally', goal:'Convert each text to a number, handle the bad one, and always print a check line.', out:'ok: 12\nchecked 12\nbad: abc\nchecked abc',
+   teach:'<p><code>try:</code> runs risky code. <code>except SomeError:</code> runs only if that error happened. <code>else:</code> runs only if no error happened. <code>finally:</code> runs every time, error or not.</p><p><code>int("abc")</code> raises a <code>ValueError</code>: the type (text) is fine, the value cannot become a number.</p>',
+   ex:['try:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    print("no dividing by zero")\nfinally:\n    print("done")', 'no dividing by zero\ndone'],
+   code:['for text in ["12", "abc"]:','    ___:','        n = int(text)','    except ___:','        print("bad:", text)','    else:','        print("ok:", n)','    ___:','        print("checked", text)'], ans:[['try'],['ValueError'],['finally']], extra:['catch','TypeError','always'],
+   hints:['The block opens with try. int("abc") raises a ValueError. The part that always runs is finally.','try, ValueError, finally.'],
+   why:'"12" converts, so else runs. "abc" fails with ValueError, so except runs. finally runs both times. With TypeError the program would crash, because that is not the error int raises here.' },
+ { t:'fill', title:'raise your own error', goal:'Refuse a negative age, then catch the error and print its message.', out:'Error: age cannot be negative',
+   teach:'<p><code>raise ValueError("message")</code> stops the function with an error you choose. The caller can catch it with <code>except ValueError as e:</code>; the name <code>e</code> then holds the error, and printing it shows the message.</p>',
+   ex:['def pay(amount):\n    if amount <= 0:\n        raise ValueError("must be positive")\n    return amount\n\ntry:\n    pay(0)\nexcept ValueError as e:\n    print(e)', 'must be positive'],
+   code:['def set_age(age):','    if age < 0:','        ___ ValueError("age cannot be negative")','    return age','','try:','    set_age(-5)','except ValueError as e:','    print("Error:", ___)'], ans:[['raise'],['e']], extra:['throw','return','error'],
+   hints:['Python does not use throw. The caught error was given a one-letter name after as.','raise, then e.'],
+   why:'<code>raise</code> creates the error. <code>as e</code> catches it under the name e, and <code>print(e)</code> shows its message.' },
+ { t:'order', title:'Chain string steps', goal:'Split a sentence, reverse the words, join them, shout it.', out:'SAT CAT THE',
+   teach:'<p><code>.split()</code> with no argument cuts at spaces. <code>words.reverse()</code> flips the list in place and returns nothing, so it stands on its own line. Then <code>" ".join</code> glues the words back and <code>.upper()</code> capitalises.</p>',
+   ex:['w = "a b".split()\nw.reverse()\nprint(w)', "['b', 'a']"],
+   lines:[['words = "the cat sat".split()',0],['words.reverse()',0],['sentence = " ".join(words)',0],['print(sentence.upper())',0]],
+   hints:['Each line uses the result of the line before it. The output is reversed, so the reverse step comes before the join.','split, reverse, join, print.'],
+   why:'<code>reverse()</code> changes the list itself. Joining before reversing would give THE CAT SAT.' },
+]},
 { id:'json', title:'Working with JSON', intro:'JSON is text that looks like Python dicts and lists. <code>json.loads</code> turns text into Python; <code>json.dumps</code> turns Python into text. The s means string. Spelling differs: JSON <code>true / false / null</code> is Python <code>True / False / None</code>.', ex:[
  { t:'fill', title:'Text to Python', goal:'Parse a JSON string into a dict, then read a field.', out:'2',
    teach:'<p>JSON is text. It looks like a Python dict but it is just characters in a string, so <code>raw["qty"]</code> would fail. <code>json.loads(raw)</code> (load string) reads the text and builds a real dict from it. After that, normal dict lookups work.</p>',
@@ -499,18 +783,18 @@ const SECTIONS = [
 ];
 
 // ---------- Utilities ----------
-const KW = new Set(['def','class','return','if','elif','else','for','while','in','import','from','as','break','continue','True','False','None','and','or','not','with','is','pass']);
+const KW = new Set(['def','class','return','if','elif','else','for','while','in','import','from','as','break','continue','True','False','None','and','or','not','with','is','pass','lambda','try','except','finally','raise']);
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function hl(s){
   s = esc(s);
-  return s.replace(/(#.*$)|(&quot;|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(\d+\.\d+|\d+)\b|\b(def|class|return|if|elif|else|for|while|in|import|from|as|break|continue|True|False|None|and|or|not|with|is|pass)\b|\b([A-Za-z_]\w*)(?=\()/gm,
+  return s.replace(/(#.*$)|(&quot;|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(\d+\.\d+|\d+)\b|\b(def|class|return|if|elif|else|for|while|in|import|from|as|break|continue|True|False|None|and|or|not|with|is|pass|lambda|try|except|finally|raise)\b|\b([A-Za-z_]\w*)(?=\()/gm,
     (m,c,str,num,kw,fn)=>{ if(c) return `<span class="c">${c}</span>`; if(str) return `<span class="s">${str}</span>`; if(num) return `<span class="n">${num}</span>`; if(kw) return `<span class="k">${kw}</span>`; if(fn) return `<span class="f">${fn}</span>`; return m;});
 }
 function cat(tok){
   if(KW.has(tok)) return 'kw';
   if(/^["']/.test(tok)) return 'str';
   if(/^-?\d/.test(tok) || /^:\.?\d/.test(tok)) return 'num';
-  if(/^\.?[a-z_]\w*$/i.test(tok) && (tok.startsWith('.')||/^(print|type|len|sqrt|get|post|json|loads|dumps|create|hello|status_code|output_text|__init__|pip)$/.test(tok))) return 'fn';
+  if(/^\.?[a-z_]\w*$/i.test(tok) && (tok.startsWith('.')||/^(print|type|len|sqrt|get|post|json|loads|dumps|create|hello|status_code|output_text|__init__|__str__|__len__|pip|open|read|write|readlines|close|closed|strip|replace|split|join|find|startswith|isdigit|sorted|map|filter|int|float|str|list|set|isinstance|super|describe|sound|report|reader|dump|load|write_text|read_text)$/.test(tok))) return 'fn';
   if(/^[A-Za-z_{][\w{}.=]*$/.test(tok)) return 'name';
   return 'punc';
 }
@@ -607,6 +891,7 @@ function render(){
     const exOut = ex.ex && ex.ex[1] ? '<div class="outl">'+esc(ex.ex[1])+'</div>' : '';
     t.innerHTML='<div class="body"><h4>Learn first</h4>'+ex.teach+'</div>'+(ex.ex?'<div class="body"><h4>Worked example</h4><div class="example">'+hl(ex.ex[0])+exOut+'</div></div>':'')+'<button class="toggle">'+(progress[id]?'Show the lesson':'Hide the lesson')+'</button>';
     t.querySelector('.toggle').onclick=()=>{ t.classList.toggle('collapsed'); t.querySelector('.toggle').textContent=t.classList.contains('collapsed')?'Show the lesson':'Hide the lesson'; };
+    if(ex.ex && canRun(ex.ex[0])){ const sb=document.createElement('button'); sb.className='stepbtn'; sb.textContent='▶ Step through this example'; sb.onclick=()=>stepThrough(card, ex.ex[0], ex.files, 'the worked example'); t.querySelector('.example').after(sb); }
     card.appendChild(t);
   }
 
@@ -665,7 +950,7 @@ function render(){
   }
 
   const act = document.createElement('div'); act.className='actions';
-  act.innerHTML=`<button class="btn primary" id="check">Check</button><button class="btn" id="hintb">Hint 1 of 2</button><button class="btn" id="solve">Show solution</button><button class="btn" id="reset">Reset</button><button class="btn next" id="next">Next ›</button>`;
+  act.innerHTML=`<button class="btn primary" id="check">Check</button><button class="btn" id="hintb">Hint 1 of 2</button><button class="btn" id="solve">Show solution</button><button class="btn" id="reset">Reset</button><button class="btn" id="stepmine" title="Run the code you built, one line at a time">▶ Step through my code</button><button class="btn next" id="next">Next ›</button>`;
   card.appendChild(act);
   const fb = document.createElement('div'); fb.className='fb'; fb.id='fb'; card.appendChild(fb);
   const hint = document.createElement('div'); hint.className='hint'; hint.id='hint'; card.appendChild(hint);
@@ -675,6 +960,9 @@ function render(){
   document.getElementById('hintb').onclick=()=>{ if(hintN<ex.hints.length){ hintN++; hint.innerHTML=ex.hints.slice(0,hintN).map((t,i)=>'<p><b>Hint '+(i+1)+':</b> '+t+'</p>').join(''); hint.classList.add('show'); } document.getElementById('hintb').textContent = hintN<ex.hints.length?`Hint ${hintN+1} of ${ex.hints.length}`:'No more hints'; };
   document.getElementById('solve').onclick=()=>{ revealed=true; solve(ex); check(ex,id); };
   document.getElementById('reset').onclick=()=>render();
+  const sm=document.getElementById('stepmine');
+  if(ex.t==='label' || !canRun(solutionSource(ex))) sm.remove();
+  else sm.onclick=()=>{ const {src,gaps}=currentSource(ex); if(gaps){ const f=document.getElementById('fb'); f.classList.add('show'); f.innerHTML=`<div class="msg bad">${gaps} gap${gaps>1?'s':''} still empty. Fill every gap, then step through to watch your code run.</div>`; return; } stepThrough(card, src, ex.files, 'your code'); };
   document.getElementById('next').onclick=()=>{ if(cur.e<sec.ex.length-1) cur.e++; else if(cur.s<SECTIONS.length-1){cur.s++;cur.e=0;} render(); window.scrollTo({top:0}); };
 }
 let revealed=false;
@@ -711,6 +999,94 @@ function check(ex,id){
   const fb=document.getElementById('fb'); fb.classList.add('show');
   fb.innerHTML=`<div class="msg ${ok?'ok':'bad'}">${msg}</div>` + (ok?`<div class="why"><div class="box"><h4>Why it works</h4><p>${ex.why}</p></div>${ex.out!==undefined?`<div class="term">${esc(ex.out)}</div>`:'<div class="box"><h4>Carry this</h4><p>Reading code is naming its parts. You just did that.</p></div>'}</div>`:'');
   if(ok && !revealed){ progress[id]=true; save(); renderNav(); document.querySelectorAll('#exlist button')[cur.e].classList.add('done'); }
+}
+
+// ---------- Step-through ----------
+// Runs code in trace-worker.js and shows one snapshot per executed line.
+const NO_RUN = ['requests','openai','pandas'];
+function canRun(src){
+  if(/^\s*pip\s/.test(src)) return false;
+  return !NO_RUN.some(m=>src.includes('import '+m)||src.includes('from '+m+' ')||src.includes(m+'.'));
+}
+function solutionSource(ex){
+  if(ex.t==='fill'){ let i=0; return ex.code.map(l=>l.split('___').reduce((a,p)=>a+ex.ans[i++][0]+p)).join('\n'); }
+  if(ex.t==='order') return ex.lines.map(([c,n])=>'    '.repeat(n)+c).join('\n');
+  return ex.code.replace(/\[\[\w+\|([^\]]+)\]\]/g,'$1');
+}
+function currentSource(ex){
+  if(ex.t==='fill'){
+    const rows=[...document.querySelectorAll('#canvas .codeline')]; let gaps=0;
+    const src=rows.map(r=>[...r.childNodes].filter(n=>!(n.classList&&n.classList.contains('ln'))).map(n=>{
+      if(n.classList&&n.classList.contains('slot')){ const c=n.querySelector('.chip'); if(!c){gaps++; return '___';} return c.textContent; }
+      return n.textContent; }).join('')).join('\n');
+    return {src, gaps};
+  }
+  if(ex.t==='order'){
+    const src=[...document.querySelectorAll('#plines .pline')].map(p=>'    '.repeat(+p.dataset.ind)+ex.lines[+p.dataset.i][0]).join('\n');
+    return {src, gaps:0};
+  }
+  return {src:solutionSource(ex), gaps:0};
+}
+let tWorker=null, tTimer=null;
+function stepThrough(host, src, files, label){
+  host.querySelectorAll('.trace').forEach(t=>t.remove());
+  if(tTimer){ clearInterval(tTimer); tTimer=null; }
+  const box=document.createElement('section'); box.className='trace';
+  box.innerHTML=`<h4>Step through: ${label}</h4><p class="tstatus">Starting Python...</p>`;
+  host.appendChild(box); box.scrollIntoView({behavior:'smooth', block:'nearest'});
+  if(!tWorker) tWorker=new Worker('trace-worker.js');
+  const lines=src.split('\n');
+  // The 10-second limit starts once Python has loaded, so a slow first download is never cut off.
+  let kill=null;
+  tWorker.onmessage=e=>{
+    const m=e.data;
+    if(m.type==='status'){
+      box.querySelector('.tstatus').textContent=m.text;
+      if(m.text==='Running...' && !kill) kill=setTimeout(()=>{ tWorker.terminate(); tWorker=null; box.querySelector('.tstatus').textContent='Ran for more than 10 seconds and was stopped.'; }, 10000);
+      return;
+    }
+    clearTimeout(kill);
+    if(m.type==='fail'){ box.querySelector('.tstatus').textContent='Python could not start: '+m.text; return; }
+    showTrace(box, label, lines, m.data);
+  };
+  tWorker.postMessage({src, files:files||{}});
+}
+function showTrace(box, label, lines, res){
+  const steps=res.steps.slice();
+  const last=steps[steps.length-1];
+  steps.push({line:null, event:'done', frames: last?last.frames:[], out: res.out||'', error: res.error, errline: res.errline});
+  let i=0;
+  box.innerHTML=`<h4>Step through: ${label}</h4>
+    <p class="tsay"></p>
+    <div class="tgrid"><div class="tcode">${lines.map((l,n)=>`<div class="tline" data-n="${n+1}"><span class="tn">${n+1}</span><span>${hl(l)||' '}</span></div>`).join('')}</div><div class="tframes"></div></div>
+    <div class="tout"><div class="term"></div></div>
+    <div class="tctl"><button data-a="first" title="Back to the start">⏮</button><button data-a="back" title="One step back (←)">◀</button><button class="primary" data-a="next" title="One step forward (→)">Step ▶</button><button data-a="play" title="Play every step">▶▶ Play</button><button data-a="last" title="Jump to the end">⏭</button><input type="range" min="0" max="${steps.length-1}" value="0" aria-label="Step"><span class="tc"></span></div>`;
+  const say=box.querySelector('.tsay'), fr=box.querySelector('.tframes'), term=box.querySelector('.term'), rng=box.querySelector('input'), tc=box.querySelector('.tc'), play=box.querySelector('[data-a=play]');
+  function vmap(frames){ const m={}; frames.forEach(f=>f.vars.forEach(([k,v])=>{ m[f.title+'|'+k]=v; })); return m; }
+  function draw(){
+    const s=steps[i], prev=i>0?steps[i-1]:null, before=prev?vmap(prev.frames):{};
+    box.querySelectorAll('.tline').forEach(el=>{ const n=+el.dataset.n; el.className='tline'+(s.line===n?' now':'')+(s.event!=='done'&&prev&&prev.line===n&&s.line!==n?' prev':'')+(s.event==='done'&&s.error&&s.errline===n?' errl':''); });
+    if(s.event==='done'){
+      say.className='tsay'+(s.error?' err':'');
+      say.innerHTML=s.error?esc(s.error)+(s.errline&&!/line \d/.test(s.error)?` (line ${s.errline})`:''):'Finished. Every line has run.';
+    } else if(s.event==='return'){
+      say.className='tsay'; say.innerHTML=s.extra==='None'?`<b>${esc(s.fn)}()</b> is finished and returns None.`:`<b>${esc(s.fn)}()</b> returns <b>${esc(s.extra)}</b> to the line that called it.`;
+    } else {
+      say.className='tsay'; say.innerHTML=`Python is about to run line <b>${s.line}</b>: <code>${esc(lines[s.line-1].trim())}</code>`;
+    }
+    fr.innerHTML=s.frames.length?s.frames.map((f,fi)=>`<div class="tframe${fi===s.frames.length-1?' top':''}"><div class="ft">${esc(f.title)}</div><div class="tvar">${f.vars.length?f.vars.map(([k,v,t])=>`<span class="vn">${esc(k)}</span><span class="vv${prev&&before[f.title+'|'+k]!==v?' chg':''}">${esc(v)}<i>${esc(t)}</i></span>`).join(''):'<span class="none">No variables yet.</span>'}</div></div>`).join(''):'<div class="tframe top"><div class="ft">Global variables</div><div class="tvar"><span class="none">No variables yet.</span></div></div>';
+    term.textContent=s.out;
+    rng.value=i; tc.textContent=`step ${i+1} of ${steps.length}`;
+    const now=box.querySelector('.tline.now'); if(now) now.scrollIntoView({block:'nearest'});
+  }
+  function go(n){ i=Math.max(0,Math.min(steps.length-1,n)); draw(); if(i===steps.length-1) stop(); }
+  function stop(){ if(tTimer){ clearInterval(tTimer); tTimer=null; } play.textContent='▶▶ Play'; }
+  box.querySelector('.tctl').addEventListener('click',e=>{ const a=e.target.dataset.a; if(!a) return;
+    if(a==='first'){stop();go(0);} if(a==='back'){stop();go(i-1);} if(a==='next'){stop();go(i+1);} if(a==='last'){stop();go(steps.length-1);}
+    if(a==='play'){ if(tTimer){stop();return;} if(i===steps.length-1) go(0); play.textContent='❚❚ Pause'; tTimer=setInterval(()=>go(i+1), 800); } });
+  rng.oninput=()=>{ stop(); go(+rng.value); };
+  box.tabIndex=0; box.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){e.preventDefault();stop();go(i+1);} if(e.key==='ArrowLeft'){e.preventDefault();stop();go(i-1);} });
+  draw();
 }
 render();
 </script>

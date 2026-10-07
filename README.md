@@ -56,7 +56,7 @@ Challenge.
 | `#/checklist` | A 100-item AI engineering skills checklist you tick off as you go |
 | `#/exam` | A 117-question AI-901 drill in real exam format |
 | `#/questions` | 30 questions on embeddings and retrieval, the part of AI engineering that is hardest to learn from a tutorial |
-| `/blocks/` | Python Block Bench: 44 drag-and-drop syntax puzzles, no keyboard needed |
+| `/blocks/` | Python Block Bench: 84 drag-and-drop syntax puzzles, no keyboard needed, with a line-by-line step-through that shows every variable change |
 
 ### ELI5 mode
 
