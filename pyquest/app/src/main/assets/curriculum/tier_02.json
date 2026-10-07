@@ -30,6 +30,10 @@
       ],
       "explain": "A single slash is true division and always gives a float, even when the numbers divide evenly.",
       "teach": "In Python there are two division operators. The single slash `/` is called true division, and it always gives you back a float, a number with a decimal point, even when the numbers divide evenly like 6 and 2. This is different from other operators that round the result down. Knowing this matters because it tells you what type of value comes back, which affects what you can do with it next.",
+      "example": {
+        "code": "print(9 / 2)\nprint(8 / 2)",
+        "output": "4.5\n4.0"
+      },
       "hints": [
         "This question is really asking what kind of answer the single slash `/` operator gives. Look at the code: does `/` keep the exact result, or does it round anything away? Think about what type of number comes out the other side.",
         "Think of `/` like measuring exactly how many times 2 fits into 7 without throwing away the leftover part. If you split 7 cookies evenly between 2 people using exact math, each person gets three and a half cookies, not three whole ones. Look for an option showing a decimal value matching that exact split.",
@@ -61,6 +65,10 @@
       ],
       "explain": "Double slash is floor division: it divides and rounds down to the nearest whole number.",
       "teach": "Python has a second division operator, the double slash `//`, called floor division. It divides two numbers and then rounds the result down to the nearest whole number, throwing away anything after the decimal point. Dividing 7 by 2 exactly gives three and a half, and floor division keeps only the 3. This matters because it lets you get a whole number on purpose, useful for counting how many full groups fit into a total.",
+      "example": {
+        "code": "print(9 // 2)\nprint(10 // 3)",
+        "output": "4\n3"
+      },
       "hints": [
         "This question asks what happens when you divide two numbers and then round the result down instead of keeping the decimal part. Look at the operator in the code: is it a single slash or a double slash? That difference decides whether you get an exact decimal or a rounded whole number.",
         "Picture splitting 7 apples into groups of 2. You get three full groups, with one apple left over that does not make a whole group, so floor division only counts the full groups and ignores the leftover completely. Look for the option that is a whole number showing how many full groups of 2 fit inside 7.",
@@ -91,6 +99,10 @@
       ],
       "explain": "Percent is the remainder after division: 3 goes into 7 twice with 1 left over.",
       "teach": "The percent sign `%` in Python is the modulo operator, and it gives you the remainder left over after dividing one number by another. If you divide 7 by 3, 3 fits in twice with something left over, and `%` tells you exactly what that leftover amount is. This is different from division itself, which tells you how many times one number fits into another. Modulo is handy for things like checking if a number is even or wrapping a count back to zero.",
+      "example": {
+        "code": "print(10 % 4)\nprint(9 % 3)",
+        "output": "2\n0"
+      },
       "hints": [
         "This question asks for the leftover amount after dividing 7 by 3, not the number of times 3 fits into 7. Look at the numbers: how many whole times does 3 go into 7, and what remains after that? That remainder is what the percent operator returns.",
         "Think about handing out 7 candies in groups of 3. You can make two full groups, using 6 candies, and then some candies are left that cannot form another full group. The percent operator cares only about that leftover, not the group count. Look for the small option representing just what is left over.",
@@ -122,6 +134,10 @@
       ],
       "explain": "type() returns the class of the object, and print shows it in angle brackets.",
       "teach": "Every value in Python has a type, telling you what kind of thing it is, like a whole number, text, or a decimal number. You can ask Python directly what type something is using the built-in `type()` function, for example `type(5)`. When you print the result, Python shows it wrapped in a special bracketed format that names the type. This matters because a value's type tells you what you are allowed to do with it, like whether it can be added to another number.",
+      "example": {
+        "code": "word = \"hi\"\nprint(type(word))\nprint(type(2.5))",
+        "output": "<class 'str'>\n<class 'float'>"
+      },
       "hints": [
         "This question asks what `type()` reports back for a whole number like 42, and how that report looks when printed. Look at the variable being checked: is it written with a decimal point or without one? That decides which category it belongs to.",
         "Imagine a librarian who, shown any object, tells you exactly which shelf category it belongs on. `type()` works the same way for values, and a whole number with no decimal point belongs to the whole-number category. When Python prints that category, it wraps the name in a specific bracket format rather than printing the bare word. Look for an option in that bracketed format naming the correct category.",
@@ -151,6 +167,10 @@
       ],
       "explain": "Python never guesses whether you meant text or a number, so adding a string to an integer is an error.",
       "teach": "Python keeps text and numbers as separate kinds of values: text lives in quotes, like \"3\", while a number like 3 has no quotes. The plus sign means something different for each kind: for two pieces of text it joins them, for two numbers it adds them. Python never quietly turns one kind into the other for you, so mixing a piece of text with a number using plus is not allowed. This strictness is why you sometimes need to convert values on purpose before combining them.",
+      "example": {
+        "code": "print(\"ab\" + \"cd\")\nprint(2 + 5)\nprint(\"age \" + str(9))",
+        "output": "abcd\n7\nage 9"
+      },
       "hints": [
         "The question is really asking which line Python refuses to run because it tries to combine two things that do not mix. Look at each line and ask whether both sides of the plus sign are the same kind of value, text or number.",
         "Think of it like trying to add the word five to the number 3 on paper, it just does not make sense without converting one of them first. Two pieces of quoted text can join fine, and two numbers can add fine, since each pair matches. Look for the one line where one side is wrapped in quotes and the other side is a bare number.",
@@ -199,6 +219,10 @@
       "accept": [],
       "explain": "int(a) turns the text \"3\" into the number 3, and then + means addition rather than an error.",
       "teach": "Sometimes a number arrives as text, like the value \"3\" in quotes, especially from user input or a file. Text that looks like a number is still text to Python, so adding it directly to a real number will not do the arithmetic you expect. To fix this, Python gives you conversion functions: `int()` turns text that looks like a whole number into an actual whole number you can do math with. Picking the right conversion matters because it decides whether your text becomes a whole number, a decimal, or stays as text.",
+      "example": {
+        "code": "x = \"10\"\ny = 5\nprint(x * 2)\nprint(int(x) + y)",
+        "output": "1010\n15"
+      },
       "hints": [
         "This question asks which block turns the text value \"3\" into something you can actually add to another number, so the print shows 7 instead of the text stuck together as 34. Look at the two variables: which one is in quotes, and which one already looks like a plain number? You need to change the quoted one so it stops being text.",
         "Picture someone handing you a note with the number three written in words, versus actually handing you three coins. Before adding that note to a pile of real coins, you need to convert what is written into an actual countable amount. In code, that conversion happens through a function built to turn number-shaped text into a real whole number. Look among the blocks for a call that does exactly that to the text variable.",
@@ -230,6 +254,10 @@
       ],
       "explain": "len counts characters, and hello has five.",
       "teach": "The len function tells you how many items are inside something. For a piece of text, that means how many characters it has, counting every letter, space, and punctuation mark. For example, the word cat has three characters, so len would report 3 for it. This is useful any time you need to know the size of something before working with it, like checking if a password is long enough.",
+      "example": {
+        "code": "print(len(\"cat\"))\nprint(len(\"\"))",
+        "output": "3\n0"
+      },
       "hints": [
         "The question is really asking how many characters make up the word that gets measured. Look at the word written inside the quotes in the code and think about counting its letters one at a time.",
         "Imagine spelling the word out loud, tapping a finger for each letter as you say it, then counting the taps at the end. Do exactly that with the word shown in the code, going letter by letter without skipping any. That tap count is the number you are looking for.",
@@ -260,6 +288,10 @@
       ],
       "explain": "Indexing starts at 0, so [0] is the first character.",
       "teach": "When Python looks inside a word, it numbers each character's position starting at 0, not 1. So the first character sits at position 0, the second at position 1, and so on. For example, in the word cat, c is at position 0, a is at position 1, and t is at position 2. Knowing this helps you predict exactly which character you get when you ask for a specific position.",
+      "example": {
+        "code": "word = \"piano\"\nprint(word[0])\nprint(word[1])",
+        "output": "p\ni"
+      },
       "hints": [
         "The question is really asking which character sits at position 0, the very first slot, inside the word. Look at the word in the code and identify its first letter.",
         "Picture the word as a row of numbered mailboxes, but the numbering starts at 0 instead of 1, so the first mailbox is number 0, not number 1. Applying that here, whatever letter occupies mailbox 0 is what gets printed. Look among the options for the single letter that opens the word.",
@@ -291,6 +323,10 @@
       ],
       "explain": "A negative index counts from the end, and -1 is the last character.",
       "teach": "Besides counting from the start, Python also lets you count backward from the end of a word using negative numbers. Position -1 always means the very last character, -2 means the second to last, and so on, no matter how long the word is. For example, in the word cat, position -1 gives t, the final letter. This trick is handy when you want the last item without needing to know the word's exact length.",
+      "example": {
+        "code": "word = \"piano\"\nprint(word[-1])\nprint(word[-2])",
+        "output": "o\nn"
+      },
       "hints": [
         "The question is really asking what character you land on when counting backward from the end instead of forward from the start. Look at the last letter of the word written in the code.",
         "Think of walking down a hallway of numbered doors from the far end: door -1 is the very last door you reach, door -2 is the one just before it. Applying that idea to the word here, position -1 always points to its final character, whatever the word is. Look for the single character that closes out the word.",
@@ -322,6 +358,10 @@
       ],
       "explain": "Multiplying a string by an integer repeats it that many times, with nothing added in between, so the three copies run together.",
       "teach": "Multiplying a string by a whole number repeats that string that many times, joined directly with nothing added in between. For example, \"na\" times 2 gives you \"nana\", with the two copies sitting right next to each other. This is a quick way to build repeated patterns, like a row of dashes for a separator, without typing the text over and over. It works because strings support multiplication by a number, unlike multiplying two strings together.",
+      "example": {
+        "code": "print(\"ab\" * 2)\nprint(\"-\" * 5)",
+        "output": "abab\n-----"
+      },
       "hints": [
         "The question is really asking what you get when a short piece of text is repeated a set number of times with nothing extra squeezed between the copies. Look at the text and the number being multiplied together in the code.",
         "Picture stamping the same short word onto a strip of paper three times in a row without ever lifting the stamp to leave a gap, so each copy touches the next directly. Apply that same idea to the text and the number shown here. Look for the option where the copies run together with no space or separator anywhere.",
@@ -352,6 +392,10 @@
       ],
       "explain": "Strings are immutable, so assigning to a character raises TypeError. Build a new string instead.",
       "teach": "In Python, once a piece of text is created, none of its individual characters can be changed in place. This property is called immutability, and it applies to all strings. Think of a word carved into a stone plaque: you cannot erase one letter and carve a new one over it, you would need an entirely new plaque. If you want a changed version of a word, you build a brand new string rather than editing the old one directly.",
+      "example": {
+        "code": "word = \"cat\"\nnew = \"b\" + word[1:]\nprint(new)\nprint(word)",
+        "output": "bat\ncat"
+      },
       "hints": [
         "The question is really asking why changing a single letter of a word directly does not work in Python. Think about whether text values can be edited in place once they already exist, or whether a new one is always needed.",
         "Imagine a name engraved on a medal: you cannot scratch out one letter and engrave a different one in its place, you would need to make a whole new medal instead. Text in Python behaves the same way once it is created. Look for the option that talks about text not being changeable in place, rather than about quotes or index numbers.",
@@ -401,6 +445,10 @@
       "accept": [],
       "explain": "upper() returns a new string with every letter in capitals.",
       "teach": "Strings have several methods that change letter casing, and because strings are immutable, each one returns a brand new string rather than editing the original. For example, calling one of these methods on \"cat\" might give back \"Cat\", \"CAT\", or leave the spelling the same but change only the case. Picking the right one depends on whether you want just the first letter capitalized, every word capitalized, or every single letter turned into a capital. This matters whenever text needs a certain look, like a loud announcement or a tidy title.",
+      "example": {
+        "code": "name = \"Ada Lovelace\"\nprint(name.lower())\nprint(name.upper())",
+        "output": "ada lovelace\nADA LOVELACE"
+      },
       "hints": [
         "The question wants the whole phrase to come out fully shouted, every letter a capital, not just the first word or first letter. Look at the string 'hello world' and picture 'HELLO WORLD' next to it: has only the beginning changed, or literally every letter?",
         "Think of a text message written ALL CAPS versus one written Like A Title. Turning 'hi mom' into 'HI MOM' is not just capitalizing the first letter, it means every single letter becomes its capital form. Scan the blocks for the one whose job is making everything loud, not the one that only fixes the first letter of each word or just the sentence start.",
@@ -432,6 +480,10 @@
       ],
       "explain": "nums[-1] is the last element, 3, and 3 * 2 is 6.",
       "teach": "Lists let you grab items by position using square brackets, and negative numbers count backward from the end. nums[-1] means 'the last item', nums[-2] means 'second to last', and so on. This is handy because you do not need to know how long the list is to reach its last item. Once you have picked out a single number this way, ordinary math works on it just like any other number, so multiplying it only affects that one value, not the whole list.",
+      "example": {
+        "code": "nums = [5, 6, 7]\nprint(nums[0])\nprint(nums[-1] + 1)",
+        "output": "5\n8"
+      },
       "hints": [
         "The code first picks out one item from the list using nums[-1], then does math on it. Ask yourself: which item does nums[-1] actually point to, and what number is stored there?",
         "Picture the list as a row of three boxes holding 1, 2, 3, numbered 0, 1, 2 from the left, or -1, -2, -3 from the right. nums[-1] means stepping one back from the end, so it grabs the value in the last box, not the whole row. Once you have that single number, multiplying by 2 just doubles it, so look for the option showing one number, doubled, not a list.",
@@ -463,6 +515,10 @@
       ],
       "explain": "append adds one item to the end of the list, in place.",
       "teach": "Lists can grow one item at a time using a method that tacks a new value onto the very end, right after the current last item. Picture a line of people: adding someone to the back does not change anyone already there, it just extends the line by one. This changes the list itself, in place, rather than creating a separate new list. It is one of the most common ways to build up a list step by step, like collecting scores as a game goes on.",
+      "example": {
+        "code": "pets = [\"cat\"]\npets.append(\"dog\")\nprint(pets)",
+        "output": "['cat', 'dog']"
+      },
       "hints": [
         "The code adds a new value onto the end of the existing list, then prints that same list afterward. Ask yourself: after adding 4 to a list that already holds 1, 2, 3, what does the whole list look like now?",
         "Think of nums as a train with three cars numbered 1, 2, 3. Adding a new car onto the end does not remove or reorder the existing cars, it just makes the train one car longer, with the new car last. Look for the option that shows all four numbers together, in that original order plus the new one at the end.",
@@ -494,6 +550,10 @@
       ],
       "explain": "sort() sorts the list in place and returns None, so printing its result prints None.",
       "teach": "Some list methods rearrange the list itself and then hand back nothing at all, represented in Python by the special value None. This differs from methods that build and return a brand new arranged list while leaving yours untouched. It matters because if you print or store the result of one of these in-place methods, you get None, not the tidy list you expected, even though the list really did get reordered behind the scenes. Knowing which style a method uses saves you from a confusing bug.",
+      "example": {
+        "code": "nums = [9, 4, 6]\nresult = nums.sort()\nprint(result)\nprint(nums)",
+        "output": "None\n[4, 6, 9]"
+      },
       "hints": [
         "The code calls a method that rearranges the list's numbers into order, but then prints whatever that method call itself hands back, not the list afterward. Ask yourself: does this method give you the new arrangement, or does it quietly do its work and hand back nothing?",
         "Think of a librarian who reorganizes books on a shelf but, when asked what they handed you, says 'nothing, I just moved the books'. The shelf is now in order, but the librarian's reply carries no books. This method reorders nums in place and its call produces no useful value to print, so look for the option meaning 'nothing to report' rather than a list of numbers.",
@@ -526,6 +586,10 @@
       ],
       "explain": "b = a does not copy the list. Both names point at the same list, so a change through b shows through a.",
       "teach": "When you write b = a for a list, you are not making a copy, you are giving a second name to the very same list, like two nicknames for one person. Change the list through either name and both names see the change, because there is really only one list in memory. This is called aliasing, and it trips up a lot of beginners who expect a fresh independent copy. To actually get a separate list you have to ask for a copy explicitly.",
+      "example": {
+        "code": "x = [\"a\", \"b\"]\ny = x\ny.append(\"c\")\nprint(x)",
+        "output": "['a', 'b', 'c']"
+      },
       "hints": [
         "The code makes b point at the same list as a, then changes one item through b. Ask yourself: since a and b are really just two names for the one and only list, what happens to a when b changes something?",
         "Imagine two people holding different corners of one shared piece of paper with a shopping list on it. If one crosses out an item and writes something new, the other person sees the change too, since it is the same paper. Changing an item through b changes the one shared list, so printing a afterward shows that same change. Look for the option where the third item has been replaced.",
@@ -569,6 +633,10 @@
       "accept": [],
       "explain": "pop() with no argument removes the last element and hands it back, so it can be stored in a name.",
       "teach": "Lists have a method that removes the final item and, unlike some other methods, actually hands that removed item back to you so it can be stored in a variable. This differs from a method that just deletes something without telling you what it was. Picture a stack of plates: lifting the top plate off both removes it from the stack and puts it in your hands at the same time. This pattern, removing and receiving in one step, is common whenever you want to process items one by one from the end of a list.",
+      "example": {
+        "code": "pets = [\"cat\", \"dog\", \"fish\"]\nlast = pets.pop()\nprint(last)\nprint(pets)",
+        "output": "fish\n['cat', 'dog']"
+      },
       "hints": [
         "The goal is to write one line that both shrinks nums by one item and saves that removed item into a new variable called last. Ask yourself: which list method removes the final item and also hands it back, so it can sit on the right side of an equals sign?",
         "Think of unstacking trays one at a time: lifting the top tray off shrinks the pile, and you are now holding that tray to use. A line like last = something needs a method call on the right that removes an item from nums and produces it as a value. Arrange the pieces so the variable comes first, then equals, then the list name, a dot, the method name, and empty parentheses.",
@@ -617,6 +685,10 @@
       "accept": [],
       "explain": "in checks whether a value is one of the items, and \"pear\" is.",
       "teach": "You already know a list is just an ordered box of items, like `fruits = [\"apple\", \"pear\"]`. Python lets you ask a yes or no question about a list using the word `in`: `value in a_list` checks whether that exact value is sitting inside the box. It matters because you often need to decide something based on whether an item exists, like checking if a fruit is in stock, without writing a loop yourself.",
+      "example": {
+        "code": "colors = [\"red\", \"blue\"]\nprint(\"blue\" in colors)\nprint(\"green\" in colors)",
+        "output": "True\nFalse"
+      },
       "hints": [
         "The question is really asking: what value, when you write value in fruits, comes back True? Look at the list on the first line. Which of the two fruit names is actually sitting inside those square brackets?",
         "Think of it like checking a guest list at a door: if the exact name written on your card matches a name on the list, you get let in. Fruits holds text values, so what you compare must be written as text too, with quotes, spelling one of the fruits exactly. Look for a block that is quoted text matching an item already in the list.",
@@ -648,6 +720,10 @@
       ],
       "explain": "Square brackets with a key look up that key's value.",
       "teach": "A dict pairs up keys and values, like a small lookup table: `stock = {\"apple\": 3}` means the key \"apple\" is linked to the value 3. When you write `stock[\"apple\"]`, Python does not print the key back to you, it finds that key and hands you the value stored next to it. This matters because dicts are how you store labeled data, like stock counts per fruit, and look it up fast by name instead of searching.",
+      "example": {
+        "code": "ages = {\"ann\": 30, \"bob\": 25}\nprint(ages[\"bob\"])",
+        "output": "25"
+      },
       "hints": [
         "The real question is: when you use square brackets with a key on a dict, what do you actually get back? Look at the dict on the first line and find what is written right after the key you are looking up.",
         "Picture a coat check: you hand over a ticket number and the person hands you the coat, not the ticket back. The key is the ticket, the value is the coat. So find, right after the colon following that key in the dict, the small piece of data that gets handed back to you.",
@@ -678,6 +754,10 @@
       ],
       "explain": "Reading a key that is not there raises KeyError. Use .get() when a missing key is normal.",
       "teach": "A dict only knows about the keys you actually put into it. `stock = {\"apple\": 3}` has exactly one key, \"apple\", and nothing else. If you ask for a key that was never added, Python cannot make up a value for you, so it has to tell you something went wrong instead of guessing. This matters because it helps you catch typos and missing data early, instead of silently working with a wrong number.",
+      "example": {
+        "code": "ages = {\"ann\": 30}\nprint(\"bob\" in ages)\nprint(ages[\"ann\"])",
+        "output": "False\n30"
+      },
       "hints": [
         "The real question is: what does Python do when you look up a key that simply is not in the dict? Look at the dict on the first line and check whether kiwi appears there at all.",
         "Imagine asking a librarian for a book that was never in the library. She cannot hand you an empty book or guess a title, she has to tell you it is not there. Square-bracket lookup on a dict works the same way for a missing key, it does not invent a default value. Think about what kind of message fits that situation.",
@@ -726,6 +806,10 @@
       "accept": [],
       "explain": "get returns the value if the key exists and the fallback you pass if it does not.",
       "teach": "Sometimes you want to look up a dict key that might not be there, but you do not want your program to crash. Python's dicts have a method for exactly this: it looks up a key, and if the key is missing, it hands you back a fallback value you choose instead of raising an error. For example, checking a shopping list for an item that was never added can quietly return zero instead of stopping the program.",
+      "example": {
+        "code": "ages = {\"ann\": 30}\nprint(ages.get(\"ann\", 0))\nprint(ages.get(\"bob\", -1))",
+        "output": "30\n-1"
+      },
       "hints": [
         "The question is really asking: which dict method lets you look up a key and get a safe fallback instead of a crash when the key is missing? Look at the blank right after the dot on the stock dict and think about what kind of action fits there.",
         "Think of asking a friend a question where you say, if you do not know, just say zero. That is exactly the shape of the method call here: it takes the key you want, plus a second value to use only when that key is not found. Look among the blocks for the one whose job is exactly to fetch a value while accepting a fallback.",
@@ -757,6 +841,10 @@
       ],
       "explain": "A set keeps one copy of each value and drops the duplicates.",
       "teach": "A set is a collection that only keeps one copy of each value, unlike a list which happily keeps duplicates. If you feed a list with repeated numbers into set(...), Python throws away the extra copies and keeps just the unique ones. This matters whenever you need to know what distinct values exist, like finding out which fruits were ordered without counting each order separately.",
+      "example": {
+        "code": "nums = [4, 4, 7, 7, 7]\nprint(set(nums))\nprint(len(set(nums)))",
+        "output": "{4, 7}\n2"
+      },
       "hints": [
         "The real question is: what happens to repeated numbers when you build a set out of them? Look at the list inside set([...]) and count how many different numbers actually appear, ignoring how many times each one shows up.",
         "Think of pouring a bag full of duplicate marbles into a jar that only keeps one marble of each color. No matter how many red marbles you pour in, the jar ends up with just one red marble. A set behaves the same way with the numbers you give it, so figure out which distinct numbers survive and in what kind of brackets a set is shown.",
@@ -787,6 +875,10 @@
       ],
       "explain": "& is set intersection: the values present in both.",
       "teach": "Sets can be compared to each other with special symbols borrowed from math. The & symbol between two sets means intersection, which gives you only the values that show up in both sets at the same time. For example, if one set has friends who like tea and another has friends who like coffee, the intersection tells you who likes both.",
+      "example": {
+        "code": "x = {\"red\", \"blue\"}\ny = {\"blue\", \"green\"}\nprint(x & y)",
+        "output": "{'blue'}"
+      },
       "hints": [
         "The question is really asking: which values appear in both set a and set b at once? Look at the two sets defined on the first two lines and find the numbers that show up in each of them.",
         "Imagine two overlapping circles in a Venn diagram, one for set a and one for set b. The & symbol only cares about the little lens-shaped area where the two circles overlap, ignoring anything that sits in just one circle. Go through each number in set a and check whether that same number also shows up in set b.",
@@ -822,6 +914,10 @@
       "accept": [],
       "explain": "Create the dict, add the key, then loop over items() unpacking each key and value.",
       "teach": "A dictionary holds pairs of key and value, like a little lookup table: `scores = {\"tom\": 5}` means the key \"tom\" points to the value 5. You can add a brand new pair later with `scores[\"amy\"] = 7`, using square brackets on an existing dictionary. When you want to visit every pair, `for key, value in scores.items():` hands you both parts together, one pair per loop turn, in the order they were added. Knowing this order, build then grow then walk, is what lets you read dictionary code correctly.",
+      "example": {
+        "code": "ages = {\"ann\": 30}\nages[\"bob\"] = 25\nfor name, age in ages.items():\n    if age < 28:\n        print(name)",
+        "output": "bob"
+      },
       "hints": [
         "This puzzle is really asking in what order you must build a dictionary, add to it, and then read through it. Look at the tray and ask which line could not run first because it needs something to already exist. What needs to exist before a new key can be added to it?",
         "Think of a dictionary like a shelf of labeled boxes: you must build the shelf before adding a new box, and you must have boxes before walking past each one to check its label. In code, the loop header line sits above the lines that use the two names it creates, and those must be indented under it. Find which tray line makes the dictionary, which one grows it, and which one starts the walk.",
@@ -853,6 +949,10 @@
       ],
       "explain": "A slice runs from the start index up to but not including the stop index.",
       "teach": "Python numbers the characters in a string starting at 0, so in the word Python, the letter P sits at index 0, y at index 1, and so on. A slice written as `s[a:b]` grabs the characters starting at index a and stops right before index b, so it never includes the character at index b itself. For example, `s[0:2]` takes the characters at index 0 and 1 only. This start included, stop excluded rule is why slices are so predictable once you get used to counting from 0.",
+      "example": {
+        "code": "s = \"garden\"\nprint(s[0:3])\nprint(s[2:4])",
+        "output": "gar\nrd"
+      },
       "hints": [
         "This question is about reading a slice with two numbers in it. Look at the two index numbers in the brackets and ask which index the slice starts at and which index it stops before, never including that one. Can you count out the letters of Python by their index position?",
         "Imagine numbering each letter of Python like fence posts: P is 0, y is 1, t is 2, h is 3, o is 4, n is 5. A slice from index 1 to index 3 walks from post 1 up to, but not touching, post 3, collecting exactly two letters. Count which two letters sit at those two positions and in what order.",
@@ -884,6 +984,10 @@
       ],
       "explain": "A step of -1 walks the sequence backwards, which reverses it.",
       "teach": "A slice can include a third number called the step, written as `s[start:stop:step]`, telling Python how many positions to jump each time. A step of 2 in `s[::2]` skips every other character, and a negative step tells Python to move backwards through the string instead of forwards. Leaving start and stop empty, like `s[::-1]`, means use the whole string but walk it in that stepping direction. This is handy because strings have no built-in reverse method of their own.",
+      "example": {
+        "code": "s = \"stop\"\nprint(s[::-1])",
+        "output": "pots"
+      },
       "hints": [
         "This question is about what a negative step does to the direction Python reads a sequence. Look at the three parts inside the brackets, especially the very last number, and ask which way through the string a step of minus one would move. Does it go from the front toward the back, or the back toward the front?",
         "Picture reading a row of lockers left to right normally, then imagine reading them right to left instead, one at a time, skipping none. A step of positive one reads forward one character at a time, so a step of negative one reads backward, starting from the last letter. With start and stop both blank, the slice covers every letter in that backward direction.",
@@ -932,6 +1036,10 @@
       "accept": [],
       "explain": "[:2] means from the start up to index 2, which is the first two items.",
       "teach": "A list keeps its items in order, and each one has a position starting at 0, so in `nums = [10, 20, 30, 40]`, 10 is at position 0 and 20 is at position 1. When you write a slice and leave out the number before the colon, Python assumes you mean the very start of the list, position 0. So a slice like `nums[:n]` always means from the beginning up through, but not including, position n. This shortcut is handy whenever you want the first few items without typing the starting position every time.",
+      "example": {
+        "code": "letters = [\"a\", \"b\", \"c\", \"d\"]\nprint(letters[:3])\nprint(letters[2:])",
+        "output": "['a', 'b', 'c']\n['c', 'd']"
+      },
       "hints": [
         "This question asks you to grab only the first two items of the list, no more and no less. Look at the four bracket options and think about what happens when the number before the colon is missing versus present. Which one starts counting from the very beginning of the list automatically?",
         "Think of a slice with a blank before the colon like saying from the very start without needing to say the word start out loud. If you wanted the first two people in a queue, you would just say the first two, not starting from position zero. Look for the option whose blank-before-colon shape naturally means starting from position zero up to, but not including, position two.",
@@ -963,6 +1071,10 @@
       ],
       "explain": "join puts the separator between the items of the list.",
       "teach": "A string method is an action you call on a string using a dot, like `\"hi\".upper()`. The `join` method is a bit unusual because you call it on the separator string, and you hand it a list of strings to glue together. Calling join with a separator on a list of words places that separator between each pair of neighboring words, but not before the first or after the last. This matters because it is the clean, fast way to turn a list of strings into one combined string.",
+      "example": {
+        "code": "parts = [\"2024\", \"01\", \"15\"]\nprint(\"/\".join(parts))\nprint(\" \".join([\"hi\", \"there\"]))",
+        "output": "2024/01/15\nhi there"
+      },
       "hints": [
         "This question is about how the join method combines items from a list into one string. Look at which piece of text join is being called on, and think about where that text ends up placed in the result. Does it appear only between items, or also at the very start and very end?",
         "Picture three friends holding hands in a line: the separator is like a handshake placed between each pair of neighbors, never before the first friend or after the last one. Joining three letters with a dash between them produces two dashes total, one for each gap between neighbors, not three. Count how many gaps exist between the items in the list and match that to how many separators should appear.",
@@ -995,6 +1107,10 @@
       ],
       "explain": "int() truncates toward zero; it does not round.",
       "teach": "Converting a value from one type to another is called type conversion, and `int()` is one common way to do it, turning a number into a whole number. When you give `int()` a decimal number, it does not round to the nearest whole number, it simply chops off everything after the decimal point. So `int()` moves toward zero, dropping the fractional part entirely rather than asking whether that part is closer to the next number up or down. This distinction matters because rounding and truncating often give different answers, especially near the middle.",
+      "example": {
+        "code": "print(int(7.99))\nprint(int(-2.5))\nprint(round(7.99))",
+        "output": "7\n-2\n8"
+      },
       "hints": [
         "This question is testing whether int rounds a decimal number or just cuts off the decimal part. Look at the number inside the parentheses and ask what is left if you simply remove everything after the decimal point, without checking how close it is to the next whole number. What whole number sits right before that decimal value?",
         "Think about trimming a piece of string at a mark: cutting off everything past that point keeps only what was already there, it does not stretch out to the next mark. In the same way, int keeps only the whole number part sitting to the left of the decimal point, ignoring how close the fraction was to rounding up. Decide what whole number comes just before the given decimal value.",
@@ -1038,6 +1154,10 @@
       "accept": [],
       "explain": "split() with no argument splits on any run of whitespace and returns a list of the words.",
       "teach": "Strings have built-in methods, which are actions you call with a dot after the string, like name.upper(). One handy string method breaks a sentence apart wherever there is blank space and hands you back a list of the separate pieces. For example, splitting the text cat dog bird with no separator given produces a list of three separate word strings. This matters because programs often need to work with one word at a time instead of one long chunk of text.",
+      "example": {
+        "code": "line = \"red,green,blue\"\ncolors = line.split(\",\")\nprint(colors)",
+        "output": "['red', 'green', 'blue']"
+      },
       "hints": [
         "The question wants you to turn one long string into several separate words stored in a list. What single action takes a whole sentence and chops it apart at each blank space? Look at the tray and think about which piece names that chopping action.",
         "Picture a strip of paper with words written on it, torn apart at every gap between words, so you end up with separate slips, one per word. That tearing action is different from gluing the slips back into one strip, which is the opposite job. Look for a block whose name means breaking a string apart, and pair it with the dot that lets you call it on your text variable.",
@@ -1098,6 +1218,10 @@
       ],
       "explain": "Square brackets make a list. symbols[0] is the first item because Python indexes from zero. symbols[1] would be MGC.",
       "teach": "A list stores several values in one variable, in order. The items are separated by commas and sit inside a matching pair of brackets, as the example shows. To fetch one, you write its position in brackets right after the variable name. Careful: Python counts positions from a different starting number than everyday life. In the example, green is the second item, yet its position is 1.\n\nExample:\ncolors = [\"red\", \"green\", \"blue\"]\nprint(colors[1])\nprints green",
+      "example": {
+        "code": "pets = [\"cat\", \"dog\", \"fish\"]\nprint(pets[1])",
+        "output": "dog"
+      },
       "hints": [
         "Look at the template. The first two gaps surround the three items, and the third gap sits inside the brackets after the variable name. Python has several kinds of brackets and each has its own job, so think about which pair marks a list.",
         "Round brackets usually wrap function calls or make a tuple, which is a different type, so they are not the list marker. The opening gap needs an opening bracket and the closing gap a closing one, so check each option's direction. For the position, remember that the lesson put the second item at position one.",
@@ -1145,6 +1269,10 @@
       ],
       "explain": "A dict has no positions, only keys. trade[\"symbol\"] asks for the value stored under the string key.",
       "teach": "A dictionary stores pairs, each one a key and its value, a bit like a real dictionary maps a word to its meaning. You write it with curly braces and colons, for example {\"name\": \"Ola\"}. To fetch a value, put the key in square brackets right after the dictionary's name. A key that is text keeps its quotes, because a bare word without quotes would be read as a variable name instead. Dictionaries have no positions, so you never ask for the first or second item.\n\nExample:\nperson = {\"name\": \"Ola\", \"age\": 30}\nprint(person[\"age\"])\nprints 30",
+      "example": {
+        "code": "person = {\"name\": \"Sam\", \"age\": 9}\nprint(person[\"age\"])",
+        "output": "9"
+      },
       "hints": [
         "You want the value MNQ out of the dictionary called trade. A dictionary does not number its items the way a list does. Every value sits behind a label called a key, and you ask for the value by putting that label inside the square brackets.",
         "Look at the first line and read each pair as label, colon, value. Find the pair whose value is MNQ and notice what stands on the left of its colon. That left side is the key you must give, so notice also exactly how it is written there, because the lookup has to match it.",
@@ -1205,6 +1333,10 @@
       ],
       "explain": "(1, 2) cannot be changed after creation. {\"a\",\"b\",\"a\"} keeps one \"a\", so len is 2.",
       "teach": "A tuple is like a list that has been frozen: once you make it you cannot add, remove or change items, which suits fixed groups such as a coordinate pair. A set is a bag of unique items: put the same value in twice and only one copy is kept, and order does not matter. len() counts the items in any collection. Python tells the kinds apart by the brackets around the items, and a list uses square ones.\n\nExample:\nnums = [5, 5, 7]\nprint(len(nums))\nprints 3",
+      "example": {
+        "code": "size = (3, 4)\nletters = {\"x\", \"y\", \"x\"}\nprint(size[0])\nprint(len(letters))",
+        "output": "3\n2"
+      },
       "hints": [
         "Two different collections are being made here. The output is 2 even though three strings are listed, so one of them must throw away repeats. Decide which of tuple and set does that, and which one is the frozen pair of numbers.",
         "Two of the six options are square brackets, and a square pair makes a list, which is neither collection asked for here, so you can ignore those. Of the rest, one opening and closing pair belongs to the tuple and the other opening and closing pair belongs to the set.",
@@ -1238,6 +1370,10 @@
       ],
       "explain": ".append() adds to the end. Appending 100 then 105 gives [100, 105].",
       "teach": "A list is an ordered collection written with square brackets, and [] on its own is an empty one. Calling mylist.append(x) adds x at the end. Python runs lines from top to bottom, so a name must be created before any later line uses it, otherwise you get a NameError. The order of your appends is the order of the items you get back.\n\nExample:\nnames = []\nnames.append(\"a\")\nnames.append(\"b\")\nprint(names)\nprints ['a', 'b']",
+      "example": {
+        "code": "names = []\nnames.append(\"Ann\")\nnames.append(\"Bob\")\nprint(names)",
+        "output": "['Ann', 'Bob']"
+      },
       "hints": [
         "Python reads your program from the top down, one line after another, and it can only use a name after that name has been created. Look at the four lines and ask which one makes something that the other three all depend on.",
         "Once the list exists, the two append lines fill it. The output [100, 105] tells you which value was added first, because append always puts a new item at the end. Then ask where the printing line belongs: before or after the list has been filled?",
@@ -1285,6 +1421,10 @@
       ],
       "explain": ".items() yields (key, value) pairs. This loop is how you inspect any API response.",
       "teach": "A for loop repeats its indented body once per item. When each item is a pair, you can give the loop two names and Python splits the pair across them, as in the example. A dictionary can hand over its contents through methods, which are functions attached to it and called with a dot and round brackets. Different methods give different shapes: only the labels, only the values, or each label together with its value.\n\nExample:\npairs = [(\"a\", 1), (\"b\", 2)]\nfor letter, number in pairs:\n    print(letter, number)\nprints a 1\nb 2",
+      "example": {
+        "code": "person = {\"name\": \"Sam\", \"age\": 9}\nfor k, v in person.items():\n    print(f\"{k}: {v}\")",
+        "output": "name: Sam\nage: 9"
+      },
       "hints": [
         "The loop line names two variables, key and value, so every round of the loop must hand Python a pair rather than a single thing. Think about which of the four method names would give back each key together with its value in one go.",
         "One of the four names is made up and does not exist on dictionaries at all. Another gives back only the keys and another gives back only the values, so a loop with two variable names would crash on those. That leaves one name worth choosing.",

@@ -54,6 +54,13 @@ data class Question(
      * the answer.
      */
     val teach: String? = null,
+    /**
+     * A small runnable program that shows the same syntax as the question with
+     * different names and values, plus its exact output. Shown under [teach]
+     * before the check, like a worked example next to a textbook exercise.
+     * Optional; most later-tier questions do not carry one.
+     */
+    val example: Example? = null,
     /** Pytor's progressive hints, mildest first. Never contain the answer. */
     val hints: List<String> = emptyList(),
     /** Pytor's expert note after the check: the mechanism, the idiom, the trap. */
@@ -106,6 +113,17 @@ data class Question(
         val GAP = Regex("""\{(\d+)\}""")
     }
 }
+
+/**
+ * A worked example: [code] is plain Python and [output] is exactly what it
+ * prints. The validator runs every example and refuses one whose real output
+ * differs, so the screen never shows a result Python would not produce.
+ */
+@Serializable
+data class Example(
+    val code: String,
+    val output: String = "",
+)
 
 @Serializable
 enum class QuestionType {

@@ -147,7 +147,13 @@ alternative orderings that are also correct. `teach` is Pytor's mini-lesson on
 the concept, shown before any hint. `hints` are exactly three, progressive and
 a paragraph each: restate the question, walk the reasoning with a parallel
 example, narrow it down without saying it. `deep` is Pytor's note after the
-check: the mechanism, the idiom, the trap. Output options whose only difference
+check: the mechanism, the idiom, the trap. `example` is optional,
+`{"code": "...", "output": "..."}`: a small runnable program that shows the
+same syntax with different names and values, rendered under the lesson as a
+"Worked example" before the check. The validator runs every example with
+`python3 -I` (5 s timeout), requires its stdout to equal `output`, and refuses
+one whose code is the question's own solved template; every tier 1-4 question
+carries one except three tooling questions. Output options whose only difference
 is spacing must be quoted (`'a b'`, `'a b '`); the app then draws each space as
 a middle dot so they can be told apart on a phone.
 

@@ -1,7 +1,9 @@
 package no.mwmai.pyquest.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -23,9 +25,13 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import no.mwmai.pyquest.model.Example
 import no.mwmai.pyquest.model.Question
+import no.mwmai.pyquest.ui.theme.CodeStyle
 import no.mwmai.pyquest.ui.theme.Pal
 
 /**
@@ -105,6 +111,14 @@ private fun HintList(question: Question, session: QuizSession) {
         }
         Spacer(Modifier.height(14.dp))
     }
+    question.example?.let { example ->
+        if (example.code.isNotBlank()) {
+            SectionLabel("WORKED EXAMPLE")
+            Spacer(Modifier.height(6.dp))
+            WorkedExample(example)
+            Spacer(Modifier.height(14.dp))
+        }
+    }
     if (shown == 0) {
         Text(
             if (teach.isNullOrBlank()) {
@@ -152,6 +166,68 @@ private fun HintList(question: Question, session: QuizSession) {
             style = MaterialTheme.typography.bodySmall,
             color = Pal.Faint,
         )
+    }
+}
+
+/**
+ * Code on top, a dashed rule, then what it prints. Same dark panel as the
+ * question's own snippet so it reads as code, not prose. Each half scrolls
+ * sideways on its own; a shared scroll would give the rule no width to draw.
+ */
+@Composable
+private fun WorkedExample(example: Example) {
+    val rule = Pal.CodeFg.copy(alpha = 0.35f)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Pal.CodeBg, RoundedCornerShape(12.dp))
+            .padding(vertical = 14.dp),
+    ) {
+        Text(
+            example.code,
+            style = CodeStyle,
+            color = Pal.CodeFg,
+            softWrap = false,
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .padding(horizontal = 14.dp),
+        )
+        if (example.output.isNotBlank()) {
+            Spacer(Modifier.height(12.dp))
+            Canvas(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 14.dp)
+                    .height(1.dp),
+            ) {
+                drawLine(
+                    color = rule,
+                    start = Offset(0f, size.height / 2f),
+                    end = Offset(size.width, size.height / 2f),
+                    strokeWidth = 1.dp.toPx(),
+                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(6.dp.toPx(), 4.dp.toPx()), 0f),
+                )
+            }
+            Spacer(Modifier.height(8.dp))
+            Text(
+                "output",
+                style = MaterialTheme.typography.labelSmall,
+                color = Pal.CodeFg.copy(alpha = 0.7f),
+                modifier = Modifier.padding(horizontal = 14.dp),
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                example.output,
+                style = CodeStyle,
+                color = Pal.CodeFg,
+                softWrap = false,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                    .padding(horizontal = 14.dp),
+            )
+        }
     }
 }
 

@@ -13,7 +13,9 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
+import tempfile
 from collections import Counter
 from pathlib import Path
 
@@ -33,6 +35,11 @@ MIN_HINTS = 3
 MAX_HINTS = 3
 MIN_TEACH_CHARS = 150
 MIN_DEEP_CHARS = 60
+# A worked example is run for real: the output on screen is what Python prints,
+# not what the author remembered it printing. -I keeps the run isolated from
+# the environment and the working directory, and the timeout catches a loop.
+EXAMPLE_TIMEOUT_S = 5
+EXAMPLE_FORBIDDEN = ("input(",)
 
 
 class CurriculumError(Exception):
@@ -107,6 +114,9 @@ def check_question(question: dict, tier_number: int, seen_ids: set[str]) -> list
         problems.append(f"{qid}: answer must be a non-empty list")
         return problems
 
+    if "example" in question:
+        problems.extend(check_example(qid, question, answer))
+
     # A hint that quotes the whole answer is the answer. Check the plain string
     # forms; block ids in the typed formats are opaque so they cannot leak.
     if isinstance(hints, list) and qtype in {"mcq", "blocks", "order"}:
@@ -177,6 +187,96 @@ def check_question(question: dict, tier_number: int, seen_ids: set[str]) -> list
         if question.get("options"):
             problems.append(f"{qid}: {qtype} must not carry options")
 
+    return problems
+
+
+def squash(text: str) -> str:
+    return WHITESPACE.sub("", text)
+
+
+def solved_forms(question: dict, answer: list[str]) -> list[str]:
+    """The question's own solution written out as code, in every shape it can take.
+
+    A worked example that is this code is the answer with a different label on
+    it. fill fills the template with the answer blocks; blocks and order join
+    the answer pieces.
+    """
+    qtype = question.get("type")
+    pieces = [str(a) for a in answer]
+    if qtype == "fill" and question.get("template"):
+        by_id = {str(b.get("id")): str(b.get("code", "")) for b in question.get("blocks") or []}
+        codes = [by_id.get(a, a) for a in pieces]
+        solved = GAP.sub(
+            lambda m: codes[int(m.group(1))] if int(m.group(1)) < len(codes) else m.group(0),
+            str(question["template"]),
+        )
+        return [solved]
+    if qtype in {"blocks", "order"}:
+        return ["\n".join(pieces), " ".join(pieces), "".join(pieces)]
+    return []
+
+
+def run_example(code: str) -> tuple[str | None, str]:
+    """Runs one example; returns (stdout, error). stdout is None when it failed."""
+    with tempfile.TemporaryDirectory() as workdir:
+        try:
+            result = subprocess.run(
+                ["python3", "-I", "-c", code],
+                capture_output=True,
+                text=True,
+                timeout=EXAMPLE_TIMEOUT_S,
+                cwd=workdir,
+                stdin=subprocess.DEVNULL,
+            )
+        except subprocess.TimeoutExpired:
+            return None, f"timed out after {EXAMPLE_TIMEOUT_S}s"
+    if result.returncode != 0:
+        last = (result.stderr.strip().splitlines() or ["no stderr"])[-1]
+        return None, f"exited {result.returncode}: {last}"
+    return result.stdout, ""
+
+
+def check_example(qid: str, question: dict, answer: list[str]) -> list[str]:
+    """The worked example: well formed, not the answer, and its output is real."""
+    example = question.get("example")
+    if not isinstance(example, dict):
+        return [f"{qid}: example must be an object with code and output"]
+    code, output = example.get("code"), example.get("output")
+    problems: list[str] = []
+    if not isinstance(code, str) or not code.strip():
+        problems.append(f"{qid}: example.code must be a non-empty string")
+    if not isinstance(output, str) or not output.strip():
+        problems.append(f"{qid}: example.output must be a non-empty string")
+    unknown = set(example) - {"code", "output"}
+    if unknown:
+        problems.append(f"{qid}: example has unknown keys {sorted(unknown)}")
+    if problems:
+        return problems
+
+    for forbidden in EXAMPLE_FORBIDDEN:
+        if forbidden in code:
+            problems.append(f"{qid}: example uses {forbidden}, which would hang the check")
+            return problems
+
+    flat = squash(code)
+    for solved in solved_forms(question, answer):
+        target = squash(solved)
+        if not target:
+            continue
+        if flat == target or (len(target) > 20 and target in flat):
+            problems.append(
+                f"{qid}: example code is the question's own solved code. "
+                "Teach the same syntax with different names and values."
+            )
+            break
+
+    stdout, error = run_example(code)
+    if stdout is None:
+        problems.append(f"{qid}: example does not run: {error}")
+    elif stdout.rstrip() != output.rstrip():
+        problems.append(
+            f"{qid}: example output is {output.rstrip()!r} but Python prints {stdout.rstrip()!r}"
+        )
     return problems
 
 

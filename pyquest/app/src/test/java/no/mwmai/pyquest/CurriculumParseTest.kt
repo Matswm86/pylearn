@@ -52,6 +52,19 @@ class CurriculumParseTest {
     }
 
     @Test
+    fun `worked examples decode with code and output`() {
+        val withExample = curriculumFiles().flatMap { file ->
+            json.decodeFromString(Tier.serializer(), file.readText()).questions
+        }.filter { it.example != null }
+        assertTrue("no question carries a worked example", withExample.isNotEmpty())
+        withExample.forEach { question ->
+            val example = question.example!!
+            assertTrue("${question.id} has a blank example", example.code.isNotBlank())
+            assertTrue("${question.id} has an example without output", example.output.isNotBlank())
+        }
+    }
+
+    @Test
     fun `typed questions resolve every block they name`() {
         curriculumFiles().forEach { file ->
             val tier = json.decodeFromString(Tier.serializer(), file.readText())
