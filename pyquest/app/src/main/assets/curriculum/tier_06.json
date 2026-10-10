@@ -59,6 +59,10 @@
       ],
       "explain": "4xx codes are client-side problems; 404 specifically says the path or id does not exist.",
       "teach": "Web servers reply to every request with a status code, a short number that sums up what happened. Codes starting with 2 mean success, codes starting with 5 mean something broke on the server, and codes starting with 4 mean the request itself was the problem, like asking for something that isn't allowed or doesn't exist. Learning to recognize these numbers as families, rather than memorizing every one, makes error messages far less confusing.",
+      "example": {
+        "code": "from http import HTTPStatus\n\nfor code in (301, 403, 503):\n    print(code, HTTPStatus(code).phrase)",
+        "output": "301 Moved Permanently\n403 Forbidden\n503 Service Unavailable"
+      },
       "hints": [
         "The question wants you to know what this family of status code is complaining about. Is it saying something about the address you asked for, about who you are, or about the server breaking? Look at the four descriptions and pick the one that matches a code about the request's target, not the server's health.",
         "Imagine mailing a letter to an address that doesn't exist, versus mailing it to a house you aren't allowed inside, versus a postal service that is simply overwhelmed that day. Each situation gets reported differently. Match the code in the question to one of these situations by thinking about what specifically is missing or wrong.",
@@ -107,6 +111,10 @@
       "accept": [],
       "explain": "raise_for_status raises HTTPStatusError for any 4xx or 5xx, so the code below only runs on success.",
       "teach": "When you make a network request, the reply carries a status code hidden inside the response object, not just the data you wanted. If that code means failure, quietly moving on to read the data anyway can leave you working with an error page instead of real information. Good code checks for failure right away and stops there, using an exception, instead of writing your own if-statement every time. That habit saves you from confusing bugs several functions later.",
+      "example": {
+        "code": "def ensure_ok(code):\n    if code >= 400:\n        raise RuntimeError(f\"request failed: {code}\")\n\nfor code in (200, 503):\n    try:\n        ensure_ok(code)   # raises, so the next line only runs on success\n        print(code, \"safe to read the body\")\n    except RuntimeError as err:\n        print(err)",
+        "output": "200 safe to read the body\nrequest failed: 503"
+      },
       "hints": [
         "The gap needs to make a failed request stop the program right away instead of quietly continuing. Look at what happens after the gap: the code trusts the reply enough to turn it into data, so something before that must guarantee the reply was actually good. What action stops everything the moment it sees failure?",
         "Picture a bouncer checking ID at a club door: if you're underage, they stop you there, rather than letting you inside and finding out later. A response object can work the same way, refusing to let the program continue when its status means trouble. Look for the block that behaves like that bouncer, not one that only hands you a value to inspect yourself.",
@@ -138,6 +146,10 @@
       ],
       "explain": "Bearer tokens go in the Authorization header, which keeps them out of the URL, so they do not land in access logs and browser history by default.",
       "teach": "Every HTTP request carries two kinds of information: the main content you're sending, called the body, and small pieces of metadata about the request itself, called headers. Headers tell the server things like what format your data is in or who is making the request. Where you place a piece of information matters for security, because some parts of a request, like the URL, get saved in server logs and browser history, while others do not.",
+      "example": {
+        "code": "def send(url, headers):\n    print(\"GET\", url)\n    for name, value in headers.items():\n        print(name + \":\", value)   # one \"Name: value\" line per header\n\nsend(\"https://api.example.com/data\", headers={\"X-Api-Key\": \"demo-123\"})",
+        "output": "GET https://api.example.com/data\nX-Api-Key: demo-123"
+      },
       "hints": [
         "This question asks where a secret key should live when your code makes a request, and which part of a request stays private. Think about what happens to different pieces of a request: some get written into logs and history, others don't. Look at the four options and ask which one keeps the key out of places that get saved.",
         "Think of sending a letter: the address on the envelope is seen by everyone who handles it, but a note sealed inside is read only by the person you sent it to. A URL behaves like that visible address, printed into logs for anyone to see later. Look for the option treating the key as a private instruction attached to the request, not part of the address or main content.",
@@ -170,6 +182,10 @@
       ],
       "explain": "params becomes the URL query string, properly encoded, which is how GET requests carry filters.",
       "teach": "A URL can carry extra information after a question mark, called a query string, like example.com/search?q=cats&limit=5. Each piece is a key and a value joined by an equals sign, with pairs separated by ampersands. Spaces and special characters need encoding to keep the URL valid, which is fiddly by hand. Many HTTP libraries let you hand over a plain dictionary and they build this part of the URL for you.",
+      "example": {
+        "code": "from urllib.parse import urlencode\n\nquery = urlencode({\"tag\": \"news\", \"page\": 2})\nprint(\"https://example.com/list?\" + query)",
+        "output": "https://example.com/list?tag=news&page=2"
+      },
       "hints": [
         "The question asks what effect a certain keyword argument has when making a GET request with a dictionary. Think about the shape of the resulting URL: when you add filters like a search term and a limit, where do those filters usually end up living in the request?",
         "Think of a drive-through order slip: instead of writing a custom sign for every order, you fill boxes for item, size, and extras, and someone assembles the sign correctly, spaces and all. In HTTP, that slip is a dictionary of key-value pairs, and the assembled sign becomes part of the URL. Find the option describing exactly that, becoming part of the visible URL, not the body or headers.",
@@ -237,6 +253,10 @@
       ],
       "explain": "The decorator tells the app which method and path route to this function, and FastAPI parses the path parameter into the typed argument.",
       "teach": "A decorator is a line starting with @ that sits right above a function and changes how that function gets used, without touching its own code. In a web framework, decorators are used to connect a web address and an HTTP verb like GET or POST to the function that should run when a visitor hits that address. For example, `@app.get(\"/users\")` above `def list_users():` tells the app: when someone visits /users with a GET request, call list_users. This matters because it is how a plain Python function becomes a real web endpoint that phones and browsers can talk to.",
+      "example": {
+        "code": "routes = {}   # the route table\n\ndef get(path):\n    return lambda func: routes.setdefault(path, func)\n\n@get(\"/ping\")\ndef ping():\n    return \"pong\"\n\nprint(routes[\"/ping\"]())",
+        "output": "pong"
+      },
       "hints": [
         "The question asks what job this specific line above the function is doing. Look at the two pieces: the word right after `@app.` and the path text in quotes. What kind of thing usually sits on top of a function like this, and what does a path with curly braces usually mean?",
         "Think of a sign hanging above one counter in a shop, telling customers which counter handles which kind of order, so an order for soup gets sent to the soup counter automatically. In the same way, this line hangs above the function and tells the app which request type and address should be sent there. Look among the options for the one about matching a request and address to a function, not about speed or databases.",
@@ -285,6 +305,10 @@
       "accept": [],
       "explain": "Typing the parameter as the pydantic model makes FastAPI parse and validate the JSON body into it.",
       "teach": "A pydantic model is a class you write by inheriting from BaseModel, where each line names a field and its type, like `name: str` inside `class Cat(BaseModel): name: str`. Using that class as a parameter's type hint lets a framework take incoming JSON, check every field against the model, and hand back a real object instead of a raw dictionary. A parameter written as `pet: Cat` tells the framework to build and validate a Cat object from the request body. This matters because it turns untrusted JSON into checked, typed data your code can trust.",
+      "example": {
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass Pen:   # the class lists the fields a pen must have\n    color: str\n    price: float\n\nbody = {\"color\": \"red\", \"price\": 1.5}   # what a client sent\npen = Pen(**body)\nprint(pen.color, pen.price)",
+        "output": "red 1.5"
+      },
       "hints": [
         "The question wants a parameter type hint that makes the incoming JSON body get checked against the model class defined above, before your function runs. Look at the class defined at the top of the code: what is its name, and what would you write after the colon in `item: ____` to point at that exact class?",
         "Picture a bouncer at a door holding a checklist with a name written on it, and only someone matching that exact checklist gets let in. Writing a parameter as `pet: Cat` is like handing the bouncer the Cat checklist, so anyone claiming to be a pet gets checked against it. Look among the blocks for the one naming the model class already defined above the function, rather than a plain built-in type or a bare collection.",
@@ -316,6 +340,10 @@
       ],
       "explain": "Required fields missing from the body fail validation before the handler runs, and the client gets a structured 422.",
       "teach": "Before your endpoint function ever runs, a framework like FastAPI checks incoming data against the model you declared, comparing every field's presence and type. If something required is missing, it stops right there and sends back a response describing exactly what was wrong, without ever calling your function. This differs from a plain crash: a crash is an unexpected server failure, while a validation failure is the server correctly telling the client their request has a problem. This matters because you fix the request, not your server code.",
+      "example": {
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass Pen:\n    color: str\n    price: float\n\ntry:\n    Pen(color=\"red\")\nexcept TypeError as err:\n    print(err)",
+        "output": "Pen.__init__() missing 1 required positional argument: 'price'"
+      },
       "hints": [
         "The question is really asking what happens when required data is missing from a request body, before your function code even runs. Think about who catches this problem: is it your function itself, or something that runs earlier and checks the data automatically? Look at the four options and decide which one describes an automatic check happening before the handler executes.",
         "Imagine mailing a form missing a required signature: the post office bounces it straight back to you with a note about what is missing, rather than passing it on. In the same way, a missing required field gets bounced back before your function is ever called. Look for the option describing the server sending back a clear complaint about the missing field, rather than the function quietly running anyway.",
@@ -378,6 +406,10 @@
       ],
       "explain": "The response model defines the public shape: anything not in it is stripped before the JSON leaves the server.",
       "teach": "When your code loads something like a user from a database, that object often carries extra internal details, such as a hashed password, never meant for public eyes. A response model is a separate class describing exactly what the outside world is allowed to see, listing only the public fields. When an endpoint uses that model for its output, the framework converts your internal object into that shape, dropping everything else. This matters because it separates what your code needs internally from what is safe to hand a stranger, preventing accidental leaks.",
+      "example": {
+        "code": "book = {\"title\": \"Dune\", \"pages\": 412, \"internal_note\": \"restock soon\"}\npublic = [\"title\", \"pages\"]\nprint({key: book[key] for key in public})   # internal_note never leaves",
+        "output": "{'title': 'Dune', 'pages': 412}"
+      },
       "hints": [
         "The question asks why you would bother telling an endpoint to shape its output using a separate model, instead of just returning whatever object you already have. Think about the difference between the data your code needs internally and the data that is safe to hand to whoever calls your API. Look at the options and ask which one is about protecting or shaping outgoing data, rather than about speed or requirements.",
         "Imagine a company handing a visitor a report: someone first removes the pages marked confidential, even though the original folder had them inside. A response model does the same job for your API's output, listing only the fields allowed out and leaving the rest behind. Look for the option describing this kind of filtering of outgoing fields, rather than one about performance or being a mandatory rule.",
@@ -415,6 +447,10 @@
       "accept": [],
       "explain": "Import, create the app, decorate the handler, define it, return JSON.",
       "teach": "Python reads a file from top to bottom, so anything you use, like a class or function from a library, has to be imported before the line that uses it. A decorator like the ones used for routing always sits directly above the function it modifies, never after it or far away from it. A function's own heading always comes right before the indented lines of code that belong to it. Keeping this reading order in mind is how a jumble of separate lines becomes a program that actually runs without errors.",
+      "example": {
+        "code": "from functools import lru_cache   # import first\n\n@lru_cache   # the decorator sits directly above the def\ndef square(n):\n    return n * n   # the body is indented\n\nprint(square(4))",
+        "output": "16"
+      },
       "hints": [
         "The question asks you to rebuild a tiny working app by putting five separate lines back into an order Python can actually run. Think about which lines depend on something existing before they can make sense, like a name that has to be created before it gets used. Look at each line and ask whether it uses a name, and if so, whether that name has been created yet at that point.",
         "Think about setting up a small shop: you cannot hang a sign on a counter before the counter is built, and you cannot describe what happens there before saying which counter you mean. One line here brings in the tool needed to build an app, another builds the app and names it, and only then can anything attach to it. Look for the single line that must come first, and the two lines that clearly belong glued together.",
@@ -445,6 +481,10 @@
       ],
       "explain": "async lets one thread make progress on other tasks while a request is in flight. It does nothing for CPU-bound work.",
       "teach": "Some tasks make your program wait: asking a website for data, reading a file from disk, waiting for a database to answer. During that wait, your program's brain, the CPU, sits idle doing nothing useful. Async lets you use that idle time: while one task waits, the program can start working on another task instead of standing still. This only helps when the slow part is waiting, not when the slow part is heavy calculation that keeps the CPU busy the whole time.",
+      "example": {
+        "code": "import asyncio, time\n\nasync def main():\n    start = time.perf_counter()\n    waits = [asyncio.sleep(0.2) for _ in range(3)]\n    await asyncio.gather(*waits)\n    print(time.perf_counter() - start < 0.5)   # three 0.2 s waits overlapped\n\nasyncio.run(main())",
+        "output": "True"
+      },
       "hints": [
         "The question is asking you to notice what kind of slowness async actually fixes. Look at the choices and ask yourself: is the slow part your CPU crunching numbers, or is it your program sitting around waiting for something outside itself to answer? Which situation matches that second kind of slowness?",
         "Think of a cook who puts a pot of water on to boil, then does not just stand there watching it. While the water heats, the cook chops vegetables and comes back once it boils, because boiling is a waiting task, not a doing task. Look for the option describing a program that spends its time waiting rather than one doing constant heavy work.",
@@ -476,6 +516,10 @@
       ],
       "explain": "A blocking call inside a coroutine freezes every other task until it returns. The async version yields to the loop.",
       "teach": "An async function is written so it can pause and let other tasks run while it waits, but only if it pauses in a way the event loop understands. Some calls block instead: they freeze the whole program until they finish, like a single-lane bridge where one stopped car stops all the traffic behind it. Put a blocking call inside an async function and none of that cooperation happens, because the whole thread is stuck until that one call returns. Knowing which calls are blocking and which are pause-friendly is the key to async code that behaves as expected.",
+      "example": {
+        "code": "import asyncio, time\n\nasync def block():\n    time.sleep(0.1)\n\nasync def main():\n    start = time.perf_counter()\n    await asyncio.gather(block(), block())\n    print(time.perf_counter() - start >= 0.2)   # they ran one after the other\n\nasyncio.run(main())",
+        "output": "True"
+      },
       "hints": [
         "The question is asking you to spot what breaks the cooperative pausing that async code relies on. Look at the line inside the function and ask yourself: does it let other tasks run while it waits, or does it just freeze everything in place? What kind of pause is actually being used there?",
         "Imagine one cashier serving a whole line of customers. If the cashier steps away for a break without handing off the till, the entire line stops, but if they hand it to a colleague first, other customers keep moving. Look for what needs to change about that one line so the pause becomes the kind that lets others through instead of freezing the queue.",
@@ -524,6 +568,10 @@
       "accept": [],
       "explain": "gather schedules all the coroutines at once and waits for all of them, returning results in order.",
       "teach": "When you await one coroutine and then await another right after it, they run one after another, each waiting for the last to finish even if both are only waiting on a network reply. To run several waiting-tasks at the same time, you need something that starts them all together and then waits for the whole group to finish. Picture starting three washing machines at once instead of running one, waiting for it, then starting the next. That turns wasted waiting time into overlapping waiting time, so the total time is closer to the slowest single task than to the sum of all of them.",
+      "example": {
+        "code": "import asyncio\n\nasync def square(n):\n    await asyncio.sleep(0.1)\n    return n * n\n\nasync def main():\n    print(await asyncio.gather(square(2), square(3)))\n\nasyncio.run(main())",
+        "output": "[4, 9]"
+      },
       "hints": [
         "The question is really asking which tool lets three separate waiting-tasks start together instead of one after another. Look at the gap in the code and ask yourself: which of the blocks is built to take several coroutines at once and hand back all their results as a group?",
         "Picture three friends each making a phone call. Telling them to call one at a time, waiting for each call to end before the next dials, is sequential; telling all three to dial at once and waiting until every call ends is concurrent and much faster overall. Look among the options for the one whose whole job is taking multiple coroutines and running them together.",
@@ -555,6 +603,10 @@
       ],
       "explain": "Calling an async function only builds a coroutine. It runs when awaited or scheduled as a task.",
       "teach": "Calling a normal function runs its code right away and gives you back the result. An async function works differently: calling it does not run the code inside, it hands you back a special object representing a promise of work to be done later. That object only does anything once you tell the program to actually run it, usually with await or by scheduling it as a background task. If you call the async function and do nothing else with what it gives you, the code inside never runs at all.",
+      "example": {
+        "code": "async def greet():\n    print(\"body ran\")\n    return \"hi\"\n\nc = greet()\nprint(type(c))\nc.close()",
+        "output": "<class 'coroutine'>"
+      },
       "hints": [
         "The question is asking what actually happens the moment you call an async function without doing anything else with it. Look at the last line of the code and ask yourself: does calling a function defined with async def behave exactly like calling a normal function, or does it hand you something different first?",
         "Think of filling out an order slip at a restaurant. Filling out the slip is not the same as the kitchen cooking your food; it just represents a promise that the meal happens once someone hands the slip to the kitchen. Look for the option describing that in-between, not-yet-started object rather than one describing a finished result, an error, or quiet background work.",
@@ -585,6 +637,10 @@
       ],
       "explain": "asyncio.run creates the event loop, runs the coroutine to completion and closes the loop.",
       "teach": "All async code, the coroutines you write, sits inert until something sets up a place for it to run, called an event loop, then feeds your starting coroutine into that loop. Ordinary code, like a plain script's top level, cannot use await directly, so you need one starting point that builds the loop, runs your main coroutine to completion, and cleans up afterward. It is like switching on a machine before feeding material into it; placing material near an unplugged machine gets you nothing. Every async program needs exactly one such starting point handing control to the async world.",
+      "example": {
+        "code": "import asyncio\n\nasync def main():\n    print(\"running\")\n\nloop = asyncio.new_event_loop()\nloop.run_until_complete(main())   # the loop runs it until it finishes\nloop.close()",
+        "output": "running"
+      },
       "hints": [
         "The question is asking how you cross the boundary from ordinary, non-async code into the async world for the very first time. Look at the options and ask yourself: which one sounds like it is building and starting the event loop itself, rather than assuming a loop is already running?",
         "Imagine a pool that must be filled and its pump switched on before anyone can swim laps. You cannot just say swim as if the pool already exists; someone sets it up first, lets a swimmer use it, then drains it afterward. Look for the option that reads like a setup step wrapped around your main coroutine, not something you could type directly with no setup at all.",
@@ -618,6 +674,10 @@
       "accept": [],
       "explain": "Open the client, await the request, check status, parse.",
       "teach": "Fetching something over a network has a natural order: you need an open connection before sending a request, a response back before checking if it succeeded, and success confirmed before using its contents. Each step produces something the next needs, like unlocking a door before walking through it, then turning on the light before reading what is inside. Check a response before it arrives, or read data before confirming it worked, and your code has nothing to use or might crash on a bad reply.",
+      "example": {
+        "code": "import asyncio\n\nasync def job(lock):\n    async with lock:\n        await asyncio.sleep(0)\n        return \"done\"\n\nasync def main():\n    print(await job(asyncio.Lock()))\n\nasyncio.run(main())",
+        "output": "done"
+      },
       "hints": [
         "The question is asking you to think about what has to exist before the next thing can happen when fetching a page. Look at the four lines and ask yourself: which one sets up the connection so everything else has something to work with, and which lines depend on a response that has not arrived yet?",
         "Think about phoning in a food order: you dial and connect first, then speak your order and wait for confirmation, then check the order was understood before saying thanks and hanging up. You would not thank them before ordering, and cannot confirm anything before the call connects. Ask which line opens the connection, which sends and waits, which checks success, and which only makes sense once the result is trusted.",
@@ -649,6 +709,10 @@
       ],
       "explain": "Discovery is by naming: test_*.py files, test_* functions, Test* classes.",
       "teach": "Pytest is a testing tool that finds your tests automatically instead of making you list them one by one. It does this by looking for patterns in names, the same way a librarian sorts books by looking at labels on the spine rather than reading every page. For example, a function called `test_login` inside a file called `test_auth.py` gets picked up automatically. This matters because you can add a new test just by naming it correctly, with no extra setup step.",
+      "example": {
+        "code": "import unittest\n\nclass Checks(unittest.TestCase):\n    def test_add(self): pass\n    def helper(self): pass\n    def test_sub(self): pass\n\nprint(unittest.TestLoader().getTestCaseNames(Checks))   # found by name",
+        "output": "['test_add', 'test_sub']"
+      },
       "hints": [
         "The question is really asking how pytest decides a function is a test at all, without you telling it directly. The single idea here is naming convention. Look at the file name and the function name on your screen, what do they both start with?",
         "Think of it like a library that only shelves books with a red sticker on the spine, ignoring identical books without the sticker. Pytest scans folders for files and functions whose names follow a specific pattern, and only those get treated as tests. Look for the option describing a naming pattern for both the file and the function, not one about assert or config.",
@@ -697,6 +761,10 @@
       "accept": [],
       "explain": "pytest.raises is a context manager that passes when the block raises the given exception and fails otherwise.",
       "teach": "A context manager is something you use with the word `with`, wrapping a block of code to manage what happens before and after it, like `with open(file) as f:` closing the file for you automatically. Pytest offers a special context manager for testing errors: it wraps a block of risky code and checks whether a specific exception actually happened inside it. For example, wrapping `1/0` this way lets you confirm a `ZeroDivisionError` was raised, and the test fails if nothing was raised. This matters because checking that your code fails correctly is just as important as checking it succeeds.",
+      "example": {
+        "code": "import unittest\n\ncase = unittest.TestCase()\nwith case.assertRaises(ZeroDivisionError):\n    1 / 0\nprint(\"passed\")\ntry:\n    with case.assertRaises(ZeroDivisionError):\n        1 / 1\nexcept AssertionError as err:\n    print(\"failed:\", err)",
+        "output": "passed\nfailed: ZeroDivisionError not raised"
+      },
       "hints": [
         "The question wants a way to say run this risky line and pass the test only if it raises this exact error. The single idea is a context manager built for expecting exceptions. Look at the blank right after `pytest.` inside the `with` line, what job must that name describe?",
         "Picture a smoke detector test: you do not want it silent forever, you want to confirm it beeps exactly when there is smoke. Pytest needs a matching tool that watches the code inside the `with` block and passes only if the named exception shows up. Look among the blocks for the one that is an actual, real function pytest provides for watching and expecting an exception.",
@@ -729,6 +797,10 @@
       ],
       "explain": "A fixture is a named setup function; any test that takes client as an argument gets its return value.",
       "teach": "When you write test functions, you often need the same setup repeated, like a ready-to-use object, before each one runs. A fixture is a named helper function that builds that setup, and pytest hands its result to any test that lists the fixture's name as one of its parameters. For example, if a test function has `def test_x(client):`, pytest looks for something named `client` and gives the test whatever it returns. This matters because it removes repeated setup code and keeps each test focused on what it is actually checking.",
+      "example": {
+        "code": "def make_db():\n    return [\"row1\", \"row2\"]\n\ndef test_count(db):\n    print(len(db))\n\ntest_count(make_db())   # pytest makes this hand-off for you, by parameter name",
+        "output": "2"
+      },
       "hints": [
         "The question asks what actually happens when a test lists this name as a parameter. The single idea is that fixtures provide setup on request, not just once for everyone. Look at the decorator sitting right above the function, what word does it use to mark this as special to pytest?",
         "Think of a hotel that makes up a brand new bed for every guest who checks in, rather than reusing yesterday's guest's bed. In the same way, when a test names this function as a parameter, pytest calls it again and hands the test whatever it returns. Look for the option describing setup created specifically for the test that asks for it.",
@@ -761,6 +833,10 @@
       ],
       "explain": "parametrize runs the same test body once per tuple, each reported separately.",
       "teach": "Sometimes you want to run the exact same test logic with several different inputs, instead of copy-pasting the test multiple times. A decorator can take a list of value groups and run the test body once for each group, reporting each run as its own separate result. For example, testing a `double` function against the pairs `(1, 2)` and `(2, 4)` would produce two separate test results from one function. This matters because a single failing case shows up clearly instead of being buried inside one big test.",
+      "example": {
+        "code": "# what parametrize does: one test body, run once per tuple\ncases = [(1, 2), (5, 10), (7, 14), (0, 0)]\nfor n, expected in cases:\n    print(\"case\", n, n * 2 == expected)",
+        "output": "case 1 True\ncase 5 True\ncase 7 True\ncase 0 True"
+      },
       "hints": [
         "The question asks how many separate results pytest will report for this one function. The single idea is that each group of values in that list becomes its own test run. Look at the list passed to the decorator, how many groups of values sit inside its square brackets?",
         "Think of baking the same recipe three separate times with three different amounts of flour, each bake counted on its own even though the recipe never changed. Here, the same test body runs once per group of numbers listed, and each run is reported separately, as if it were its own test. Count exactly how many groups appear in that list.",
@@ -791,6 +867,10 @@
       ],
       "explain": "Unit tests must not touch the network or real services. Inject a fake client or patch the call.",
       "teach": "A unit test is meant to check one small piece of logic quickly and reliably, every single time you run it. If that logic calls out to a real external service, like a payment API, the test becomes slow, can fail from a bad internet connection, and might even cause a real charge each time you run it. The usual fix is to swap the real external call for a stand-in that behaves similarly but stays completely local and safe, similar to practicing a phone call with a friend before making the real one. This matters because tests you cannot trust to be fast and repeatable tend to get ignored or deleted.",
+      "example": {
+        "code": "from unittest.mock import Mock\n\ngateway = Mock()   # a stand-in, no network involved\ngateway.charge.return_value = \"ok\"\nprint(gateway.charge(500))\nprint(gateway.charge.call_count)",
+        "output": "ok\n1"
+      },
       "hints": [
         "The question is about what to do when the code under test reaches out to a real external service you do not control. The single idea is keeping tests fast, offline and side-effect free. Think about what could go wrong if this test actually charged a real payment every time someone ran it.",
         "Picture testing a fire alarm with a test signal that mimics smoke, instead of lighting an actual fire every time you want to check the alarm works. Testing code should replace the risky external call with something that behaves the same way from the test's point of view but never leaves your machine. Look for the option focused on substituting the real call with a safe stand-in.",
@@ -824,6 +904,10 @@
       "accept": [],
       "explain": "Set up, do the one thing, check. A test with several acts is several tests.",
       "teach": "A well-structured test usually has three separate jobs done in a specific order: getting everything ready, doing the one thing you are testing, and then checking what happened. Think of making a sandwich, taking a bite, and then deciding if it tastes right, you cannot judge the taste before taking a bite, and you cannot take a bite before the sandwich exists. Keeping these jobs separate and in order makes a test easy to read, because you always know which part is preparation, which part is the action, and which part is the check. This matters because mixing them together makes it hard to tell what a test is actually verifying.",
+      "example": {
+        "code": "def test_total():\n    prices = [3, 4]\n    total = sum(prices)\n    assert total == 7\n    print(\"passed\")\n\ntest_total()",
+        "output": "passed"
+      },
       "hints": [
         "The question asks for the natural order of three jobs in a test: preparing, doing, and checking. The single idea is that each step depends on the one before it being finished first. Look at the three labeled steps, which one describes getting things ready before anything happens?",
         "Think of baking a cake: first you gather the ingredients, then you actually bake it, then you taste it to see if it worked. You cannot taste a cake that has not been baked, and you cannot bake without ingredients on the counter first. Look at which step is pure preparation, which step performs a single action, and which step only makes sense after that action is done.",
@@ -855,6 +939,10 @@
       ],
       "explain": "Type hints are annotations for readers and type checkers; the interpreter does not enforce them.",
       "teach": "In Python you can write a note next to a variable or function saying what type of value it should be, like a label on a box. For example writing `age: int` tells a reader age should hold a whole number. These labels are called type hints. They do not change how the code runs by themselves. They exist so people and special checking tools can understand and verify your code.",
+      "example": {
+        "code": "def double(n: int) -> int:\n    return n * 2\n\nprint(double(\"ab\"))\nprint(double.__annotations__)",
+        "output": "abab\n{'n': <class 'int'>, 'return': <class 'int'>}"
+      },
       "hints": [
         "The question is really asking what happens when you write these little labels like list[str] and int next to a function. Look at the code again and ask yourself: does Python itself stop and check this the moment the function runs, or is something else going on? Think about who actually reads these labels.",
         "Think of a recipe card that says 'serves 4' at the top. The oven never checks that you actually cooked for 4 people, but a person reading the card knows what to expect from it. In the same way, someone or something has to look at these labels for them to matter, and that something is usually a separate tool, not the running program itself.",
@@ -902,6 +990,10 @@
       "accept": [],
       "explain": "X | None is the modern spelling of Optional[X], a value that is either an X or None.",
       "teach": "Sometimes a function might not have anything useful to return, like looking up a user that does not exist. Python lets you describe this in the type hint by saying the return value is this type, or nothing at all. There is a small symbol that joins two possible types into a single hint, meaning either one is acceptable, and you may already know it from other uses. Writing it here tells anyone reading the function that they must handle the empty case too.",
+      "example": {
+        "code": "def first_word(text: str) -> str | None:\n    words = text.split()\n    return words[0] if words else None\n\nprint(first_word(\"hello there\"))\nprint(first_word(\"\"))",
+        "output": "hello\nNone"
+      },
       "hints": [
         "The question wants a symbol that makes the hint read as a User, or nothing at all. Look at the template and think about what small piece of punctuation could sit between two type names to mean one or the other. What have you seen used elsewhere in Python that carries this same meaning of choice?",
         "Imagine a form that says bring a passport or a driver's license. That small word joins two acceptable options into one requirement without demanding both. Python's modern type hints use one short symbol to do exactly this job between two types, so a return type reads as this type or that type. Look among the blocks for the one that expresses choice rather than joining or combining.",
@@ -932,6 +1024,10 @@
       ],
       "explain": "Static checking catches a type mismatch at the call site, which at runtime would be a TypeError deep inside.",
       "teach": "A function can promise it wants a whole number by writing something like `n: int` in its own definition. If you then call it with text instead, nothing stops the program while it is running, but a separate tool called a type checker can read your code beforehand and notice the mismatch. This matters because the wrong type might not crash the program right away, especially if it happens to work for a line or two before failing somewhere confusing. Catching the mismatch early, before anything even runs, saves time later.",
+      "example": {
+        "code": "def shout(word: str) -> str:\n    return word.upper()\n\ntry:\n    shout(5)   # a type checker flags this line before the program runs\nexcept AttributeError as err:\n    print(err)",
+        "output": "'int' object has no attribute 'upper'"
+      },
       "hints": [
         "The question is asking what a type checker actually notices when it reads this call before the program runs. Look at what type the function's own definition asks for, then compare that to what is actually being handed to it below. Ask yourself whether those two things are the same kind of value.",
         "Imagine a recipe calling for two cups of flour, but someone hands the cook a photo of flour instead of the real thing. The recipe was not wrong and the cook did not necessarily fail either, yet there is a clear mismatch between what was promised and what arrived. A type checker plays the role of someone comparing the promised ingredient against what actually got delivered, before any cooking starts.",
@@ -962,6 +1058,10 @@
       ],
       "explain": "print is hard-wired to stdout at one level. logging separates emitting a message from deciding what to do with it.",
       "teach": "print always does the same single thing: it writes text straight to the screen, with no way for someone using your code to turn it off or send it elsewhere. Logging is built for exactly that flexibility. When your code reports something through logging, it does not decide where the message ends up, since whoever runs the whole program later decides that, including whether to show it, save it, or ignore it. This separation matters once your code becomes one small part of something bigger that other people run.",
+      "example": {
+        "code": "import logging, sys\n\nlogging.basicConfig(stream=sys.stdout, format=\"%(levelname)s: %(message)s\")\nlog = logging.getLogger(\"shop\")\nlog.warning(\"low stock\")\nlog.setLevel(logging.ERROR)   # the caller turns the volume down\nlog.warning(\"hidden now\")",
+        "output": "WARNING: low stock"
+      },
       "hints": [
         "The question is really asking who ends up in charge of a message once your code decides to report something. Look at the difference between a tool that always shows text immediately versus one that could let someone else decide what happens to it. Which behavior sounds more useful once your code runs inside someone else's larger program?",
         "Picture a smoke detector that only ever screams loudly, versus one wired into a control panel where the building owner decides whether it triggers an alarm, a text message, or a quiet log entry. Both detect the same event, but one forces a single reaction on everyone while the other hands the decision to whoever runs the building. Look for the option describing that same kind of handover of control.",
@@ -992,6 +1092,10 @@
       ],
       "explain": "Passing the arguments separately lets logging skip the formatting when the level is disabled, and keeps the message template constant for aggregation.",
       "teach": "When you log a message, you can either build the whole finished sentence yourself before handing it over, or you can hand over a fixed template plus the changing pieces separately and let logging build the sentence only if it is actually needed. The second way is worth less effort when that message would be thrown away anyway, such as when that severity level is turned off somewhere. It also keeps the same event easy to group together across many log lines, since the template text never changes even though the details do.",
+      "example": {
+        "code": "import logging\n\nclass Noisy:\n    def __str__(self):\n        print(\"formatting...\")\n        return \"x\"\n\nlog = logging.getLogger(\"demo\")\nlog.debug(\"value %s\", Noisy())   # debug is off, so the message is never built\nprint(\"done\")",
+        "output": "done"
+      },
       "hints": [
         "This question is about how you hand a changing value, like a user id, over to a logging call. Look closely at the different ways of writing the same message and ask which one keeps the fixed wording separate from the value that changes each time. Does the value get glued into the sentence right away, or passed along on its own?",
         "Think of a form letter with a blank left for a name, instead of writing each letter out fully by hand ahead of time. If a printer decides at the last moment not to send a batch at all, the form-letter approach never wasted effort filling in names. Logging behaves like that printer, and only saves work if the value stays separate rather than being stitched into the sentence early.",
@@ -1032,6 +1136,10 @@
       ],
       "explain": "Import, configure once, get a named logger, use it.",
       "teach": "Setting up logging in a script follows a simple order, much like getting a phone ready before making a call. You first bring in the tool, then set it up one time with your chosen settings, then get your own personal handle to use it, and only after that do you actually use the handle to send a message. Trying to use the handle before it exists will not work. Every well-behaved script that uses logging follows this same basic order, even though the exact settings can vary.",
+      "example": {
+        "code": "import logging, sys\n\nfmt = \"%(name)s %(levelname)s %(message)s\"\nlogging.basicConfig(stream=sys.stdout, level=logging.DEBUG, format=fmt)\nlog = logging.getLogger(\"app\")\nlog.info(\"ready\")",
+        "output": "app INFO ready"
+      },
       "hints": [
         "This question asks you to put four steps into the order a script naturally needs them. Look at the four lines and ask which one has to exist before any of the others could even be written, and which one is clearly the last thing that happens once everything else is ready. What absolutely has to come first, before anything can be configured or used?",
         "Think about setting up a brand new phone. You cannot choose your ringtone settings before the phone is even turned on, and you cannot make a call before opening the contacts app to get a specific number to dial. There is a natural chain here: bring the tool in, choose the overall settings once, get your own named handle to use it, then finally use that handle to say something.",
@@ -1137,6 +1245,10 @@
       ],
       "explain": "headers=headers is a keyword argument: parameter name left, your variable right.",
       "teach": "A header is a label and value pair sent along with a web request, and many APIs read an Authorization header to learn who is calling. The pairs travel together as a dict. An f-string builds text with values pasted in: a name inside curly braces is looked up and replaced by its value, but quotes around it turn it into ordinary text. A keyword argument is written name=value in a call, where the left side must be a name the function was built to accept.\n\nExample:\nname = \"Ada\"\nprint(f\"Hi {name}\")\nprint(\"a\", \"b\", sep=\"-\")\nprints Hi Ada and then a-b",
+      "example": {
+        "code": "def send(url, headers):\n    print(url)\n    print(headers)\n\ntoken = \"demo-123\"\nextra = {\"X-Token\": token}\nsend(\"https://api.example.com/x\", headers=extra)",
+        "output": "https://api.example.com/x\n{'X-Token': 'demo-123'}"
+      },
       "hints": [
         "There are two blanks, and they do different jobs. The first sits inside the curly braces of an f-string, so think about what Python does with whatever is written between braces. The second is the name on the left of an equals sign in the function call.",
         "Between braces, a bare name is replaced by the value stored under that name, while quoted text would be pasted in as it is and the server would receive the wrong thing. Look at the first line of the code to see which variable holds the key. For the second blank, the parameter name must be one requests really accepts.",
@@ -1195,6 +1307,10 @@
       ],
       "explain": "json=payload makes requests serialise for you. r.json() parses the body.",
       "teach": "Web requests come in kinds. One kind only reads something, and another kind sends data to the server in the body of the request. When you hand requests a Python dict as the body, it can convert the dict to JSON text for you. The reply body also arrives as text, which is not yet a dict you can index by key, so it must be parsed. For a string you already hold, json.loads does that.\n\nExample:\nimport json\nreply = '{\"answer\": \"hello\"}'\nprint(json.loads(reply)[\"answer\"])\nprints hello",
+      "example": {
+        "code": "import json\n\n# sending: a dict becomes JSON text\nprint(json.dumps({\"q\": \"hi\"}))\n# receiving: JSON text becomes a dict again\nprint(json.loads('{\"answer\": \"hello\"}')[\"answer\"])",
+        "output": "{\"q\": \"hi\"}\nhello"
+      },
       "hints": [
         "Two blanks again. The first is the kind of request, and this time you are submitting a payload, not just looking something up. The second is the method called on r to turn the reply text into a dict that you can index by key, as the print line does.",
         "For the first blank, rule out the option that only reads and the option that is not a real requests function at all. For the second, remember that loads belongs to the module that handles this format and takes a string, while a response object has its own parsing helper, and another option is just the raw body text.",

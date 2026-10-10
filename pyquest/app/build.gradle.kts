@@ -13,8 +13,9 @@ android {
         applicationId = "no.mwmai.pyquest"
         minSdk = 26
         targetSdk = 35
-        versionCode = 2
-        versionName = "0.2.0"
+        // CI stamps each build so the phone's App info shows which commit is installed.
+        versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toIntOrNull()?.plus(2) ?: 2
+        versionName = "0.3.0-" + (System.getenv("GITHUB_SHA")?.take(7) ?: "local")
     }
 
     buildTypes {

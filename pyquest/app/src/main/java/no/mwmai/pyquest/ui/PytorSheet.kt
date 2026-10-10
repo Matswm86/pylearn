@@ -175,7 +175,7 @@ private fun HintList(question: Question, session: QuizSession) {
  * sideways on its own; a shared scroll would give the rule no width to draw.
  */
 @Composable
-private fun WorkedExample(example: Example) {
+internal fun WorkedExample(example: Example) {
     val rule = Pal.CodeFg.copy(alpha = 0.35f)
     Column(
         modifier = Modifier

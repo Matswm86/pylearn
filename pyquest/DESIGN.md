@@ -272,3 +272,21 @@ Four reports from the first real play session, and what changed:
    appended to a JSONL file next to the bridge so Pytor's answers can be
    reviewed and, where wrong, turned into Codex corrections.
 
+
+## 10. 2026-10-10: why the phone never updated, and a slow Pytor
+
+1. **New builds would not install.** CI signed every debug APK with a fresh
+   runner keystore, so each build had a different signature and Android refused
+   to install it over the last one. The workflow now restores a fixed keystore
+   from the `ANDROID_DEBUG_KEYSTORE_BASE64` secret and warns on the run page when
+   the secret is missing. `versionName` now carries the commit (`0.3.0-<sha>`),
+   so the phone's App info shows which build is installed.
+2. **Pytor chat timed out.** The bridge asked Groq for 1200 output tokens in
+   quest mode; Groq's free tier allows 1000 output tokens a minute, refused with
+   429, and the bridge fell back to CPU Ollama on the VPS, which took 100 to 116 s
+   while the app waits 45 s. Quest mode now asks for 700, retries Groq once at
+   half the budget, and skips the CPU fallback so the app gets a fast failure and
+   its offline Codex instead of a spinner.
+3. **Worked examples were hidden.** They only showed inside the Ask Pytor sheet.
+   They now sit on the question screen, open by default, and tiers 5 to 7 have
+   them too.

@@ -30,6 +30,10 @@
       ],
       "explain": "pathlib overloads / to join path components, so the same code works on Linux, macOS and Windows.",
       "teach": "You already know that the slash usually means division between numbers, like 10 / 2. But in Python, a class can give an operator a new job for its own objects, this is called operator overloading. For example, the plus sign on two strings glues them together instead of adding numbers, so foo plus bar becomes foobar. The pathlib module gives the slash a new job too, one that has nothing to do with math, and it matters because it saves you from typing folder separators by hand.",
+      "example": {
+        "code": "from pathlib import Path\n\nlog = Path(\"logs\") / \"today.txt\"\nprint(log)\nprint(log.name)",
+        "output": "logs/today.txt\ntoday.txt"
+      },
       "hints": [
         "The question is really asking what job the slash is doing between two pieces of a Path, since it clearly is not doing arithmetic here. Look at the two things sitting on either side of it, a folder name and a file name, and ask yourself what a computer would sensibly do with those two pieces together.",
         "Think of writing directions for a friend: first go into the data folder, then find sales.csv inside it. A Path object lets code express that same step by step direction using the slash instead of you typing a separator character by hand. Look for the option that talks about combining pieces of a path rather than doing math or touching the disk.",
@@ -60,6 +64,10 @@
       ],
       "explain": "read_text() opens, reads and closes in one call and returns a str.",
       "teach": "When you want text from a file, Python normally makes you open it, read from it, then close it, in three separate steps. pathlib gives Path objects a shortcut method that does all three in one call and hands you back the contents as a plain string, similar to how a kettle that boils and pours in one button press saves you two steps. This matters because fewer steps means fewer chances to forget the closing step, which can leave a file locked or data unsaved.",
+      "example": {
+        "code": "from pathlib import Path\n\nblob = Path(\"tag.bin\")\nblob.write_bytes(b\"hi\")\ndata = blob.read_bytes()   # one call opens, reads everything and closes\nprint(data)\nprint(len(data))",
+        "output": "b'hi'\n2"
+      },
       "hints": [
         "The question wants a single call that hands you the entire file content as one string, not a file object you still need to read from. Look at the options and ask which one sounds like it does the whole job, opening, reading and closing, by itself.",
         "Imagine asking a friend to fetch a letter. One friend hands you the sealed envelope, so you still have to open and read it yourself, that is like getting a file object back. Another friend reads it aloud and gives you the words directly, finishing the job completely. Look for the option written as a method call, with parentheses, whose name mentions both reading and text.",
@@ -108,6 +116,10 @@
       "accept": [],
       "explain": "with runs the file's cleanup when the block ends, even if reading raises.",
       "teach": "Some Python blocks guarantee cleanup happens automatically when the block finishes, even if something goes wrong inside it. You have probably seen open used to work with a file, and the risk is that if you forget to close it, the file can stay locked or unsaved data can be lost. Python has a special statement that pairs with open using the word as to name the result, and it takes care of closing things for you the moment the indented block ends. This matters because relying on yourself to remember cleanup every time is fragile, but a block that does it automatically never forgets.",
+      "example": {
+        "code": "with open(\"log.txt\", \"w\") as f:\n    f.write(\"hello\")\n\nprint(f.closed)   # the block ended, so the file closed itself",
+        "output": "True"
+      },
       "hints": [
         "The gap needs a word that starts a block promising automatic cleanup when the block ends, so the file gets closed even if reading fails partway through. Look at the four options and ask which one is an actual Python keyword built for exactly this job, not something borrowed from another language.",
         "Think of a locker system that locks itself the moment you step away, versus one where you must remember to lock it yourself. Python has a statement built for resources like files that behaves like the self-locking version, automatically closing things when its block ends. It is the keyword that naturally pairs with the word as right before the file variable name.",
@@ -139,6 +151,10 @@
       ],
       "explain": "suffix is the extension with its dot, stem is the filename without the extension.",
       "teach": "A filename like photo.png can be split into meaningful pieces. The part after the last dot, including the dot itself, tells you the file type, and the part before it is the plain name without that type tag. pathlib gives you these pieces as ready made attributes on a Path, so you never have to slice the text yourself with string tricks. This matters because you often need just the name or just the extension, for example when building a new output filename from an input one.",
+      "example": {
+        "code": "from pathlib import Path\n\np = Path(\"backup/final_v2.json\")\nprint(p.suffix, p.stem)",
+        "output": ".json final_v2"
+      },
       "hints": [
         "The question prints two pieces of the same filename in a specific order, the type tag first and then the plain name. Look at the code again and notice which attribute is written first in the print call, then think about what each attribute name suggests it holds.",
         "Picture the file diary.txt. The letters after the dot, dot included, tell you it is a text file, while the word before the dot is just the label you gave it. For a path buried inside folders, only the filename part at the end matters, the folder names are ignored by these two attributes. Look for the option whose first piece includes a leading dot and whose second piece has no dot at all.",
@@ -169,6 +185,10 @@
       ],
       "explain": "rglob searches recursively; glob only looks in the folder itself.",
       "teach": "Searching for files by pattern is called globbing, and a simple glob only looks inside the one folder you point it at. Sometimes files are scattered across nested subfolders instead, like csv files stored in separate folders for each month inside a bigger reports folder. pathlib offers a version of the search that also dives into every subfolder, and every subfolder inside those, before it stops looking. This matters because a search limited to one folder can silently miss most of your files without any error to warn you.",
+      "example": {
+        "code": "from pathlib import Path\n\nroot = Path(\"tree\")\n(root / \"deep\").mkdir(parents=True, exist_ok=True)\n(root / \"top.txt\").write_text(\"a\")\n(root / \"deep\" / \"low.txt\").write_text(\"b\")\nprint(sorted(p.name for p in root.glob(\"*.txt\")))   # low.txt is in a subfolder",
+        "output": "['top.txt']"
+      },
       "hints": [
         "The question wants a search that finds matching files no matter how deeply they are buried in subfolders, not just the ones sitting directly in the top folder. Look at the options and think about which method name hints at digging deeper than just one level.",
         "Imagine a filing cabinet with drawers, and some drawers have smaller boxes inside them. Checking only the open drawers is like a plain search of one folder, but checking every box inside every drawer too is a deeper, recursive search. Look for the option whose method name has an extra letter at the front, often used in programming to mean recursive.",
@@ -201,6 +221,10 @@
       "accept": [],
       "explain": "Build the path, check it, then write inside the condition.",
       "teach": "Code needs a sensible order, you cannot use something before you have created it, and you often need to check a condition before acting on it. Think of a recipe: get your ingredient ready first, then check if the pan is hot, and only then pour the batter in, nested inside that checking step. Indentation shows which lines belong inside another line's block. Getting the order or indentation wrong can mean using something that does not exist yet, or acting without ever checking first.",
+      "example": {
+        "code": "from pathlib import Path\n\nfolder = Path(\"backups\")\nif folder.exists():\n    print(\"found it\")\nelse:\n    print(\"not there\")",
+        "output": "not there"
+      },
       "hints": [
         "The question is really about sequencing, three lines need to happen in an order where each one depends on something the previous line set up. Look at the three lines and ask which one creates something the other two lines need to refer to by name.",
         "Think of checking if a shop is open before walking in. You cannot check the door if you have not walked up to the shop yet, and you cannot walk in before checking it is unlocked. One line builds a path, one line checks something about it, and one indented line acts only if that check passes. Look for which line must logically come first.",
@@ -232,6 +256,10 @@
       ],
       "explain": "loads reads from a string; load reads from an open file. dumps and dump go the other way.",
       "teach": "JSON is a plain text format for storing data, and it looks a lot like Python dicts and lists with quotes around every key. Python's json module can turn that text into real Python objects like dict, list, str, int, and bool, and it can go the other way too, turning Python objects back into JSON text. The module's functions come in pairs: some work directly with an already-open file, others work with a plain string you already hold in memory, like the text variable here. Knowing whether your source is a string or a file tells you which function family to reach for.",
+      "example": {
+        "code": "import json\n\npet = {\"name\": \"Rex\", \"age\": 3}\ntext = json.dumps(pet)   # the other direction: a dict becomes text\nprint(text)\nprint(type(text))",
+        "output": "{\"name\": \"Rex\", \"age\": 3}\n<class 'str'>"
+      },
       "hints": [
         "The question is asking which function reads JSON that is already sitting in a string variable, not in a file on disk. Look at the code: text is a normal Python string holding JSON characters. Which option in the list is built for a string source rather than a file object?",
         "Think of it like a letter. If someone hands you the actual paper, a string you already hold in memory, you just read it directly. If instead they hand you a closed mailbox, an open file object, you first need to reach inside before reading. json's functions split along that same line, and the two going from JSON to Python differ only in whether the source is a string or a file.",
@@ -279,6 +307,10 @@
       "accept": [],
       "explain": "dump writes straight to the file object; dumps would return a string you would still have to write.",
       "teach": "When you want to save a Python dict as JSON, think about two directions: do you want a JSON string handed back to you, or do you want it written straight into a file you already opened? Python's json module has a version that returns a string, useful when you plan to send that text elsewhere. It also has a version that takes the already-open file object and writes JSON characters into it directly, so you never touch the string yourself. The indent=2 argument works with either version, controlling how many spaces of indentation make the result easy to read.",
+      "example": {
+        "code": "import json\n\nbook = {\"title\": \"Dune\", \"year\": 1965}\nprint(json.dumps(book, indent=2))",
+        "output": "{\n  \"title\": \"Dune\",\n  \"year\": 1965\n}"
+      },
       "hints": [
         "The code already opened a file and named it f, and now it needs to save data into that file as neat, indented JSON. Look at the gap: it must take the data and f together and write directly into the open file. What is the difference between a function that hands you back a result and one that writes a result somewhere for you?",
         "Picture writing a letter two ways. One way, you write on paper and hand the finished page to someone else to post, that is like a function that returns you a string. The other way, you write directly into an envelope someone is already holding open, like a function taking the open file as an argument and writing into it on the spot. Look for the block matching that second picture, not one that only builds a string.",
@@ -309,6 +341,10 @@
       ],
       "explain": "JSON null maps to Python None, the same way true and false map to True and False.",
       "teach": "JSON has a small set of special words: true, false, and null, written in lowercase without quotes. When Python reads JSON text, it needs some way to represent these inside a Python program, since Python does not have a value literally called null. Python already has a built-in value that means nothing or no data here, and JSON's parser converts null into that value automatically. The same kind of conversion happens for true and false too, they become Python's own True and False rather than staying as text.",
+      "example": {
+        "code": "import json\n\nprint(json.loads(\"true\"))\nprint(json.loads(\"false\"))\nprint(json.loads(\"3.5\"))",
+        "output": "True\nFalse\n3.5"
+      },
       "hints": [
         "The question asks what Python value stands in for JSON's null once the text has been parsed. Think about what null even means inside JSON, it marks a spot where there is no value at all. What does Python normally use to represent an absent or missing value?",
         "Consider true and false first, since they follow the same pattern. JSON writes them lowercase, but once parsed, Python turns them into its own capitalized True and False, not the text strings true or false. Null follows that exact rule, just for the idea of no value at all, so ask which option represents absence rather than a string or a number.",
@@ -338,6 +374,10 @@
       ],
       "explain": "Real CSV has quoted fields containing commas and newlines. The csv module parses them correctly and DictReader names the columns.",
       "teach": "A CSV file just means comma separated values, but real files are not always as simple as splitting on every comma. Sometimes a single field, like an address, contains a comma inside it, so the file wraps that whole field in quotes to protect it, for example a field written as Oslo, Norway inside quote marks. If you split blindly on commas, that one field gets torn into two by mistake, throwing off every column after it. Python's csv module understands these quoting rules properly and also reads the header row, so it knows the name of each column instead of you counting positions.",
+      "example": {
+        "code": "import csv, io\n\nline = 'pen,\"blue, fine tip\"'\nprint(line.split(\",\"))\nfor row in csv.DictReader(io.StringIO(\"item,note\\n\" + line)):\n    print(row)",
+        "output": "['pen', '\"blue', ' fine tip\"']\n{'item': 'pen', 'note': 'blue, fine tip'}"
+      },
       "hints": [
         "The question asks what real advantage comes from using the csv module's row-to-dict reader over calling something like line.split on a comma yourself. Think about what could go wrong if a field's actual text contains a comma or a line break inside it. Look at the options and ask which one names a genuine parsing problem, not just a small convenience.",
         "Imagine an address field written with a comma inside quote marks. A naive split on every comma would cut that single field into two pieces, misaligning the whole row after it. The csv module notices those quote marks and treats the quoted chunk as one field, and it also reads the header line so you can refer to each column by name instead of a position. Look for the option describing both of these together.",
@@ -372,6 +412,10 @@
       "accept": [],
       "explain": "Open the file, wrap it in a DictReader, loop over rows, index by column name.",
       "teach": "Reading a CSV file usually follows a small ritual: first you open the file safely, then you wrap it in a tool that understands CSV rows, then you go through the rows one at a time to do something with each one. Python's with statement opens a file and promises to close it again automatically once you are done, even if something goes wrong inside. Everything that needs the file to stay open, like looping over its rows, has to live inside that with block, lined up with matching indentation. Getting this order right matters, because reading rows after the file has already closed will fail.",
+      "example": {
+        "code": "import csv\n\nwith open(\"pets.csv\", \"w\", newline=\"\") as f:\n    f.write(\"name,kind\\nRex,dog\\nTom,cat\\n\")\n\nwith open(\"pets.csv\", newline=\"\") as f:\n    reader = csv.DictReader(f)\n    for row in reader:\n        print(row[\"kind\"])",
+        "output": "dog\ncat"
+      },
       "hints": [
         "This question is really about the natural order of steps: you cannot loop over rows before you have a reader, and you cannot have a reader before the file is open. Look at the four lines and ask which action has to happen first, second, third, and last, based on what each line needs from the line above it. Which line depends on something that does not exist yet?",
         "Think of making tea: you cannot pour a cup before the water boils, and you cannot boil water before the kettle is filled. Opening the file is like filling the kettle, building a reader from that file is like the water boiling, and looping over rows is like pouring cups one by one. Look for which line opens the file first, which builds a reader from it, which loops, and which prints inside that loop.",
@@ -403,6 +447,10 @@
       ],
       "explain": "JSON has no date type, so json.dumps raises TypeError unless you tell it how to convert.",
       "teach": "Python's json module only knows how to turn a handful of basic types into JSON text: things like str, int, float, bool, None, list, and dict. A datetime object is none of these, it is a richer Python object that json was never taught how to translate into plain JSON text. When json.dumps meets a type it does not recognize, it does not guess or quietly skip it, it stops and raises an error telling you something needs converting first. This is why real programs usually turn dates into plain text, like an ISO date string, before handing them to json.",
+      "example": {
+        "code": "import json\n\ntry:\n    json.dumps({\"tags\": {1, 2}})\nexcept TypeError as err:\n    print(err)",
+        "output": "Object of type set is not JSON serializable"
+      },
       "hints": [
         "The question asks what happens when you try to serialize something json's module was never taught to handle. Think about what kind of thing datetime.now() actually returns, is it a plain string or number, or something more specialized? Look at the options and ask which one matches what happens when json meets a type it does not know.",
         "Picture asking a translator to render a sentence in a language they never learned. They cannot quietly skip a word and hope you will not notice, they must stop and say they do not understand. json.dumps behaves the same way with an unfamiliar type, it does not quietly turn a datetime into a string or number on its own. Look for the option describing json refusing outright, not some automatic but wrong conversion.",
@@ -433,6 +481,10 @@
       ],
       "explain": "shape is a tuple of (rows, columns), so 120 rows and 5 columns is (120, 5).",
       "teach": "A DataFrame is basically a table, like a spreadsheet, with rows going down and columns going across. Pandas gives you an attribute called shape that tells you the size of that table in one go, without a method call or parentheses. For a table with 3 rows and 2 columns, shape reports both numbers together as a pair, always rows first, then columns. Knowing this pair instantly tells you how big your data is before you do anything else with it.",
+      "example": {
+        "code": "# a table as a list of rows (3 rows, 2 columns)\ntable = [[\"Ann\", 31], [\"Bo\", 24], [\"Cy\", 45]]\nshape = (len(table), len(table[0]))\nprint(shape)",
+        "output": "(3, 2)"
+      },
       "hints": [
         "The question is really asking what order and what kind of value shape hands back. Look at the table described: which number is the rows and which is the columns, and does the answer come as one number, a pair, or something else?",
         "Think of a grid you might describe out loud as three rows by two columns, always in that order, rows named first. Pandas follows that same habit, giving you both counts together rather than multiplying them into one total. Look among the options for the one that keeps rows before columns and keeps them as two separate numbers.",
@@ -510,6 +562,10 @@
       "accept": [],
       "explain": "The comparison produces a boolean Series and the outer brackets keep the True rows.",
       "teach": "Comparing values with symbols like greater-than or less-than on a whole column gives you a column of True and False, one for each row, showing whether that row passed the test. Putting that True/False column back inside the outer brackets keeps only the rows marked True. The exact symbol you pick decides the meaning of the cutoff: whether the boundary value itself counts as included or not. Picking the right comparison symbol is what turns a vague word like over into precise code.",
+      "example": {
+        "code": "# like df[df[\"city\"] != \"Oslo\"], in plain Python\nrows = [{\"city\": \"Oslo\", \"n\": 3}, {\"city\": \"Bergen\", \"n\": 5}]\nkept = [r for r in rows if r[\"city\"] != \"Oslo\"]\nprint(kept)",
+        "output": "[{'city': 'Bergen', 'n': 5}]"
+      },
       "hints": [
         "The question is really asking which comparison symbol matches the word over in plain English. Ask yourself: if someone is exactly 30, would you call them over 30, or does over mean strictly more than that?",
         "Think about height: saying someone is over 180 centimeters tall does not include someone who is exactly 180. The comparison you need should behave the same way, excluding the exact boundary number. Look among the blocks for the symbol that means strictly more than, not one that also allows equality, and not one that points the opposite direction.",
@@ -541,6 +597,10 @@
       ],
       "explain": "mean() skips missing values by default, so it averages 10 and 20.",
       "teach": "NaN is pandas shorthand for a missing value, a gap in the data where nothing was recorded. When you ask for an average over a column, pandas has to decide what to do with those gaps, and by default it simply leaves them out rather than treating them as zero or refusing to answer. So if a column held the numbers 4, 6, and a missing spot, the average would just be the average of 4 and 6. This default matters because it lets you compute something useful even when data is incomplete, but it can also quietly hide how much is missing.",
+      "example": {
+        "code": "# a mean that skips the missing value\nvals = [4.0, 8.0, None]\nknown = [v for v in vals if v is not None]\nprint(sum(known) / len(known))",
+        "output": "6.0"
+      },
       "hints": [
         "The question is asking what pandas does with a missing value when you compute an average over a column. Does it treat the gap as a zero, throw an error, or just leave it out of the calculation? Look at the two real numbers that are present.",
         "Think of averaging your exam scores when one exam was cancelled. You would not count the cancelled exam as a zero, you would just average the scores you actually have. Pandas treats a missing value the same way by default when computing an average, so work out the average using only the numbers that are actually there.",
@@ -571,6 +631,10 @@
       ],
       "explain": "isna() gives a boolean frame, and sum() adds the Trues column by column.",
       "teach": "Checking a column cell by cell for missing values turns each cell into either True, meaning missing, or False, meaning present. In Python, True and False can be added up like 1 and 0, so summing a column of Trues and Falses gives you a count. Chaining these two ideas together, first flagging what is missing, then adding up the flags, is a very common two-step pattern in pandas. It matters because knowing exactly how many gaps each column has is usually the first thing you check before doing anything else with a dataset.",
+      "example": {
+        "code": "# count the missing values in each column\nrows = [{\"a\": 1, \"b\": None}, {\"a\": None, \"b\": None}, {\"a\": 3, \"b\": 4}]\nfor col in (\"a\", \"b\"):\n    print(col, sum(row[col] is None for row in rows))",
+        "output": "a 1\nb 2"
+      },
       "hints": [
         "The question asks which line correctly counts how many missing values sit in each column. Think in two steps: first you need something that marks each cell as missing or not, then something that adds those marks up per column. Which option actually does both steps using real pandas methods?",
         "Imagine a teacher marking an absent checkbox next to each student's name, then counting up the checkmarks at the end of the day to see how many were away. The pandas version works the same way, first flagging every missing cell, then totalling those flags column by column. Look among the options for the one chaining exactly those two real, existing pandas methods together.",
@@ -603,6 +667,10 @@
       "accept": [],
       "explain": "Import pandas under its pd alias, read the file into a frame, then inspect the first rows.",
       "teach": "Before you can use any pandas function, you first have to bring the pandas library into your program and usually give it a short nickname to save typing. Only after that can you load a file from disk into a variable that holds the table in memory. Once that table exists as a variable, you can finally look at a small piece of it, like its first few rows, to check it loaded correctly. Each step depends on the one before it, so the order really matters here.",
+      "example": {
+        "code": "import csv, io   # import first\n\ndata = \"name,score\\nAnn,7\\nBo,9\\nCy,4\\n\"\nrows = list(csv.DictReader(io.StringIO(data)))   # then load\nprint(rows[:2])   # then look at the first two rows",
+        "output": "[{'name': 'Ann', 'score': '7'}, {'name': 'Bo', 'score': '9'}]"
+      },
       "hints": [
         "The question is asking you to put three steps in the order that actually makes each one possible. Think about which line has to run before pandas' short nickname can be used anywhere else, and which line needs a table to already exist before it can show anything.",
         "This is like getting your equipment ready before cooking, then bringing in your ingredient, then tasting a spoonful of the finished dish. You cannot taste something that has not been made yet, and you cannot cook without your equipment ready first. Work out which line makes the pandas nickname available, which line creates the table from a file, and which line only looks at a table that must already exist.",
@@ -633,6 +701,10 @@
       ],
       "explain": "groupby splits the rows by city, then mean() aggregates the price within each group.",
       "teach": "Think of groupby like sorting a big pile of receipts into separate piles, one pile per city. Once the rows are separated into these piles, you can ask a question about each pile on its own, like pile.mean() for the average. This is called split-apply-combine: split the data into groups, apply a calculation to each group, then combine the results back into one table. It matters because it lets you compare cities without writing a loop.",
+      "example": {
+        "code": "# like df.groupby(\"team\")[\"pts\"].mean(), in plain Python\nrows = [(\"red\", 4), (\"blue\", 5), (\"red\", 8)]\ngroups = {}\nfor team, pts in rows:\n    groups.setdefault(team, []).append(pts)\nfor team, vals in groups.items():\n    print(team, sum(vals) / len(vals))",
+        "output": "red 6.0\nblue 5.0"
+      },
       "hints": [
         "This question asks what happens when you group rows by one column and then ask for the average of another. Look at the code: which column is used to form the groups, and which column gets averaged? Ask yourself, will the result be one number for the whole table, or one number per group?",
         "Imagine sorting all your grocery receipts into piles by store name, then finding the average spend for each pile separately. You would not get one single average for all stores combined, you would get a list, one average per store. Look for the option that describes several results, one per group, not a single combined number.",
@@ -681,6 +753,10 @@
       "accept": [],
       "explain": "ascending=False sorts from largest to smallest.",
       "teach": "sort_values arranges rows by the values in one column, from smallest to largest by default. A parameter named ascending controls the direction: it expects a boolean, True or False, not a word in quotes. Think of it like a light switch, only two positions, on or off. Getting this right matters because if you want the biggest values first, like top sellers, you need the switch flipped the right way.",
+      "example": {
+        "code": "scores = [40, 95, 72]\n# smallest first, like df.sort_values(\"pts\", ascending=True)\nprint(sorted(scores))\n# largest first: the same call with the order flipped\nprint(sorted(scores, reverse=True))",
+        "output": "[40, 72, 95]\n[95, 72, 40]"
+      },
       "hints": [
         "The question is about arranging rows so the biggest revenue numbers come first, instead of the smallest. Sorting has a direction, either from low to high or from high to low. Look at the blank, what kind of value does the ascending setting expect there, and which value flips it away from the default order?",
         "Think about arranging a stack of exam scores from best to worst instead of worst to best. By default, sorting climbs upward, from low to high, so to reverse that climb you need to tell it explicitly to stop climbing. Look among the blocks for the plain boolean value that means no, do not sort upward, rather than a quoted word.",
@@ -712,6 +788,10 @@
       ],
       "explain": "Assigning to a new column name creates it, and the multiplication is applied to every row at once.",
       "teach": "Every column in a DataFrame is really a list of numbers lined up row by row. When you multiply a column by a plain number like 1.25, pandas multiplies every single row's value by that number all at once, no loop needed. Assigning the result to a brand new name in square brackets creates a fresh column holding those results. This matters because it lets you build calculated columns, like a price with tax added, in one fast line.",
+      "example": {
+        "code": "# a table as a dict of columns\ntable = {\"cost\": [10, 20, 35]}\ntable[\"total\"] = [c * 2 for c in table[\"cost\"]]\nprint(table)",
+        "output": "{'cost': [10, 20, 35], 'total': [20, 40, 70]}"
+      },
       "hints": [
         "This question asks what happens when you take an existing column, multiply it by a number, and store the result under a name that did not exist before. Look at the left side of the equals sign, is that column name already used somewhere else in the table? Think about what assigning to a brand new bracket name does to a DataFrame.",
         "Picture a spreadsheet where column B holds prices, and you type a formula in column C that says B times 1.25, then copy it down every row. Column B never changes, and column C appears as something new, holding the marked-up prices. Look for the option describing a new column added to the table, not a change to the original price values.",
@@ -742,6 +822,10 @@
       ],
       "explain": "value_counts is the built-in, vectorised count per distinct value, sorted by frequency.",
       "teach": "Sometimes you just want to know how many times each distinct value shows up in a column, like how many rows say Oslo versus Bergen. Doing this with a loop and a plain Python dictionary works, but it reads and updates one row at a time, which is slow on a big table. pandas has a purpose-built tool for exactly this job that works on the whole column at once, similar to how a spreadsheet count-if works instantly across a full range. Choosing the right tool matters because the slow, loop-based way can take far longer on large data.",
+      "example": {
+        "code": "from collections import Counter\n\npets = [\"cat\", \"dog\", \"cat\", \"bird\", \"cat\", \"dog\"]\nprint(Counter(pets))",
+        "output": "Counter({'cat': 3, 'dog': 2, 'bird': 1})"
+      },
       "hints": [
         "The question asks which approach counts rows per category the fastest, not just which one is possible. Several of the options would give a correct count eventually, but only one is built specifically for counting values in a single column. Look at each option and ask, does this work on the whole column in one built-in step, or does it check rows one at a time?",
         "Think of counting votes in an election. You could tally every ballot by hand on paper, which works but is slow, or feed the stack into a machine built just for counting, which is instant. A for loop with a dictionary is the tally-by-hand approach. Look for the option that is a single method built directly for this purpose, called on the column itself.",
@@ -773,6 +857,10 @@
       ],
       "explain": "As strings, dates sort alphabetically and cannot be compared or decomposed. As datetimes they gain the .dt accessor.",
       "teach": "When dates arrive in a table as plain text, like the characters 2024-03-01, pandas treats them just like any other string, so it can only compare them alphabetically, not as real calendar dates. Converting a column with pd.to_datetime changes its type to an actual datetime, the same kind of value Python uses for real dates and times. Once converted, the column understands calendar rules, so it can tell you the month, the weekday, or whether one date comes before another. This matters anytime you need to filter by date range, sort chronologically, or pull out parts like the year.",
+      "example": {
+        "code": "from datetime import datetime\n\nraw = [\"25/01/2024\", \"30/12/2023\"]\nas_dates = sorted(datetime.strptime(s, \"%d/%m/%Y\") for s in raw)\nprint(sorted(raw)[0])   # as text, January 2024 sorts first\nprint(as_dates[0].year, as_dates[0].month)   # as dates, December 2023",
+        "output": "25/01/2024\n2023 12"
+      },
       "hints": [
         "This question is about what changes when a column stops being plain text and becomes a real date type. Ask yourself, can you ask a string what month it is, or whether it falls on a Monday? Look at what new abilities a column gains once it is treated as an actual date instead of just characters.",
         "Imagine writing a date on a sticky note versus entering it into a calendar app. The sticky note is just words, you cannot ask it to sort your appointments by month or tell you the weekday. The calendar app understands the date itself, so it can answer real questions about it. Look for the option describing new date-aware abilities gained, not something about size, duplicates, or storage limits.",
@@ -805,6 +893,10 @@
       "accept": [],
       "explain": "Aggregate per city, find the label of the maximum, print both.",
       "teach": "Finding the best of something in grouped data usually takes two separate steps. First you calculate a summary number for every group, like a total per city, which gives you a small table of results. Second, you ask which label in that small table has the biggest value, which is different from asking what the biggest value actually is. This two-step pattern, summarize first and then locate the top label, shows up constantly when you want to know not just the highest number, but which group it belongs to.",
+      "example": {
+        "code": "rows = [(\"red\", 40), (\"blue\", 25), (\"blue\", 50)]\nsums = {}\nfor team, n in rows:\n    sums[team] = sums.get(team, 0) + n\ntop = max(sums, key=sums.get)\nprint(top, sums[top])",
+        "output": "blue 75"
+      },
       "hints": [
         "This question is about the order of operations needed to find which city earns the most money overall. Before you can find a best city, you first need one total number per city, not the raw rows. Look at the three lines, which one produces a small summary table, and which ones depend on that summary already existing?",
         "Think of tallying votes in several towns. First you add up every vote per town to get one total per town, then you check which town's total is highest, and only after that do you announce the winner. You cannot announce a winner before totals exist, or find totals before the votes are grouped. Order the lines so a summary is built first, then the top label is found, then both get shown.",
@@ -836,6 +928,10 @@
       ],
       "explain": "A left join keeps all rows from the left frame and fills unmatched columns with NaN.",
       "teach": "When you merge two tables, pandas lines up rows using a shared column called the key, here customer_id. Picture two lists: orders is written first, so pandas calls it the left table, and customers is the right table. The how parameter tells pandas what to do with rows that do not find a partner on the other side, for example an order whose customer id is not in the customers list. Getting this right matters because it decides whether your report loses rows, gains blank values, or grows extra rows you did not expect.",
+      "example": {
+        "code": "# like pd.merge(a, b, on=\"id\", how=\"left\"), in plain Python\norders = [{\"id\": 1, \"item\": \"pen\"}, {\"id\": 9, \"item\": \"ink\"}]\nnames = {1: \"Ann\"}\nfor o in orders:\n    print(o[\"item\"], names.get(o[\"id\"]))",
+        "output": "pen Ann\nink None"
+      },
       "hints": [
         "The question is really asking who wins when a match cannot be found, orders or customers. Look at the code: which table is written first inside pd.merge, and which one is written second. Which one do you think left refers to in a merge?",
         "Think of it like a class roster and a locker assignment sheet. If you keep every student on the roster and just note lockers where you can find them, leaving a blank for kids without a locker yet, you keep the full roster no matter what. That is the general idea behind keeping one whole side. Look for the option that keeps one table complete and marks the missing bits rather than deleting anyone.",
@@ -866,6 +962,10 @@
       ],
       "explain": "inner keeps only rows whose key appears in both, so the 8 unmatched rows are dropped.",
       "teach": "An inner join is like a matching game: pandas looks at both tables and keeps only the rows where the key value shows up on both sides. Any row whose key has no partner on the other side is simply left out of the result, it does not get a blank, it disappears entirely. For example, if a receipt lists a customer id the customer file has never heard of, that receipt will not appear in an inner joined result. This matters because it is an easy way to lose data without any error message.",
+      "example": {
+        "code": "orders = [1, 2, 3, 4, 5]   # customer id on each of 5 orders\nknown = {1, 2, 3}         # ids that exist in customers\nkept = [c for c in orders if c in known]\nprint(len(kept))",
+        "output": "3"
+      },
       "hints": [
         "The question is asking how many orders survive when you only keep rows that exist in both tables. Look at the total number of orders and how many of them have a customer id that customers does not recognise. What happens to those specific rows in an inner join?",
         "Imagine you have 100 guest name tags but 8 of the names are not on the official guest list. If you only keep tags that match someone on the list, you remove exactly those 8, nobody else. The same subtraction happens here: start from the total row count and take away only the rows that fail to match. Look for the option that reflects a small, exact drop rather than a big change.",
@@ -914,6 +1014,10 @@
       "accept": [],
       "explain": "concat stacks frames with the same columns; merge is for combining on a key.",
       "teach": "Sometimes you have several tables shaped exactly the same, like a sales file for January and one for February, and you just want to stack them into one long table instead of matching them by a shared column. That is different from a join, which lines up rows using a key such as customer_id. Pandas has a tool whose job is placing tables on top of each other, one after another, separate from the tool that glues tables side by side by matching keys. Knowing which job you need avoids confusing stack these with match these up.",
+      "example": {
+        "code": "# stack one table under another\njan = [(\"pen\", 4), (\"ink\", 2)]\nfeb = [(\"pen\", 5)]\nprint(jan + feb)",
+        "output": "[('pen', 4), ('ink', 2), ('pen', 5)]"
+      },
       "hints": [
         "The question is asking for the pandas function that stacks two tables with the same columns into one taller table. Look at jan and feb: do they need to be matched by a shared key, or simply piled one under the other? Which family of tools handles plain stacking rather than key based matching?",
         "Think of it like stapling two printed pages together versus using an index card to look up matching entries between two boxes. Stapling just places one sheet after another with no lookup involved, and that is what jan and feb need. The blank wants a function whose whole job is combining a list of tables by placing them together, not one that searches for matching keys.",
@@ -945,6 +1049,10 @@
       ],
       "explain": "pivot_table reshapes long data into a grid, aggregating the values for each city and year pair.",
       "teach": "Sometimes your data is long, one row per city per year, with a revenue number each time. A pivot table reshapes long data into a grid, turning one column's unique values into new row labels and another column's unique values into new column labels, then filling each cell with a number computed from a third column. If a city and year pair has more than one matching row, pandas needs a rule for combining them into a single cell, and aggfunc supplies that rule. It is the same idea as building a spreadsheet cross-tab by hand, just automated.",
+      "example": {
+        "code": "# rows are teams, columns are rounds, each cell is a sum\ndata = [(\"red\", 1, 5), (\"red\", 2, 7), (\"blue\", 1, 3), (\"red\", 1, 1)]\ngrid = {}\nfor team, rnd, pts in data:\n    grid.setdefault(team, {}).setdefault(rnd, 0)\n    grid[team][rnd] += pts\nprint(grid)",
+        "output": "{'red': {1: 6, 2: 7}, 'blue': {1: 3}}"
+      },
       "hints": [
         "The question is asking what shape of table comes out of this pivot_table call. Look at the three arguments, index, columns and values. What do you think happens to the unique cities and the unique years, and what number ends up sitting inside the grid?",
         "Think of a school report card cross-tab: rows are students, columns are subjects, and each cell shows one grade. Here city becomes the row label, year becomes the column label, and revenue is the number placed in each cell, combined using the aggfunc rule whenever more than one row shares the same city and year. Look for the option describing a grid shape rather than a flat list or an error.",
@@ -976,6 +1084,10 @@
       ],
       "explain": "By default to_csv writes the index as the first column, which reappears as Unnamed: 0 when read back.",
       "teach": "Every DataFrame has an index, the row labels running down the left edge, which by default are just 0, 1, 2 and so on, not real data. When you save a DataFrame to a file, pandas by default writes that index out as if it were a genuine column. If you do not want that extra column showing up, there is a setting that tells pandas to leave the index out of the saved file. This matters because that extra column can confuse anyone reading the CSV later, including your own code.",
+      "example": {
+        "code": "import csv, sys\n\nwriter = csv.writer(sys.stdout, lineterminator=\"\\n\")\nfor number, item in enumerate([\"pen\", \"ink\"]):\n    writer.writerow([number, item])   # with row numbers\nfor item in [\"pen\", \"ink\"]:\n    writer.writerow([item])           # without",
+        "output": "0,pen\n1,ink\npen\nink"
+      },
       "hints": [
         "The question is asking what problem index=False actually solves when saving a file. Look at what a DataFrame's index normally contains, just row numbers with no real meaning, and think about what happens to those numbers when pandas writes the file by default.",
         "Imagine printing a spreadsheet that automatically adds a column showing 1, 2, 3 down the side, one you never asked for, and when someone reopens the file that column looks mislabeled. That is what happens when you save a DataFrame without this setting, an extra column of row numbers appears. Look for the option about removing that unwanted column, not one about sorting, size, or file format.",
@@ -1066,6 +1178,10 @@
       ],
       "explain": "loads = load string. json.load without the s reads from a file instead.",
       "teach": "JSON is a text format for data. It looks like a Python dict, but until it is converted it is only a string of characters, so you cannot look values up in it. The json module converts in both directions, with separate functions for text held in a string and for text read from a file. Going from dict to text looks like this:\n\nimport json\nd = {\"a\": 1}\nprint(json.dumps(d))\nprints {\"a\": 1}\n\nOnce you have a real dict, a value is read with square brackets and a key written as a string, such as d[\"a\"]. Without quotes Python would look for a variable of that name.",
+      "example": {
+        "code": "import json\n\nraw = '{\"city\": \"Oslo\", \"temp\": 4}'\ndata = json.loads(raw)\nprint(data[\"temp\"])",
+        "output": "4"
+      },
       "hints": [
         "The input is a JSON string sitting in a variable, not a file on disk. The json module has more than one reader function, so the first blank is about choosing the one that matches where the text comes from. The second blank is about how to name a key in a dict.",
         "Two of the function options differ by a single letter, and that letter tells you whether the source is a string or a file. Think back to the writer function dumps, where the trailing letter meant string. Another option, parse, sounds plausible, but the json module has no function with that name.",
@@ -1113,6 +1229,10 @@
       ],
       "explain": "dumps = dump to string. The requests library can do this for you with json=.",
       "teach": "JSON is plain text that looks like a Python dict. Networks and files carry text, not live Python objects, so a program has to convert in both directions, and turning an object into text is called serialising. The json module offers a pair of functions for each direction. A name ending in s works on a string held in memory, while the same name without the s works on an open file.\n\nExample of the reading direction:\nimport json\nd = json.loads('{\"a\": 1}')\nprint(d)\nprints {'a': 1}",
+      "example": {
+        "code": "import json\n\npoint = {\"x\": 1, \"y\": 2}\ntext = json.dumps(point)\nprint(text)\nprint(type(text))",
+        "output": "{\"x\": 1, \"y\": 2}\n<class 'str'>"
+      },
       "hints": [
         "You already have a Python dict and need the opposite of reading JSON: a Python object goes in and text comes out. Look at the four options and ask which of them are really functions in Python's json module, and which are names borrowed from other languages or ideas.",
         "The json module has a reader pair and a writer pair, and the writer names mean to dump something out. Two of the options are those writers. They differ by a single letter at the end, and that letter tells you whether the function hands back a string or writes into a file.",
@@ -1171,6 +1291,10 @@
       ],
       "explain": "JSON's true, false and null become Python's True, False and None, and json.loads does that translation for you. So ok is True and error is None. TRUE, true, Null and null are not Python names, so they raise NameError.",
       "teach": "JSON was born in JavaScript, which writes its three special words in lowercase: true, false and null. Python is case sensitive, so a lowercase word it has never been told about is just an unknown name and raises NameError. Python has its own spellings: its yes and no values are capitalised words, such as False, and its way of saying there is no value here is a different word from null altogether. A tool like json.loads translates between the two styles for you.\n\nExample:\n# JSON: {\"done\": false}\nd = {\"done\": False}\nprint(d)\nprints {'done': False}",
+      "example": {
+        "code": "import json\n\ndata = json.loads('{\"done\": false, \"count\": 3}')\nprint(data)",
+        "output": "{'done': False, 'count': 3}"
+      },
       "hints": [
         "There are two blanks, one for each JSON special word, and the comment above shows the JSON version. Python is case sensitive, so the lowercase JSON spellings will not be recognised here. Think about how Python writes its yes value and what it uses where JSON says null.",
         "For the first blank, Python wants a capital first letter and lowercase for the rest, so the all capitals version and the all lowercase version are both out. For the second blank, remember that Python has no word null in any capitalisation, so the capitalised Null is wrong just as the lowercase one is.",
@@ -1224,6 +1348,10 @@
       ],
       "explain": "resp[\"choices\"] is a list, so the next step is an index. Then key by key down to \"content\".",
       "teach": "Real API data nests: a dict holding a list holding more dicts. You read it one step at a time, left to right, and each step uses the tool that fits what you are standing on. A dict is searched by key, written as quoted text in square brackets. A list is searched by position, written as a number, and counting starts at zero for the first item. Steps chain: each pair of brackets works on whatever the previous pair returned.\n\nExample:\nd = {\"items\": [{\"id\": 7}, {\"id\": 9}]}\nprint(d[\"items\"][1][\"id\"])\nprints 9",
+      "example": {
+        "code": "reply = {\"items\": [{\"info\": {\"title\": \"Dune\", \"pages\": 412}}]}\nprint(reply[\"items\"][0][\"info\"][\"pages\"])\nprint(reply[\"items\"][0][\"info\"][\"title\"])",
+        "output": "412\nDune"
+      },
       "hints": [
         "Trace the path with your finger, starting at resp. The first step, choices, lands on a list, so the next square brackets need a position rather than a name. After that you enter a dict called message and must pick which of its keys holds the sentence.",
         "The list holds only one item, so there is just one position to choose, and Python numbers positions starting from nothing rather than from one. The second blank is a dict key, so it needs the quotes that mark it as text, otherwise Python hunts for a variable of that name.",

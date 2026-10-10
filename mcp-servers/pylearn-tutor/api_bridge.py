@@ -310,9 +310,22 @@ def query_ollama(
 
 
 def chat_llm(
-    system: str, user: str, *, max_tokens: int = 600, temperature: float = 0.7
+    system: str,
+    user: str,
+    *,
+    max_tokens: int = 600,
+    temperature: float = 0.7,
+    slow_fallback: bool = True,
 ) -> tuple[str | None, str]:
-    """Returns (response, backend_name). Groq-primary, Ollama-fallback."""
+    """Returns (response, backend_name). Groq-primary, Ollama-fallback.
+
+    A failed Groq call is retried once with half the output budget, because
+    Groq's per-minute output-token limit (1000 on the free tier) refuses a
+    request whose max_tokens does not fit what is left of the minute. With
+    slow_fallback=False (the PyQuest app) the CPU Ollama fallback is skipped:
+    it takes about 100 s on the VPS, longer than the app waits, so the app is
+    better served by a fast failure and its offline Codex.
+    """
     if not global_cap_check():
         log.warning(f"global daily cap {GLOBAL_DAILY_CAP} reached, refusing LLM call")
         raise DailyCapReached
@@ -320,6 +333,13 @@ def chat_llm(
     if answer is not None:
         return answer, "groq"
     if GROQ_API_KEY:
+        answer = query_groq(system, user, max_tokens=max_tokens // 2, temperature=temperature)
+        if answer is not None:
+            log.info("groq retry with max_tokens=%d succeeded", max_tokens // 2)
+            return answer, "groq"
+        if not slow_fallback:
+            log.warning("groq failed twice, slow fallback disabled for this caller")
+            return None, "none"
         log.info("groq failed, falling back to ollama")
     answer = query_ollama(system, user, max_tokens=max_tokens, temperature=temperature)
     return answer, "ollama" if answer else "none"
@@ -449,8 +469,9 @@ def handle_chat(body: dict) -> tuple[int, dict]:
     answer, backend = chat_llm(
         system_prompt,
         user_message,
-        max_tokens=1200 if quest_mode else 512,
+        max_tokens=700 if quest_mode else 512,
         temperature=0.4 if quest_mode else 0.7,
+        slow_fallback=not quest_mode,
     )
     if answer is None:
         return 502, {"response": None, "error": "both backends failed"}

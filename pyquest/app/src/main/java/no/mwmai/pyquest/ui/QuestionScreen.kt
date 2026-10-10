@@ -113,6 +113,27 @@ fun QuestionScreen(
                 CodeBlock(snippet)
             }
 
+            // The worked example sits on the question itself, open by default,
+            // so a beginner sees the syntax in action before answering. It uses
+            // different names and values, so it never gives the answer away.
+            question.example?.takeIf { it.code.isNotBlank() }?.let { example ->
+                var exampleOpen by remember(question.id) { mutableStateOf(true) }
+                Spacer(Modifier.height(14.dp))
+                Text(
+                    text = if (exampleOpen) "▾ WORKED EXAMPLE" else "▸ WORKED EXAMPLE (tap to show)",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Pal.Muted,
+                    modifier = Modifier
+                        .clickable { exampleOpen = !exampleOpen }
+                        .padding(vertical = 6.dp),
+                )
+                if (exampleOpen) {
+                    Spacer(Modifier.height(4.dp))
+                    WorkedExample(example)
+                }
+            }
+
             Spacer(Modifier.height(18.dp))
 
             when (question.type) {

@@ -73,6 +73,22 @@ jobs:
         with:
           build-root-directory: pyquest
 
+      - name: Restore the stable debug keystore
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_DEBUG_KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+          # Gradle signs debug builds with ~/.android/debug.keystore. A fresh
+          # runner generates a new one every build, so each APK had a different
+          # signature and Android refused to install it over the previous one.
+          if [ -n "$KEYSTORE_B64" ]; then
+            mkdir -p ~/.android
+            echo -n "$KEYSTORE_B64" | base64 -d > ~/.android/debug.keystore
+            keytool -list -keystore ~/.android/debug.keystore -storepass android | grep -i "SHA-256" || true
+          else
+            echo "::warning title=Unstable signature::ANDROID_DEBUG_KEYSTORE_BASE64 is not set; this APK will not install over the previous build"
+          fi
+
       - name: Unit tests
         run: |
           chmod +x ./gradlew
