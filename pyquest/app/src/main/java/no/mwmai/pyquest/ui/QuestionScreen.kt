@@ -102,6 +102,33 @@ fun QuestionScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 18.dp),
         ) {
+            // Case-study questions carry a scenario that the prompt refers to.
+            question.case?.takeIf { it.isNotBlank() }?.let { scenario ->
+                var caseOpen by remember(question.id) { mutableStateOf(true) }
+                Text(
+                    text = if (caseOpen) "▾ CASE STUDY" else "▸ CASE STUDY (tap to show)",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Pal.Muted,
+                    modifier = Modifier
+                        .clickable { caseOpen = !caseOpen }
+                        .padding(vertical = 6.dp),
+                )
+                if (caseOpen) {
+                    Text(
+                        text = scenario,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Pal.Text,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Pal.Ground, RoundedCornerShape(12.dp))
+                            .border(1.dp, Pal.Edge, RoundedCornerShape(12.dp))
+                            .padding(13.dp),
+                    )
+                }
+                Spacer(Modifier.height(14.dp))
+            }
+
             Text(
                 text = question.prompt,
                 style = MaterialTheme.typography.headlineSmall,

@@ -1,15 +1,206 @@
-/* ===== AI-103 exam drill: 45 questions =====
+/* ===== AI-103 exam drill: 177 questions =====
  *
  * Generated from the PyQuest tier 10 bank (pyquest/app/src/main/assets/curriculum/tier_10.json)
- * by ai103_site.py; edit the tier file and regenerate rather than editing here.
- * Scope follows the official AI-103 study guide. Answers live in localStorage
+ * by build_exam103.py at the repository root; edit the tier file and regenerate rather than
+ * editing here. Scope follows the official AI-103 study guide. Answers live in localStorage
  * under pylearn_exam103, separate from the AI-901 drill.
+ *
+ * Credit: 45 questions were written for this site. The other 132 are adapted from
+ * https://github.com/sefstratiou-ai/ai-103-practice-exam (MIT licence, see THIRD_PARTY_NOTICES.md).
  */
 
 const EXAM103_REFS = [
   [
     "AI-103 study guide (skills measured)",
     "https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103"
+  ],
+  [
+    "Foundry Models",
+    "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure"
+  ],
+  [
+    "Create a Microsoft Foundry resource",
+    "https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource"
+  ],
+  [
+    "Foundry model quota management",
+    "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/quota"
+  ],
+  [
+    "Provisioned throughput for Foundry Models",
+    "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/provisioned-throughput"
+  ],
+  [
+    "Structured outputs with Azure OpenAI",
+    "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs"
+  ],
+  [
+    "Azure OpenAI image generation models",
+    "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e"
+  ],
+  [
+    "Cloud evaluation with the Microsoft Foundry SDK",
+    "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/cloud-evaluation"
+  ],
+  [
+    "Foundry workflows (preview)",
+    "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow"
+  ],
+  [
+    "Microsoft Foundry architecture",
+    "https://learn.microsoft.com/en-us/azure/foundry/concepts/architecture"
+  ],
+  [
+    "Authentication and authorization in Microsoft Foundry",
+    "https://learn.microsoft.com/en-us/azure/foundry/concepts/authentication-authorization-foundry"
+  ],
+  [
+    "Add a connection to a Foundry project",
+    "https://learn.microsoft.com/en-us/azure/foundry/how-to/connections-add"
+  ],
+  [
+    "Shared access signatures for Azure Storage",
+    "https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview"
+  ],
+  [
+    "Agent Monitoring Dashboard",
+    "https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/how-to-monitor-agents-dashboard?view=foundry"
+  ],
+  [
+    "OpenAPI tools for Foundry agents",
+    "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/openapi"
+  ],
+  [
+    "Azure AI Content Safety overview",
+    "https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview"
+  ],
+  [
+    "Prompt Shields quickstart",
+    "https://learn.microsoft.com/en-us/azure/ai-services/content-safety/quickstart-jailbreak"
+  ],
+  [
+    "Foundry agent tracing",
+    "https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/trace-agent-setup"
+  ],
+  [
+    "Monitor Azure AI Search",
+    "https://learn.microsoft.com/en-us/azure/search/search-monitor-usage"
+  ],
+  [
+    "Evaluate Microsoft Foundry agents",
+    "https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/evaluate-agent"
+  ],
+  [
+    "Foundry Agent Service runtime components",
+    "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/runtime-components"
+  ],
+  [
+    "MCP tools for Foundry agents",
+    "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol"
+  ],
+  [
+    "File search tool for agents",
+    "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/file-search"
+  ],
+  [
+    "Foundry Agent Service memory",
+    "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/memory-usage?view=foundry"
+  ],
+  [
+    "Azure AI Search vector search overview",
+    "https://learn.microsoft.com/en-us/azure/search/vector-search-overview"
+  ],
+  [
+    "Vision-enabled chat models in Microsoft Foundry",
+    "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/gpt-with-vision"
+  ],
+  [
+    "Azure Language in Foundry Tools",
+    "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview"
+  ],
+  [
+    "PII detection in Azure Language",
+    "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview"
+  ],
+  [
+    "Azure Speech documentation",
+    "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/"
+  ],
+  [
+    "Speech to text REST API",
+    "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-speech-to-text"
+  ],
+  [
+    "Improve recognition with phrase lists",
+    "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/improve-accuracy-phrase-list"
+  ],
+  [
+    "Speech to text REST API for short audio",
+    "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/rest-speech-to-text-short"
+  ],
+  [
+    "Azure Speech batch transcription",
+    "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription"
+  ],
+  [
+    "Custom Speech model lifecycle",
+    "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-custom-speech-model-and-endpoint-lifecycle"
+  ],
+  [
+    "Azure Translator documentation",
+    "https://learn.microsoft.com/en-us/azure/ai-services/translator/"
+  ],
+  [
+    "Azure Translator known issues",
+    "https://learn.microsoft.com/en-us/azure/ai-services/translator/reference/known-issues"
+  ],
+  [
+    "Azure AI Search hybrid ranking",
+    "https://learn.microsoft.com/en-us/azure/search/hybrid-search-ranking"
+  ],
+  [
+    "Azure AI Search index projections",
+    "https://learn.microsoft.com/en-us/azure/search/search-how-to-define-index-projections"
+  ],
+  [
+    "Vector query filters in Azure AI Search",
+    "https://learn.microsoft.com/en-us/azure/search/vector-search-filters"
+  ],
+  [
+    "Text query filters in Azure AI Search",
+    "https://learn.microsoft.com/en-us/azure/search/search-filters"
+  ],
+  [
+    "Azure AI Search integrated vectorization",
+    "https://learn.microsoft.com/en-us/azure/search/vector-search-integrated-vectorization"
+  ],
+  [
+    "Azure AI Search Document Extraction skill",
+    "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-document-extraction"
+  ],
+  [
+    "Content Understanding analyzers",
+    "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference"
+  ],
+  [
+    "Document Layout skill for semantic chunking",
+    "https://learn.microsoft.com/en-us/azure/search/search-how-to-semantic-chunking"
+  ],
+  [
+    "Choose a document-processing Foundry Tool",
+    "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/choosing-right-ai-tool"
+  ],
+  [
+    "Train a custom neural Document Intelligence model",
+    "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/train/custom-neural?view=doc-intel-4.0.0"
+  ],
+  [
+    "Role-based access control for Microsoft Foundry",
+    "https://learn.microsoft.com/en-us/azure/foundry/concepts/rbac-foundry"
+  ],
+  [
+    "Speech translation overview",
+    "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-translation"
   ]
 ];
 
@@ -18,7 +209,7 @@ const EXAM103_SECTIONS = [
     "id": "a1",
     "title": "Plan & secure",
     "weight": "9 questions",
-    "note": "Written for this site from the official skills list; not copied from any question bank.",
+    "note": "Written for this site from the official skills list.",
     "questions": [
       {
         "n": 1,
@@ -209,7 +400,7 @@ const EXAM103_SECTIONS = [
     "id": "a2",
     "title": "Agents & generation",
     "weight": "9 questions",
-    "note": "Written for this site from the official skills list; not copied from any question bank.",
+    "note": "Written for this site from the official skills list.",
     "questions": [
       {
         "n": 10,
@@ -537,7 +728,7 @@ const EXAM103_SECTIONS = [
     "id": "a4",
     "title": "Vision & speech",
     "weight": "9 questions",
-    "note": "Written for this site from the official skills list; not copied from any question bank.",
+    "note": "Written for this site from the official skills list.",
     "questions": [
       {
         "n": 28,
@@ -700,7 +891,7 @@ const EXAM103_SECTIONS = [
     "id": "a5",
     "title": "Language & retrieval",
     "weight": "9 questions",
-    "note": "Written for this site from the official skills list; not copied from any question bank.",
+    "note": "Written for this site from the official skills list.",
     "questions": [
       {
         "n": 37,
@@ -875,6 +1066,2351 @@ const EXAM103_SECTIONS = [
         "correct": 0
       }
     ]
+  },
+  {
+    "id": "a6",
+    "title": "Models & deployments",
+    "weight": "13 questions",
+    "note": "Adapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 46,
+        "q": "Match each workload to the most appropriate model category.",
+        "explain": "Choose the smallest sufficient model: SLMs fit constrained devices, capable LLMs fit complex reasoning, multimodal models consume images, and embedding models produce vectors.",
+        "ref": 2,
+        "type": "match",
+        "choices": [
+          "Embedding model",
+          "Multimodal model",
+          "Large reasoning-capable language model",
+          "Small language model"
+        ],
+        "rows": [
+          [
+            "On-device intent classification with tight memory limits",
+            "Small language model"
+          ],
+          [
+            "Complex, multistep policy reasoning",
+            "Large reasoning-capable language model"
+          ],
+          [
+            "Question answering over an image and text prompt",
+            "Multimodal model"
+          ],
+          [
+            "Converting passages to vectors for similarity search",
+            "Embedding model"
+          ]
+        ]
+      },
+      {
+        "n": 47,
+        "q": "A team needs one Azure resource boundary for Foundry projects, models, agents, evaluations, and Foundry Tools such as Speech, Vision, Language, and Content Understanding. What should it create?",
+        "explain": "A Microsoft Foundry resource is the unified Azure resource boundary for projects and supported AI capabilities. Storage and Search can be connected resources, but neither replaces the Foundry resource or its project and governance boundary.",
+        "ref": 3,
+        "type": "single",
+        "options": [
+          "An Azure OpenAI resource that hosts only model deployments and OpenAI-compatible inference endpoints",
+          "A Foundry project created without a parent Foundry resource boundary",
+          "A Microsoft Foundry resource with kind AIServices",
+          "A classic Foundry hub used as the shared resource for all new Foundry capabilities"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 48,
+        "q": "A subscription has 240,000 TPM of Standard quota for one model in West Europe. Existing deployments use 160,000 TPM, and a new 100,000-TPM deployment fails quota validation. What is the most direct resolution without changing region or model?",
+        "explain": "Standard quota is allocated per subscription, region, model, and deployment type. The requested baseline allocations cannot exceed that pool, so quota must be freed from existing deployments or increased first.",
+        "ref": 4,
+        "type": "single",
+        "options": [
+          "Create the deployment in another Foundry project that uses the same subscription, model, and regional quota pool",
+          "Enable dynamic quota and create the full 100,000-TPM deployment without changing the existing allocations",
+          "Change the deployment to Global Standard while assuming the regional Standard quota automatically transfers",
+          "Reduce existing allocations by at least 20,000 TPM or obtain additional quota before creating the deployment"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 49,
+        "q": "Match each inference requirement to the most appropriate deployment scope or capacity model.",
+        "explain": "Global deployments maximize routing flexibility, Data Zone deployments constrain processing to the US or EU zone, and regional deployments constrain it to one region. Provisioned throughput reserves dedicated capacity.",
+        "ref": 5,
+        "type": "match",
+        "choices": [
+          "Regional deployment",
+          "Global deployment",
+          "Provisioned throughput",
+          "Data Zone deployment"
+        ],
+        "rows": [
+          [
+            "Highest availability when worldwide routing is acceptable",
+            "Global deployment"
+          ],
+          [
+            "Processing can occur anywhere in the EU data zone, but not outside it",
+            "Data Zone deployment"
+          ],
+          [
+            "Processing must stay in one specific Azure region",
+            "Regional deployment"
+          ],
+          [
+            "Dedicated capacity and predictable throughput are required",
+            "Provisioned throughput"
+          ]
+        ]
+      },
+      {
+        "n": 50,
+        "q": "A new application has bursty and unpredictable traffic, and the team has not yet established a sustained throughput baseline. Which initial deployment approach is most defensible?",
+        "explain": "A consumption-style deployment plus measurement fits an uncertain bursty workload. Provisioned capacity becomes easier to justify after sustained demand and latency requirements are known and geographic constraints are satisfied.",
+        "ref": 5,
+        "type": "single",
+        "options": [
+          "Create one deployment per user so each request has dedicated throughput",
+          "Reserve the maximum provisioned capacity immediately and disable usage monitoring",
+          "Route overflow to an unapproved geography without checking data-residency requirements",
+          "Use pay-per-use capacity with quota, throttling, latency, and token monitoring"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 51,
+        "q": "Which three changes can reduce inference cost without removing required functionality? Choose three.",
+        "explain": "Right-sizing models, trimming redundant tokens while keeping needed evidence, and measuring token use by feature all lower cost without removing functionality. A shared cache that ignores identity can leak answers between users, and blind truncation can drop evidence the answer needs.",
+        "ref": 2,
+        "type": "multi",
+        "options": [
+          "Remove redundant instructions and retrieved passages while preserving required evidence",
+          "Cache generated answers across users without partitioning the cache by identity or authorization context",
+          "Truncate every prompt and retrieval result to one fixed size before evaluating whether required evidence is lost",
+          "Measure token consumption by feature and enforce explicit budgets, thresholds, or alerts",
+          "Route simple, evaluated request classes to a smaller model that meets their quality target"
+        ],
+        "pick": 3,
+        "correct": [
+          4,
+          0,
+          3
+        ]
+      },
+      {
+        "n": 52,
+        "q": "A support app must minimize cost but preserve quality for difficult requests. Which design is best?",
+        "explain": "A bounded routing policy combines lower-cost models and deterministic rules for simple work with a capable fallback for complex or low-confidence cases.",
+        "ref": 2,
+        "type": "single",
+        "options": [
+          "Route simple intents to a small model, use rules and confidence checks, and escalate complex cases to a more capable model",
+          "Route every request to the largest model and use caching as the only cost-control mechanism",
+          "Route solely by prompt character count without evaluating intent complexity or result quality",
+          "Route every request to a small model and retry failures with the same model using a longer prompt"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 53,
+        "q": "A document assistant handles many simple classifications and a smaller number of difficult reasoning requests. Which design best balances cost and quality?",
+        "explain": "A measured routing strategy exploits lower-cost models where they meet the quality target and reserves a more capable model for hard cases. Evaluation and fallback criteria keep optimization from silently degrading results.",
+        "ref": 2,
+        "type": "single",
+        "options": [
+          "Use evaluated routing rules to send simple tasks to a suitable small model and escalate complex or low-confidence tasks to a stronger model",
+          "Route by prompt length alone, sending short prompts to the small model and long prompts to the reasoning model",
+          "Send every request to the small model and escalate only after an HTTP or parsing failure",
+          "Send every request to the strongest model and reduce cost by limiting all responses to the same token count"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 54,
+        "q": "You need repeatable extraction into a fixed schema. Which generation adjustment is most appropriate?",
+        "explain": "Low randomness and schema-constrained output support deterministic extraction. The application should also validate the returned structure.",
+        "ref": 6,
+        "type": "single",
+        "options": [
+          "Use a low temperature with prompt examples but accept any object shape the model returns",
+          "Use the required structured schema but increase temperature to maximize variation in extracted values",
+          "Use a low temperature and a constrained structured-output schema",
+          "Use JSON mode with a high temperature and validate only that the result parses as JSON"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 55,
+        "q": "Match each model API error to the most appropriate first remediation.",
+        "explain": "DeploymentNotFound usually means the deployment name is absent or misspelled, 401 indicates missing or invalid authentication, and 429 indicates rate limiting that should be handled with a controlled backoff policy.",
+        "ref": 7,
+        "type": "match",
+        "choices": [
+          "Apply a bounded exponential-backoff retry policy",
+          "Verify the credential and endpoint authentication configuration",
+          "Verify the configured deployment name"
+        ],
+        "rows": [
+          [
+            "DeploymentNotFound",
+            "Verify the configured deployment name"
+          ],
+          [
+            "401 Unauthorized",
+            "Verify the credential and endpoint authentication configuration"
+          ],
+          [
+            "429 Too Many Requests",
+            "Apply a bounded exponential-backoff retry policy"
+          ]
+        ]
+      },
+      {
+        "n": 56,
+        "q": "Which release process best reduces the risk of a prompt or model update reaching production?",
+        "explain": "Versioned configuration, repeatable deployment, evaluation gates, and controlled promotion make changes testable and reversible before they affect production users.",
+        "ref": 8,
+        "type": "single",
+        "options": [
+          "Promote the newest model automatically, then run the representative evaluation set against production traffic",
+          "Version configuration as code, deploy to a test environment, run quality and safety evaluations, and require a gated promotion",
+          "Run the evaluation gate in test but allow operators to change the production prompt and index configuration manually",
+          "Edit the production prompt in the portal, export it afterward, and compare a small sample manually"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 57,
+        "q": "Which four release controls best reduce risk when promoting a new prompt, model version, and retrieval configuration? Choose four.",
+        "explain": "Versioned artefacts, repeatable quality and safety evaluations, staged or canary exposure with acceptance thresholds, and a tested rollback path together make a controlled release. Running the regression set only after full rollout, or allowing unversioned production edits, removes the early warning and the reproducibility.",
+        "ref": 8,
+        "type": "multi",
+        "options": [
+          "Run the pipeline evaluation but allow unversioned prompt and index changes directly in the production portal",
+          "Use a staged or canary deployment with monitored acceptance thresholds",
+          "Run repeatable quality, groundedness, and safety evaluations on a representative dataset",
+          "Version the prompt, model deployment settings, and index schema with the application",
+          "Retain a tested rollback path to the previous workflow version",
+          "Deploy the change to all production traffic before running the representative regression dataset"
+        ],
+        "pick": 4,
+        "correct": [
+          3,
+          2,
+          1,
+          4
+        ]
+      },
+      {
+        "n": 58,
+        "q": "A workflow capability is documented as preview. The application must meet a production SLA. What is the most appropriate release decision?",
+        "explain": "Preview status is a lifecycle and support constraint. It should be captured with the design, validated against requirements, and accepted explicitly rather than being inferred from portal availability or hidden by copied schemas.",
+        "ref": 9,
+        "type": "single",
+        "options": [
+          "Copy the preview API schema into the application so future service changes cannot affect it",
+          "Remove all evaluation because preview features cannot be measured",
+          "Treat preview and generally available features as equivalent when both appear in the portal",
+          "Record the preview status, validate limitations, and require an explicit risk decision before production use"
+        ],
+        "correct": 3
+      }
+    ]
+  },
+  {
+    "id": "a7",
+    "title": "Secure & safe",
+    "weight": "12 questions",
+    "note": "Adapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 59,
+        "q": "A container app must call a Foundry project endpoint in production. Which authentication design is preferred?",
+        "explain": "Managed identity removes stored credentials. DefaultAzureCredential selects it in Azure, and RBAC should grant only the data-plane permissions the workload needs.",
+        "ref": 10,
+        "type": "single",
+        "options": [
+          "Use its managed identity through DefaultAzureCredential and assign only the required role",
+          "Use an interactive developer credential in production and restrict access through conditional access",
+          "Use a client secret stored in Key Vault and rotate it through the deployment pipeline",
+          "Use the project's API key stored in Key Vault and retrieve it through the container's managed identity"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 60,
+        "q": "A Python application successfully obtains a Microsoft Entra token for https://ai.azure.com/.default, but a Foundry request returns HTTP 403. What should the team check first?",
+        "explain": "A valid token proves authentication, while HTTP 403 commonly indicates that authorization is missing. The principal needs the appropriate Foundry data-plane role at a scope that contains the requested project or resource operation.",
+        "ref": 11,
+        "type": "single",
+        "options": [
+          "Whether the principal has Search Index Data Reader only on the connected search service",
+          "Whether the principal has Reader at the project scope but no Foundry data-plane role",
+          "Whether the same token should instead use the Azure Resource Manager audience for the project request",
+          "Whether the calling principal has the required RBAC role at the resource or project scope"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 61,
+        "q": "Several projects in the same Foundry resource must reuse an approved Azure AI Search connection. Project teams must not gain permission to administer unrelated resources. Which design is best?",
+        "explain": "Create the reusable connection once at the Foundry resource boundary, then give each project team only its project role and the data access it needs on the target resource. Copies per project, Owner or Contributor on the whole resource, and independently edited managed-identity copies all defeat central control or least privilege.",
+        "ref": 12,
+        "type": "single",
+        "options": [
+          "Create the reusable connection at the Foundry resource boundary and grant each project team only its required project and target-resource data access",
+          "Create an equivalent project-level connection in every project and give each team Contributor on the Foundry resource",
+          "Create a managed-identity connection in every project and let the central team update each copy independently",
+          "Create one resource-level key connection and give every project team Foundry Owner so they can resolve and edit it"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 62,
+        "q": "A signed URL must give one reviewer read access to a claim image for 15 minutes. Policy prohibits signing with a Storage account key. What should the application issue?",
+        "explain": "A user delegation SAS is secured with Microsoft Entra credentials instead of the Storage account key and can be constrained to the required resource, permission, and short expiry. It is the recommended SAS type when supported.",
+        "ref": 13,
+        "type": "single",
+        "options": [
+          "An account SAS signed with the Storage account key and limited to Blob service read access",
+          "A Microsoft Entra bearer token copied into the URL for the reviewer to reuse during the 15-minute period",
+          "A service SAS signed with the Storage account key and limited to read access for 15 minutes",
+          "A user delegation SAS authorized with Microsoft Entra credentials"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 63,
+        "q": "Continuous evaluation rules fail with authorization errors even though an engineer can view the project. Which identity should receive the documented project role required to run the rules?",
+        "explain": "Continuous evaluation uses the project managed identity to perform its work. Grant that workload identity the documented Foundry project role at the narrowest required scope instead of widening human or tenant permissions.",
+        "ref": 14,
+        "type": "single",
+        "options": [
+          "The model deployment's service principal at tenant scope",
+          "The Foundry project's managed identity at the project or required resource scope",
+          "Every engineer's personal identity at subscription scope",
+          "The browser session identity stored as a project connection secret"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 64,
+        "q": "An application subnet can route to a Foundry private endpoint, but the service hostname still resolves to its public address. What is missing?",
+        "explain": "Private endpoint traffic depends on name resolution mapping the service hostname to the endpoint's private address. Routing alone does not rewrite DNS, and credentials or model quota cannot correct the resolved destination.",
+        "ref": 11,
+        "type": "single",
+        "options": [
+          "A semantic ranker attached to the Foundry project",
+          "Private DNS configuration linked to the virtual network",
+          "An API key stored in the subnet's route table",
+          "A larger model quota in the private endpoint region"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 65,
+        "q": "An agent can read inventory and submit purchase orders. Which two controls most directly reduce the impact of an erroneous tool call? Choose two.",
+        "explain": "A narrow schema and least-privilege credential bound what the tool can do, while approval gates the consequential action. Broad roles and secrets in prompts increase both accidental and adversarial impact.",
+        "ref": 15,
+        "type": "multi",
+        "options": [
+          "Give the agent a narrow order schema and credentials limited to the required operations",
+          "Place the purchase-order API key in the system prompt so the model can verify it",
+          "Give every agent Contributor so a failed call can repair its own permissions",
+          "Require approval before the state-changing submission while allowing read-only lookup without that approval"
+        ],
+        "pick": 2,
+        "correct": [
+          0,
+          3
+        ]
+      },
+      {
+        "n": 66,
+        "q": "Which three controls most directly limit the blast radius of an autonomous operations agent? Choose three.",
+        "explain": "Least-privilege tools, explicit approvals, and deterministic enforcement outside the model constrain impact. Model confidence is not an authorization control.",
+        "ref": 9,
+        "type": "multi",
+        "options": [
+          "Allowlist narrowly scoped tools and identities",
+          "Require approval for destructive or high-impact actions",
+          "Use narrow tools but let the model treat a high confidence score as authorization for destructive calls",
+          "Give the agent broad tools and credentials but require human approval before every read and write call",
+          "Enforce argument validation, policy checks, and execution limits outside the model"
+        ],
+        "pick": 3,
+        "correct": [
+          0,
+          1,
+          4
+        ]
+      },
+      {
+        "n": 67,
+        "q": "The app must detect jailbreak attempts, classify harmful text and images, and detect agent tool use that is premature or misaligned with the user's request. Which three Content Safety capabilities directly address the described risks? Choose three.",
+        "explain": "Prompt Shields detects prompt attacks, the text and image analysis APIs classify harm categories by severity, and task adherence evaluates whether an agent's tool use is premature or misaligned with the request. Groundedness detection and protected-material detection answer other questions that the scenario does not raise.",
+        "ref": 16,
+        "type": "multi",
+        "options": [
+          "Groundedness detection for comparing generated answers with supplied source material",
+          "Protected-material detection for identifying known text or code in generated output",
+          "Analyze Text and Analyze Image APIs for harm-category severity classification",
+          "Task adherence checks for agent tool calls that may be misaligned or premature",
+          "Prompt Shields for direct user-prompt attacks and indirect attacks in documents"
+        ],
+        "pick": 3,
+        "correct": [
+          4,
+          2,
+          3
+        ]
+      },
+      {
+        "n": 68,
+        "q": "Match each risk to the most directly applicable Azure AI Content Safety capability.",
+        "explain": "Prompt Shields distinguishes attacks in user prompts from attacks in supplied documents. Analyze Image classifies visual harms, while task adherence evaluates whether proposed agent tool use aligns with the interaction.",
+        "ref": 16,
+        "type": "match",
+        "choices": [
+          "Prompt Shields document analysis",
+          "Task adherence detection",
+          "Analyze Image",
+          "Prompt Shields user-prompt analysis"
+        ],
+        "rows": [
+          [
+            "A user tries to override the system message",
+            "Prompt Shields user-prompt analysis"
+          ],
+          [
+            "A retrieved document contains hidden instructions for the model",
+            "Prompt Shields document analysis"
+          ],
+          [
+            "An uploaded image might contain configured harm categories",
+            "Analyze Image"
+          ],
+          [
+            "An agent attempts a tool action that is premature or misaligned with the user's task",
+            "Task adherence detection"
+          ]
+        ]
+      },
+      {
+        "n": 69,
+        "q": "A team must tune harm-category thresholds while minimizing both unsafe output and unnecessary blocking. What should it do?",
+        "explain": "Safety policy tuning is an empirical tradeoff. Representative evaluation and production monitoring reveal false positives and missed harms; no single threshold provides an absolute safety guarantee.",
+        "ref": 16,
+        "type": "single",
+        "options": [
+          "Evaluate candidate thresholds on representative adversarial and normal datasets, then monitor block and safety rates",
+          "Use the service defaults permanently and monitor only the number of requests that receive HTTP errors",
+          "Tune thresholds only on adversarial examples and use the setting with the highest block rate",
+          "Set every category to the most restrictive threshold without testing normal business content"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 70,
+        "q": "Prompt Shields returns documentsAnalysis[2].attackDetected = true for one retrieved passage. What should a grounded agent do?",
+        "explain": "A detected document attack identifies untrusted grounding content that may be trying to redirect the model. The application should enforce its block or exclusion policy and retain an audit event; Prompt Shields does not replace other safety controls.",
+        "ref": 17,
+        "type": "single",
+        "options": [
+          "Move the passage into the system-message section so its instructions are evaluated at a higher priority",
+          "Keep the passage when a normal harm-category analysis returns low severity after the Prompt Shields detection",
+          "Exclude or block that passage, record the event, and continue only with trusted evidence under the application's policy",
+          "Quarantine the passage but send an automatically generated summary of it to the agent as trusted context"
+        ],
+        "correct": 2
+      }
+    ]
+  },
+  {
+    "id": "a8",
+    "title": "Observe & evaluate",
+    "weight": "10 questions",
+    "note": "Adapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 71,
+        "q": "Which three records make an agent action most reproducible during an audit? Choose three.",
+        "explain": "Model, deployment and workflow versions, the tool name with validated arguments, result identifier and status, and the retrieved document and chunk identifiers with the index version together explain what inputs and operations produced an outcome. Hourly aggregates or an outcome without its evidence cannot reproduce the decision path.",
+        "ref": 18,
+        "type": "multi",
+        "options": [
+          "The generated recommendation and model confidence without retrieved evidence or tool arguments",
+          "Hourly aggregate latency, token, and error metrics without operation-level correlation",
+          "Retrieved document and chunk identifiers together with the effective search-index version",
+          "The model name plus the exact deployment and workflow versions used for the run",
+          "The tool name, server-validated arguments, result identifier, and execution status"
+        ],
+        "pick": 3,
+        "correct": [
+          3,
+          4,
+          2
+        ]
+      },
+      {
+        "n": 72,
+        "q": "Which four signal groups should a production RAG agent dashboard include? Choose four.",
+        "explain": "A production view needs quality, retrieval, safety, and operational signals. Together they separate model problems from poor evidence, safety incidents, and capacity or latency issues.",
+        "ref": 8,
+        "type": "multi",
+        "options": [
+          "Search-index freshness, ingestion health, and retrieval-quality measurements",
+          "End-to-end and component latency, token consumption, retry, and throttling signals",
+          "Only overall endpoint availability and request volume, without retrieval or model-quality telemetry",
+          "Safety-filter events and rates broken down by the applicable risk categories",
+          "Groundedness and answer-relevance measurements from a representative evaluation set"
+        ],
+        "pick": 4,
+        "correct": [
+          4,
+          0,
+          3,
+          1
+        ]
+      },
+      {
+        "n": 73,
+        "q": "Which four signals belong on an operational dashboard for a RAG ingestion and search pipeline? Choose four.",
+        "explain": "A pipeline dashboard needs indexer status and enrichment errors, document freshness and processing delay, embedding coverage and vector-field health, and retrieval relevance measured repeatedly on a stable query set. Quota or token data on its own, and portal availability, do not show whether the indexed evidence is current or relevant.",
+        "ref": 19,
+        "type": "multi",
+        "options": [
+          "Document freshness, indexed counts, and delay in processing updates or deletions",
+          "Retrieval relevance measured repeatedly against a stable representative query set",
+          "Model-deployment quota and token utilization without ingestion or retrieval measurements",
+          "Embedding coverage plus vector dimension, generation, and field-mapping failures",
+          "Indexer completion status, failed documents, and detailed enrichment-skill errors",
+          "Portal availability and administrator sign-in counts without document or query quality signals"
+        ],
+        "pick": 4,
+        "correct": [
+          4,
+          0,
+          3,
+          1
+        ]
+      },
+      {
+        "n": 74,
+        "q": "An agent passed its preproduction evaluation, but the team now needs quality and safety scores for a configurable sample of real production interactions. What should the team configure?",
+        "explain": "Continuous evaluation samples deployed interactions and applies configured evaluators so quality and safety can be monitored over time. Traces provide diagnostic evidence, but a trace alone is not an evaluation score.",
+        "ref": 20,
+        "type": "single",
+        "options": [
+          "Continuous evaluation for the deployed agent and its production traffic",
+          "Distributed tracing with every span treated as an evaluation score",
+          "A larger local test dataset that is run manually after each incident",
+          "A scheduled red-team scan with production sampling disabled"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 75,
+        "q": "A groundedness score drops after a release. Which combination best supports both detection and root-cause analysis?",
+        "explain": "Evaluation measures response qualities such as groundedness, while correlated traces expose the retrieval, model, and tool operations that produced an interaction. The two signals answer different but complementary questions.",
+        "ref": 20,
+        "type": "single",
+        "options": [
+          "Search replicas to calculate groundedness and quota metrics to reconstruct prompts",
+          "Token-count alerts to detect the score change and model temperature to identify the failing document",
+          "A content filter to calculate relevance and a deployment name to reconstruct tool arguments",
+          "Continuous evaluation to detect the score change and correlated traces to inspect retrieval and tool spans"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 76,
+        "q": "Which two records are most important for reproducing and auditing an approved generated asset? Choose two.",
+        "explain": "Reproducible provenance connects the output to its exact model/deployment, inputs, parameters, source assets, safety results, and approval. Current catalog metadata or superficial file properties cannot reconstruct an earlier generation.",
+        "ref": 18,
+        "type": "multi",
+        "options": [
+          "Only the current model catalog entry, even if the asset used an older deployment",
+          "Only the final file size and the reviewer's display name",
+          "The source-asset identifiers, prompt, and approval decision",
+          "The exact model deployment or version and generation parameters"
+        ],
+        "pick": 2,
+        "correct": [
+          3,
+          2
+        ]
+      },
+      {
+        "n": 77,
+        "q": "Arrange the activities in the most defensible order for releasing a changed agent.",
+        "explain": "A representative dataset precedes evaluation, evaluation evidence informs the release gate, and production monitoring begins only after the approved candidate is deployed. Reversing the order turns production users into the test set.",
+        "ref": 20,
+        "type": "order",
+        "steps": [
+          "Build or update a representative labeled evaluation dataset",
+          "Run quality, safety, and tool-behavior evaluations against the candidate",
+          "Compare results with thresholds and approve or reject the candidate",
+          "Deploy the approved version and continuously evaluate sampled production traffic"
+        ]
+      },
+      {
+        "n": 78,
+        "q": "Match each operational question to the evidence that most directly answers it.",
+        "explain": "Evaluation scores describe response quality, traces locate latency within an interaction, and approval records establish accountability for consequential actions. Quota data cannot substitute for any of those records.",
+        "ref": 20,
+        "type": "match",
+        "choices": [
+          "Continuous evaluation results",
+          "Correlated distributed traces",
+          "Immutable approval and provenance record",
+          "Subscription quota allocation"
+        ],
+        "rows": [
+          [
+            "Did groundedness degrade for sampled production answers?",
+            "Continuous evaluation results"
+          ],
+          [
+            "Which retrieval or tool span caused the latency increase?",
+            "Correlated distributed traces"
+          ],
+          [
+            "Who approved the state-changing action and with which arguments?",
+            "Immutable approval and provenance record"
+          ]
+        ]
+      },
+      {
+        "n": 79,
+        "q": "Which four data elements are most useful for diagnosing latency and cost regressions after an agent release? Choose four.",
+        "explain": "Correlated spans for model, retrieval, handoff and tool operations, token counts by call, per-span duration with status and retries, and version identifiers for prompt, workflow, tool schema and deployment let engineers compare releases and isolate regressions. Aggregates alone, or prompts and answers without version metadata, cannot attribute cost or latency to a change.",
+        "ref": 18,
+        "type": "multi",
+        "options": [
+          "Input, output, and cached token counts by model call",
+          "Prompt, workflow, tool-schema, and deployment version identifiers",
+          "Correlated spans for model, retrieval, handoff, and tool operations",
+          "Per-span duration, status, retries, and error details",
+          "Aggregate model latency and total token cost for the release without retaining per-operation spans",
+          "Store raw prompts and final answers but omit workflow, tool-schema, index, and deployment versions"
+        ],
+        "pick": 4,
+        "correct": [
+          2,
+          0,
+          3,
+          1
+        ]
+      },
+      {
+        "n": 80,
+        "q": "An agent's final message sounds correct, but production incidents show malformed tool arguments. What should the evaluation emphasize?",
+        "explain": "Agent evaluation should inspect the process as well as the final answer. Tool-input accuracy checks whether required parameters, types, formats, and values are appropriate, while task adherence checks behavioral alignment.",
+        "ref": 20,
+        "type": "single",
+        "options": [
+          "Only model token count, because malformed arguments always use more tokens",
+          "Only fluency of the final response",
+          "Tool input accuracy and task-adherence evidence from the agent trajectory",
+          "Only retrieval recall, even when no retrieval tool is involved"
+        ],
+        "correct": 2
+      }
+    ]
+  },
+  {
+    "id": "a9",
+    "title": "Tools & APIs",
+    "weight": "10 questions",
+    "note": "Adapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 81,
+        "q": "Which function-tool definition is most likely to produce reliable calls?",
+        "explain": "Clear semantics and a constrained schema help the model form valid calls. The application must still validate and authorize arguments before execution.",
+        "ref": 21,
+        "type": "single",
+        "options": [
+          "A constrained schema whose values are checked only in the browser before being sent to the backend",
+          "A clear schema that declares properties but omits required fields and allows undeclared arguments",
+          "A descriptive name, a clear purpose, a constrained JSON schema, required fields, and server-side argument validation",
+          "A descriptive tool name with one unconstrained string argument containing all requested work"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 82,
+        "q": "Which three practices are appropriate when adding a remote MCP server to a Foundry agent? Choose three.",
+        "explain": "MCP extends an agent with remote tools, so the connection, authentication, approvals, and execution boundary must be governed. Tool discovery does not replace authorization, validation, or secret management.",
+        "ref": 22,
+        "type": "multi",
+        "options": [
+          "Review or require approval for sensitive MCP tool calls",
+          "Use an approved project connection but give the agent access to every MCP tool under a subscription-level owner identity",
+          "Apply least privilege and validate tool arguments before side effects",
+          "Require approval for the first call to each MCP tool, then treat that tool as trusted for every later user and argument",
+          "Configure the MCP endpoint and its authentication through an approved project connection"
+        ],
+        "pick": 3,
+        "correct": [
+          4,
+          0,
+          2
+        ]
+      },
+      {
+        "n": 83,
+        "q": "A valid OpenAPI 3.1 document fails when registered as a Foundry agent tool because none of its operations can be selected. What should you verify first?",
+        "explain": "Foundry OpenAPI tools need each callable operation to define a unique supported operationId, which gives it a usable tool identity. A different construct such as operationRef, a missing identifier, or duplicates shared across operations leave the tools indistinguishable.",
+        "ref": 15,
+        "type": "single",
+        "options": [
+          "Each callable operation has a unique tag and summary but shares the same operationId",
+          "The servers array contains the production URL even though callable operations don't define operationId",
+          "Each callable operation defines a unique operationRef while operationId is omitted",
+          "Each callable operation defines a unique supported operationId"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 84,
+        "q": "An agent tool creates shipping labels. A network timeout can occur after the backend creates a label but before the agent receives the response. Which design best prevents duplicates?",
+        "explain": "An idempotency key identifies one intended side effect across retries. The backend can record the completed operation and safely return the same label instead of creating another one after an ambiguous timeout.",
+        "ref": 15,
+        "type": "single",
+        "options": [
+          "Generate a stable idempotency key for the intended action and have the backend return the existing result on retry",
+          "Ask the model whether the first call probably succeeded and retry only when its confidence is low",
+          "Generate a new idempotency key for each retry so every HTTP request can be traced separately",
+          "Query for an existing label before each retry, then issue an unkeyed create request when none is returned"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 85,
+        "q": "An OpenAPI tool exposes two operations with the same operationId and overlapping descriptions. What should be corrected first?",
+        "explain": "The agent uses operation metadata to select and call tools. Unique operation IDs plus precise descriptions and bounded schemas reduce ambiguity; removing authentication or constraints makes the integration less safe.",
+        "ref": 15,
+        "type": "single",
+        "options": [
+          "Remove authentication so the model can retry either operation",
+          "Convert every request property to an unconstrained string",
+          "Give every operation the same shorter description",
+          "Make each operationId unique and keep each schema and description specific"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 86,
+        "q": "Which two changes make an OpenAPI tool safer and easier for an agent to call correctly? Choose two.",
+        "explain": "Unique, descriptive operations and bounded authenticated schemas reduce ambiguity and constrain accepted actions. Undeclared arguments and secrets in descriptions expand the attack surface and weaken validation.",
+        "ref": 15,
+        "type": "multi",
+        "options": [
+          "Allow undeclared request properties so the model can improvise",
+          "Use unique operation IDs with precise operation descriptions",
+          "Put reusable API secrets in operation descriptions",
+          "Use bounded request schemas with required fields and appropriate authentication"
+        ],
+        "pick": 2,
+        "correct": [
+          1,
+          3
+        ]
+      },
+      {
+        "n": 87,
+        "q": "A diagnostic request must use the agent's configured file-search tool, but responses sometimes answer from model knowledge and omit citations. Which response setting directly addresses this behavior?",
+        "explain": "For the documented file-search scenario, tool_choice='required' forces tool use for that response. It does not guarantee relevant evidence exists, so vector-store attachment and indexing must still be verified.",
+        "ref": 23,
+        "type": "single",
+        "options": [
+          "Set max output tokens to the number of indexed files",
+          "Set tool_choice to required for the response",
+          "Remove the vector store and place filenames in the system message",
+          "Raise temperature so the model explores more documents"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 88,
+        "q": "A workflow drafts a payment request and a human must approve it. Where should the approval occur?",
+        "explain": "Approval must gate the consequential operation and cover the exact action and arguments that will execute. Post-action notification, hidden model reasoning, or blanket version approval cannot prevent an unwanted transaction.",
+        "ref": 9,
+        "type": "single",
+        "options": [
+          "Once when the agent version is created, covering all future payments",
+          "Before the payment tool, with the exact target and arguments shown to the reviewer",
+          "After the payment tool succeeds, so the reviewer sees the final transaction ID",
+          "Inside the model's hidden reasoning, with no separate approval event"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 89,
+        "q": "Users upload supported manuals and expect an agent to answer from their contents with citations. The files are not part of an existing enterprise search index. Which tool is the most direct fit?",
+        "explain": "File search uploads and indexes supported documents in a vector store that can be attached to the agent. Memory stores user-level learned information; they are not a substitute for document ingestion and retrieval.",
+        "ref": 23,
+        "type": "single",
+        "options": [
+          "The file search tool backed by an attached vector store",
+          "A content filter configured as the agent's knowledge source",
+          "A reflection loop that asks the model to recall the manual",
+          "Conversation memory, because it automatically indexes uploaded binary documents"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 90,
+        "q": "A Foundry workflow saved a user response as a local variable named Var01. Which expression returns its uppercase value?",
+        "explain": "Foundry workflow Power Fx expressions prefix local variables with Local., and Upper transforms a string to uppercase. System. is reserved for documented system variables rather than saved local values.",
+        "ref": 9,
+        "type": "single",
+        "options": [
+          "ToUpper(Conversation.Var01)",
+          "Upper(System.Var01)",
+          "Upper(Var01.Value.Text)",
+          "Upper(Local.Var01)"
+        ],
+        "correct": 3
+      }
+    ]
+  },
+  {
+    "id": "a10",
+    "title": "Workflows, memory & RAG",
+    "weight": "10 questions",
+    "note": "Adapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 91,
+        "q": "Match each scenario to the most suitable workflow pattern.",
+        "explain": "Sequential is a fixed pipeline, group chat supports dynamic expert handoff, and human-in-the-loop pauses for input or approval.",
+        "ref": 9,
+        "type": "match",
+        "choices": [
+          "Sequential",
+          "Human in the loop",
+          "Group chat"
+        ],
+        "rows": [
+          [
+            "Research output must always flow to a writer and then to a compliance reviewer",
+            "Sequential"
+          ],
+          [
+            "Specialists dynamically hand off a support issue based on context",
+            "Group chat"
+          ],
+          [
+            "A user must approve a proposed financial transaction",
+            "Human in the loop"
+          ]
+        ]
+      },
+      {
+        "n": 92,
+        "q": "A triage agent must dynamically transfer work among billing, technical, and compliance specialists until the issue is resolved. Which pattern is the best fit?",
+        "explain": "Group chat supports context-driven transfer among specialists. Clear roles, routing rules, limits, and termination criteria keep the orchestration bounded and traceable.",
+        "ref": 9,
+        "type": "single",
+        "options": [
+          "A handoff workflow in which the active specialist transfers control and cannot rejoin the discussion",
+          "A fixed sequential workflow that invokes billing, technical, and compliance once in the same order",
+          "A concurrent fan-out workflow that runs all specialists once and merges their independent answers",
+          "A group-chat workflow with explicit participant roles and termination conditions"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 93,
+        "q": "Which design is a safe use of model reflection for a generated report?",
+        "explain": "A bounded draft-critique-revise loop can improve output while controlling cost and runaway behavior. Use explicit evaluation criteria and a deterministic stopping rule.",
+        "ref": 9,
+        "type": "single",
+        "options": [
+          "Give the critic publication tools so it can approve and publish any draft that passes self-critique",
+          "Run one critic pass without explicit criteria, then accept every revision the creator produces",
+          "Generate a draft, evaluate it against explicit criteria, revise once or twice, and stop at a fixed limit",
+          "Continue drafting and critiquing until the critic assigns its own output a perfect score"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 94,
+        "q": "A request must always pass through extraction, validation, and then summary, with each node consuming the previous node's saved output. Which workflow pattern is the clearest fit?",
+        "explain": "A sequential workflow explicitly preserves the required processing order and passes outputs between nodes. Dynamic group chat or uncoordinated parallel work would not guarantee extraction before validation and summary.",
+        "ref": 9,
+        "type": "single",
+        "options": [
+          "A shared memory store used as an execution engine",
+          "Group chat with unrestricted dynamic handoff",
+          "Independent parallel agents with no aggregation node",
+          "Sequential workflow"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 95,
+        "q": "A triage agent can delegate to billing or technical specialists. Which design makes the handoff most testable?",
+        "explain": "Explicit roles, routing criteria, and structured transfer context make delegation observable and evaluable. Identical roles and hidden routing decisions create ambiguous ownership and make failures difficult to reproduce.",
+        "ref": 21,
+        "type": "single",
+        "options": [
+          "Give all agents identical broad instructions and let them compete to answer",
+          "Store routing decisions only in the final natural-language response",
+          "Define specialist responsibilities, handoff criteria, and structured context passed at transfer",
+          "Share one unrestricted tool credential and omit agent identities from traces"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 96,
+        "q": "A backend calls the same prompt agent for many customers. Each customer may keep durable preferences, but no preference can be visible to another customer. Which memory-tool scope should be configured?",
+        "explain": "The documented {{$userId}} scope resolves an end-user identity from the x-memory-user-id header or the caller's Entra identity. A static agent or project scope would intentionally share memory across users.",
+        "ref": 24,
+        "type": "single",
+        "options": [
+          "The per-user scope {{$userId}}, with the backend sending the appropriate memory user identity",
+          "A single static scope equal to the agent version name",
+          "The literal scope {{$conversationId}} with no user identity header",
+          "A scope based only on the Foundry project resource ID"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 97,
+        "q": "An assistant must remember an order number during one support conversation, but policy forbids retaining it after that conversation ends. What should the design use?",
+        "explain": "Conversation state preserves context within the active interaction without turning transient identifiers into durable cross-session memory. File search and a shared system message would create inappropriate persistence or disclosure.",
+        "ref": 24,
+        "type": "single",
+        "options": [
+          "A file-search vector store containing every conversation transcript",
+          "A system message containing the latest order number for every user",
+          "A shared memory store with a permanent static scope",
+          "Conversation state associated with that support session"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 98,
+        "q": "Which two practices are recommended when an agent stores durable user memory? Choose two.",
+        "explain": "Memory should be isolated by user, minimized, protected, and governed with retention and deletion controls. A shared scope or indefinite retention creates avoidable privacy and cross-user disclosure risks.",
+        "ref": 24,
+        "type": "multi",
+        "options": [
+          "Use one shared static scope so recommendations improve across customers",
+          "Retain every interaction indefinitely so deletion cannot affect model quality",
+          "Map the memory scope to the end user and enforce per-user access controls",
+          "Expose appropriate memory inspection and deletion controls and minimize sensitive content"
+        ],
+        "pick": 2,
+        "correct": [
+          2,
+          3
+        ]
+      },
+      {
+        "n": 99,
+        "q": "Which three practices most directly improve the grounding of a RAG answer? Choose three.",
+        "explain": "Meaningful chunking with overlap, retrieving relevant passages together with stable source metadata, and telling the model to answer from supplied evidence and abstain when it is insufficient most directly improve grounding. Always taking one top chunk, or using the largest fixed chunks with no overlap, throws away evidence the answer may need.",
+        "ref": 25,
+        "type": "multi",
+        "options": [
+          "Tell the model to answer from supplied evidence and abstain when evidence is insufficient",
+          "Use the largest possible fixed chunks without overlap so fewer records are placed in the search index",
+          "Always retrieve only the single highest-scoring chunk, regardless of score distribution or evidence coverage",
+          "Use chunking and overlap that preserve meaningful context",
+          "Retrieve relevant passages and include stable source metadata"
+        ],
+        "pick": 3,
+        "correct": [
+          3,
+          4,
+          0
+        ]
+      },
+      {
+        "n": 100,
+        "q": "Which three practices make citations in a RAG response reproducible? Choose three.",
+        "explain": "Stable source metadata must survive indexing, retrieval, and generation. Validating cited identifiers against the actual retrieved set prevents fabricated links and makes the answer traceable to a specific evidence version.",
+        "ref": 25,
+        "type": "multi",
+        "options": [
+          "Keep stable document and chunk identifiers with source URLs and version metadata",
+          "Validate that returned citation identifiers were present in the retrieved context",
+          "Pass retrieved source identifiers alongside the text supplied to the model",
+          "Keep the document URL but omit chunk identifiers and effective-version metadata from retrieval results",
+          "Prompt the model to include plausible source URLs and accept them whenever the URL format is valid"
+        ],
+        "pick": 3,
+        "correct": [
+          0,
+          2,
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a11",
+    "title": "Vision & language",
+    "weight": "12 questions",
+    "note": "Adapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 101,
+        "q": "An inspection app must answer, 'Is the pressure gauge above the red threshold?' based only on a photo. Which design is best?",
+        "explain": "A multimodal model can reason over the image and question together. Requiring visible evidence reduces unsupported conclusions.",
+        "ref": 26,
+        "type": "single",
+        "options": [
+          "Compare an image embedding with labeled high- and low-pressure examples and return the nearest label",
+          "Send the image and question to a multimodal model and require an answer grounded in visible evidence",
+          "Use a custom object detector to locate the gauge, then assume any detected gauge is above threshold",
+          "Run OCR on the gauge labels and infer the needle position from the recognized threshold text"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 102,
+        "q": "A team is creating a new Azure image-generation deployment after March 2026. Which model family should it evaluate?",
+        "explain": "Microsoft documents DALL-E 3 as retired on March 4, 2026. New Azure image-generation solutions should use a supported GPT-image series model selected for the required quality, editing, latency, and cost characteristics.",
+        "ref": 7,
+        "type": "single",
+        "options": [
+          "A vision-capable chat model that accepts images but doesn't expose an image-generation operation",
+          "A supported GPT-image series model",
+          "An image-embedding model used to retrieve the nearest existing asset",
+          "A DALL-E 3 deployment created after its new-deployment retirement date"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 103,
+        "q": "A supported GPT-image workflow must generate a product cutout with a transparent background. Which output configuration is appropriate?",
+        "explain": "Transparency requires an image format that supports an alpha channel, such as PNG, together with the supported transparent-background option. JPEG output cannot preserve transparency.",
+        "ref": 7,
+        "type": "single",
+        "options": [
+          "Request a transparent background with JPEG output",
+          "Request a transparent background and use PNG output",
+          "Request an opaque background with PNG output",
+          "Leave the background on auto and request JPEG output"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 104,
+        "q": "Which three capabilities are supported by current GPT-image series workflows in Azure? Choose three.",
+        "explain": "Current GPT-image models accept text and image input, support editing with a mask and a prompt, and return generated images as base64 data. They do not return every image as a hosted URL, and transparency cannot be combined with JPEG output.",
+        "ref": 7,
+        "type": "multi",
+        "options": [
+          "Accept text and image inputs for supported generation or editing scenarios",
+          "Request a transparent background while using JPEG output",
+          "Return every generated image as a hosted URL instead of inline base64 data",
+          "Return generated image data as base64 output",
+          "Use a mask and prompt to constrain an edit to selected areas"
+        ],
+        "pick": 3,
+        "correct": [
+          0,
+          4,
+          3
+        ]
+      },
+      {
+        "n": 105,
+        "q": "A user asks whether a photographed control panel has a damaged connector, but the connector is outside the frame. How should a grounded multimodal assistant respond?",
+        "explain": "A visually grounded answer must distinguish observed evidence from missing information. Requesting another image is appropriate when the required region is absent; inference or generated imagery cannot establish the real connector's state.",
+        "ref": 26,
+        "type": "single",
+        "options": [
+          "State that the connector is damaged because that is the safer assumption",
+          "Generate a likely connector image and analyze the generated pixels",
+          "Infer the connector's condition from the visible warning light",
+          "Explain that the image does not show the connector and request a suitable photograph"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 106,
+        "q": "An image-generation response contains b64_json rather than a public URL. What should the application do to persist the generated image?",
+        "explain": "The b64_json field carries base64-encoded image bytes. The application must decode it before writing an image file; treating it as a URL or writing the text itself produces an invalid artifact.",
+        "ref": 7,
+        "type": "single",
+        "options": [
+          "Store the encoded string directly in a .png file without decoding",
+          "Treat b64_json as a Blob Storage URL and issue an HTTP GET",
+          "Base64-decode the value to bytes and write those bytes using the intended image format",
+          "Send the value to Translator before storing it"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 107,
+        "q": "Which two instructions best support useful, evidence-grounded alt text? Choose two.",
+        "explain": "Accessible descriptions should communicate relevant visible information and represent uncertainty honestly. Unsupported claims and mechanically long output can mislead users and obscure the image's actual purpose.",
+        "ref": 26,
+        "type": "multi",
+        "options": [
+          "State uncertainty or omit details that cannot be verified from the image",
+          "Infer product claims that are likely true even when they are not visible",
+          "Describe information needed to understand the image's purpose and context",
+          "Always produce the longest possible description regardless of page context"
+        ],
+        "pick": 2,
+        "correct": [
+          2,
+          0
+        ]
+      },
+      {
+        "n": 108,
+        "q": "Partner images can contain unsafe imagery and printed instructions intended to manipulate the agent. Which two controls address these distinct risks? Choose two.",
+        "explain": "Content classification and indirect prompt-attack detection address different threat categories and should be layered. Better resolution does not establish trust, and untrusted text must never override system policy.",
+        "ref": 17,
+        "type": "multi",
+        "options": [
+          "Increase image resolution so hidden instructions become trustworthy",
+          "Classify the image with the applicable content-safety controls",
+          "Run Prompt Shields or equivalent document-attack detection on untrusted grounding content",
+          "Let the vision model follow printed instructions before the system message"
+        ],
+        "pick": 2,
+        "correct": [
+          1,
+          2
+        ]
+      },
+      {
+        "n": 109,
+        "q": "Which three outputs can a generative text-analysis flow produce directly from customer feedback? Choose three.",
+        "explain": "A generative text-analysis flow can extract entities and topics, summarize, and return structured JSON that follows a supplied schema. Word-level speaker timestamps come from speech recognition, and bounding polygons come from document layout analysis, so neither is produced from feedback text alone.",
+        "ref": 27,
+        "type": "multi",
+        "options": [
+          "Page-coordinate bounding polygons for every extracted phrase",
+          "Structured JSON whose properties and types conform to a supplied output schema",
+          "A concise feedback summary constrained by the application's review instructions",
+          "Named entities and topics extracted into the declared feedback-analysis structure",
+          "Word-level speaker timestamps for each feedback item"
+        ],
+        "pick": 3,
+        "correct": [
+          3,
+          2,
+          1
+        ]
+      },
+      {
+        "n": 110,
+        "q": "Legal reviewers need compliance summaries with fixed headings and citations to clauses. What is the best first implementation?",
+        "explain": "Grounding, domain instructions, examples, and a schema target the required format. An evaluation set tests whether summaries and citations meet compliance needs.",
+        "ref": 6,
+        "type": "single",
+        "options": [
+          "Use a domain-specific prompt with examples, a structured schema, retrieved clauses, and an evaluation set",
+          "Use extractive summarization and add headings afterward without retrieving or preserving clause identifiers",
+          "Fine-tune a model on prior summaries and accept free-form output without a schema or citation validation",
+          "Use a structured prompt and examples but rely on model memory instead of retrieving the governing clauses"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 111,
+        "q": "A support application must locate personal identifiers in free text and produce a version suitable for downstream diagnostics with those entities obscured. Which capability should it use?",
+        "explain": "Azure Language PII detection identifies supported personal-information categories and can return redacted text. Translation, synthesis, and semantic ranking do not provide entity-level PII recognition and redaction.",
+        "ref": 28,
+        "type": "single",
+        "options": [
+          "Azure Language PII detection and its redacted text output",
+          "Speech synthesis with word-boundary events",
+          "Translator transliteration with the target script set to Latin",
+          "Semantic ranking with captions disabled"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 112,
+        "q": "Which two practices best reduce accidental disclosure when processing support transcripts for diagnostics? Choose two.",
+        "explain": "PII controls should occur before broad diagnostic propagation, and retained sensitive metadata should be minimized to the workflow's needs. Speech-derived text can contain the same personal information as typed text.",
+        "ref": 28,
+        "type": "multi",
+        "options": [
+          "Retain entity category and position information only where the diagnostic workflow actually requires it",
+          "Assume redaction is unnecessary when the transcript was produced by Speech rather than typed by a user",
+          "Write the original transcript to every trace before running detection",
+          "Run PII detection before placing transcript content in ordinary diagnostic logs"
+        ],
+        "pick": 2,
+        "correct": [
+          3,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a12",
+    "title": "Speech & translation",
+    "weight": "11 questions",
+    "note": "Adapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 113,
+        "q": "Match each requirement to the Azure Speech capability.",
+        "explain": "Recognition transcribes, synthesis produces audio, speech translation changes language during recognition, and SSML controls synthesized speech characteristics.",
+        "ref": 29,
+        "type": "match",
+        "choices": [
+          "SSML",
+          "Speech translation",
+          "Speech to text",
+          "Text to speech"
+        ],
+        "rows": [
+          [
+            "Turn a recorded call into text",
+            "Speech to text"
+          ],
+          [
+            "Read an agent answer in a natural voice",
+            "Text to speech"
+          ],
+          [
+            "Convert live spoken French into English text",
+            "Speech translation"
+          ],
+          [
+            "Control pauses, pronunciation, rate, and pitch",
+            "SSML"
+          ]
+        ]
+      },
+      {
+        "n": 114,
+        "q": "A voice agent must pronounce a product name correctly and pause before reading a warning. What should you supply to text to speech?",
+        "explain": "SSML is designed to control pronunciation, pauses, speaking rate, pitch, volume, voice, and other speech-synthesis properties.",
+        "ref": 29,
+        "type": "single",
+        "options": [
+          "Supply a plain-text utterance plus a pronunciation lexicon but no markup for the required pause",
+          "Set speaking rate and pitch in the SDK request but leave the product pronunciation and pause unspecified",
+          "SSML with pronunciation and break controls",
+          "Train a custom voice for the product name and insert punctuation where the warning pause should occur"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 115,
+        "q": "Match each audio workload to the most suitable Speech capability.",
+        "explain": "Real-time transcription handles streams, fast transcription synchronously handles a single stored file, batch transcription processes large stored collections asynchronously, and Custom Speech adapts recognition to domain data.",
+        "ref": 30,
+        "type": "match",
+        "choices": [
+          "Custom Speech",
+          "Real-time transcription",
+          "Batch transcription",
+          "Fast transcription"
+        ],
+        "rows": [
+          [
+            "Live microphone input with interim results",
+            "Real-time transcription"
+          ],
+          [
+            "One stored recording that needs a synchronous transcript quickly",
+            "Fast transcription"
+          ],
+          [
+            "Thousands of recordings already held in Blob Storage",
+            "Batch transcription"
+          ],
+          [
+            "Recurring domain vocabulary needs model adaptation and measured accuracy gains",
+            "Custom Speech"
+          ]
+        ]
+      },
+      {
+        "n": 116,
+        "q": "A live demo repeatedly misrecognizes twelve new product names. The team needs a quick runtime improvement without training a custom model. What should it use?",
+        "explain": "A phrase list can bias speech recognition toward a small set of expected words or names at runtime. It is faster to apply than training a custom model, though broader persistent accuracy needs may justify Custom Speech.",
+        "ref": 31,
+        "type": "single",
+        "options": [
+          "Create a custom neural voice that pronounces the product names correctly during text-to-speech output",
+          "Train a custom Speech model on labeled recordings of the twelve names before the live demo",
+          "A phrase list supplied to the speech recognizer",
+          "Use pronunciation assessment to score each recognized product name and substitute low-scoring results"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 117,
+        "q": "Which three text-to-speech behaviors can SSML directly control? Choose three.",
+        "explain": "SSML controls pronunciation (phonemes or a referenced lexicon), pauses and emphasis through prosody, and the voice with its rate, pitch and volume. The audio container, codec and sample rate are set in the synthesis output configuration, and region or capacity belong to the Azure resource, not to SSML.",
+        "ref": 29,
+        "type": "multi",
+        "options": [
+          "The audio container, codec, and sample rate selected for the synthesized output file",
+          "Pronunciation through SSML phonemes or a referenced pronunciation lexicon",
+          "Pauses, emphasis, and sentence delivery through SSML prosody elements",
+          "Voice selection together with speaking rate, pitch, volume, and other prosody controls",
+          "The Azure region and deployment capacity assigned to a custom voice endpoint"
+        ],
+        "pick": 3,
+        "correct": [
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "n": 118,
+        "q": "A Speech REST request returns 401 after a team copies a resource key from West Europe but sends the request to an East US regional endpoint. What should it do first?",
+        "explain": "Speech credentials and regional endpoints must refer to the same resource context. A 401 is an authentication problem, so the team should verify the matching key, resource endpoint, region, and authorization header before changing audio settings.",
+        "ref": 32,
+        "type": "single",
+        "options": [
+          "Use the endpoint or region that belongs to the Speech resource associated with that key",
+          "Use the global Speech endpoint with the regional key but omit the resource region from configuration",
+          "Regenerate the West Europe key and continue sending it to the East US regional endpoint",
+          "Acquire a token for an East US Speech resource while continuing to identify the West Europe resource in the request"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 119,
+        "q": "A nightly job must transcribe 8,000 long recordings already stored in Blob Storage. Interactive partial results are not required. Which capability should the solution use?",
+        "explain": "Batch transcription is an asynchronous service for large volumes of prerecorded audio in storage. Real-time recognition is intended for live or interactive streams and would add unnecessary orchestration for a nightly historical workload.",
+        "ref": 33,
+        "type": "single",
+        "options": [
+          "Azure Speech batch transcription for asynchronous processing of the Blob-hosted recordings",
+          "Conversation transcription, with a live session kept open while each stored file is played into it",
+          "Continuous real-time recognition, with one long-running recognizer allocated to every Blob recording",
+          "Fast transcription, submitting each complete long recording through a synchronous request"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 120,
+        "q": "A Custom Speech model expires before the team updates its deployments. What behavior should operations expect?",
+        "explain": "The documented behaviors differ: a custom endpoint falls back to the newest base model for its locale, potentially reducing domain accuracy, while batch transcription requests that reference an expired model fail with a client error.",
+        "ref": 34,
+        "type": "single",
+        "options": [
+          "Both custom endpoints and batch transcription silently use any model in any locale",
+          "Both routes continue using the expired custom model indefinitely because it was previously deployed",
+          "The custom endpoint falls back to the newest base model for the same locale, while a batch request that names the expired model fails with a 4xx error",
+          "The custom endpoint returns a 2xx response with no transcript, while batch transcription retrains the model automatically"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 121,
+        "q": "A document pipeline must translate millions of already-extracted text segments. No audio is involved. Which capability is the most direct fit?",
+        "explain": "Azure Translator is the direct prebuilt service for text translation. Speech translation is appropriate when the input is audio or a live spoken stream.",
+        "ref": 35,
+        "type": "single",
+        "options": [
+          "Azure Translator Text in Foundry Tools, called directly for each already-extracted text segment",
+          "Send every segment to a general language model with a translation instruction and no terminology controls",
+          "Convert the segments to synthetic speech and use Speech Translation on the generated audio",
+          "Create temporary documents from the segments and submit each file to Document Translation"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 122,
+        "q": "A single customer message alternates between French and German phrases. Translator returns incomplete English output. What is the documented mitigation?",
+        "explain": "Translator does not reliably support sentences containing mixed-language text. Segmenting the content into single-language units and specifying the intended source language avoids asking one request to interpret conflicting language context.",
+        "ref": 36,
+        "type": "single",
+        "options": [
+          "Transliterate the message before every translation request",
+          "Submit the entire message without a source language and increase max tokens",
+          "Split the input into single-language segments and translate each with its intended source language",
+          "Use document OCR because OCR automatically resolves mixed-language sentences"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 123,
+        "q": "Arrange the processing stages for a message that contains several language-homogeneous segments.",
+        "explain": "The mitigation begins by isolating single-language inputs, then associating each with the proper source language. Translation occurs per segment before ordered reconstruction and any review required by the scenario.",
+        "ref": 36,
+        "type": "order",
+        "steps": [
+          "Separate the message into language-homogeneous segments",
+          "Determine or validate the source language for each segment",
+          "Translate each segment with its intended source and target language",
+          "Reassemble the outputs in order and apply any required human quality review"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a13",
+    "title": "Search & indexing",
+    "weight": "10 questions",
+    "note": "Adapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 124,
+        "q": "Arrange the integrated RAG steps in the correct end-to-end order.",
+        "explain": "Ingestion connects to content, extracts and chunks it, embeds chunks, and stores them. Query time vectorizes the query, retrieves relevant passages, and grounds generation with those passages.",
+        "ref": 25,
+        "type": "order",
+        "steps": [
+          "Connect an indexer or ingestion process to the content source",
+          "Extract content and split it into useful chunks",
+          "Generate embeddings for the chunks",
+          "Store text, metadata, and vectors in the search index",
+          "Vectorize the user's query and run the search",
+          "Retrieve passages and add them to the generation context"
+        ]
+      },
+      {
+        "n": 125,
+        "q": "Match each search stage to its ranking method or score.",
+        "explain": "BM25 ranks text, HNSW supports vector nearest-neighbor search, RRF combines parallel result lists, and semantic ranking reports a separate reranker score.",
+        "ref": 37,
+        "type": "match",
+        "choices": [
+          "BM25",
+          "@search.rerankerScore",
+          "HNSW similarity",
+          "Reciprocal Rank Fusion (RRF)"
+        ],
+        "rows": [
+          [
+            "Full-text keyword ranking",
+            "BM25"
+          ],
+          [
+            "Approximate nearest-neighbor vector ranking",
+            "HNSW similarity"
+          ],
+          [
+            "Fusion of keyword and vector result lists",
+            "Reciprocal Rank Fusion (RRF)"
+          ],
+          [
+            "Secondary semantic reranking",
+            "@search.rerankerScore"
+          ]
+        ]
+      },
+      {
+        "n": 126,
+        "q": "Arrange the Azure AI Search enrichment pipeline components in their logical order.",
+        "explain": "The data source identifies input, the indexer reads it, the skillset enriches the content, and mappings or projections write the results to searchable index structures.",
+        "ref": 25,
+        "type": "order",
+        "steps": [
+          "Define the supported data source",
+          "Configure the indexer to read source documents",
+          "Apply the skillset to enrich or transform content",
+          "Map or project enriched output into the target index"
+        ]
+      },
+      {
+        "n": 127,
+        "q": "An enrichment pipeline splits each manual into many chunks. Every chunk must be a searchable document that repeats the parent manual ID and revision. What should the skillset configure?",
+        "explain": "Index projections support one-to-many indexing patterns such as document chunking. They map each child chunk plus repeated parent metadata into the search index and can omit separate parent documents when appropriate.",
+        "ref": 38,
+        "type": "single",
+        "options": [
+          "Use outputFieldMappings for enriched values but omit the index projection that creates child documents",
+          "Store one search document per manual with all chunks in a collection field and no repeated parent fields",
+          "Use only indexer fieldMappings to copy the parent document into one target search document",
+          "Index projections that map enriched child chunks and parent fields into the target index"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 128,
+        "q": "A multi-tenant vector index must exclude every document from other tenants before nearest-neighbor scoring. Which vector-filter mode should the query use?",
+        "explain": "Pre-filtering applies the filter while the vector query is executed, so ineligible tenant documents are excluded from the candidate search. Prompt instructions and semantic captions are not data-isolation controls.",
+        "ref": 39,
+        "type": "single",
+        "options": [
+          "postFilter, which applies the tenant predicate after vector candidates have been selected",
+          "No service filter; include the tenant rule in the grounding prompt after retrieval",
+          "preFilter, so the tenant predicate runs before vector candidate scoring",
+          "strictPostFilter, which filters only the final global top-k vector results"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 129,
+        "q": "An existing Azure AI Search index has a tenantId field that was created with filterable set to false. The field must now support authorization filters. What should the team do?",
+        "explain": "Azure AI Search does not let an existing field be changed to filterable in place. The supported choices are a new field populated with the desired attribute or an index rebuild; prompt instructions are not an authorization filter.",
+        "ref": 40,
+        "type": "single",
+        "options": [
+          "Add a new filterable field and repopulate it, or rebuild the index with the corrected schema",
+          "Change filterable to true in the existing index definition and rerun the indexer without rebuilding documents",
+          "Create an index alias for the existing index and set the alias itself to filterable",
+          "Keep the field nonfilterable and enforce the tenant predicate in a semantic configuration"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 130,
+        "q": "An Azure AI Search indexer must split long documents into chunks and generate an Azure OpenAI vector for every chunk. Which skill pair directly implements those two stages?",
+        "explain": "The Text Split skill performs chunking and the Azure OpenAI Embedding skill converts each chunk into a vector during indexing. Semantic ranking is a query-time ranking capability rather than an embedding skill.",
+        "ref": 41,
+        "type": "single",
+        "options": [
+          "Document Extraction skill followed by Key Phrase Extraction skill",
+          "Custom Web API skill followed by Semantic ranking",
+          "OCR skill followed by Sentiment skill",
+          "Text Split skill followed by Azure OpenAI Embedding skill"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 131,
+        "q": "A Blob indexer must expose embedded document images at /document/normalized_images/* for downstream image skills. What should be configured?",
+        "explain": "A non-none imageAction such as generateNormalizedImages produces the normalized image collection used by downstream enrichment. Query ranking and key-field choices do not extract embedded images.",
+        "ref": 42,
+        "type": "single",
+        "options": [
+          "Set imageAction to generateNormalizedImages in the applicable extraction or indexer configuration",
+          "Set parsingMode to text and disable every image action",
+          "Store base64 images in the search document key field",
+          "Add a semantic configuration named normalized_images"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 132,
+        "q": "Which two configurations are required for consistent integrated vectorization at indexing and query time? Choose two.",
+        "explain": "The indexer-driven skillset creates chunk vectors, and the index vectorizer converts text queries with the same embedding model. Mismatched vector spaces cannot be compared meaningfully, and semantic configuration does not store vectors.",
+        "ref": 41,
+        "type": "multi",
+        "options": [
+          "Use a skillset that chunks content and generates vectors during indexing",
+          "Configure a vectorizer on the index that matches the embedding model used for indexed content",
+          "Remove the vector field and store vectors only in the semantic configuration",
+          "Use unrelated embedding models for indexing and query-time vectorization to increase diversity"
+        ],
+        "pick": 2,
+        "correct": [
+          0,
+          1
+        ]
+      },
+      {
+        "n": 133,
+        "q": "Arrange the indexing path from source content to searchable chunk vectors.",
+        "explain": "The indexer drives data retrieval, enrichment first creates chunks and then their vectors, and mappings or projections persist the enriched outputs. Query-time vectorization occurs later when users search.",
+        "ref": 41,
+        "type": "order",
+        "steps": [
+          "The indexer retrieves content from the configured data source",
+          "The chunking skill divides extracted content into bounded units",
+          "The embedding skill creates a vector for each chunk",
+          "Index projections or field mappings write chunks and vectors to the target index"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a14",
+    "title": "Documents & extraction",
+    "weight": "9 questions",
+    "note": "Adapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 134,
+        "q": "A pipeline must extract invoice fields from scanned PDFs while preserving tables and layout context. Which three capabilities are required? Choose three.",
+        "explain": "OCR recovers text from scans, layout analysis preserves structural relationships, and field extraction maps evidence to the required invoice schema.",
+        "ref": 43,
+        "type": "multi",
+        "options": [
+          "Language detection and key-phrase extraction before sending the original page text to the model",
+          "Semantic reranking of previously extracted invoice text without OCR or layout-aware field extraction",
+          "Layout and table analysis that preserves rows, columns, and spatial relationships",
+          "Optical character recognition that recovers text from every scanned invoice page",
+          "Field extraction that maps invoice values and line items into a declared schema"
+        ],
+        "pick": 3,
+        "correct": [
+          3,
+          2,
+          4
+        ]
+      },
+      {
+        "n": 135,
+        "q": "Which three analyzer features directly support structured extraction with reviewer-verifiable evidence? Choose three.",
+        "explain": "The field schema defines the machine contract, detailed source and confidence information supports verification, and structured or Markdown content supports downstream workflows. Discarding provenance undermines grounded review.",
+        "ref": 43,
+        "type": "multi",
+        "options": [
+          "Markdown or structured content output for downstream reasoning",
+          "Declare the field schema but disable detailed output and discard confidence and source locations",
+          "Use a layout-only analyzer without the custom business fields required by downstream automation",
+          "A fieldSchema that declares the values and structures to extract",
+          "Detailed output with confidence, text spans, bounding regions, or source metadata"
+        ],
+        "pick": 3,
+        "correct": [
+          3,
+          4,
+          0
+        ]
+      },
+      {
+        "n": 136,
+        "q": "Arrange the main stages of a layout-aware Azure AI Search ingestion pipeline.",
+        "explain": "The indexer first reads source content, the Document Layout skill extracts structure and chunks it, embeddings are generated for those chunks, and index projections map the enriched child documents into the search index.",
+        "ref": 44,
+        "type": "order",
+        "steps": [
+          "Read source documents through the data source and indexer",
+          "Apply the Document Layout skill to extract structure and create semantic chunks",
+          "Generate embeddings for the layout-aware chunks",
+          "Use index projections to write child chunks and parent metadata to the index"
+        ]
+      },
+      {
+        "n": 137,
+        "q": "A workload extracts vendor, invoice number, dates, totals, and line items from common business invoices. It needs the most direct supported starting point. Which tool should it use?",
+        "explain": "Document Intelligence provides a prebuilt invoice model for standard invoice fields and line items, so it is the most direct starting point and needs no labelling or training. Custom neural or template models and a custom Content Understanding analyzer add work that standard invoices do not need.",
+        "ref": 45,
+        "type": "single",
+        "options": [
+          "A Document Intelligence custom template model trained separately for every vendor layout",
+          "A Document Intelligence custom neural model trained on labeled copies of the common invoice format",
+          "The Document Intelligence prebuilt invoice model",
+          "A custom Content Understanding analyzer with natural-language fields matching the standard invoice schema"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 138,
+        "q": "An intake package can include free-form letters, photographs, recorded interviews, and highly varied PDFs. The team wants inferred fields described in natural language without first labeling training data. What should it configure?",
+        "explain": "Content Understanding custom analyzers support documents, images, audio, and video and can infer schema-described fields from unstructured content without labeled training examples. A single structured-document prebuilt cannot cover the multimodal package.",
+        "ref": 45,
+        "type": "single",
+        "options": [
+          "A custom Content Understanding analyzer with a field schema",
+          "A routing pipeline of prebuilt document models, OCR, and Speech with application-written rules for all inferred fields",
+          "A composed Document Intelligence model containing one labeled extraction model for every incoming modality",
+          "A Document Intelligence custom neural model trained separately for letters, photographs, recordings, and PDFs"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 139,
+        "q": "A company has labeled examples of a structured application form across several visual variants and needs custom field extraction. Which approach is most appropriate?",
+        "explain": "A Document Intelligence custom neural model is designed for custom extraction from labeled structured or semi-structured documents with layout variation. The training build mode is neural; unrelated media and ranking services do not train field extraction.",
+        "ref": 46,
+        "type": "single",
+        "options": [
+          "Create a composed model containing only prebuilt models and route by the application's form name",
+          "Train a Document Intelligence custom neural model with buildMode set to neural",
+          "Train a Document Intelligence custom template model and require every visual variant to use identical field positions",
+          "Train a custom classifier to identify each visual variant, then use prebuilt layout without custom field extraction"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 140,
+        "q": "Which three design choices make a custom Content Understanding result useful for automated processing and human verification? Choose three.",
+        "explain": "A typed field schema supplies the machine contract, modality-appropriate extraction preserves useful content, and confidence plus grounding supports reviewer verification. Discarding evidence or auto-approving uncertain fields undermines reliable automation.",
+        "ref": 43,
+        "type": "multi",
+        "options": [
+          "Return one free-form text field and let downstream code infer every business value without typed declarations",
+          "Retain confidence and source-grounding information such as spans, regions, or media intervals",
+          "Declare the fields but disable detailed output so confidence and source grounding aren't retained",
+          "Declare typed business fields and descriptions in the field schema",
+          "Enable the content and modality features needed for OCR, layout, tables, charts, audio, or video"
+        ],
+        "pick": 3,
+        "correct": [
+          3,
+          1,
+          4
+        ]
+      },
+      {
+        "n": 141,
+        "q": "An intake package can contain free-form PDFs, photographs, audio, and video, and the output must follow one custom business schema. Which service is the better primary fit?",
+        "explain": "Content Understanding analyzers are designed for schema-based extraction across documents, images, audio, and video. Document Intelligence remains strong for supported document-centric and stable-layout workloads but is not a universal multimedia parser.",
+        "ref": 43,
+        "type": "single",
+        "options": [
+          "Azure AI Search semantic ranking without an ingestion pipeline",
+          "A fixed-layout Document Intelligence custom template model for every media type",
+          "Translator document translation without an extraction schema",
+          "Content Understanding with a schema-based multimodal analyzer"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 142,
+        "q": "Match each downstream requirement to the most useful extraction output.",
+        "explain": "Normalized images feed visual enrichment, structured JSON supports deterministic business integration, and layout-aware Markdown preserves useful document organization for reasoning. Quota metrics are operational rather than extracted content.",
+        "ref": 43,
+        "type": "match",
+        "choices": [
+          "Structured JSON matching the business schema",
+          "Search service quota metrics",
+          "Layout-aware Markdown representation",
+          "normalized_images collection"
+        ],
+        "rows": [
+          [
+            "Run OCR over images embedded in an indexed PDF",
+            "normalized_images collection"
+          ],
+          [
+            "Send validated invoice values to a line-of-business API",
+            "Structured JSON matching the business schema"
+          ],
+          [
+            "Preserve headings and tables for grounded document reasoning",
+            "Layout-aware Markdown representation"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a15a",
+    "title": "Case study: Northwind Assist",
+    "weight": "5 questions",
+    "note": "Case study. Northwind Assist. Customer support agent modernization.\n\nOVERVIEW\nNorthwind Traders sells consumer products in eleven European markets. Its current support chatbot answers only scripted questions, loses context when a customer changes topics, and frequently cites policies that have been superseded. Support managers want one agent experience for policy questions, order lookups, and refund requests.\nThe replacement will be built in Microsoft Foundry and hosted by an existing Azure App Service application. The application must serve customers and human support representatives through the same backend while preserving a separate conversation for each customer session.\nThe first production release is scheduled before the seasonal sales period. Northwind will initially keep human representatives responsible for unusual requests, but it expects the agent to handle routine policy retrieval and order-status work without manual intervention.\n\nEXISTING ENVIRONMENT\nThe App Service has a system-assigned managed identity. A Foundry resource contains a project for the support team, and the project endpoint and model deployment name are supplied to the application through environment variables. Developers use DefaultAzureCredential locally and in Azure.\nThe project has a connection to an Azure AI Search service. Policy files are stored in Azure Blob Storage and ingested by an indexer. Each searchable chunk includes plain text, a vector, the parent document URL, market, product family, policy effective date, and policy expiration date.\nThe search service supports keyword, vector, and semantic ranking. Exact order-policy codes must remain searchable as literal values, while conceptual questions such as return eligibility should use hybrid retrieval. A nightly ingestion job adds newly approved documents and removes expired content from customer-facing results.\nOrder lookup and refund operations are exposed through HTTPS APIs described by an OpenAPI document. Each operation has a unique operationId. The refund API accepts an idempotency key so that retrying a timed-out tool call does not create a second refund.\n\nREQUIREMENTS\nEvery policy answer must be grounded in current indexed evidence and include a link to the supporting policy. Retrieval must filter out documents that are not valid for the customer's market or that have expired. If evidence is absent or contradictory, the agent must say so and offer escalation.\nA customer can ask a follow-up question without repeating the order number or market. Conversation state must therefore preserve the relevant context, but it must not leak information between customers or allow old tool results to silently override newer policy evidence.\nUser prompts and retrieved policy text must be checked for prompt attacks. Instructions embedded in uploaded or retrieved documents must be treated as untrusted data. A detected document attack should prevent that content from being sent to the model as grounding evidence.\nRefunds of EUR 500 or less can proceed after the customer confirms the amount. Refunds above EUR 500 require a supervisor approval event before the refund API is invoked. A model recommendation alone never counts as approval, and a rejected request must not call the API.\nAll retrievals, model responses, tool arguments, tool results, approval decisions, and correlation identifiers must be traceable in Application Insights. Production code must not contain API keys, connection strings, or other long-lived secrets.\n\nCONSTRAINTS\nTraffic is usually modest but can increase rapidly during sales events. Northwind wants a pay-per-use model deployment for the initial release and will reassess provisioned capacity after it has several months of latency and token-usage measurements.\nModel inference must remain within the EU data zone. Existing search and storage resources are in approved European regions. The operations team can implement retries for transient throttling, but it cannot move customer data to another geography to obtain extra capacity.\nThe support engineering team can assign narrowly scoped data-plane roles, but it wants to avoid custom credential rotation or unnecessary administrator intervention. Any access design must use the App Service identity and the smallest practical resource or project scope.\n\nAdapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 143,
+        "q": "Case study, Northwind Assist. Which two actions should you take to let the App Service call Foundry and query the search index without storing credentials? Choose two.",
+        "explain": "DefaultAzureCredential can use the App Service managed identity in Azure, and the minimum required Foundry and Search data-plane roles let that identity make calls. A control-plane Reader role does not allow data calls, and keys kept in Key Vault are still long-lived secrets.",
+        "ref": 10,
+        "type": "multi",
+        "options": [
+          "Assign the managed identity the minimum required Foundry and Search data-plane roles",
+          "Use the managed identity but assign only control-plane Reader on the Foundry and Search resources",
+          "Store both service keys in Key Vault and let the App Service retrieve them at startup",
+          "Use DefaultAzureCredential in the application"
+        ],
+        "pick": 2,
+        "correct": [
+          3,
+          0
+        ]
+      },
+      {
+        "n": 144,
+        "q": "Case study, Northwind Assist. Which retrieval approach best meets the policy-answer requirement?",
+        "explain": "Hybrid retrieval covers exact terms and semantic similarity. Semantic reranking improves relevance, while returned URLs and excerpts give the model evidence it can cite.",
+        "ref": 25,
+        "type": "single",
+        "options": [
+          "Use hybrid retrieval with semantic reranking but pass only excerpt text, without source identifiers, to the agent",
+          "Use keyword-only retrieval with semantic reranking and return document URLs with each result",
+          "Use vector-only retrieval, return source URLs, and rely on embeddings for exact policy identifiers",
+          "Use hybrid retrieval with semantic reranking and pass document URLs and excerpts to the agent"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 145,
+        "q": "Case study, Northwind Assist. How should the refund process be implemented?",
+        "explain": "A human-in-the-loop step creates a real approval boundary before a consequential write operation. Notification after execution is only auditing, not authorization.",
+        "ref": 9,
+        "type": "single",
+        "options": [
+          "Require a second agent to approve the first agent's recommendation before the refund tool executes",
+          "Execute the refund with an idempotency key, then require a supervisor to approve the completed transaction",
+          "Use a human-in-the-loop workflow that pauses before refund execution when the amount exceeds EUR 500",
+          "Pause only when the model reports low confidence; otherwise let the agent execute the refund directly"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 146,
+        "q": "Case study, Northwind Assist. Which three telemetry elements are most important for the required end-to-end audit trail? Choose three.",
+        "explain": "A useful agent audit connects the model, retrieval, and tool spans, preserves evidence provenance, and records human approvals. A final answer alone cannot explain how the action occurred.",
+        "ref": 18,
+        "type": "multi",
+        "options": [
+          "Per-service request and error totals aggregated by hour without a shared operation identifier",
+          "Retrieved document and chunk identifiers retained as source-provenance metadata",
+          "The final answer, total duration, and token count without retrieval, tool, or approval events",
+          "Approval request, reviewer decision, and resulting action events retained in the same trace",
+          "Correlated trace spans for model, retrieval, and tool operations under one operation identifier"
+        ],
+        "pick": 3,
+        "correct": [
+          4,
+          1,
+          3
+        ]
+      },
+      {
+        "n": 147,
+        "q": "Case study, Northwind Assist. Northwind separates deployment automation from the running support application. The application only invokes the support agent and reads the approved policy index. Which production assignment best satisfies least privilege?",
+        "explain": "A runtime identity needs only agent endpoint interaction and index query permissions. Foundry Agent Consumer plus Search Index Data Reader provides those data-plane capabilities at narrow scopes.",
+        "ref": 47,
+        "type": "single",
+        "options": [
+          "Give the application Cognitive Services Contributor and Search Service Contributor at the resource-group scope",
+          "Give the application Reader on the Foundry project and Search Index Data Contributor on the policy index",
+          "Give the application Foundry User at the resource scope and Search Service Contributor on the search service",
+          "Give the application Foundry Agent Consumer at the agent scope and Search Index Data Reader on the policy index or search service"
+        ],
+        "correct": 3
+      }
+    ]
+  },
+  {
+    "id": "a15b",
+    "title": "Case study: Alpine Media Library",
+    "weight": "5 questions",
+    "note": "Case study. Alpine Media Library. Multimodal content discovery and compliance.\n\nOVERVIEW\nAlpine Ski House owns a rapidly growing media library used by product, accessibility, legal, and localization teams. The library contains approved product photography, draft artwork, marketing videos, audio narration, and PDF storyboards from internal and external contributors.\nEditors currently search separate file shares by filename and often cannot locate an asset when they remember only its subject or campaign. Alpine wants one search experience that supports exact identifiers, natural-language discovery, and evidence-grounded answers about visual content.\nA new assistant will generate accessible descriptions, answer questions about visible evidence, and extract a consistent campaign record from every supported media type. Human editors remain responsible for approving generated descriptions and any edited asset before publication.\n\nDATA\nPDF storyboards contain headings, paragraphs, tables, scanned pages, handwritten annotations, diagrams, and embedded product images. Some files use different layouts for each campaign, so a fixed template cannot reliably locate all required fields.\nProduct photographs can contain labels, packaging text, logos, people, and handwritten notes from reviewers. Partner-supplied images are untrusted and can contain small or low-contrast instructions that should never change the assistant's system behavior.\nVideos contain shot changes, spoken narration, music, on-screen disclosures, and product demonstrations. Reviewers need time-aligned segments so that extracted speech, visible text, objects, dominant visual characteristics, and scene descriptions can be traced to the relevant interval.\nEvery approved product has an exact alphanumeric code, such as ASH-BOOT-410, that users frequently enter verbatim. The same asset can also be discovered through conceptual requests such as 'a red touring boot photographed in snow at dusk.'\n\nREQUIREMENTS\nAzure AI Search must support literal product-code matches, full-text queries, metadata filtering, and vector similarity. Hybrid results should be semantically reranked, and the product code field must not be processed in a way that breaks exact matching.\nA reusable Content Understanding analyzer must process PDFs, images, audio, and video. It must return structured JSON matching Alpine's campaign schema and a Markdown representation that preserves useful headings, tables, and document structure for downstream RAG.\nGenerated alt text must describe only visual evidence and distinguish observed details from uncertain interpretation. When an image is incomplete or illegible, the assistant must request another asset or flag the description for review rather than inventing missing product features.\nDesigners sometimes replace a background while preserving a product. Image-edit requests must use the approved source image and, when only a bounded region may change, a mask that identifies the editable region. Unmasked product details should remain recognizable.\nUnsafe visual content must be classified before publication. Text embedded in partner images must be treated as data, and a detected indirect prompt attack must not be allowed to override system instructions or trigger an automated publishing action.\n\nSECURITY\nAll Azure service traffic must remain on approved private network paths. Public network access is disabled where supported, and name resolution must route Foundry, Search, Storage, and Content Understanding endpoints through the corresponding private endpoints.\nApplication workloads use managed identities and Microsoft Entra ID. Keys may be used only during isolated developer experiments and must never be committed to source control or embedded in production configuration.\nEditors can review and approve assets but cannot modify network settings or assign roles. Platform administrators want project-scoped permissions and shared connections configured with the least administrative effort that still keeps production resources isolated. Before promotion, a representative validation set must cover low-resolution photographs, scanned storyboards, exact product codes, multilingual narration, masked edits, and attempted document attacks. Results must record retrieval relevance, schema accuracy, visual grounding, safety outcomes, latency, and reviewer overrides so that regressions can be attributed to a specific analyzer, index, prompt, or model version. Failed samples remain in a regression suite for the next release.\n\nAdapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 148,
+        "q": "Case study, Alpine Media Library. Which approach should Alpine use to generate useful alt text?",
+        "explain": "A multimodal model can interpret the visual context. Clear accessibility and evidence constraints help produce concise descriptions without inventing details; OCR alone captures only text.",
+        "ref": 26,
+        "type": "single",
+        "options": [
+          "Use a multimodal model with the image and an accessibility-focused instruction that forbids unsupported details",
+          "Combine OCR text with a fixed caption template and omit non-text visual details",
+          "Generate alt text from catalog metadata and use the image only to verify the product category",
+          "Use an automatic image-caption capability without an accessibility instruction or evidence constraint"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 149,
+        "q": "Case study, Alpine Media Library. What should Alpine configure to reuse one extraction definition that processes PDFs and returns campaign fields plus a Markdown representation?",
+        "explain": "A Content Understanding analyzer defines the content type, extracted elements, output structure, and models in a reusable configuration. It can produce structured fields and Markdown.",
+        "ref": 43,
+        "type": "single",
+        "options": [
+          "A Document Intelligence custom neural model trained on labeled campaign PDFs",
+          "The Document Intelligence prebuilt layout model followed by application-written extraction rules",
+          "A custom Content Understanding analyzer with a field schema, content output, and detailed grounding",
+          "An Azure AI Search skillset that runs OCR and maps the resulting text directly to the index"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 150,
+        "q": "Case study, Alpine Media Library. Which three query capabilities should be combined to meet Alpine's search requirements? Choose three.",
+        "explain": "Keyword search preserves exact product-code matches, vector search adds conceptual similarity, and semantic ranking reranks text-rich results from the hybrid result set.",
+        "ref": 37,
+        "type": "multi",
+        "options": [
+          "Faceted navigation over product and campaign fields without semantic or vector retrieval",
+          "Full-text keyword search to preserve exact product names, codes, and phrases",
+          "Semantic reranking applied to the merged keyword and vector result set",
+          "Vector search over campaign content to retrieve conceptually similar material",
+          "A scoring profile that boosts recently modified documents after a keyword-only query"
+        ],
+        "pick": 3,
+        "correct": [
+          1,
+          3,
+          2
+        ]
+      },
+      {
+        "n": 151,
+        "q": "Case study, Alpine Media Library. Which architecture best meets Alpine's security requirement?",
+        "explain": "Private endpoints and DNS keep service traffic on private paths. Managed identities and least-privilege RBAC provide keyless authentication and authorization.",
+        "ref": 10,
+        "type": "single",
+        "options": [
+          "Use public endpoints restricted by service firewalls and authenticate each workload with managed identity",
+          "Private endpoints, disabled public network access where supported, private DNS, and managed-identity RBAC",
+          "Use VNet integration for the application subnet while leaving each AI service on its public endpoint",
+          "Use private endpoints and private DNS but authenticate every workload with one centrally rotated service key"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 152,
+        "q": "Case study, Alpine Media Library. Alpine receives visually varied campaign PDFs and images. It needs one reusable definition with natural-language field descriptions, Markdown content, and source-grounded values without first labeling examples. Which starting point is most appropriate?",
+        "explain": "Content Understanding is the best fit for varied multimodal inputs and fields described in natural language. Detailed output preserves the evidence needed for review.",
+        "ref": 45,
+        "type": "single",
+        "options": [
+          "A Document Intelligence custom neural model trained from labeled campaign examples",
+          "A custom Content Understanding analyzer with a field schema and detailed output",
+          "An Azure AI Search indexer using only the OCR and Split skills",
+          "A Document Intelligence prebuilt layout model followed by application-written field rules"
+        ],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "id": "a16a",
+    "title": "Case study: Fabrikam Claims Hub",
+    "weight": "5 questions",
+    "note": "Case study. Fabrikam Claims Hub. Multimodal insurance-claim intake and review.\n\nOVERVIEW\nFabrikam Insurance receives automobile claims through brokers, mobile applications, email, and call centers. A single claim can include standardized claim forms, repair estimates, photographs, police reports, medical notes, and recorded conversations.\nAdjusters currently copy information between systems and manually compare documents for conflicting dates, amounts, and policy identifiers. Fabrikam wants a claims assistant that assembles an evidence package, highlights discrepancies, and recommends the next review step without making a payment decision.\nThe planned solution uses a Microsoft Foundry project, Azure AI Search, Azure Content Understanding, Document Intelligence, Azure Speech, and an internal claims API. The rollout begins with automobile claims and may later include property claims with substantially different document layouts.\n\nDATA\nThe primary claim form has a stable layout and an existing Document Intelligence prebuilt or custom model can extract its standard fields efficiently. Other submissions, including medical narratives and broker correspondence, are highly variable and can require inferred fields described in natural language.\nRepair estimates contain tables, line items, signatures, selection marks, handwritten additions, and policy identifiers. Scans vary in quality. Reviewers need both structured fields and layout-aware text so they can confirm how an extracted value relates to its surrounding document content.\nClaim photographs can contain license plates, damage indicators, shop labels, and untrusted text. The solution must associate visual findings with the source image and must not obey instructions embedded in photographed signs, notes, or uploaded screenshots.\nRecorded calls arrive in Azure Blob Storage overnight. Some files exceed the duration suitable for a real-time request. Reviewers require timestamps, speaker labels, transcription status, and links from extracted evidence back to the supporting page, image, or media segment.\n\nREQUIREMENTS\nThe extraction output must conform to a stable JSON schema and include confidence or grounding information plus source locations. Fields include claimant identity, incident date, policy number, estimated loss, currency, repair lines, injuries, and a collection of detected inconsistencies.\nFabrikam should use the document-processing tool that best matches each workload. Standardized forms favor supported prebuilt or trained Document Intelligence models, while varied unstructured or multimodal evidence should use Content Understanding analyzers and their schema-based outputs.\nLow-confidence fields, missing required evidence, and conflicts between documents must route the claim to a human reviewer. The assistant can explain the conflict and draft a recommendation, but it cannot silently choose one source as authoritative when policy requires review.\nPayments above EUR 20,000 require explicit adjuster approval before the payment tool is called. Every payment request includes a claim identifier and idempotency key. Retrying after a network timeout must return the original result or safely resume instead of issuing a duplicate payment.\nHistorical calls must be transcribed asynchronously in bulk. Claim photos must be screened for unsafe content and indirect prompt injection. All indexed evidence must retain the tenant, claim, document, page, and media-segment identifiers required for filtering and citation.\n\nSECURITY\nAll services use private endpoints where supported, and public access is disabled for production resources. Production applications use managed identities and narrowly scoped data-plane roles; API keys are not stored in application settings.\nClaims are partitioned by business unit and jurisdiction. Search queries must apply the authorization filter before vector scoring so that evidence from another tenant or jurisdiction cannot enter the candidate set.\nEvery extraction request, retrieval, model response, tool argument, payment result, confidence-based routing decision, and human approval is retained for audit with a shared correlation identifier. Sensitive document contents must not be written to diagnostic logs unnecessarily. The release gate uses a labeled evaluation set containing clean forms, noisy scans, unusual narratives, contradictory evidence, and long recordings. Fabrikam measures field accuracy, confidence calibration, citation correctness, tenant isolation, transcription completion, and duplicate-payment prevention. A new analyzer or model version cannot advance when it improves average extraction but materially worsens a protected claim category or removes reviewer-verifiable grounding.\n\nAdapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 153,
+        "q": "Case study, Fabrikam Claims Hub. Which three controls should Fabrikam implement to meet its production security and audit requirements? Choose three.",
+        "explain": "Managed identities with minimum data-plane roles remove stored credentials, private endpoints with private DNS keep traffic on private paths, and correlated traces of retrieval, generation, tool and approval events provide the audit trail. A shared key connection and Contributor on resource groups both violate least privilege.",
+        "ref": 11,
+        "type": "multi",
+        "options": [
+          "Store the claims API key in a centrally managed project connection that is available to every claims agent",
+          "Assign the application's managed identity Contributor on each production resource group to simplify access",
+          "Correlate retrieval, generation, tool, and approval events in trace records",
+          "Use managed identities with minimum required data-plane roles",
+          "Use private endpoints and private DNS for supported service connections"
+        ],
+        "pick": 3,
+        "correct": [
+          3,
+          4,
+          2
+        ]
+      },
+      {
+        "n": 154,
+        "q": "Case study, Fabrikam Claims Hub. How should Fabrikam implement a payment recommendation that might be retried after a transient failure?",
+        "explain": "The workflow must enforce approval outside the model and make the side effect idempotent. A stable idempotency key lets the payment service recognize retries without issuing a second payment.",
+        "ref": 9,
+        "type": "single",
+        "options": [
+          "Call the payment service after approval but generate a new request identifier whenever a timed-out call is retried",
+          "Pause for adjuster approval when required, then call a validated payment service with an idempotency key",
+          "Pause for adjuster approval, then call the payment service without an idempotency key and disable automatic retries",
+          "Treat an approved model confidence threshold as payment authorization and query the backend after execution"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 155,
+        "q": "Case study, Fabrikam Claims Hub. Which Speech capability should Fabrikam use for the overnight archive of call recordings?",
+        "explain": "Batch transcription is designed for large volumes of audio already held in storage and returns results asynchronously. Diarization and timestamp settings provide the reviewer context Fabrikam requires.",
+        "ref": 33,
+        "type": "single",
+        "options": [
+          "Use conversation transcription sessions for the stored files and keep every session open until processing finishes",
+          "Use fast transcription for each complete recording and coordinate the synchronous requests in application code",
+          "Batch transcription submitted from Blob Storage with diarization and timestamp options",
+          "Run continuous real-time recognition workers for every stored recording until the entire archive completes"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 156,
+        "q": "Case study, Fabrikam Claims Hub. Which three analyzer settings or outputs directly support Fabrikam's extraction requirements? Choose three.",
+        "explain": "A custom field schema stabilizes the JSON contract, per-field confidence and source locations support review and provenance, and document content with layout output gives reviewers evidence they can inspect. A layout analyzer without a field schema, or a schema with detailed output disabled, leaves out part of that.",
+        "ref": 43,
+        "type": "multi",
+        "options": [
+          "A field schema for claim number, policy ID, amounts, and repair line items",
+          "Per-field confidence values and source-location details",
+          "Use a layout analyzer without a business-field schema and infer all claim values later from plain text",
+          "Declare the required field schema but disable detailed output so confidence and source locations are omitted",
+          "Document content and layout output suitable for grounding and reviewer display"
+        ],
+        "pick": 3,
+        "correct": [
+          0,
+          1,
+          4
+        ]
+      },
+      {
+        "n": 157,
+        "q": "Case study, Fabrikam Claims Hub. Fabrikam can identify a subset of uploads as standard vendor invoices before analysis. For that subset it needs invoice totals, dates, vendors, and line items with the least custom configuration. What should the routing workflow invoke first?",
+        "explain": "The prebuilt invoice model is the most direct supported option for standard invoices. Fabrikam can continue routing variable, multimodal claim packages to Content Understanding.",
+        "ref": 45,
+        "type": "single",
+        "options": [
+          "The Document Intelligence prebuilt invoice model",
+          "A Document Intelligence custom neural extraction model",
+          "A custom Content Understanding analyzer for every standard invoice",
+          "The Document Intelligence prebuilt layout model plus handwritten parsing rules"
+        ],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "id": "a16b",
+    "title": "Case study: Contoso Field Service",
+    "weight": "6 questions",
+    "note": "Case study. Contoso Field Service. A multilingual agent for industrial technicians.\n\nOVERVIEW\nContoso technicians service industrial pumps, compressors, and control systems across Europe. They often work in noisy locations with limited access to a laptop and need a voice-enabled assistant that can retrieve manuals, interpret equipment photographs, and prepare work orders.\nThe assistant is hosted in Microsoft Foundry and is accessed from a mobile application. It retrieves approved manuals from Azure AI Search and uses an internal REST API to create or update work orders after the technician confirms the proposed action.\nThe initial release covers four equipment families and four spoken languages. Contoso expects the knowledge base and model deployments to be reused by additional regional projects, while project data and technician conversations remain isolated.\n\nSEARCH AND TOOLS\nManuals contain exact error codes, diagrams, part identifiers, revision dates, and equipment-family metadata. Some codes contain punctuation that must remain intact for exact lookup, while conceptual questions require lexical and vector retrieval over explanatory text.\nThe search index stores human-readable chunks and corresponding vectors. Equipment family, revision status, language, and effective date are filterable. Search results must exclude obsolete manuals and favor the latest approved revision for the technician's selected equipment.\nThe work-order API publishes an OpenAPI 3.1 document. Each operation has a unique operationId, a bounded JSON schema, and Microsoft Entra authentication. Create and reschedule operations can change production systems and therefore require confirmation.\nThe Foundry project uses connections for Search and the work-order API. Connections should be centrally manageable where reuse is required, but developers should receive access only to the project and resources needed for their regional workload.\n\nINTERACTION\nTechnicians speak English, French, German, and Italian. They need interim transcripts during live conversations and translated text when a manual is available only in another supported language. The application must preserve technical codes without translating them.\nThe mobile client sends audio continuously and displays partial recognition results before the final utterance. Historical recordings are not part of the interactive path and can use a separate asynchronous transcription workflow when required.\nWhen a technician uploads a control-panel photograph, the answer must be based only on visible indicators, labels, and grounded manual evidence. If the image is blurred or omits a required component, the assistant must ask for another photograph instead of guessing.\nThe agent keeps conversation state for the active maintenance session. Tool outputs and retrieved evidence are associated with that session, and a new technician or work order must not inherit the previous session's private context.\nBefore a state-changing tool call, the application presents the equipment identifier, proposed operation, and arguments for confirmation. Read-only diagnostic lookups do not require the same approval step but still appear in the trace.\n\nOPERATIONS\nInference must remain in the EU data zone. Workload volume is steady during weekday shifts, and interactive latency must be predictable. Contoso is willing to reserve capacity if that is more appropriate than relying on variable shared throughput.\nThe operations team needs traces that separate speech recognition, retrieval, generation, and work-order tool latency. It also monitors token usage, failed tool calls, throttling, retrieval relevance, and the proportion of sessions escalated for insufficient evidence.\nThe production application uses managed identity and keyless credentials. A valid token with insufficient scope should be diagnosed as an authorization problem, while throttling should use bounded retries with exponential backoff rather than immediate repeated requests. Support runbooks distinguish malformed endpoints, unknown deployment names, expired or wrongly scoped tokens, network name-resolution failures, invalid tool payloads, and service throttling. Every retry preserves the correlation and idempotency identifiers. A canary evaluation set covers noisy speech, punctuation-heavy error codes, blurred photographs, obsolete manuals, and rejected work-order confirmations before a regional project receives a new workflow version.\n\nAdapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 158,
+        "q": "Case study, Contoso Field Service. Which deployment option best meets Contoso's EU processing and predictable-latency requirements for a steady workload?",
+        "explain": "Data Zone Provisioned keeps inference within the selected US or EU data zone and supplies dedicated provisioned capacity for predictable throughput and latency. The other choices do not satisfy both requirements.",
+        "ref": 5,
+        "type": "single",
+        "options": [
+          "Data Zone Standard with pay-per-token capacity and dynamic quota enabled",
+          "Global Provisioned with reserved capacity that can process requests outside the EU data zone",
+          "Data Zone Provisioned with capacity sized for the workload",
+          "Regional Provisioned in one EU region without the required EU data-zone deployment scope"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 159,
+        "q": "Case study, Contoso Field Service. Which three actions should Contoso take when connecting the work-order API as an agent tool? Choose three.",
+        "explain": "Foundry OpenAPI tools require usable operation identifiers. A managed-identity project connection avoids embedded secrets, and deterministic argument validation plus confirmation constrains high-impact calls.",
+        "ref": 15,
+        "type": "multi",
+        "options": [
+          "Store a permanent function key in the project connection and restrict the tool through its OpenAPI description",
+          "Register the OpenAPI specification with a unique operationId for each callable operation",
+          "Validate arguments and require confirmation before schedule-changing operations",
+          "Use a project connection and managed identity where supported",
+          "Describe argument limits in the agent instructions and let the model bypass backend validation after confirmation"
+        ],
+        "pick": 3,
+        "correct": [
+          1,
+          3,
+          2
+        ]
+      },
+      {
+        "n": 160,
+        "q": "Case study, Contoso Field Service. How should the agent answer a technician who asks whether a warning light is active in an uploaded control-panel photo?",
+        "explain": "A multimodal model can reason over the supplied image. Instructions should constrain the response to visible evidence and define an uncertainty path so the agent asks for better evidence rather than fabricating a state.",
+        "ref": 26,
+        "type": "single",
+        "options": [
+          "Use OCR on panel labels, retrieve the matching manual page, and infer the light state without visual reasoning",
+          "Train an object detector for warning lights and always return the detected class without an uncertainty path",
+          "Use a multimodal model with the photo and question, require evidence-based output, and request a clearer image when uncertain",
+          "Use a multimodal model with the image and manual but require it to choose Yes or No even when evidence is missing"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 161,
+        "q": "Case study, Contoso Field Service. Arrange the live multilingual interaction stages in the correct order.",
+        "explain": "The application first captures and recognizes speech, then translates recognized text, and can finally synthesize translated output. Streaming recognition provides the interim results required during the conversation.",
+        "ref": 48,
+        "type": "order",
+        "steps": [
+          "Capture the live audio stream",
+          "Produce interim and final speech-recognition results",
+          "Translate recognized text into the technician's target language",
+          "Optionally synthesize the translated response with the selected voice"
+        ]
+      },
+      {
+        "n": 162,
+        "q": "Case study, Contoso Field Service. Which four search capabilities should Contoso combine for manual retrieval? Choose four.",
+        "explain": "Hybrid retrieval combines full-text and vector results, a pre-scoring filter restricts results to the right equipment family, approval state and revision, and semantic ranking after reciprocal-rank fusion improves relevance. Dropping vectors, boosting instead of filtering, or filtering only after vector scoring each weakens one of the requirements.",
+        "ref": 37,
+        "type": "multi",
+        "options": [
+          "Use hybrid retrieval but apply the equipment and revision authorization filters only after vector scoring",
+          "Vector search that retrieves instructions with conceptually similar technical meaning",
+          "Semantic reranking applied after reciprocal-rank fusion of keyword and vector results",
+          "Full-text search that preserves exact matches for error codes and part identifiers",
+          "A pre-scoring filter for equipment family, approval state, and effective revision",
+          "Use semantic keyword search without vectors and boost every document from the selected equipment family"
+        ],
+        "pick": 4,
+        "correct": [
+          3,
+          1,
+          4,
+          2
+        ]
+      },
+      {
+        "n": 163,
+        "q": "Case study, Contoso Field Service. Contoso wants regional Foundry projects to reuse one approved Search connection. Regional developers must build agents in their own project but must not edit the shared connection or administer other projects. Which design best meets both requirements?",
+        "explain": "A resource-level connection supports intentional reuse. Foundry User at each project plus the minimum target-service data role separates development access from shared connection administration.",
+        "ref": 12,
+        "type": "single",
+        "options": [
+          "Create the reusable connection at the Foundry resource boundary, give developers project-scoped Foundry User, and grant only required Search data access",
+          "Store the Search administrator key in each project connection and give developers Reader on their project",
+          "Create a project connection in every region and give each developer Contributor on the Foundry resource",
+          "Create one resource connection and give every regional developer Foundry Owner so the connection resolves"
+        ],
+        "correct": 0
+      }
+    ]
+  },
+  {
+    "id": "a17a",
+    "title": "Case study: Woodgrove Creative Studio",
+    "weight": "5 questions",
+    "note": "Case study. Woodgrove Creative Studio. Governed generation of retail campaign assets.\n\nOVERVIEW\nWoodgrove Bank's creative studio produces localized campaigns for retail banking products. Teams generate images, short video concepts, captions, disclosures, and compliance summaries, then adapt the approved material for several channels and aspect ratios.\nA Microsoft Foundry application coordinates specialist agents for copy, visual creation, retrieval, and compliance review. Approved product photography, legal wording, and brand standards are stored in Azure Blob Storage and indexed in Azure AI Search.\nThe bank wants faster iteration without allowing a generative workflow to publish directly. Designers remain responsible for creative approval, and compliance reviewers must approve high-impact assets before they enter the publishing system.\n\nCREATIVE WORKFLOW\nDesigners commonly provide an approved product image and request a new seasonal background while preserving the product, logo, and printed disclosure. Some edits affect only a bounded area and therefore include a same-sized mask identifying the region that may change.\nOther assets require a transparent background for downstream layout tools. The team must select a supported image model, output format, and background option rather than assuming every model and format supports transparency or URL-based output.\nImage requests use the deployment name configured in the Foundry resource. Responses from current GPT-image models contain base64 image data. A misspelled deployment, invalid credential, rate limit, or content-policy violation must produce a distinct remediation path.\nVideo files are segmented so reviewers can locate spoken disclosures, on-screen text, products, dominant visual characteristics, and scene-level campaign metadata. Extracted claims must retain the time span and source asset needed for reviewer verification.\n\nGOVERNANCE\nGenerated assets must be checked for harmful content, prohibited symbols, missing disclosures, and brand-policy violations. Retrieved documents and uploaded assets are untrusted inputs and must not be able to inject instructions into the compliance agent.\nA Prompt Shields document result that reports an attack causes the affected grounding material to be excluded and the event to be recorded. Passing Prompt Shields does not replace normal content moderation, brand evaluation, or human review.\nEvery generated asset retains its prompt, source-asset identifiers, model deployment, generation parameters, safety results, evaluator results, and reviewer decision as provenance metadata. The audit record must link a published asset to the exact workflow version that produced it.\nHigh-impact publication actions require human approval. Agent tools expose narrow schemas, and publication credentials are available only to the controlled publishing component rather than to every creative or retrieval agent.\nWhen a request is retried after a transient failure, workflow identifiers prevent duplicate publication jobs. A model's self-critique may help identify a weak draft, but it cannot approve its own asset or bypass a failed policy check.\n\nOPTIMIZATION\nMost caption, classification, and routing tasks are simple and cost sensitive. Difficult visual reasoning and final compliance analysis can use a more capable multimodal model. Routing rules must be measured rather than assuming the largest model is required for every step.\nThe team evaluates groundedness, brand adherence, visual fidelity, safety, latency, and token usage on a representative dataset before promoting a workflow version. Failed cases are retained for regression testing after prompt, model, or tool changes.\nCampaign demand is bursty, so initial deployments use pay-per-use capacity with quota monitoring and bounded retries. The team will consider provisioned capacity only for workloads whose sustained volume and latency requirements justify the reserved throughput. Release tests include masked and unmasked edits, transparent outputs, multilingual disclosures, visually ambiguous scenes, blocked prompts, misspelled deployments, expired credentials, and forced throttling. Reviewers compare source preservation, disclosure placement, base64 decoding, safety classifications, grounding, and provenance completeness. The publishing component remains disabled in preproduction so an evaluation defect can never become a live campaign action. Only an approved, versioned workflow can cross that boundary after both designer and compliance approval.\n\nAdapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 164,
+        "q": "Case study, Woodgrove Creative Studio. Match each Woodgrove workload to the most appropriate choice.",
+        "explain": "Smaller models reduce cost for simple tasks, while multimodal models handle visual reasoning. Provisioned throughput targets predictable performance, and a Data Zone deployment constrains processing to the selected geographic zone.",
+        "ref": 2,
+        "type": "match",
+        "choices": [
+          "A Data Zone deployment",
+          "A capable multimodal model",
+          "A suitable small language model",
+          "Provisioned throughput"
+        ],
+        "rows": [
+          [
+            "High-volume, simple caption classification",
+            "A suitable small language model"
+          ],
+          [
+            "Difficult reasoning across images and text",
+            "A capable multimodal model"
+          ],
+          [
+            "Steady production traffic requiring predictable latency",
+            "Provisioned throughput"
+          ],
+          [
+            "Processing constrained to the EU geography",
+            "A Data Zone deployment"
+          ]
+        ]
+      },
+      {
+        "n": 165,
+        "q": "Case study, Woodgrove Creative Studio. Which observability design best lets Woodgrove find whether a slow campaign run was caused by retrieval, a specialist agent, or a publication tool?",
+        "explain": "A correlated distributed trace preserves the hierarchy and timing of each operation. Component spans expose latency, errors, token usage, and handoffs without relying on an unverified model explanation.",
+        "ref": 18,
+        "type": "single",
+        "options": [
+          "Use one correlated trace with parent-child spans for agent handoffs, retrieval, model calls, and tools",
+          "Record daily average latency for retrieval, models, and tools without retaining individual campaign traces",
+          "Trace only the orchestrator model call and ask each specialist to summarize its own latency in the final output",
+          "Write separate traces for retrieval, each specialist, and publication without propagating a parent context"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 166,
+        "q": "Case study, Woodgrove Creative Studio. A designer supplies an approved product photo and requests a new seasonal background while preserving the product's recognizable details. What should the image-edit request emphasize?",
+        "explain": "An image-editing request can use the supplied asset as visual context. High input fidelity gives supported GPT-image models stronger adherence to source details while the prompt directs the requested background change.",
+        "ref": 7,
+        "type": "single",
+        "options": [
+          "Use a masked GPT-image edit with low input fidelity so the seasonal background can vary more freely",
+          "Create an unmasked image variation and rely on the prompt to preserve the logo and printed disclosure",
+          "Use a GPT-image editing request with the source image and high input fidelity",
+          "Generate a new image from the product name and use a fixed seed to approximate the approved photograph"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 167,
+        "q": "Case study, Woodgrove Creative Studio. Which three outputs can Woodgrove request from a structured text-analysis step before copy review? Choose three.",
+        "explain": "A language-model text-analysis step can classify tone and sentiment, extract product names and disclosure references that can be checked against policy, and return a localized summary as schema-conforming JSON. A sentiment label alone, or withholding disclosure text and product identifiers from the model, leaves the copy review incomplete.",
+        "ref": 27,
+        "type": "multi",
+        "options": [
+          "Detected tone and sentiment represented in the declared campaign-review output",
+          "Run built-in sentiment analysis only and use the sentiment label as the complete copy-review result",
+          "Extracted product names and disclosure references that can be checked against policy",
+          "A localized campaign summary that conforms to the downstream JSON schema",
+          "Request a structured summary but omit retrieved disclosure text and product identifiers from the model context"
+        ],
+        "pick": 3,
+        "correct": [
+          0,
+          2,
+          3
+        ]
+      },
+      {
+        "n": 168,
+        "q": "Case study, Woodgrove Creative Studio. Woodgrove adds a critic agent that can reject drafts and request one revision. Publication still requires designer and compliance approval. Which workflow preserves that authorization boundary?",
+        "explain": "Reflection and critique can improve quality, but they must be bounded and separated from authorization. The publishing tool remains blocked until explicit human approvals are recorded.",
+        "ref": 9,
+        "type": "single",
+        "options": [
+          "Let the critic call the publishing tool whenever every automated evaluator exceeds its threshold",
+          "Let the creator and critic approve each other after two revision rounds, then publish automatically",
+          "Let the critic evaluate and request a bounded revision, then pause before the publishing tool until both human approvals are recorded",
+          "Let the publication agent infer approval from positive reviewer comments stored in the conversation"
+        ],
+        "correct": 2
+      }
+    ]
+  },
+  {
+    "id": "a17b",
+    "title": "Case study: Litware Contact Center",
+    "weight": "5 questions",
+    "note": "Case study. Litware Contact Center. A privacy-aware multilingual service assistant.\n\nOVERVIEW\nLitware operates customer-service centers for several European utility companies. Agents handle billing questions, service interruptions, appointment changes, and safety incidents through voice and web channels. Customers frequently alternate languages, quote account details, and upload short policy documents while a case is open.\nLitware is replacing a collection of scripted bots with a Microsoft Foundry application. A triage agent identifies the customer need, retrieves approved guidance, and delegates to billing or operations specialists. Human representatives remain accountable for account changes and emergency escalation.\nThe first release supports English, French, German, and Italian. It must provide interim speech transcripts during calls, translate language-homogeneous segments when necessary, and preserve identifiers such as meter codes without treating them as ordinary natural-language phrases.\n\nDATA AND INTERACTION\nApproved procedures are stored in an enterprise Azure AI Search index with text chunks, vectors, effective dates, jurisdiction, utility company, and source URLs. A caller can also upload a temporary PDF that applies only to the current case and is not yet present in the enterprise index.\nThe application keeps the active case number and recent tool results in conversation state. Customers can optionally save durable communication preferences, such as a preference for concise written summaries, but those memories must be isolated per user and removable on request.\nTranscripts can contain names, addresses, telephone numbers, account identifiers, and free-form descriptions of medical or financial circumstances. Ordinary operational traces must not receive raw personal information when redacted text is sufficient for diagnosing routing or latency.\nSome callers switch languages inside a single utterance. Litware has observed incorrect or incomplete output when a mixed-language sentence is submitted as one Translator request. The client can segment an utterance and associate a supported source language with each segment before translation.\n\nSPEECH AND TOOLS\nA Custom Speech model improves recognition of local street names and utility terminology. Its production endpoint serves interactive calls, while overnight quality analysis uses batch transcription over recordings retained under the applicable customer contract.\nOperations tracks every model's transcription expiration date. The team knows an expired model produces different behavior for a custom endpoint and a batch request, so the deployment runbook must detect loss of domain accuracy as well as explicit request failures.\nBilling and appointment APIs are described by OpenAPI documents with unique operation IDs and bounded schemas. Lookup operations are read-only. Changes require the representative to see the exact account, action, and arguments before approving the tool invocation.\nUploaded case documents use the agent file-search tool and a case-specific vector store. Enterprise procedures remain in the centrally managed Azure AI Search index because they require metadata filters, scheduled ingestion, and shared lifecycle management across utilities.\n\nGOVERNANCE AND OPERATIONS\nProduction workloads use managed identities and narrowly scoped roles. The backend passes an end-user identity when accessing durable memory. A new conversation receives a new case context, and the service must never rely on a static memory scope shared by all customers.\nPreproduction evaluation uses multilingual calls, noisy audio, mixed-language utterances, rare street names, outdated procedures, missing evidence, malformed tool arguments, and rejected account changes. Thresholds cover speech accuracy, retrieval relevance, groundedness, task adherence, PII handling, and tool-input accuracy.\nAfter release, Litware samples production interactions for continuous evaluation and correlates failures with traces for speech, retrieval, model, and tool spans. Audit records retain approvals and safe identifiers, while sensitive contents are minimized. Alerts distinguish quality drift from latency, authorization, quota, and model-lifecycle problems.\nRelease drills simulate an expired speech model, an unavailable vector store, a revoked workload role, a throttled model deployment, and a failed approval callback. Operators must identify the responsible component from safe telemetry, preserve idempotency during recovery, and verify that a fallback never turns an unapproved account change into an executed action.\n\nAdapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 169,
+        "q": "Case study, Litware Contact Center. What should Litware do before translating an utterance that contains multiple languages?",
+        "explain": "The documented Translator mitigation is to avoid a mixed-language sentence as one request. Segmenting the utterance and supplying each segment's intended source language addresses the known incomplete-translation behavior.",
+        "ref": 36,
+        "type": "single",
+        "options": [
+          "Store it in durable memory and wait for the memory update delay",
+          "Split it into language-homogeneous segments and translate each with the intended source language",
+          "Submit the whole utterance with no source language and rely on automatic detection",
+          "Convert the audio to a transparent image and use multimodal OCR"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 170,
+        "q": "Case study, Litware Contact Center. Which runbook behavior correctly covers Litware's expired Custom Speech model?",
+        "explain": "The custom endpoint and batch route have different documented outcomes. Monitoring must therefore detect domain-accuracy regression after endpoint fallback as well as explicit batch client errors.",
+        "ref": 34,
+        "type": "single",
+        "options": [
+          "Expect the interactive endpoint to fall back to a same-locale base model and expect batch requests naming the expired model to fail with 4xx",
+          "Expect both routes to preserve the expired model indefinitely because it was once deployed",
+          "Expect batch transcription to fall back silently while the custom endpoint always fails with 5xx",
+          "Expect both routes to retrain the expired model automatically before accepting new audio"
+        ],
+        "correct": 0
+      },
+      {
+        "n": 171,
+        "q": "Case study, Litware Contact Center. Where should Litware retain the active case number that must disappear when the current support conversation ends?",
+        "explain": "The case number is transient session context and belongs in the active conversation. Durable memory is for approved cross-session information, while retrieval indexes and system instructions are not per-conversation state stores.",
+        "ref": 24,
+        "type": "single",
+        "options": [
+          "In a static durable-memory scope shared across all customers",
+          "In every specialist agent's system instructions",
+          "In the current conversation state",
+          "In the enterprise procedure index as a searchable document"
+        ],
+        "correct": 2
+      },
+      {
+        "n": 172,
+        "q": "Case study, Litware Contact Center. Which two controls best satisfy Litware's transcript diagnostic requirements? Choose two.",
+        "explain": "Early redaction reduces disclosure while correlation and operational spans preserve root-cause analysis. Litware does not need raw sensitive text in every span, and privacy controls do not require abandoning observability.",
+        "ref": 28,
+        "type": "multi",
+        "options": [
+          "Keep correlation IDs and latency spans needed to connect the redacted interaction to its operations",
+          "Disable all traces because privacy and observability cannot coexist",
+          "Run PII detection before sending transcript text to ordinary diagnostic logs",
+          "Copy raw transcripts into every agent span so each team has independent evidence"
+        ],
+        "pick": 2,
+        "correct": [
+          2,
+          0
+        ]
+      },
+      {
+        "n": 173,
+        "q": "Case study, Litware Contact Center. Which two retrieval choices align with Litware's requirements? Choose two.",
+        "explain": "File search directly supports uploaded case documents, while the enterprise index supports shared ingestion, filtering, and lifecycle management. Memory and oversized system messages are not replacements for governed retrieval.",
+        "ref": 23,
+        "type": "multi",
+        "options": [
+          "Place the full enterprise corpus in the system message for every call",
+          "Attach a case-specific vector store to file search for the temporary uploaded PDF",
+          "Store every enterprise procedure as durable user memory",
+          "Use the managed Azure AI Search index for shared procedures and its metadata filters"
+        ],
+        "pick": 2,
+        "correct": [
+          1,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a17c",
+    "title": "Case study: Adventure Works Media",
+    "weight": "4 questions",
+    "note": "Case study. Adventure Works Media. Grounded multimodal production for outdoor equipment.\n\nOVERVIEW\nAdventure Works creates product education and campaign media for bicycles, helmets, clothing, and repair equipment. Each campaign includes approved photographs, technical diagrams, draft videos, narration, disclosure text, and partner-submitted PDFs. The team publishes in several markets and accessibility formats.\nA Microsoft Foundry solution will help editors discover assets, answer visual questions, create localized variations, and assemble compliance evidence. The system can recommend and generate drafts, but a designer and compliance reviewer must approve high-impact material before publishing credentials become available.\nEditors want the assistant to distinguish visible facts from interpretation. If a photograph omits a component, contains unreadable text, or is too blurred to support a conclusion, the assistant must identify the limitation rather than invent a product feature or safety claim.\n\nINGESTION AND GROUNDING\nPDF manuals contain paragraphs, tables, diagrams, and scanned pages. The Azure AI Search indexer must extract text and normalized embedded images, run OCR where required, split long content, generate vectors, and project parent and chunk identifiers into the retrieval index.\nThe retrieval index also stores product code, market, language, approval status, effective date, and source asset URL. Product codes require exact lexical matching, while conceptual questions need hybrid search, semantic ranking, and a query-time vectorizer that matches the indexing embedding model.\nPartner content is untrusted. Printed text in an image or a PDF can attempt to instruct the agent to ignore its policies. Detected document attacks exclude the affected material from grounding, but they do not replace visual harm classification, output moderation, or human review.\nContent Understanding analyzers extract structured campaign fields and layout-aware representations from variable documents, images, audio, and video. Stable standardized forms may continue using Document Intelligence where a supported prebuilt or trained document model is the more direct fit.\n\nGENERATION AND EDITING\nDesigners generate concept images from text and approved reference media. Some requests replace only a background, so the source image and a compatible mask define the editable region. Unmasked products, labels, and required disclosures should remain recognizable.\nE-commerce layouts sometimes require a transparent background. The generation request must use a model, output format, and background setting that support transparency. Encoded image output is decoded to bytes before being stored with its prompt, sources, deployment, and parameters.\nVideo drafts are processed as time-aligned segments. Reviewers need spoken text, on-screen disclosures, visible products, important scene changes, and source timestamps. A summary without segment provenance is insufficient for verifying a claim or locating a required correction.\nAlt text is written for the purpose and context of each image. It communicates meaningful visible information, avoids unsupported marketing claims, and records uncertainty when a necessary detail cannot be verified. Longer text is not automatically more accessible.\n\nQUALITY AND RELEASE\nThe evaluation set includes low-resolution product photographs, exact part codes, scanned diagrams, transparent output, masked edits, multilingual narration, unsafe content, indirect prompt attacks, and visually ambiguous scenes. Reviewers score visual fidelity, groundedness, accessibility, schema accuracy, safety, latency, and provenance completeness.\nApplication and publishing identities are separate. Retrieval and generation components cannot publish assets. The controlled publishing component accepts only approved, versioned outputs and an idempotency identifier, preventing a network retry from producing duplicate publication jobs.\nProduction traces correlate ingestion, retrieval, generation, safety, and review operations without copying unnecessary protected content. Failed evaluation samples enter a regression set, and every changed analyzer, prompt, model, or index must pass the applicable release thresholds before promotion.\nEvery market keeps an approval matrix for products, disclosures, source assets, and publishing destinations. A release rehearsal includes stale documents, expired approvals, missing masks, invalid transparency formats, model throttling, and a duplicated publish request. The team verifies that each failure remains attributable and that no retry can cross the publishing boundary without the original approved version.\n\nAdapted from the MIT-licensed AI-103 practice exam at https://github.com/sefstratiou-ai/ai-103-practice-exam.",
+    "questions": [
+      {
+        "n": 174,
+        "q": "Case study, Adventure Works Media. An editor asks whether an unseen rear brake assembly matches a safety specification. The photograph shows only the front of the bicycle. What should the assistant do?",
+        "explain": "The required component is not visible, so the assistant must identify the evidence gap. A generated view, analogous component, or marketing category cannot establish the condition of the real rear assembly.",
+        "ref": 26,
+        "type": "single",
+        "options": [
+          "Use the product's marketing category as proof of compliance",
+          "Answer from the visible front brake because both assemblies are normally identical",
+          "Generate a rear view and compare the generated part",
+          "State that the rear assembly cannot be verified and request evidence that shows it"
+        ],
+        "correct": 3
+      },
+      {
+        "n": 175,
+        "q": "Case study, Adventure Works Media. What configuration makes embedded manual diagrams available at the normalized image path for downstream OCR?",
+        "explain": "The indexer or Document Extraction skill must generate normalized images. Semantic ranking, vectorization, and scoring profiles operate on indexed fields and do not extract embedded image content.",
+        "ref": 42,
+        "type": "single",
+        "options": [
+          "A query vectorizer with image extraction disabled",
+          "A non-none imageAction such as generateNormalizedImages",
+          "A semantic configuration that lists only the document key",
+          "A scoring profile that boosts PDF file size"
+        ],
+        "correct": 1
+      },
+      {
+        "n": 176,
+        "q": "Case study, Adventure Works Media. Which two controls enforce Adventure Works' publishing boundary? Choose two.",
+        "explain": "Separating credentials limits the generation component's authority, and an explicit approval tied to the version gates publication. Self-critique is evaluation evidence, not human authorization.",
+        "ref": 47,
+        "type": "multi",
+        "options": [
+          "Treat a model self-critique as the compliance approval event",
+          "Keep publishing credentials only in the controlled publishing component",
+          "Require the approved asset version and reviewer decision before publishing",
+          "Give the generation agent publishing credentials so it can recover from review delays"
+        ],
+        "pick": 2,
+        "correct": [
+          1,
+          2
+        ]
+      },
+      {
+        "n": 177,
+        "q": "Case study, Adventure Works Media. Which two actions best protect and ground the assistant when it uses partner documents? Choose two.",
+        "explain": "Document-attack detection prevents malicious grounding content from controlling the agent, while filtered hybrid retrieval selects relevant approved evidence. Retrieved instructions remain untrusted, and source links support verification.",
+        "ref": 17,
+        "type": "multi",
+        "options": [
+          "Allow instructions inside retrieved PDFs to override the system message when semantically relevant",
+          "Disable source URLs so the model cannot reveal which evidence it used",
+          "Use hybrid retrieval with filters for approval status, market, and effective date",
+          "Exclude material identified as a document attack from the grounding context"
+        ],
+        "pick": 2,
+        "correct": [
+          3,
+          2
+        ]
+      }
+    ]
   }
 ];
 
@@ -882,8 +3418,8 @@ function renderExam103Hero() {
   return `
     <div class="path-hero">
       <h1>&#127891; AI-103 drill</h1>
-      <p>45 questions for the Azure AI Apps and Agents Developer Associate exam: single answer, select-N, matching and ordering, with Python SDK code to read. The weight follows the official skills list, with extra depth where people who sat the exam report Microsoft goes deep: Azure AI Search and RAG, Foundry agents and tools, keyless security, content safety, and Content Understanding against Document Intelligence.</p>
-      <p class="path-note">These questions are written for this site and are not a copy of any commercial question bank. Treat this as a drill, not a mock exam: the official Practice Assessment is still the bar before you book.</p>
+      <p>177 questions for the Azure AI Apps and Agents Developer Associate exam: single answer, select-N, matching and ordering, with Python SDK code to read and 8 case studies. The weight follows the official skills list, with extra depth where people who sat the exam report Microsoft goes deep: Azure AI Search and RAG, Foundry agents and tools, keyless security, content safety, and Content Understanding against Document Intelligence.</p>
+      <p class="path-note">Credit: the first 45 questions were written for this site from the official skills list. The other 132 are adapted from the open-source <a href="https://github.com/sefstratiou-ai/ai-103-practice-exam" target="_blank" rel="noopener">AI-103 practice exam by sefstratiou-ai</a> (MIT licence), whose authors describe their questions as original and based on public Microsoft documentation. We regrouped them into sections and reshuffled the answer options. The copyright notice and licence text are in <a href="https://github.com/Matswm86/pylearn/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noopener">THIRD_PARTY_NOTICES.md</a>. Treat this as a drill, not a mock exam: the official Practice Assessment is still the bar before you book.</p>
     </div>
   `;
 }

@@ -123,6 +123,9 @@ cd docs && python -m http.server 8000     # then open http://localhost:8000
 # regenerate exercise data after editing pylearn/exercises/*.py
 python build.py
 
+# regenerate the AI-103 drill after editing pyquest tier_10.json
+python build_exam103.py
+
 # the app
 cd pyquest && ./gradlew testDebugUnitTest
 ```
@@ -149,3 +152,5 @@ and is validated by a gate that runs before CI will build anything.
 ## Licence
 
 MIT, see [LICENSE](LICENSE). The fonts bundled with the site (Atkinson Hyperlegible Next and JetBrains Mono) and in PyQuest (Archivo and JetBrains Mono) are under the SIL Open Font License; their texts are in `docs/fonts/` and `pyquest/licenses/`.
+
+The AI-103 drill (site) and PyQuest tier 10 include questions adapted from an MIT-licensed open-source practice exam; its credit and licence text are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

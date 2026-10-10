@@ -1613,7 +1613,7 @@ function renderExamSection(section) {
         <span class="phase-count" data-exam-count="${ns.join(",")}">${c.right}/${c.total}</span>
       </summary>
       <div class="phase-body">
-        <p class="path-note"><strong>${escapeHtml(section.weight)}.</strong> ${escapeHtml(section.note)}</p>
+        <p class="path-note" style="white-space: pre-line"><strong>${escapeHtml(section.weight)}.</strong> ${escapeHtml(section.note)}</p>
         ${section.questions.map(renderExamQuestion).join("")}
       </div>
     </details>`;

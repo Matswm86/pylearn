@@ -413,7 +413,7 @@ function renderWelcome(app) {
       <li><button class="way" onclick="navigate('/dashboard')"><span class="way-icon">📦</span><strong>Nine topics, 50 exercises each</strong><span>Variables to FastAPI. Each topic opens with a plain-English lesson, then you write the code.</span></button></li>
       <li><button class="way" onclick="navigate('/path')"><span class="way-icon">🧭</span><strong>The AI Engineer Path</strong><span>Five phases with a video and a practice video per topic, and an honest exit gate.</span></button></li>
       <li><button class="way" onclick="navigate('/exam')"><span class="way-icon">🎓</span><strong>AI-901 drill</strong><span>Exam-style questions with the reasoning behind every answer.</span></button></li>
-      <li><button class="way" onclick="navigate('/exam/103')"><span class="way-icon">🎓</span><strong>AI-103 drill</strong><span>45 developer-exam questions on Foundry, agents, AI Search and content safety.</span></button></li>
+      <li><button class="way" onclick="navigate('/exam/103')"><span class="way-icon">🎓</span><strong>AI-103 drill</strong><span>177 developer-exam questions on Foundry, agents, AI Search and content safety.</span></button></li>
       <li><button class="way" onclick="location.href='/blocks/'"><span class="way-icon">🧩</span><strong>Block Bench</strong><span>Drag-and-drop syntax puzzles for when you want to learn without typing.</span></button></li>
     </ul>
 

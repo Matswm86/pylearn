@@ -61,6 +61,8 @@ data class Question(
      * Optional; most later-tier questions do not carry one.
      */
     val example: Example? = null,
+    /** Case-study scenario the question is about, shown above the prompt. */
+    val case: String? = null,
     /** Pytor's progressive hints, mildest first. Never contain the answer. */
     val hints: List<String> = emptyList(),
     /** Pytor's expert note after the check: the mechanism, the idiom, the trap. */
