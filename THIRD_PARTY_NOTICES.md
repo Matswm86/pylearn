@@ -1,6 +1,18 @@
 # Third-party notices
 
-This repository includes material adapted from the following open-source project.
+This repository includes material based on the following sources.
+
+## AI-103 notes by Rishab Kumar
+
+- Source: https://rishabkumar.com/notes/azure-ai-apps-and-agents-developer-associate/
+- Terms: used with permission from the rights holder. This is not an open-source licence;
+  the notes stay the property of their author.
+- Used in: PyQuest tier 10 levels 18 to 20 (questions tagged `notes-rk`), the matching
+  sections of the AI-103 drill on the Pytor site (`docs/exam103.js`), and the ten `ai103-`
+  study notes in Pytor's Codex (`pyquest/app/src/main/assets/codex/codex.json`). The
+  questions, hints and study notes were written for this repository from the facts in the
+  notes; each Codex note names the source.
+
 
 ## AI-103 Practice Exam
 

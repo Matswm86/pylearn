@@ -8,9 +8,11 @@ The tier file is the single source of truth for the questions:
 Edit that file (and run pyquest/tools/validate_curriculum.py), then run this script.
 Never hand-edit docs/exam103.js.
 
-Levels 1 to 5 were written for this project. Every later level is adapted from the
-MIT-licensed open-source AI-103 practice exam (see THIRD_PARTY_NOTICES.md), and the page
-credits it in the hero, in each adapted section, and in the Learn link on each question.
+Levels 1 to 5 were written for this project. Questions tagged notes-rk were written for this
+project from Rishab Kumar's AI-103 notes, used with permission. Every other later question is
+adapted from the MIT-licensed open-source AI-103 practice exam (see THIRD_PARTY_NOTICES.md).
+The page credits each source in the hero, in each section note, and in the Learn link on each
+question.
 
 Usage:
     python3 build_exam103.py [--tier path/to/tier_10.json] [--out path/to/exam103.js]
@@ -38,6 +40,11 @@ STUDY_GUIDE = [
 ]
 ORIGINAL_NOTE = "Written for this site from the official skills list."
 ADAPTED_NOTE = f"Adapted from the MIT-licensed AI-103 practice exam at {SOURCE_REPO}."
+NOTES_TAG = "notes-rk"
+NOTES_URL = "https://rishabkumar.com/notes/azure-ai-apps-and-agents-developer-associate/"
+NOTES_NOTE = (
+    f"Written for this site from Rishab Kumar's AI-103 notes, used with permission: {NOTES_URL}"
+)
 LEARN_LINE = re.compile(r"Microsoft Learn: (?P<label>.+?), (?P<url>https://\S+)$")
 CASE_NAME = re.compile(r"^Case study, ([^.(]+?)[.(]")
 
@@ -92,12 +99,19 @@ def split_into_sections(
     return sections
 
 
-def section_note(level: int, case: str | None) -> str:
-    adapted = level > ORIGINAL_LEVELS
+def source_of(q: dict) -> str:
+    """original, notes or adapted: who the question's content comes from."""
+    if NOTES_TAG in q.get("tags", []):
+        return "notes"
+    return "original" if q["level"] <= ORIGINAL_LEVELS else "adapted"
+
+
+def section_note(source: str, case: str | None) -> str:
+    credit = {"original": ORIGINAL_NOTE, "notes": NOTES_NOTE, "adapted": ADAPTED_NOTE}[source]
     if case:
         text = f"Case study. {case}"
-        return f"{text}\n\n{ADAPTED_NOTE}" if adapted else text
-    return ADAPTED_NOTE if adapted else ORIGINAL_NOTE
+        return text if source == "original" else f"{text}\n\n{credit}"
+    return credit
 
 
 def build(tier_path: Path) -> tuple[str, int]:
@@ -133,13 +147,14 @@ def build(tier_path: Path) -> tuple[str, int]:
                     "id": section_id,
                     "title": section_title,
                     "weight": f"{len(items)} questions",
-                    "note": section_note(level, case),
+                    "note": section_note(source_of(group[0]), case),
                     "questions": items,
                 }
             )
 
-    original = sum(len(g) for lv, g in by_level.items() if lv <= ORIGINAL_LEVELS)
-    adapted = n - original
+    sources = [source_of(q) for q in tier["questions"]]
+    original, from_notes = sources.count("original"), sources.count("notes")
+    adapted = sources.count("adapted")
     case_studies = len({q["case"] for q in tier["questions"] if q.get("case")})
     js = f"""/* ===== AI-103 exam drill: {n} questions =====
  *
@@ -148,8 +163,9 @@ def build(tier_path: Path) -> tuple[str, int]:
  * editing here. Scope follows the official AI-103 study guide. Answers live in localStorage
  * under pylearn_exam103, separate from the AI-901 drill.
  *
- * Credit: {original} questions were written for this site. The other {adapted} are adapted from
- * {SOURCE_REPO} (MIT licence, see THIRD_PARTY_NOTICES.md).
+ * Credit: {original} questions were written for this site, {from_notes} were written for this site
+ * from Rishab Kumar's AI-103 notes ({NOTES_URL}, used with permission), and {adapted} are adapted
+ * from {SOURCE_REPO} (MIT licence, see THIRD_PARTY_NOTICES.md).
  */
 
 const EXAM103_REFS = {json.dumps(refs, indent=2, ensure_ascii=False)};
@@ -161,7 +177,7 @@ function renderExam103Hero() {{
     <div class="path-hero">
       <h1>&#127891; AI-103 drill</h1>
       <p>{n} questions for the Azure AI Apps and Agents Developer Associate exam: single answer, select-N, matching and ordering, with Python SDK code to read and {case_studies} case studies. The weight follows the official skills list, with extra depth where people who sat the exam report Microsoft goes deep: Azure AI Search and RAG, Foundry agents and tools, keyless security, content safety, and Content Understanding against Document Intelligence.</p>
-      <p class="path-note">Credit: the first {original} questions were written for this site from the official skills list. The other {adapted} are adapted from the open-source <a href="{SOURCE_REPO}" target="_blank" rel="noopener">AI-103 practice exam by sefstratiou-ai</a> (MIT licence), whose authors describe their questions as original and based on public Microsoft documentation. We regrouped them into sections and reshuffled the answer options. The copyright notice and licence text are in <a href="{NOTICES_URL}" target="_blank" rel="noopener">THIRD_PARTY_NOTICES.md</a>. Treat this as a drill, not a mock exam: the official Practice Assessment is still the bar before you book.</p>
+      <p class="path-note">Credit: the first {original} questions were written for this site from the official skills list. The last {from_notes}, the stem-to-answer and traps drills, were written for this site from <a href="{NOTES_URL}" target="_blank" rel="noopener">Rishab Kumar's AI-103 notes</a>, used with permission. The other {adapted} are adapted from the open-source <a href="{SOURCE_REPO}" target="_blank" rel="noopener">AI-103 practice exam by sefstratiou-ai</a> (MIT licence), whose authors describe their questions as original and based on public Microsoft documentation. We regrouped them into sections and reshuffled the answer options. The copyright notice and licence text are in <a href="{NOTICES_URL}" target="_blank" rel="noopener">THIRD_PARTY_NOTICES.md</a>. Treat this as a drill, not a mock exam: the official Practice Assessment is still the bar before you book.</p>
     </div>
   `;
 }}

@@ -1985,6 +1985,240 @@
         "hallucination-grounding",
         "incident-response-postmortem"
       ]
+    },
+    {
+      "id": "ai103-exam-map",
+      "domain": "ai",
+      "title": "AI-103 exam map: domains, weights and exam-day tactics",
+      "tags": [
+        "ai-103",
+        "azure",
+        "foundry",
+        "certification",
+        "exam",
+        "study-plan"
+      ],
+      "summary": "AI-103 is Foundry-first: 55-65% of the score is planning and securing Foundry plus building generative AI apps and agents.",
+      "body": "AI-103 (Azure AI Apps and Agents Developer Associate) has a pass mark of 700 out of 1000. Questions are scenario-based, Python-flavored and mostly on GA features, though common preview features can appear. More than half the score sits in two domains, so most study time belongs there.\n\nThe five domains and weights: Plan and manage an Azure AI solution, 25-30% (model and service choice, deployment types, quotas, security, responsible AI). Generative AI and agentic solutions, 30-35% (RAG, Foundry Agent Service, tools, multi-agent, evals, tracing). Computer vision, 10-15% (image and video generation and editing, multimodal understanding, Content Understanding). Text analysis including speech, 10-15% (LLM extraction, Language, Translator, Speech). Information extraction, 10-15% (Azure AI Search, skillsets, Content Understanding for documents).\n\nThe shift from AI-102: stop asking \"which Cognitive Service?\" and start asking \"which Foundry capability, model, or tool?\" The old services now appear as Foundry Tools (Language, Speech, Translator, Vision, Content Understanding, Document Intelligence) inside a Foundry resource and project. Old names such as Azure OpenAI Service, Azure AI Studio, hub-based project or Cognitive Services may still show up in answers; map them to Foundry and prefer the Foundry-native option when both are listed.\n\nExam-day tips: read the last sentence of the question first, because it tells you what is being asked (cheapest, least effort, most secure). Flag a question and move on if it takes more than 90 seconds. Case studies cannot be revisited once you leave them, so finish each one before moving on.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "ai103-stem-to-answer",
+        "ai103-foundry-resource-project",
+        "ai103-model-choice-deployments",
+        "ai103-agent-tools-picker"
+      ]
+    },
+    {
+      "id": "ai103-foundry-resource-project",
+      "domain": "ai",
+      "title": "Foundry resource, project, connections and AIProjectClient",
+      "tags": [
+        "ai-103",
+        "azure",
+        "foundry",
+        "aiprojectclient",
+        "defaultazurecredential",
+        "connections",
+        "python"
+      ],
+      "summary": "A Foundry resource holds deployments and tools; a project inside it holds agents and connections, and apps reach it through the project endpoint.",
+      "body": "The Foundry resource (kind AIServices) is the top-level Azure resource. It holds model deployments, Foundry Tools, networking, and keys or identity. The Foundry project is the working boundary inside the resource: it holds agents, connections, evaluations, traces and files.\n\nApps connect with the project endpoint, which has the form https://<resource>.services.ai.azure.com/api/projects/<project>. In Python you build an AIProjectClient with that endpoint and DefaultAzureCredential, so no key appears in code. When exam code uses an API key where Entra would work, the \"most secure\" answer swaps in DefaultAzureCredential.\n\nConnections are how a project reaches outside resources: Azure AI Search, Storage, Bing grounding, MCP servers and APIs. Credentials live in the connection, not in code or prompts. Tools such as the Azure AI Search tool and the OpenAPI or MCP tools authenticate through a project connection.\n\nRecognize both API shapes. The new API defines an agent (model plus instructions plus tools) and calls it through the OpenAI-compatible Responses API. The classic API chains create_agent, threads.create, messages.create and runs.create_and_process. Classic agents retire March 31, 2027, but exam questions may still show thread and run code.\n\nFor the AWS-minded, the notes map a Foundry resource plus project to Bedrock account setup plus a workspace boundary.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "ai103-security-responsible-ai",
+        "ai103-agents-orchestration-evals",
+        "ai103-exam-map"
+      ],
+      "code": "from azure.identity import DefaultAzureCredential\nfrom azure.ai.projects import AIProjectClient\n\n# https://<resource>.services.ai.azure.com/api/projects/<project>\nproject = AIProjectClient(endpoint=PROJECT_ENDPOINT,\n                          credential=DefaultAzureCredential())\n# new API: define agent (model + instructions + tools),\n# then call it through the OpenAI-compatible Responses API\n# classic API: create_agent -> threads.create -> messages.create -> runs.create_and_process"
+    },
+    {
+      "id": "ai103-model-choice-deployments",
+      "domain": "ai",
+      "title": "Choosing a model, deployment types, quotas and cost on Foundry",
+      "tags": [
+        "ai-103",
+        "azure",
+        "deployment-types",
+        "quota",
+        "ptu",
+        "apim",
+        "model-selection",
+        "cost"
+      ],
+      "summary": "Pick the smallest model that meets quality, the deployment type that fits residency and load, and handle 429s with backoff and more deployments.",
+      "body": "Model picker: a flagship LLM (GPT-4.1 or GPT-5 class) for general chat, strong reasoning and tool calling; a reasoning model (o-series or GPT-5 reasoning) for hard multistep reasoning, math and planning; a small language model (Phi family, mini or nano variants) for cheap, fast, edge or offline simple tasks, with Foundry Local for on-device; a multimodal model (GPT-4o or 4.1 class) for images and text in one call; an embedding model (text-embedding-3-small or large) for search vectors; gpt-image-1 class or FLUX for images; Sora class for video; realtime or audio models, or Speech plus an LLM, for low-latency voice. A prebuilt task (translate, OCR, PII, STT) goes to a Foundry Tool, not an LLM. Treat named models as \"the current model of that class\".\n\nDeployment types: Global Standard is the default, pay per token, highest quota, data may process in any Azure region. Data Zone Standard keeps processing in the US or EU data zone. Standard (regional) keeps it in one region. Provisioned (Global, Data Zone or Regional) uses PTUs for predictable latency and throughput at steady high volume. Global Batch and Data Zone Batch suit large async jobs at about 50% cheaper with results within 24 hours. For partner and open models, serverless API is pay per token and managed compute means you pay for VMs.\n\nQuota is TPM and RPM per model, per region, per subscription; hitting it returns HTTP 429. Honor the retry-after header and use exponential backoff. To scale, put more regions or deployments behind Azure API Management as an AI gateway (load balancing, token-limit policy, token metrics, semantic caching). Provisioned can spill over to Standard.\n\nCost levers: smaller model, batch, prompt caching, shorter prompts or max_tokens, semantic cache, and PTU reservations for steady load.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "ai103-stem-to-answer",
+        "ai103-exam-map",
+        "cost-engineering",
+        "prompt-caching",
+        "small-models-distillation-quantisation"
+      ]
+    },
+    {
+      "id": "ai103-security-responsible-ai",
+      "domain": "ai",
+      "title": "Foundry security and responsible AI: keyless, network, filters, evaluators",
+      "tags": [
+        "ai-103",
+        "azure",
+        "security",
+        "rbac",
+        "managed-identity",
+        "content-filters",
+        "prompt-shields",
+        "responsible-ai"
+      ],
+      "summary": "Use Entra ID and managed identity, least-privilege RBAC and private networking, then layer content filters, Prompt Shields and agent governance.",
+      "body": "Keyless first: Microsoft Entra ID plus managed identity, DefaultAzureCredential, and local (key) auth disabled; keys only in Key Vault if you must. RBAC is least privilege: a user or app role to call models and agents (Azure AI User or Cognitive Services OpenAI User), a higher role to create deployments and manage the resource, and roles for the Foundry managed identity on the AI Search and Storage it reads. Network: private endpoints, public network access disabled, VNet injection for agents.\n\nAgent setup: Basic uses Microsoft-managed storage. Standard means bring your own Cosmos DB (threads and conversations), Storage (files) and AI Search (vectors); pick Standard for compliance, residency or private networking. CI/CD uses azd plus Bicep or Terraform with GitHub Actions or Azure DevOps, and runs evaluations as a pipeline gate before promotion.\n\nContent filters apply to input and output. Harm categories are hate, sexual, violence and self-harm; severity levels are safe, low, medium and high. Add-ons: Prompt Shields for user jailbreaks and indirect or document attacks, groundedness detection, protected material (text and code), custom blocklists, PII detection, and task adherence for agents.\n\nEvaluators: quality (groundedness, relevance, coherence, fluency, similarity, retrieval), safety (harmful content, indirect attack, protected material, code vulnerability) and agent (intent resolution, tool call accuracy, task adherence). The AI Red Teaming Agent (PyRIT) does adversarial testing. Auditing uses trace logs, C2PA content credentials on generated images and approval workflows.\n\nAgent governance: tool allow-lists, per-tool auth, require_approval=\"always\" on MCP tools, human-in-the-loop for high-impact actions, and agent identity in Entra.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "ai103-foundry-resource-project",
+        "ai103-agents-orchestration-evals",
+        "prompt-injection-security",
+        "safety-guardrails-human-in-loop",
+        "pii-data-residency"
+      ]
+    },
+    {
+      "id": "ai103-agent-tools-picker",
+      "domain": "ai",
+      "title": "Foundry agent tools: which tool solves which scenario",
+      "tags": [
+        "ai-103",
+        "azure",
+        "agent-tools",
+        "function-calling",
+        "file-search",
+        "openapi",
+        "mcp",
+        "code-interpreter"
+      ],
+      "summary": "Each Foundry Agent Service tool maps to a scenario; knowing who executes the call and who owns the index decides most tool questions.",
+      "body": "This is the highest-yield table in the biggest domain. File Search (a managed vector store) answers from a few uploaded files with zero infra. The Azure AI Search tool, via a project connection, answers from an existing enterprise index. Grounding with Bing or web search brings current public info. Code Interpreter (sandboxed Python) handles math, data analysis, charts and file transforms. Function calling calls your own logic in your app process. The OpenAPI tool calls an existing REST API with a spec (anonymous, API key via connection, or managed identity). The MCP tool reuses a remote tool server (server_label, server_url, require_approval, connection for auth).\n\nMore: Azure Logic Apps or Azure Functions for low-code business workflow; the SharePoint tool or Fabric data agent for M365 docs or Fabric data; the Deep Research tool for a multi-step web research report; connected agents or A2A to let a main agent delegate.\n\nTrap one: function calling does not run your code. The model returns the call; your app executes it and submits the output. The OpenAPI and MCP tools are the ones the service calls for you. So \"order status from an internal service in your app process\" is function calling.\n\nTrap two: File Search versus the Azure AI Search tool. With File Search you upload files and the service builds the vector store. With the AI Search tool you already own and manage an index. \"A few PDFs, least effort\" means File Search; \"existing enterprise index\" means AI Search.\n\nFunction tools are JSON Schema (name, description, parameters, required), and good descriptions drive correct tool selection.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "ai103-agents-orchestration-evals",
+        "ai103-ai-search-pipeline",
+        "tool-use-function-calling",
+        "mcp",
+        "ai103-stem-to-answer"
+      ]
+    },
+    {
+      "id": "ai103-agents-orchestration-evals",
+      "domain": "ai",
+      "title": "Foundry agents: kinds, state, multi-agent patterns, evals and tracing",
+      "tags": [
+        "ai-103",
+        "azure",
+        "agents",
+        "multi-agent",
+        "responses-api",
+        "evaluations",
+        "tracing",
+        "agent-framework"
+      ],
+      "summary": "An agent is model plus instructions plus tools; know prompt, workflow and hosted agents, both API vocabularies, orchestration patterns and evaluators.",
+      "body": "Agent kinds: a prompt agent is declarative with no code hosting; a workflow is multi-step orchestration, visual or YAML; a hosted agent is your containerized code (for example Microsoft Agent Framework or LangGraph). Conversation state: the new API uses conversations plus the Responses API, the classic API used thread, message, run. Classic agents are deprecated and retire March 31, 2027, but exam code may still show threads and runs. Memory: short-term is the conversation, long-term is the agent memory store (preview) or your own store (Cosmos DB); trim or summarize long histories to fit context.\n\nMulti-agent: connected agents let an orchestrator call specialist agents as tools, simple delegation with no custom code. Workflows and Agent Framework patterns are sequential, concurrent (fan-out and fan-in), group chat, handoff and human-in-the-loop checkpoints. Agent Framework is the successor to Semantic Kernel plus AutoGen. A2A is for agents across platforms; MCP is for tools. Safeguards: approval steps before irreversible actions, max iterations or turn limits, tool allow-lists, content filters on input and output, task adherence checks.\n\nEvals: groundedness for fabrication, retrieval or relevance for whether retrieval worked, coherence and fluency for writing, intent resolution, tool call accuracy and task adherence for agents. Run with the azure-ai-evaluation SDK or the portal on a test dataset, compare runs, wire into CI/CD, enable continuous evaluation in production. Error analysis means reading the traces of failed cases.\n\nOptimize in order: prompt engineering, then RAG for knowledge gaps, then fine-tuning (SFT, DPO, RFT) for style, format, behavior or distillation. Tracing is OpenTelemetry to Application Insights, with spans per model and tool call.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "ai103-agent-tools-picker",
+        "ai103-security-responsible-ai",
+        "agents-loops-guards",
+        "evals-golden-sets",
+        "llm-as-judge",
+        "observability-for-llm-apps",
+        "mcp"
+      ]
+    },
+    {
+      "id": "ai103-vision-content-understanding",
+      "domain": "ai",
+      "title": "AI-103 computer vision: generate, understand, Content Understanding, safety",
+      "tags": [
+        "ai-103",
+        "azure",
+        "computer-vision",
+        "image-generation",
+        "inpainting",
+        "content-understanding",
+        "multimodal"
+      ],
+      "summary": "Vision questions fall into three buckets: generate or edit media, understand media with multimodal models or Content Understanding, and keep it safe.",
+      "body": "Images (gpt-image-1 class, FLUX) cover text-to-image, image plus reference images, and edits with a mask (inpainting): the transparent area of the mask PNG is what gets regenerated. Controls are size, quality, number of images, background (transparent) and output format. Video (Sora class) covers text-to-video, image-to-video and edit or remix; it is an async job: create job, poll status, download. Generated media carries C2PA content credentials so it can be identified as AI-generated.\n\nMultimodal chat passes images as image_url (public URL or base64 data URI). detail: low is cheap and fast; detail: high gives fine detail and costs more tokens; several images in one message allow comparison. Caption length is set by the prompt and max_tokens. Alt text is short and functional (about one sentence, no \"image of\"); decorative images get empty alt; charts get an extended description. For visual Q&A, tell the model to answer only from what is visible. For bounding boxes use Content Understanding or Azure AI Vision object detection; plain LLM chat is weaker at precise coordinates.\n\nContent Understanding is a Foundry Tool where you define an analyzer with a field schema (or use a prebuilt one) for documents, images, audio or video. It returns structured fields plus markdown, with confidence and grounding; for video it gives segments, shot and scene detection, key frames, transcript and per-segment fields. Standard mode is one file, one extraction. Pro mode handles multi-file, cross-document reasoning and can use reference data for validation.\n\nContent filters apply to image inputs and outputs. For text hidden in images (\"ignore previous instructions\"), treat it as untrusted data, extract it with OCR and scan with Prompt Shields, keep system instructions separate and limit the agent's tools.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "ai103-ai-search-pipeline",
+        "ai103-security-responsible-ai",
+        "multimodal-and-vision",
+        "prompt-injection-security"
+      ]
+    },
+    {
+      "id": "ai103-text-speech-translation",
+      "domain": "ai",
+      "title": "AI-103 text, translation and speech: LLM prompt or Foundry Tool",
+      "tags": [
+        "ai-103",
+        "azure",
+        "azure-ai-language",
+        "translator",
+        "speech",
+        "ssml",
+        "structured-outputs",
+        "voice-live"
+      ],
+      "summary": "Use a Foundry Tool for standard, repeatable, auditable language and speech tasks, and an LLM for flexible schemas, nuance and tone.",
+      "body": "The recurring question is \"LLM prompt or Foundry Tool?\" Pick the Tool for standard, repeatable, auditable tasks (PII redaction, sentiment at scale, document translation); pick the LLM for flexible schemas, nuance and tone. For structured JSON from an LLM, use structured outputs (response_format with a strict JSON schema) instead of \"please return JSON\", with low temperature for extraction.\n\nAzure AI Language offers NER, PII detection and redaction, key phrases, sentiment plus opinion mining, language detection, summarization, custom NER and classification, conversational language understanding (CLU) and question answering. Azure AI Content Safety covers harmful text; Language PII covers personal data. For domain customization, use a system prompt with glossary and rules, few-shot examples and an output schema, then custom NER or fine-tuning if prompts are not enough.\n\nTranslator: text translation for real-time strings, many target languages in one call; document translation for whole files that keep formatting (async, Blob Storage source and target, managed identity); Custom Translator (trained on parallel data) or a glossary for company terminology; an LLM-powered flow for tone, style and context-aware rewrites.\n\nSpeech to text runs real-time (streaming), fast transcription (synchronous, files) or batch (large volumes, async), with diarization for who spoke when. For domain terms, use a phrase list first (no training, quick), then a custom speech model trained with text and audio when accents, noise or vocabulary need more. Text to speech uses neural voices; SSML controls pronunciation, pauses, rate, pitch and speaking style; custom neural voice needs approval. Voice Live API gives low-latency speech-to-speech and can front a Foundry agent; handle barge-in and turn detection.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "ai103-stem-to-answer",
+        "ai103-vision-content-understanding",
+        "structured-output-json",
+        "pii-data-residency"
+      ]
+    },
+    {
+      "id": "ai103-ai-search-pipeline",
+      "domain": "ai",
+      "title": "Azure AI Search pipeline, query types and document extraction for AI-103",
+      "tags": [
+        "ai-103",
+        "azure",
+        "azure-ai-search",
+        "skillsets",
+        "integrated-vectorization",
+        "hybrid-search",
+        "semantic-ranker",
+        "rag"
+      ],
+      "summary": "Data source, indexer, skillset and index make the AI Search pipeline; hybrid plus semantic ranker is the best-practice RAG query.",
+      "body": "Pipeline order: a data source (Blob, ADLS, SQL, Cosmos DB, SharePoint and more); an indexer that pulls on a schedule with change and deletion detection and field mappings (check execution history for errors); a skillset for enrichment; and the index. Built-in skills include OCR, Image Analysis, Document Layout (layout-aware, markdown chunks), Text Split (chunking), Text Merge (puts OCR text back into content), entity recognition, key phrases, language detection and Azure OpenAI Embedding. A custom Web API skill, usually an Azure Function, has a fixed JSON input and output contract.\n\nIndex fields carry attributes: key, searchable, filterable, sortable, facetable, retrievable. Vector fields need dimensions matching the embedding model, or indexing breaks. The vector profile uses HNSW for speed or exhaustive KNN for exact results. A knowledge store optionally projects enriched data to Blob or Table storage. Integrated vectorization does chunking and embedding inside the indexer plus a vectorizer on the index so queries are embedded automatically; pick it for least-code RAG ingestion.\n\nFour query types: full-text (BM25) for exact terms, IDs and codes; vector for meaning, paraphrase, multilingual and images; hybrid, merged with Reciprocal Rank Fusion, the default best for RAG; semantic ranker, which re-ranks top results with a language model and needs a semantic configuration. Hybrid is not semantic. Connect retrieval to an agent with the Azure AI Search tool via a project connection, setting index, query type, top-k and filter; use agentic retrieval or knowledge bases for multi-part questions.\n\nFor documents, Content Understanding (OCR plus layout plus field extraction from an analyzer schema, markdown and JSON with confidence and grounding) is the AI-103 favorite. Document Intelligence is still valid when a prebuilt model (invoice, receipt, ID, layout, read) matches exactly. Low confidence on a field goes to human review.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "rag-overview",
+        "hybrid-search-reranking",
+        "vector-search-hnsw",
+        "chunking",
+        "ai103-agent-tools-picker",
+        "ai103-vision-content-understanding"
+      ]
+    },
+    {
+      "id": "ai103-stem-to-answer",
+      "domain": "ai",
+      "title": "AI-103 cheat sheet: if the stem says X, pick Y",
+      "tags": [
+        "ai-103",
+        "azure",
+        "cheat-sheet",
+        "exam-traps",
+        "exam",
+        "revision"
+      ],
+      "summary": "Keywords in an AI-103 question stem usually point straight at one answer; these are the highest-yield pairs and traps.",
+      "body": "Plan and secure: \"data must stay in the EU or US\" plus pay per token means Data Zone Standard. \"Predictable latency\" or \"consistent high throughput\" means Provisioned (PTU). \"Millions of docs overnight, lowest cost, not time-sensitive\" means Global Batch. \"429 Too Many Requests\" means retry with backoff and retry-after, raise quota, add deployments behind APIM. \"Without storing keys\" means managed identity plus Entra ID and local auth disabled. \"No public internet access\" means private endpoints, public access disabled, plus Standard agent setup.\n\nAgents: a few PDFs, least effort is File Search; an existing enterprise index is the Azure AI Search tool; latest news is Grounding with Bing; analyze a CSV or make a chart is Code Interpreter; an existing REST API with an OpenAPI 3 spec is the OpenAPI tool; reuse tools via an open protocol is MCP; human approval is require_approval; orchestrator delegating is connected agents.\n\nSafety and quality: fabrication means groundedness evaluation and detection plus better retrieval; jailbreak means Prompt Shields; instructions hidden in documents or images mean Prompt Shields indirect attacks; song lyrics or licensed code means protected material detection; reliable JSON means structured outputs; deterministic output means lower temperature.\n\nSearch and media: best RAG relevance is hybrid plus semantic ranker; least-code chunk and embed is integrated vectorization; scanned PDFs need OCR plus Text Merge or Document Layout; cross-document validation is Content Understanding pro mode; edit part of an image is a mask; redact PII is Language; product names misheard means phrase list then custom speech; latency per tool call means OpenTelemetry to Application Insights.\n\nTraps: Global Standard is not a residency answer. API keys are never most secure when managed identity is offered. Hybrid is not semantic. Tune temperature or top_p, not both. Fine-tuning does not add fresh knowledge. Content filters check prompts and completions.\n\nSource: Rishab Kumar, AI-103 notes (rishabkumar.com).",
+      "related": [
+        "ai103-exam-map",
+        "ai103-model-choice-deployments",
+        "ai103-agent-tools-picker",
+        "ai103-security-responsible-ai",
+        "ai103-ai-search-pipeline",
+        "ai103-text-speech-translation"
+      ]
     }
   ]
 }
