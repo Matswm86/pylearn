@@ -55,6 +55,7 @@ Challenge.
 | `#/path` | The AI Engineer Path: a study route through the topics, each paired with a video worth watching, plus the AI-901 to AI-103 certification track |
 | `#/checklist` | A 100-item AI engineering skills checklist you tick off as you go |
 | `#/exam` | A 117-question AI-901 drill in real exam format |
+| `#/exam/103` | A 222-question AI-103 drill for the Azure AI Apps and Agents Developer exam: Foundry deployments, agents, retrieval and AI Search, vision, speech, document extraction and content safety, with case studies and matching and ordering items |
 | `#/questions` | 30 questions on embeddings and retrieval, the part of AI engineering that is hardest to learn from a tutorial |
 | `/blocks/` | Python Block Bench: 84 drag-and-drop syntax puzzles, no keyboard needed, with a line-by-line step-through that shows every variable change |
 
@@ -86,13 +87,21 @@ is unreachable, so the exercises never depend on the tutor being up.
 ## PyQuest, the app
 
 An Android game that walks from `print("hello")` to scoping and pricing an AI-engineering
-consultancy job, plus a tier of AI-901 exam prep: **325 questions across 9 tiers**,
-multiple-choice cards and Scratch-style drag blocks, Leitner spaced repetition, weak-tag
-tracking, XP and streaks. Pytor rides along as an expert, with a 95-entry offline
+consultancy job, plus two tiers of exam prep, AI-901 and AI-103: **654 questions across
+10 tiers**, multiple-choice cards and Scratch-style drag blocks, Leitner spaced repetition,
+weak-tag tracking, XP and streaks. Pytor rides along as an expert, with a 105-entry offline
 reference and an online chat mode.
 
 It has no Python interpreter on purpose. Typing Python on a phone keyboard is miserable,
 and the site already does that properly. Full detail in [pyquest/README.md](pyquest/README.md).
+
+---
+
+## Status
+
+Pytor is live at [pytor.mwmai.no](https://pytor.mwmai.no/). PyQuest is at 0.3.0, a
+debug-signed build you sideload from the download link above; it does not grade typed
+Python, which stays on the site.
 
 ---
 
@@ -104,10 +113,12 @@ docs/                Pytor, the site (served by GitHub Pages and by pytor.mwmai.
   app.js             routing, Pyodide integration, exercise flow
   lessons.js         lesson content for all nine topics
   exercises.json     450 exercises, generated from the Python source
-  path.js  checklist.js  exam.js  questions.js  playground.js  tutor.js
+  path.js  checklist.js  exam.js  exam103.js  questions.js  playground.js  tutor.js
   blocks/            Python Block Bench
 pylearn/             Python source of truth for the exercises, with auto-grading
 build.py             regenerates docs/exercises.json from pylearn/
+build_exam103.py     regenerates docs/exam103.js from PyQuest's tier_10.json
+tests/               runs every Block Bench solution and its step-through
 mcp-servers/         the Pytor tutor bridge (Groq primary, Ollama fallback)
 pyquest/             PyQuest, the Android app (Kotlin + Compose)
 .github/workflows/   the Android build, which only fires on changes under pyquest/
@@ -153,4 +164,4 @@ and is validated by a gate that runs before CI will build anything.
 
 MIT, see [LICENSE](LICENSE). The fonts bundled with the site (Atkinson Hyperlegible Next and JetBrains Mono) and in PyQuest (Archivo and JetBrains Mono) are under the SIL Open Font License; their texts are in `docs/fonts/` and `pyquest/licenses/`.
 
-The AI-103 drill (site) and PyQuest tier 10 include questions adapted from an MIT-licensed open-source practice exam; its credit and licence text are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The AI-103 drill (site), PyQuest tier 10 and ten of Pytor's Codex notes draw on two third-party sources: an MIT-licensed open-source practice exam, and study notes used with their author's permission, which is not an open-source licence. Credits, terms and the licence text are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

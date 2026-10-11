@@ -6,7 +6,8 @@ browser. PyQuest is what you play on a phone, where typing Python is miserable.
 
 An Android game that walks you from `print("hello")` to scoping and pricing an
 AI-engineering consultancy job, with Pytor the snake as your expert tutor the
-whole way up, and a ninth tier of AI-901 exam prep after that. Multiple-choice
+whole way up, and two tiers of exam prep after that: AI-901 at tier 9 and AI-103
+at tier 10. Multiple-choice
 cards and Scratch-style drag blocks; the same placement move carries you from
 syntax tokens at tier 1 to pipeline components at tier 8.
 
@@ -40,7 +41,7 @@ in four places:
 |-------|--------------|---------------|
 | Track screen | One line on what to do next: a streak about to lapse, the tag you keep missing, the next level | no |
 | Every question | A mini-lesson on the concept, then three patient step-by-step hints that never give the answer, then the expert note after you check | no |
-| Pytor tab, Codex | 95 dense reference notes across Python, software engineering and AI/LLMs, searchable offline | no |
+| Pytor tab, Codex | 105 dense reference notes across Python, software engineering and AI/LLMs, searchable offline | no |
 | Pytor tab, Chat | A conversation with the expert, with the game's context attached | yes |
 
 Chat talks to the same tutor service the site uses, in its `quest` mode; the model
@@ -53,17 +54,18 @@ half off in the You tab.
 | Piece | Status |
 |-------|--------|
 | Gradle + Compose app, CI build, emulator smoke test, rolling APK release | shipped |
-| `mcq`, `multi`, `blocks`, `order`, `fill`, `pipeline` question types | shipped |
+| `mcq`, `multi`, `match`, `blocks`, `order`, `fill`, `pipeline` question types | shipped |
 | Track, Pytor and You tabs; hint sheet; expert notes; review misses | shipped |
 | Leitner spaced repetition, first-try accuracy, weak-tag tracking, XP, streak | shipped |
 | Per-level progress (cleared, solved, mastered) on the track and the You tab | shipped |
 | Local play log with share sheet export (You tab) | shipped |
-| Tiers 1 to 7 | 30 to 32 questions each, 5 levels each |
+| Tiers 1 to 7 | 33 to 44 questions each, 6 or 7 levels each |
 | Tier 8 "AI consultancy sims" | 19 questions, 3 levels, two pipeline sims |
 | Tier 9 "AI-901 exam prep" | 157 questions, 6 levels: multiple-choice, choose-N, matching and ordering cards |
-| Pytor's Codex | 95 entries: 32 Python, 30 engineering, 33 AI/LLM |
+| Tier 10 "AI-103 exam prep" | 222 questions, 20 levels: scenario drill with SDK code reading, matching and case studies |
+| Pytor's Codex | 105 entries: 32 Python, 30 engineering, 43 AI/LLM |
 
-325 questions in total. Every one carries hints and an expert note, and every
+654 questions in total. Every one carries hints and an expert note, and every
 multiple-choice option order and block tray is shuffled at authoring time so
 nothing can be learnt by position.
 
@@ -141,8 +143,10 @@ three `hints`, or the validator rejects it.
 `type` is `mcq` (tap one of `options`), `multi` (tap every option in
 `answer`; the app shows "Choose N" from its length, and tap order does not matter), `blocks` (place a subset of `tray` in
 order, distractors allowed), `order` (every tray block must be used), `fill`
-(blocks go into `{0}`-style gaps in `template`) or `pipeline` (blocks are stages
-with `ms` and `cost`, wired against the budget in `brief`). `accept` holds
+(blocks go into `{0}`-style gaps in `template`), `pipeline` (blocks are stages
+with `ms` and `cost`, wired against the budget in `brief`) or `match` (each entry of
+`rows` gets one of `options`, the way the exam's dropdown and drag-into-box items work;
+`answer` lists the chosen option per row, and an option may serve several rows). `accept` holds
 alternative orderings that are also correct. `teach` is Pytor's mini-lesson on
 the concept, shown before any hint. `hints` are exactly three, progressive and
 a paragraph each: restate the question, walk the reasoning with a parallel
@@ -155,7 +159,8 @@ same syntax with different names and values, rendered under the lesson as a
 one whose code is the question's own solved template; every tier 1-4 question
 carries one except three tooling questions. Output options whose only difference
 is spacing must be quoted (`'a b'`, `'a b '`); the app then draws each space as
-a middle dot so they can be told apart on a phone.
+a middle dot so they can be told apart on a phone. `case` is optional too: a
+case-study scenario shown above the prompt, which 44 questions in tier 10 carry.
 
 ### Codex shape
 
