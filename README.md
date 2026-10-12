@@ -7,8 +7,11 @@ Two ways to learn Python and AI engineering, sharing one tutor and one repo.
 ### **[⬇ Download the PyQuest APK](https://github.com/Matswm86/pylearn/releases/download/latest/pyquest-d26e0d5.apk)**
 
 Open that link on your Android phone, then open the downloaded file and allow
-installs from your browser when Android asks. The link always points at the
-newest build. Older builds: [all releases](https://github.com/Matswm86/pylearn/releases).
+installs from your browser when Android asks. Needs Android 8.0 or newer. The link
+always points at the newest build. Older builds: [all releases](https://github.com/Matswm86/pylearn/releases).
+
+No Android phone? Open in the browser: [pytor.mwmai.no](https://pytor.mwmai.no/).
+No install, no account.
 
 | | What it is | Where |
 |---|---|---|
@@ -21,6 +24,29 @@ beginner's guide; in the app he is an expert. Same character, different register
 <p align="center">
   <img src="docs/pytor.webp" alt="Pytor, the Python snake tutor" width="180">
 </p>
+
+---
+
+## What it does
+
+- Teaches Python from variables to FastAPI and API calling with 450 graded exercises
+  that run in your browser, with nothing to install.
+- Opens every topic with a plain-English lesson, with analogies and runnable examples.
+- Gives you Pytor, a snake tutor you can ask for hints, answers and generated lessons.
+- Lets you play 654 questions in 10 tiers on an Android phone, tapping instead of
+  typing, from `print("hello")` to scoping an AI-engineering consultancy job.
+- Drills for the AI-901 and AI-103 exams, on the site and in the app.
+
+## How it works
+
+The site is static HTML and vanilla JavaScript with hash routing. Python runs in your
+browser through Pyodide (CPython on WebAssembly) with a CodeMirror editor, and progress
+sits in LocalStorage, so no server does the work and no account is needed. The
+exercises are written as Python in `pylearn/` and `build.py` turns them into the
+browser-runnable `docs/exercises.json`. Pytor's chat goes through a small stdlib-only
+Python bridge that asks a Groq-hosted model first and falls back to a local Ollama
+model. PyQuest is a Kotlin and Jetpack Compose app driven by question data in JSON
+files, with no Python interpreter inside; GitHub Actions builds its APK.
 
 ---
 
