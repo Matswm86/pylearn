@@ -175,6 +175,7 @@ const PATH_PHASES = [
     id: "p3", num: 3, title: "The five skills", cap: "what production teams actually pay for",
     intro: "Evals come first, not last. Most production AI work is level 2 or 3 done reliably.",
     items: [
+      [null, "Optional map first: the free 3-hour AI Engineer Full Course on YouTube (Cloud X Berry, search 'AI Engineer Full Course in 3 Hours') walks agents, tool calling, MCP, RAG, fine-tuning, GPUs and production in one sitting. Then practice the pieces with the AI Engineering drill: the 🤖 AI Eng button in the top bar."],
       ["p3_1", "Evals: a written definition of \"good\" before the feature exists"],
       ["p3_2", "Context engineering: write, select, compress, isolate"],
       ["p3_3", "Production agents: retries, timeouts, malformed responses, graceful degradation"],
